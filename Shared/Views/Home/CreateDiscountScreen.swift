@@ -9,6 +9,8 @@ import SwiftUI
 
 struct CreateDiscountScreen: View {
     
+    //Adding comment
+    
     @Binding var showingDiscountScreen: Bool
     var company: String
     var availablePoints: Int
