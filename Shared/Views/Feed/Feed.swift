@@ -16,20 +16,26 @@ struct Feed: View {
         NavigationView{
             VStack {
                 HStack{
-                    Text("Feed").font(.system(size: 30)).foregroundColor(Color.black.opacity(0.7))
+                    Text("For you").font(.system(size: 24)).foregroundColor(Color.black)
                     Spacer()
                     Image(systemName: "person.crop.circle")
                         .foregroundColor(.black)
                         .font(.system(size: 30))
-                }.padding(.horizontal, 12)
+                }.padding()
+                .padding(.horizontal, 12)
                 ScrollView {
                     VStack {
-                        NavigationLink(destination: SaleForProduct()) {
-                            FeedWidget()
-                        }
+                        NavigationLink(destination: ReviewProduct()) {
+                            ReviewWidget()
+                        }.padding(.vertical, 12)
+                        Divider()
                         NavigationLink(destination: VoteOnProduct()) {
-                            FeedWidget()
-                        }
+                            VoteWidget()
+                        }.padding(.vertical, 12)
+                        Divider()
+                        NavigationLink(destination: SaleForProduct()) {
+                            SaleWidget()
+                        }.padding(.vertical, 12)
 //                        ForEach(viewModel.myPostsInFeed) { PostInFeed in
 //
 //                            NavigationLink(destination: SaleForProduct(company: PostInFeed.company)) {

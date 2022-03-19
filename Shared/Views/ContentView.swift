@@ -33,12 +33,18 @@ struct ContentView: View {
                         .renderingMode(.template)
                     Text("Feed")
                 }.tag(2)
+            Messages()
+                .tabItem {
+                    Image(systemName: "message")
+                        .renderingMode(.template)
+                    Text("Messages")
+                }.tag(3)
             Text("Profile")
                 .tabItem {
                     Image(systemName: "person.fill")
                         .renderingMode(.template)
                     Text("Profile")
-                }.tag(3)
+                }.tag(4)
         }
     }
 }

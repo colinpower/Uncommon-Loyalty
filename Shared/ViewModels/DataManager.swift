@@ -21,6 +21,7 @@ class DataManager: ObservableObject {
         print("this function was called")
         let listenerRegistration1 = db.collection("loyaltyprograms")
             .whereField("user", isEqualTo: user)
+            .order(by: "company", descending: false)
             .addSnapshotListener { (querySnapshot, error) in
             guard let documents = querySnapshot?.documents else {
                 print("No documents")

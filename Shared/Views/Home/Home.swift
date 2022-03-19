@@ -17,18 +17,20 @@ struct Home: View {
         NavigationView{
             VStack {
                 HStack{
-                    Text("Rewards").font(.system(size: 30)).foregroundColor(Color.black.opacity(0.7))
+                    Text("Rewards").font(.system(size: 24)).foregroundColor(Color.black)
+                    //Text("Rewards").font(.system(size: 24)).foregroundColor(Color(red: 0.82, green: 0.72, blue: 0.58))
                     Spacer()
                     Image(systemName: "person.crop.circle")
                         .foregroundColor(.black)
                         .font(.system(size: 30))
-                }.padding(.horizontal, 12)
+                }.padding()
+                .padding(.horizontal, 12)
                 ScrollView {
                     VStack {
                         ForEach(viewModel.myRewardsPrograms) { RewardsProgram in
 
-                            NavigationLink(destination: CompanyProfile(company: RewardsProgram.company, showingDiscountScreen: $showingDiscountScreen)) {
-                                RewardsProgramWidget(company: RewardsProgram.company, points: RewardsProgram.currentPoints, status: RewardsProgram.status)
+                            NavigationLink(destination: CompanyProfile(company: RewardsProgram.company, status: RewardsProgram.status, showingDiscountScreen: $showingDiscountScreen)) {
+                                RewardsProgramWidget(company: RewardsProgram.company, image: RewardsProgram.image, points: RewardsProgram.currentPoints, status: RewardsProgram.status)
                             }
                         }
                     }

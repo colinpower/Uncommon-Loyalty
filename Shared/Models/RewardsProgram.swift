@@ -14,6 +14,7 @@ struct RewardsProgram: Identifiable, Codable {
     @DocumentID var id: String? = UUID().uuidString
     var company: String
     var currentPoints: Int
+    var image: String
     var status: String
     var user: String
     //need to add RewardsProgramReference?? so I can query this specific loyalty program?
@@ -22,6 +23,7 @@ struct RewardsProgram: Identifiable, Codable {
     enum CodingKeys: String, CodingKey {
         case company
         case currentPoints
+        case image
         case status
         case user
     }
