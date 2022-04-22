@@ -13,7 +13,6 @@ struct Feed: View {
     //@ObservedObject var viewModel = PostInFeedViewModel()
     
     var body: some View {
-        NavigationView{
             VStack {
                 HStack{
                     Text("For you").font(.system(size: 24)).foregroundColor(Color.black)
@@ -25,9 +24,9 @@ struct Feed: View {
                 .padding(.horizontal, 12)
                 ScrollView {
                     VStack {
-                        NavigationLink(destination: ReviewProduct()) {
-                            ReviewWidget()
-                        }.padding(.vertical, 12)
+//                        NavigationLink(destination: ReviewProduct(companyID: <#String#>, email: <#String#>, orderID: <#String#>, userID: <#String#>)) {
+//                            ReviewWidget()
+//                        }.padding(.vertical, 12)
                         Divider()
                         NavigationLink(destination: VoteOnProduct()) {
                             VoteWidget()
@@ -57,7 +56,6 @@ struct Feed: View {
 //                }
             }.navigationTitle("")
             .navigationBarHidden(true)
-        }
     }
     
 }

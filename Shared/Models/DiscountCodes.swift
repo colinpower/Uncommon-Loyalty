@@ -13,20 +13,30 @@ struct DiscountCodes: Identifiable, Codable {
     //means that whenever we map from a doc into a Ticket struct, it'll read the document and map it into this thing
     @DocumentID var id: String? = UUID().uuidString
     var code: String
-    var company: String
+    var companyName: String
+    var companyID: String
     var dollarAmount: Int
-    var pointsSpent: String
+    var email: String
+    var minimumSpendRequired: Int
+    var pointsSpent: Int
     var status: String
-    var user: String
+    var timestampCreated: Int
+    var timestampUsed: Int
+    var userID: String
     //need to add RewardsProgramReference?? so I can query this specific loyalty program?
 
     //use CodingKeys to convert from names in Firebase to SwiftUI names
     enum CodingKeys: String, CodingKey {
         case code
-        case company
+        case companyName
+        case companyID
         case dollarAmount
+        case email
+        case minimumSpendRequired
         case pointsSpent
         case status
-        case user
+        case timestampCreated
+        case timestampUsed
+        case userID
     }
 }

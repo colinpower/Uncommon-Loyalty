@@ -12,9 +12,9 @@ import SwiftUI
 struct RewardsProgramWidget: View {
 
     
-    var company: String
+    var companyName: String
     var image: String
-    var points: Int
+    var currentPointsBalance: Int
     var status: String
     
     var body: some View {
@@ -38,11 +38,11 @@ struct RewardsProgramWidget: View {
 //                Image(systemName: "person.crop.circle")
 //                    .foregroundColor(.black)
 //                    .font(.system(size: 30))
-                Text(company).font(.headline)
+                Text(companyName).font(.headline)
                     .foregroundColor(Color.black.opacity(0.7))
                 Spacer()
                 VStack(alignment: .trailing) {
-                    Text(String(points) + " Points")
+                    Text(String(currentPointsBalance) + " Points")
                         .font(.body)
                         .foregroundColor(Color.black)
                     Text(status == "None" ? "" : String(status) + " Status")
@@ -59,6 +59,6 @@ struct RewardsProgramWidget: View {
 
 struct CompanyRewardsProgram_Previews: PreviewProvider {
     static var previews: some View {
-        RewardsProgramWidget(company: "Company", image: "AthleisureLA", points: 14000, status: "Silver")
+        RewardsProgramWidget(companyName: "Company", image: "Athleisure LA", currentPointsBalance: 14000, status: "Silver")
     }
 }

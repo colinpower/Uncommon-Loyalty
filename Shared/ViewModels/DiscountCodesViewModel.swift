@@ -21,10 +21,10 @@ class DiscountCodesViewModel: ObservableObject, Identifiable {
         
     private var db = Firestore.firestore()
     
-    func listenForMyDiscountCodes(user: String, company: String) {
+    func listenForMyDiscountCodes(email: String, companyID: String) {
         self.myDiscountCodes = [DiscountCodes]()
         
-        self.dm.getMyDiscountCodes(user: user, company: company, onSuccess: { (discountcodes) in
+        self.dm.getMyDiscountCodes(email: email, companyID: companyID, onSuccess: { (discountcodes) in
             //if (self.newTickets.isEmpty) {
                 self.myDiscountCodes = discountcodes
             print("this is the discount codes")
@@ -34,15 +34,20 @@ class DiscountCodesViewModel: ObservableObject, Identifiable {
         })
     }
     
-    func addCode(dollars: Int, user: String, company: String) {
-        try db.collection("discountCodes")
+    func addCode(dollars: Int, pointsSpent: Int, userID: String, companyName: String, companyID: String, email: String) {
+        try db.collection("discountcodes-" + companyID)
             .addDocument(data: [
                 "code": "COLIN-DISCOUNT-ADDED",
-                "company": company,
+                "companyName": companyName,
+                "companyID": companyID,
                 "dollarAmount": dollars,
-                "pointsSpent": "100000",
-                "status": "Active",
-                "user": user
+                "email": email,
+                "minimumSpendRequired": 100,
+                "pointsSpent": pointsSpent,
+                "status": "ACTIVE",
+                "timestampCreated": Int(round(Date().timeIntervalSince1970)),
+                "timestampUsed": 0,
+                "userID": userID
             ])
     }
     

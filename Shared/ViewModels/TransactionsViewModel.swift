@@ -21,10 +21,10 @@ class TransactionsViewModel: ObservableObject, Identifiable {
         
     private var db = Firestore.firestore()
     
-    func listenForMyTransactions(user: String, company: String) {
+    func listenForMyTransactions(email: String, companyID: String) {
         self.myTransactions = [Transactions]()
 
-        self.dm.getMyTransactions(user: user, company: company, onSuccess: { (transactions) in
+        self.dm.getMyTransactions(email: email, companyID: companyID, onSuccess: { (transactions) in
             //if (self.newTickets.isEmpty) {
                 self.myTransactions = transactions
             print("this is the transactions")

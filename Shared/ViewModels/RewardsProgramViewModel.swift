@@ -29,10 +29,10 @@ class RewardsProgramViewModel: ObservableObject, Identifiable {
     // MARK: Queries for the HOME views
     //Get all tickets that I am able to answer
     
-    func listenForMyRewardsPrograms(user: String) {
+    func listenForMyRewardsPrograms(email: String) {
         self.myRewardsPrograms = [RewardsProgram]()
         
-        self.dm.getMyRewardsPrograms(user: user, onSuccess: { (RewardsPrograms) in
+        self.dm.getMyRewardsPrograms(email: email, onSuccess: { (RewardsPrograms) in
             //if (self.newTickets.isEmpty) {
                 self.myRewardsPrograms = RewardsPrograms
         }, listener: { (listener1) in
@@ -40,10 +40,10 @@ class RewardsProgramViewModel: ObservableObject, Identifiable {
         })
     }
     
-    func listenForOneRewardsProgram(user: String, company: String) {
+    func listenForOneRewardsProgram(email: String, companyID: String) {
         self.oneRewardsProgram = [RewardsProgram]()
         
-        self.dm.getOneRewardsProgram(user: user, company: company, onSuccess: { (RewardsProgram) in
+        self.dm.getOneRewardsProgram(email: email, companyID: companyID, onSuccess: { (RewardsProgram) in
             //if (self.newTickets.isEmpty) {
                 self.oneRewardsProgram = RewardsProgram
             print("this is the rewards program")

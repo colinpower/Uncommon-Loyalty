@@ -17,11 +17,11 @@ class DataManager: ObservableObject {
     //MARK: Queries for the HOME view
         //how to do the listener stuff
         //https://stackoverflow.com/questions/63088521/firebase-and-swiftui-listening-for-real-time-update-strange-behave-weird
-    func getMyRewardsPrograms(user: String, onSuccess: @escaping([RewardsProgram]) -> Void, listener: @escaping(_ listenerHandle: ListenerRegistration) -> Void) {
+    func getMyRewardsPrograms(email: String, onSuccess: @escaping([RewardsProgram]) -> Void, listener: @escaping(_ listenerHandle: ListenerRegistration) -> Void) {
         print("this function was called")
         let listenerRegistration1 = db.collection("loyaltyprograms")
-            .whereField("user", isEqualTo: user)
-            .order(by: "company", descending: false)
+            .whereField("email", isEqualTo: email)
+            .order(by: "companyName", descending: false)
             .addSnapshotListener { (querySnapshot, error) in
             guard let documents = querySnapshot?.documents else {
                 print("No documents")
@@ -39,11 +39,11 @@ class DataManager: ObservableObject {
         listener(listenerRegistration1) //escaping listener
     }
     
-    func getOneRewardsProgram(user: String, company: String, onSuccess: @escaping([RewardsProgram]) -> Void, listener: @escaping(_ listenerHandle: ListenerRegistration) -> Void) {
+    func getOneRewardsProgram(email: String, companyID: String, onSuccess: @escaping([RewardsProgram]) -> Void, listener: @escaping(_ listenerHandle: ListenerRegistration) -> Void) {
         print("this ONE function was called")
         let listenerRegistration2 = db.collection("loyaltyprograms")
-            .whereField("user", isEqualTo: user)
-            .whereField("company", isEqualTo: company)
+            .whereField("email", isEqualTo: email)
+            .whereField("companyID", isEqualTo: companyID)
             .addSnapshotListener { (querySnapshot, error) in
             guard let documents = querySnapshot?.documents else {
                 print("No documents")
@@ -62,11 +62,11 @@ class DataManager: ObservableObject {
     }
     
     
-    func getMyDiscountCodes(user: String, company: String, onSuccess: @escaping([DiscountCodes]) -> Void, listener: @escaping(_ listenerHandle: ListenerRegistration) -> Void) {
+    func getMyDiscountCodes(email: String, companyID: String, onSuccess: @escaping([DiscountCodes]) -> Void, listener: @escaping(_ listenerHandle: ListenerRegistration) -> Void) {
         //print("this ONE function was called")
-        let listenerRegistration3 = db.collection("discountCodes")
-            .whereField("user", isEqualTo: user)
-            .whereField("company", isEqualTo: company)
+        let listenerRegistration3 = db.collection("discountcodes-" + companyID)
+            .whereField("email", isEqualTo: email)
+            .whereField("companyID", isEqualTo: companyID)
             .addSnapshotListener { (querySnapshot, error) in
             guard let documents = querySnapshot?.documents else {
                 print("No documents")
@@ -85,11 +85,11 @@ class DataManager: ObservableObject {
     }
     
     
-    func getMyTransactions(user: String, company: String, onSuccess: @escaping([Transactions]) -> Void, listener: @escaping(_ listenerHandle: ListenerRegistration) -> Void) {
+    func getMyTransactions(email: String, companyID: String, onSuccess: @escaping([Transactions]) -> Void, listener: @escaping(_ listenerHandle: ListenerRegistration) -> Void) {
         //print("this ONE function was called")
-        let listenerRegistration4 = db.collection("orders")
-            .whereField("user", isEqualTo: user)
-            .whereField("company", isEqualTo: company)
+        let listenerRegistration4 = db.collection("history-" + companyID)
+            .whereField("email", isEqualTo: email)
+            .whereField("companyID", isEqualTo: companyID)
             .addSnapshotListener { (querySnapshot, error) in
             guard let documents = querySnapshot?.documents else {
                 print("No documents")

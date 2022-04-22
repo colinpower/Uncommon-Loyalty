@@ -30,8 +30,10 @@ struct Uncommon_LoyaltyApp: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
     
     var body: some Scene {
+        let viewModel = AppViewModel()
         WindowGroup {
             ContentView()
+                .environmentObject(viewModel)
         }
     }
 }

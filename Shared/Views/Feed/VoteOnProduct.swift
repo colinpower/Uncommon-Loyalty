@@ -9,7 +9,7 @@ import SwiftUI
 
 struct VoteOnProduct: View {
     var body: some View {
-        Text("Vote Page")
+        Text("Vote on product page")
     }
 }
 
