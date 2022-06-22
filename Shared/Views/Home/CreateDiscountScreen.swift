@@ -24,49 +24,37 @@ struct CreateDiscountScreen: View {
     @ObservedObject var viewModel2 = DiscountCodesViewModel()
     
     var body: some View {
-        VStack (alignment: .leading) {
+        VStack (alignment: .center) {
             
-            HStack {
-                Image("sale")
-                    .resizable()
-                    .scaledToFill()
-                    .frame(width: 80, height: 89, alignment: .center)
-                    .clipped()
-                    .cornerRadius(10)
-                    .padding(.trailing, 12)
-                Text("Convert your rewards points into a discount code!")
-                    .font(.title2)
-                    .fontWeight(.medium)
+            VStack(alignment: .center) {
+                Text("Convert Points")
+                    .font(.headline)
+                    .foregroundColor(.black)
+                    .padding(.bottom, 8)
+                Text(String(availablePoints-Int(rewardsUsed)) + " POINTS AVAILABLE")
+                    .font(.footnote)
+                    .foregroundColor(.gray)
+//                Text("CONVERT POINTS INTO A DISCOUNT CODE")
+//                    .font(.footnote)
+//                    .foregroundColor(.gray)
             }
-            .padding(.bottom, 8)
-            Text("Use the slider to create your discount. Every 500 points is worth $5 in discounts.")
-                .font(.subheadline)
-                .foregroundColor(.black.opacity(0.6))
-                .padding(.bottom, 36)
+            Spacer()
+            Spacer()
             
-            HStack {
-                VStack(alignment: .leading) {
-                    Text(String(availablePoints-Int(rewardsUsed)))
-                        .font(.largeTitle)
-                        .fontWeight(.bold)
-                        .foregroundColor(.black)
-                    Text("Points available")
-                        .font(.body)
-                        .foregroundColor(.black.opacity(0.75))
-                }
-                Spacer()
-                VStack(alignment: .trailing) {
-                    Text(String(Int(rewardsUsed)))
-                        .font(.largeTitle)
-                        .fontWeight(.bold)
-                        .foregroundColor(.black)
-                    Text("Points used")
-                        .font(.body)
-                        .foregroundColor(.black.opacity(0.75))
-                }
+            VStack (alignment: .center) {
+                Text("$\(rewardsUsed/10, specifier: "%.0f")")
+                    .font(.system(size: 100))
+                    .foregroundColor(.green)
+                    .padding(.bottom, 12)
             }
+            
+            Spacer()
+            Spacer()
+            
+            
             
             //MARK: SLIDER
+            
             Slider(
                 value: $rewardsUsed,
                 in: 0...Double(availablePoints),
@@ -78,40 +66,34 @@ struct CreateDiscountScreen: View {
                 maximumValueLabel: Text(""),
                 label: {
                     Text("")
-                }
-            ).padding(.bottom, 48)
+                })
+                
             
-            HStack {
-                Spacer()
-                Text("$\(rewardsUsed/10, specifier: "%.0f")")
-                    .font(.system(size: 80))
-                    .foregroundColor(rewardsUsed == 0 ? .gray : .green)
-                Spacer()
-            }
             
-            HStack {
-                Spacer()
-                Button(action: {
-                    //create discount code in Firebase
-                    viewModel2.addCode(dollars: Int(rewardsUsed), pointsSpent: Int(rewardsUsed), userID: "mhjEZCv9JGdk0NUZaHMcNrDsH1x2", companyName: companyName, companyID: companyID, email: "colinjpower1@gmail.com")
-                    showingDiscountScreen.toggle()
-                }) {
-                    Text("Create discount code")
-                        .foregroundColor(rewardsUsed == 0 ? Color.white.opacity(0.4) : Color.white)
-                        .font(.headline)
-                        .padding()
-                        .padding(.horizontal)
-                        .padding(.horizontal)
-                        .background(RoundedRectangle(cornerRadius: 36).fill(rewardsUsed == 0 ? Color.green.opacity(0.4) : Color.green))
-                }
-                .disabled(rewardsUsed==0)
-                Spacer()
-            }
             Spacer()
+             
+            Button(action: {
+                //create discount code in Firebase
+                viewModel2.addCode(dollars: Int(rewardsUsed), pointsSpent: Int(rewardsUsed), userID: "mhjEZCv9JGdk0NUZaHMcNrDsH1x2", companyName: companyName, companyID: companyID, email: "colinjpower1@gmail.com")
+                showingDiscountScreen.toggle()
+            }) {
+                HStack {
+                    Spacer()
+                    Text("Convert points")
+                        .foregroundColor(.white)
+                        .font(.body)
+                        .fontWeight(.medium)
+                        .padding(.vertical, 12)
+                    Spacer()
+                }
+                .background(RoundedRectangle(cornerRadius: 24).fill(.blue))
+                .padding(.horizontal, 24)
+            }
+            .disabled(rewardsUsed==0)
             
-        }.padding(.horizontal, 24)
-            .padding(.top, 24)
-        .navigationBarTitle("Create Discount", displayMode: .inline)
+        }.padding(.horizontal, 12)
+            .padding(.vertical, 24)
+        //.navigationBarTitle("Create Discount", displayMode: .inline)
     }
 }
 

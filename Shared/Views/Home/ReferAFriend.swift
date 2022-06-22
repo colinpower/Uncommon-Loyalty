@@ -63,6 +63,7 @@ struct ReferAFriend: View {
                     .onTapGesture(count: 1) {
                         copyText = "Copied"
                         copyColor = Color.green
+                        UIPasteboard.general.string = referralCode
                     }
                 
             }

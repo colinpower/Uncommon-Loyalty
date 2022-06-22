@@ -7,6 +7,10 @@
 
 import SwiftUI
 
+
+//how to upload an image to firebase
+//https://www.youtube.com/watch?v=5inXE5d2MUM
+
 struct ReviewProduct: View {
     
     var companyID: String

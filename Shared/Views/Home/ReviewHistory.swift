@@ -9,6 +9,10 @@ import SwiftUI
 
 struct ReviewHistory: View {
     
+    @ObservedObject var ordersViewModel = OrdersViewModel()
+    
+    @State var showingReviewScreen: Bool = false
+    
     var companyID: String
     var email: String
     //var orderID: String
@@ -17,15 +21,17 @@ struct ReviewHistory: View {
     var body: some View {
         ScrollView {
             VStack {
-                ReviewItem(companyID: companyID, email: email, orderID: "Order 1", userID: userID, reviewPoints: 100)
-                ReviewItem(companyID: companyID, email: email, orderID: "Order 2", userID: userID, reviewPoints: 0)
+                ForEach(ordersViewModel.myOrders) { myOrder in
+                    ReviewItem(companyID: myOrder.companyID, email: myOrder.email, orderID: myOrder.orderID, userID: myOrder.userID, reviewPoints: 0, title: myOrder.title, totalPrice: myOrder.totalPrice)
+                }
             }
         
         }.padding(.top, 24)
         .padding(.horizontal, 24)
-        .navigationBarTitle("Purchases", displayMode: .inline)
+        .navigationBarTitle("Orders", displayMode: .inline)
         .onAppear{
             //need to make a call to get the list of orders for this user, which are available to be reviewed
+            self.ordersViewModel.listenForMyOrders(email: "colinjpower1@gmail.com", companyID: companyID)
         }
     }
 }
@@ -36,9 +42,11 @@ struct ReviewItem: View {
     var email: String
     var orderID: String
     var userID: String
-    
     var reviewPoints: Int
-    
+    var title: String
+    var totalPrice: Int
+//    var timestamp: Int
+//    var hasReview: Bool
     
     var body: some View {
         HStack(alignment: .center) {
@@ -50,8 +58,8 @@ struct ReviewItem: View {
                 .cornerRadius(10)
                 .padding(.trailing, 12)
             VStack (alignment: .leading) {
-                Text("Athleisure Sweatpants")
-                Text("$99.50 on Feb 23")
+                Text(title)
+                Text(String(totalPrice) + " on Feb 23")
             }.font(.subheadline)
                 .foregroundColor(.black.opacity(0.8))
                 .padding(.trailing, 12)

@@ -7,6 +7,32 @@
 //how I did auth
 //https://www.youtube.com/watch?v=vPCEIPL0U_k&t=626s
 
+//create onboarding experience
+//https://www.youtube.com/watch?v=cpg7f4pVzFw
+
+//email verification
+//https://firebase.google.com/docs/auth/ios/email-link-auth#verify_link_and_sign_in
+//https://firebase.google.com/docs/auth/ios/email-link-auth#swift_2
+
+//helful videos for magic link
+//https://www.youtube.com/watch?v=iSC5ed6OowA
+//https://www.youtube.com/watch?v=KLBjAg6HvG0
+//https://firebase.google.com/docs/auth/ios/passing-state-in-email-actions#configuring_firebase_dynamic_links
+//https://github.com/firebase/quickstart-ios/blob/0d895bbe987378546f9fe5d72bb6a751cc9748a4/authentication/LegacyAuthQuickstart/AuthenticationExampleSwift/AppDelegate.swift
+//https://github.com/firebase/quickstart-ios/blob/0d895bbe987378546f9fe5d72bb6a751cc9748a4/authentication/LegacyAuthQuickstart/AuthenticationExampleSwift/PasswordlessViewController.swift#L43-L53
+//
+
+
+
+//https://www.youtube.com/watch?v=7QyybtL9G78
+//https://www.youtube.com/watch?v=Bb66vdrS454
+
+
+
+
+//if i decide to do email / pw / verification email
+//https://www.youtube.com/watch?v=UZ9s_20Hk3U
+
 
 import SwiftUI
 import FirebaseAuth

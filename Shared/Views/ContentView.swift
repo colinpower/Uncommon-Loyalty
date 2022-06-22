@@ -8,6 +8,10 @@
 import SwiftUI
 import FirebaseAuth
 
+//create onboarding flow
+//https://www.youtube.com/watch?v=cpg7f4pVzFw
+
+
 struct ContentView: View {
     
     @EnvironmentObject var viewModel: AppViewModel
@@ -22,7 +26,7 @@ struct ContentView: View {
     @State private var defaultTab = 1
     
     var body: some View {
-        NavigationView {
+        VStack {
             if viewModel.signedIn {
             
                 TabView(selection: $defaultTab) {
@@ -38,12 +42,19 @@ struct ContentView: View {
                                 .renderingMode(.template)
                             Text("Feed")
                         }.tag(2)
-                    Messages()
+                    
+                    Feedback()
                         .tabItem {
-                            Image(systemName: "message")
+                            Image(systemName: "newspaper")
                                 .renderingMode(.template)
-                            Text("Messages")
+                            Text("Feedback")
                         }.tag(3)
+//                    Messages()
+//                        .tabItem {
+//                            Image(systemName: "message")
+//                                .renderingMode(.template)
+//                            Text("Messages")
+//                        }.tag(3)
                     Profile()
                         .tabItem {
                             Image(systemName: "person.fill")
@@ -54,8 +65,9 @@ struct ContentView: View {
             } else {
                 LoginView()
             }
-        }.navigationTitle("")
-            .navigationBarHidden(true)
+        }
+//        }.navigationTitle("")
+//            .navigationBarHidden(true)
         .onAppear {
             viewModel.signedIn = viewModel.isSignedIn
         }

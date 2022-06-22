@@ -54,8 +54,9 @@ struct Feed: View {
 //                if self.viewModel.listener1 != nil {
 //                    self.viewModel.listener1.remove()
 //                }
-            }.navigationTitle("")
-            .navigationBarHidden(true)
+//            }.navigationTitle("")
+//            .navigationBarHidden(true)
+            }
     }
     
 }

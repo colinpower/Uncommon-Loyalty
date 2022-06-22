@@ -7,13 +7,18 @@
 
 import SwiftUI
 
+
+//how to download an image from firebase
+//https://www.youtube.com/watch?v=PYpTto3iQXU&t=446s
+
+
 struct CompanyProfileV2: View {
     
     
     //Variables received from HomeView
     var companyID: String
     var companyName: String
-    var currentPointsBalance: Int
+    //var currentPointsBalance: Int
     var email: String
     var userID: String
 //    var status: String
@@ -28,6 +33,7 @@ struct CompanyProfileV2: View {
     @ObservedObject var viewModel1 = RewardsProgramViewModel()
     @ObservedObject var viewModel2 = DiscountCodesViewModel()
     @ObservedObject var viewModel3 = TransactionsViewModel()
+    @ObservedObject var viewModel4 = OrdersViewModel()
     
     @State private var hasDiscountsCreated = false
     
@@ -40,7 +46,6 @@ struct CompanyProfileV2: View {
             default:
                 return Color.blue
         }
-        
     }
     
     
@@ -61,23 +66,17 @@ struct CompanyProfileV2: View {
         ScrollView {
             VStack {
                 ProfileHeader(companyID: companyID, companyName: companyName, email: email, userID: userID)
-                    .padding(.horizontal, 24)
-                    .padding(.top, 24)
-                VStack {
-                    Divider()
-                    ProfileRewardsBalance(progressValue: $progressValue, currentPointsBalance: currentPointsBalance, companyName: "Athleisure LA", companyID: companyID, showingDiscountScreen: $showingDiscountScreen)
-                        .padding(.horizontal, 24)
-                        .padding(.top, 24)
-                        .padding(.bottom, 12)
-                    MyDiscounts(shortDescription: "Use this code at checkout for $10 off any item", discountCode: "COLIN123")
-                        .padding(.horizontal, 24)
-                        .padding(.bottom, 12)
-                    Divider()
+                    .padding(.horizontal, 12)
+                    .padding(.top, 12)
+                Divider()
+                ProfileRewardsBalance(progressValue: $progressValue, currentPointsBalance: viewModel1.oneRewardsProgram.first?.currentPointsBalance ?? 0, companyName: "Athleisure LA", companyID: companyID, showingDiscountScreen: $showingDiscountScreen)
+                    .padding(.top, 12)
+                    .padding(.all, 12)
+                MyDiscounts(shortDescription: "Use this code at checkout for $10 off any item", discountCode: "COLIN123")
+                    .padding(.all, 12)
+                YourOrders()
+                    .padding(.all, 12)   //need to pass in viewModel4 (Orders observed object)
                     
-                }.background(RoundedRectangle(cornerRadius: 1).fill(.gray.opacity(0.05)))
-                ForEach(viewModel3.myTransactions) { myTransaction in
-                    MyHistoryItem(type: myTransaction.type, timestamp: myTransaction.timestamp, pointsEarnedOrSpent: myTransaction.pointsEarnedOrSpent)
-                }
             }
         }.navigationBarTitle(companyName, displayMode: .inline)
             .toolbar {
@@ -99,7 +98,7 @@ struct CompanyProfileV2: View {
             self.viewModel1.listenForOneRewardsProgram(email: "colinjpower1@gmail.com", companyID: companyID)
             self.viewModel2.listenForMyDiscountCodes(email: "colinjpower1@gmail.com", companyID: companyID)
             self.viewModel3.listenForMyTransactions(email: "colinjpower1@gmail.com", companyID: companyID)
-            print(self.viewModel3.myTransactions)
+            //print(self.viewModel3.myTransactions)
         }
         
     }
@@ -119,23 +118,24 @@ struct ProfileHeader: View {
         VStack {
             //NAME, MEMBER STATUS, VIDEO
             HStack{
-                VStack(alignment: .leading) {
-                    Text("Hi Colin!")
-                        .font(.largeTitle)
-                        .fontWeight(.medium)
-                        .foregroundColor(.black)
-                    Text("Silver Member")
-                        .font(.body)
-                        .fontWeight(.medium)
-                        .foregroundColor(.gray)
-                }
+                Text("Hi Colin!")
+                    .font(.largeTitle)
+                    .fontWeight(.medium)
+                    .foregroundColor(.black)
                 Spacer()
-                Image("AthleisureSweatshirt")
-                    .resizable()
-                    .scaledToFill()
-                    .frame(width: 48, height: 48, alignment: .center)
-                    .clipped()
-                    .cornerRadius(48)
+                Circle()
+                    .frame(width: 40, height: 40, alignment: .center)
+                    .foregroundColor(Color(UIColor.lightGray))
+//                Text("Silver Tier")
+//                    .font(.body)
+//                    .fontWeight(.medium)
+//                    .foregroundColor(.gray)
+//                Image("AthleisureSweatshirt")
+//                    .resizable()
+//                    .scaledToFill()
+//                    .frame(width: 48, height: 48, alignment: .center)
+//                    .clipped()
+//                    .cornerRadius(48)
             }.padding(.bottom, 18)
             
             //REFERRALS, HISTORY, TIERS
@@ -211,135 +211,36 @@ struct ProfileRewardsBalance: View {
     
     var body: some View {
         VStack {
-            //Point balance and "how you earn"
-            HStack(alignment: .center) {
-                VStack(alignment: .leading) {
-                    Text(String(currentPointsBalance))
-                        .font(.title)
-                        .fontWeight(.bold)
-                        .foregroundColor(.black)
-                    Text("Point balance")
-                        .font(.footnote)
-                        .foregroundColor(.gray)
-                }
+            HStack {
+                Text("Point Balance")
+                    .font(.subheadline)
+                    .fontWeight(.medium)
+                    .foregroundColor(.black)
                 Spacer()
-                Button {
-                    withAnimation {
-                        showDetail.toggle()
-                    }
-                } label: {
-                    HStack(alignment: .center) {
-                        Text("How points work")
-                            .font(.subheadline)
-                            .foregroundColor(.black.opacity(0.8))
-                        Label("Graph", systemImage: "chevron.down")
-                            .foregroundColor(.black.opacity(0.8))
-                            .labelStyle(.iconOnly)
-                            .imageScale(.medium)
-                            .rotationEffect(.degrees(showDetail ? -180 : 0))
-                    }
-                }
-            }
-            
-            if showDetail {
-                VStack(alignment: .leading) {
-                    HStack {
-                        VStack(alignment: .leading) {
-                            Text("Redeem points for discount codes")
-                                .font(.headline)
-                            Text("$5 discount for every 500 points")
-                                .font(.footnote)
-                                .foregroundColor(.black.opacity(0.75))
-                        }
-                        Spacer()
-                    }.padding(.bottom, 12)
-                    HStack(alignment: .center) {
-                        Text("10")
-                            .font(.subheadline)
-                            .fontWeight(.medium)
-                            .frame(minWidth: 50, maxWidth: 50, alignment: .trailing)
-                            .padding(.trailing, 12)
-                        Text("Points for every $1 you spend")
-                            .font(.footnote)
-                    }.padding(.bottom, 2)
-                    HStack(alignment: .center) {
-                        Text("250")
-                            .font(.subheadline)
-                            .fontWeight(.medium)
-                            .frame(minWidth: 50, maxWidth: 50, alignment: .trailing)
-                            .padding(.trailing, 12)
-                        Text("Points for leaving a review")
-                            .font(.footnote)
-                    }.padding(.bottom, 2)
-                    HStack(alignment: .center) {
-                        Text("2000")
-                            .font(.subheadline)
-                            .fontWeight(.medium)
-                            .frame(minWidth: 50, maxWidth: 50, alignment: .trailing)
-                            .padding(.trailing, 12)
-                        Text("Points for referring a friend")
-                            .font(.footnote)
-                    }
-                }.padding()
-                .background(RoundedRectangle(cornerRadius: 5).fill(.blue.opacity(0.1)))
-            }
-            
-            //Progress bar for rewards
-//            GeometryReader { geometry in
-//                ZStack(alignment: .leading) {
-//                    Rectangle().frame(width: geometry.size.width , height: geometry.size.height)
-//                        .opacity(0.3)
-//                        .foregroundColor(.blue)
-//
-//                    Rectangle().frame(width: min(CGFloat(progressValue)*geometry.size.width, geometry.size.width), height: geometry.size.height)
-//                        .foregroundColor(.blue)
-//                }.cornerRadius(45.0)
-//            }
-//            .padding(.top, 12)
-            
-            
+            }.padding(.bottom, 8)
+
             HStack(alignment: .center) {
+                Text(String(currentPointsBalance))
+                    .font(.title)
+                    .fontWeight(.medium)
+                    .foregroundColor(.black)
+                    .padding(.leading, 8)
+                Spacer()
                 Button(action: {
                     showingDiscountScreen = true
                 }) {
-                    HStack(alignment: .center) {
-                        Text("Convert points")
-                            .font(.subheadline)
-                            .fontWeight(.bold)
-                            .foregroundColor(Color.white)
-                            .padding(.horizontal, 12)
-                            .padding(.vertical, 8)
-                            .background(RoundedRectangle(cornerRadius: 16)
-                                            .fill(Color.blue))
-                            .padding(.trailing, 8)
-                    }
-                    
+                    Text("Convert")
+                        .font(.body)
+                        .fontWeight(.medium)
+                        .foregroundColor(Color.white)
+                        .padding(.horizontal, 24)
+                        .padding(.vertical, 8)
+                        .background(RoundedRectangle(cornerRadius: 16)
+                                        .fill(Color.blue))
                 }.sheet(isPresented: $showingDiscountScreen, content: {
                     CreateDiscountScreen(companyID: companyID, companyName: companyName, availablePoints: currentPointsBalance, showingDiscountScreen: $showingDiscountScreen)
                 })
-                
-//                NavigationLink(
-//                    destination: CreateDiscountScreen(companyID: companyID, companyName: companyName, availablePoints: currentPointsBalance),
-//                    label: {
-//
-//                    })
-                
-                NavigationLink(
-                    destination: VoteOnProduct(),
-                    label: {
-                        HStack(alignment: .center) {
-                            Text("See history")
-                                .font(.subheadline)
-                                .fontWeight(.medium)
-                                .foregroundColor(Color.black)
-                                .padding(.horizontal, 12)
-                                .padding(.vertical, 8)
-                                .background(RoundedRectangle(cornerRadius: 16)
-                                                .stroke(Color.black))
-                        }
-                    })
-                Spacer()
-            }.padding(.top, 6)
+            }
         }
     }
     
@@ -351,99 +252,110 @@ struct MyDiscounts: View {
     var shortDescription: String
     var discountCode: String
     
-    @State private var buttonText: String = "Copy code"
+    @State private var buttonText: String = "Copy"
     @State private var buttonColor: Color = Color.blue
     @State private var isShowing = true
     //var description: String
     
     var body: some View {
         VStack (alignment: .leading) {
+            HStack {
+                Text("Discounts")
+                    .font(.subheadline)
+                    .fontWeight(.medium)
+                    .foregroundColor(.black)
+                Spacer()
+            }.padding(.bottom, 8)
             if(shortDescription.isEmpty){
-                EmptyView()
+                //EmptyView()
+                Text("No discounts available")
+                    .font(.footnote)
+                    .foregroundColor(.gray)
             } else {
-                VStack {
-                    HStack {
-                        Image("AthleisureLA")
-                            .resizable()
-                            .scaledToFill()
-                            .frame(width: 36, height: 36, alignment: .center)
-                            .clipped()
-                            .cornerRadius(10)
-                        Spacer()
-                        Text("$10")
-                            .font(.title)
-                            .fontWeight(.bold)
-                            .foregroundColor(.white)
-                    }
-                    .padding(.horizontal, 12)
-                    .padding(.top, 12)
-                    Text("COLIN-DISCOUNT-005")
-                        .font(.title)
+                HStack {
+                    Text("$10")
+                        .font(.footnote)
                         .fontWeight(.bold)
                         .foregroundColor(.white)
-                        .padding(.bottom, 36)
-                        .padding(.top, 12)
-                    HStack {
-                        Spacer()
-                        Text("Active")
-                            .font(.footnote)
-                            .fontWeight(.bold)
-                            .foregroundColor(.white)
-                            .opacity(isShowing ? 1 : 0)
-                    }.padding(.trailing, 12)
-                    .padding(.bottom, 12)
-                }
-                .background(RoundedRectangle(cornerRadius: 12).fill(.cyan.opacity(0.7)))
-                
-                VStack (alignment: .leading) {
-                    Text(shortDescription)
-                        .font(.subheadline)
+                        .padding(.all, 4)
+                        .background(RoundedRectangle(cornerRadius: 6)
+                            .fill(Color.green))
+                        .padding(.trailing, 18)
+                    Text(discountCode)
+                        .font(.body)
                         .fontWeight(.medium)
-                        .foregroundColor(Color.black)
-                    HStack {
-                        Text(buttonText)
-                            .font(.subheadline)
-                            .fontWeight(.bold)
-                            .foregroundColor(Color.white)
-                            .padding(.horizontal, 12)
-                            .padding(.vertical, 8)
-                            .background(RoundedRectangle(cornerRadius: 16)
-                                            .fill(buttonColor))
-                            .padding(.trailing, 8)
-                            .onTapGesture(count: 1) {
-                                //need to switch to DispatchQueue here
-                                //https://stackoverflow.com/questions/59682446/how-to-trigger-action-after-x-seconds-in-swiftui
-                                buttonText = "Copied"
-                                buttonColor = Color.green
-                                UIPasteboard.general.string = discountCode
-                            }
-                        NavigationLink(
-                            destination: VoteOnProduct(),
-                            label: {
-                                HStack(alignment: .center) {
-                                    Text("See all")
-                                        .font(.subheadline)
-                                        .fontWeight(.medium)
-                                        .foregroundColor(Color.black)
-                                        .padding(.horizontal, 12)
-                                        .padding(.vertical, 8)
-                                        .background(RoundedRectangle(cornerRadius: 16)
-                                                        .stroke(Color.black))
-                                }
-                            })
-                    }
-                }.padding(.all, 12)
-            }
-        }.padding(.top, 24)
-        .onAppear(perform: pulsateText)
-    }
-    
-    private func pulsateText() {
-        withAnimation(Animation.easeInOut(duration: 1.0).repeatForever(autoreverses: true)) {
-                isShowing.toggle()
+                        .foregroundColor(.black.opacity(0.8))
+                    Spacer()
+                    Text(buttonText)
+                        .font(.body)
+                        .fontWeight(.medium)
+                        .foregroundColor(buttonColor)
+                        .onTapGesture(count: 1) {
+                            //need to switch to DispatchQueue here
+                            //https://stackoverflow.com/questions/59682446/how-to-trigger-action-after-x-seconds-in-swiftui
+                            buttonText = "Copied"
+                            buttonColor = Color.green
+                            UIPasteboard.general.string = discountCode
+                        }
+                }.padding(.all, 16)
+                .background(RoundedRectangle(cornerRadius: 5)
+                    .fill(.white)
+                    .shadow(color: .gray.opacity(0.5), radius: 3, x: 0, y: 1))
             }
         }
+    }
 }
+
+//MARK: YOUR ORDERS
+//ForEach(viewModel3.myTransactions) { myTransaction in
+////                    MyHistoryItem(type: myTransaction.type, timestamp: myTransaction.timestamp, pointsEarnedOrSpent: myTransaction.pointsEarnedOrSpent)
+////                }
+struct YourOrders: View {
+    
+    var body: some View {
+        VStack {
+            HStack {
+                Text("Purchases")
+                    .font(.subheadline)
+                    .fontWeight(.medium)
+                    .foregroundColor(.black)
+                Spacer()
+            }.padding(.bottom, 8)
+            
+            
+            HStack(alignment: .center) {
+                Image("AthleisureJogger")
+                    .resizable()
+                    .scaledToFill()
+                    .frame(width: 60, height: 60, alignment: .center)
+                    .clipped()
+                    .cornerRadius(8)
+                    .padding(.trailing, 8)
+                VStack(alignment: .leading) {
+                    Text("Joggers 2.0")
+                        .font(.body)
+                        .fontWeight(.medium)
+                        .foregroundColor(.black.opacity(0.8))
+                    Text("May 21")
+                        .font(.footnote)
+                        .foregroundColor(.gray)
+                }
+                Spacer()
+                NavigationLink(
+                    destination: ReviewProduct(companyID: "123", email: "colin123", orderID: "123", userID: "asdlkfas"),
+                    label: {
+                        Text("Review")
+                            .font(.body)
+                            .fontWeight(.medium)
+                            .foregroundColor(.blue)
+                            .padding(.trailing, 8)
+                    })
+                
+            }
+        }
+    }
+}
+
 
 //MARK: MY HISTORY
 //This struct formats the discount codes that are available
@@ -453,17 +365,58 @@ struct MyHistoryItem: View {
     var timestamp: Int
     var pointsEarnedOrSpent: Int
     
+    var iconToShow: String {
+        switch type {
+            case "REFERRAL":
+                return "person.2.fill"
+            case "REVIEW":
+                return "text.bubble.fill"
+            case "ORDER":
+                return "signature"
+            case "DISCOUNTCODE":
+                return "dollarsign.circle.fill"
+            default:
+                return "bag.fill"
+        }
+    }
+    
+    var textToShow: String {
+        switch type {
+            case "REFERRAL":
+                return "Referred a friend"
+            case "REVIEW":
+                return "Created a review"
+            case "ORDER":
+                return "Placed an order"
+            case "DISCOUNTCODE":
+                return "Created a discount code"
+            default:
+                return "bag.fill"
+        }
+    }
+    
+//    var pointsToShow: String = ""
+//
+//    if pointsEarnedOrSpent > 0 {
+//        pointsToShow = "+" + String(pointsEarnedOrSpent)
+//    } else {
+//        pointsToShow = "-" + String(pointsEarnedOrSpent)
+//    }
+//
     //var description: String
     
     var body: some View {
         HStack {
-            Text(type)
+            Image(systemName: iconToShow).padding(.trailing, 4)
+            Text(textToShow)
             Spacer()
-            Text(String(timestamp))
-            Spacer()
-            Text(String(pointsEarnedOrSpent))
-        }
-    
+            VStack {
+                Text(String(pointsEarnedOrSpent))
+                Text(convertTimestampToString(timestamp: timestamp))
+                    .font(.footnote)
+            }
+        }.padding(.vertical, 6)
+        .padding(.horizontal, 12)
     }
 }
 
@@ -472,7 +425,7 @@ struct MyHistoryItem: View {
 
 struct CompanyProfileV2_Previews: PreviewProvider {
     static var previews: some View {
-        CompanyProfileV2(companyID: "zKL7SQ0jRP8351a0NnHM", companyName: "Athleisure LA", currentPointsBalance: 1000, email: "colinjpower1@gmail.com", userID: "temp user ID here")
+        CompanyProfileV2(companyID: "zKL7SQ0jRP8351a0NnHM", companyName: "Athleisure LA", email: "colinjpower1@gmail.com", userID: "temp user ID here")
     }
 }
 

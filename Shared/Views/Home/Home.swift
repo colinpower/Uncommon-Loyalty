@@ -11,10 +11,11 @@ import FirebaseAuth
 struct Home: View {
     
     //@State var showingDiscountScreen: Bool = false
-    @ObservedObject var viewModel = RewardsProgramViewModel()
+    @ObservedObject var viewModel1 = RewardsProgramViewModel()
     
     
     var body: some View {
+        NavigationView{
             VStack {
                 HStack{
                     Text("Rewards").font(.system(size: 24)).foregroundColor(Color.black)
@@ -27,7 +28,7 @@ struct Home: View {
                 .padding(.horizontal, 12)
                 ScrollView {
                     VStack {
-                        ForEach(viewModel.myRewardsPrograms) { RewardsProgram in
+                        ForEach(viewModel1.myRewardsPrograms) { RewardsProgram in
 
 //                            NavigationLink(destination: CompanyProfile(company: RewardsProgram.company, status: RewardsProgram.status, showingDiscountScreen: $showingDiscountScreen)) {
 //                                RewardsProgramWidget(company: RewardsProgram.company, image: RewardsProgram.image, points: RewardsProgram.currentPoints, status: RewardsProgram.status)
@@ -35,7 +36,7 @@ struct Home: View {
                             //Need
                             
                             
-                            NavigationLink(destination: CompanyProfileV2(companyID: RewardsProgram.companyID, companyName: RewardsProgram.companyName, currentPointsBalance: RewardsProgram.currentPointsBalance, email: RewardsProgram.email, userID: RewardsProgram.userID)) {
+                            NavigationLink(destination: CompanyProfileV2(companyID: RewardsProgram.companyID, companyName: RewardsProgram.companyName, email: RewardsProgram.email, userID: RewardsProgram.userID)) {
                                     RewardsProgramWidget(companyName: RewardsProgram.companyName, image: RewardsProgram.companyName, currentPointsBalance: RewardsProgram.currentPointsBalance, status: RewardsProgram.status)
                                 }
                             
@@ -45,18 +46,22 @@ struct Home: View {
                 
             }
             .navigationTitle("")
-                .navigationBarHidden(true)
+            .navigationBarHidden(true)
             .onAppear(perform: {
-                self.viewModel.listenForMyRewardsPrograms(email: Auth.auth().currentUser?.email ?? "")
-                print("CURRENT USER IS")
-                print(Auth.auth().currentUser?.email ?? "")
-                print(self.viewModel.myRewardsPrograms)
-            })
+                    self.viewModel1.listenForMyRewardsPrograms(email: Auth.auth().currentUser?.email ?? "")
+                    print("CURRENT USER IS")
+                    print(Auth.auth().currentUser?.email ?? "")
+                    print(self.viewModel1.myRewardsPrograms)
+                })
             .onDisappear {
-                if self.viewModel.listener1 != nil {
-                    self.viewModel.listener1.remove()
+                    print("DISAPPEAR")
+                    if self.viewModel1.listener1 != nil {
+                        print("REMOVING LISTENER")
+                        self.viewModel1.listener1.remove()
+                    }
                 }
-            }
+    }
+            
             //.navigationBarTitle("Rewards Programs", displayMode: .inline)
     }
 }

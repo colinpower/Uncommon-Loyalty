@@ -27,8 +27,8 @@ class TransactionsViewModel: ObservableObject, Identifiable {
         self.dm.getMyTransactions(email: email, companyID: companyID, onSuccess: { (transactions) in
             //if (self.newTickets.isEmpty) {
                 self.myTransactions = transactions
-            print("this is the transactions")
-            print(self.myTransactions)
+//            print("this is the transactions")
+//            print(self.myTransactions)
         }, listener: { (listener4) in
             self.listener_Transactions = listener4
         })

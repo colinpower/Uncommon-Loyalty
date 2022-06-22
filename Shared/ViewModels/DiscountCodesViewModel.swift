@@ -27,8 +27,8 @@ class DiscountCodesViewModel: ObservableObject, Identifiable {
         self.dm.getMyDiscountCodes(email: email, companyID: companyID, onSuccess: { (discountcodes) in
             //if (self.newTickets.isEmpty) {
                 self.myDiscountCodes = discountcodes
-            print("this is the discount codes")
-            print(self.myDiscountCodes)
+            //print("this is the discount codes")
+            //print(self.myDiscountCodes)
         }, listener: { (listener) in
             self.listener_DiscountCodes = listener
         })

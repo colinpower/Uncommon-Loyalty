@@ -20,8 +20,9 @@ struct Profile: View {
                         .background(.green)
                         .foregroundColor(.white)
                 })
-        }.navigationTitle("")
-            .navigationBarHidden(true)
+        }
+//        }.navigationTitle("")
+//            .navigationBarHidden(true)
     }
 }
 

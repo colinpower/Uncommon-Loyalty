@@ -38,17 +38,17 @@ struct RewardsProgramWidget: View {
 //                Image(systemName: "person.crop.circle")
 //                    .foregroundColor(.black)
 //                    .font(.system(size: 30))
-                Text(companyName).font(.headline)
-                    .foregroundColor(Color.black.opacity(0.7))
-                Spacer()
-                VStack(alignment: .trailing) {
-                    Text(String(currentPointsBalance) + " Points")
-                        .font(.body)
-                        .foregroundColor(Color.black)
-                    Text(status == "None" ? "" : String(status) + " Status")
+                VStack(alignment: .leading) {
+                    Text(companyName).font(.headline)
+                        .foregroundColor(Color.black.opacity(0.7))
+                    Text(status == "None" ? "" : String(status))
                         .font(.footnote)
                         .foregroundColor(Color.black.opacity(0.5))
                 }
+                Spacer()
+                Text(String(currentPointsBalance) + " pts")
+                    .font(.body)
+                    .foregroundColor(Color.black)
             }
         }
         .padding()
