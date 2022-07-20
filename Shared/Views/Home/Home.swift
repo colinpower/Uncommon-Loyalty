@@ -21,6 +21,11 @@ struct Home: View {
                     Text("Rewards").font(.system(size: 24)).foregroundColor(Color.black)
                     //Text("Rewards").font(.system(size: 24)).foregroundColor(Color(red: 0.82, green: 0.72, blue: 0.58))
                     Spacer()
+                    NavigationLink(destination: AddCompanyPreview()) {
+                        Image(systemName: "plus.circle.fill")
+                            .font(.system(size: 30))
+                        }
+                    
 //                    Image(systemName: "person.crop.circle")
 //                        .foregroundColor(.black)
 //                        .font(.system(size: 30))

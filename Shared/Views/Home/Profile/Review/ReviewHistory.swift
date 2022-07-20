@@ -28,7 +28,7 @@ struct ReviewHistory: View {
         
         }.padding(.top, 24)
         .padding(.horizontal, 24)
-        .navigationBarTitle("Orders", displayMode: .inline)
+        .navigationBarTitle("", displayMode: .inline)
         .onAppear{
             //need to make a call to get the list of orders for this user, which are available to be reviewed
             self.ordersViewModel.listenForMyOrders(email: "colinjpower1@gmail.com", companyID: companyID)
@@ -83,7 +83,7 @@ struct ReviewItem: View {
             } else {
                 
                 NavigationLink(
-                    destination: ReviewProduct(companyID: companyID, email: email, orderID: orderID, userID: userID),
+                    destination: ReviewProductPreview(companyID: companyID, email: email, orderID: orderID, userID: userID),
                     label: {
                         Text("Add review")
                             .font(.subheadline)

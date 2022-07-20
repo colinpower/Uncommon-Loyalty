@@ -74,11 +74,11 @@ struct CompanyProfileV2: View {
                     .padding(.all, 12)
                 MyDiscounts(shortDescription: "Use this code at checkout for $10 off any item", discountCode: "COLIN123")
                     .padding(.all, 12)
-                YourOrders()
+                YourOrders(companyID: companyID, companyName: companyName, email: email, userID: userID)
                     .padding(.all, 12)   //need to pass in viewModel4 (Orders observed object)
                     
             }
-        }.navigationBarTitle(companyName, displayMode: .inline)
+        }.navigationBarTitle("", displayMode: .inline)
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     //this is a hack to get a navigationlink inside a toolbarItem
@@ -94,6 +94,7 @@ struct CompanyProfileV2: View {
                     }
                 }
             }
+        
         .onAppear {
             self.viewModel1.listenForOneRewardsProgram(email: "colinjpower1@gmail.com", companyID: companyID)
             self.viewModel2.listenForMyDiscountCodes(email: "colinjpower1@gmail.com", companyID: companyID)
@@ -312,6 +313,11 @@ struct MyDiscounts: View {
 ////                }
 struct YourOrders: View {
     
+    var companyID: String
+    var companyName: String
+    var email: String
+    var userID: String
+    
     var body: some View {
         VStack {
             HStack {
@@ -341,15 +347,15 @@ struct YourOrders: View {
                         .foregroundColor(.gray)
                 }
                 Spacer()
-                NavigationLink(
-                    destination: ReviewProduct(companyID: "123", email: "colin123", orderID: "123", userID: "asdlkfas"),
-                    label: {
-                        Text("Review")
-                            .font(.body)
-                            .fontWeight(.medium)
-                            .foregroundColor(.blue)
-                            .padding(.trailing, 8)
-                    })
+//                NavigationLink(
+//                    destination: ReviewProductPreview(companyID: companyID, email: email, orderID: "123", userID: userID),
+//                    label: {
+//                        Text("Review")
+//                            .font(.body)
+//                            .fontWeight(.medium)
+//                            .foregroundColor(.blue)
+//                            .padding(.trailing, 8)
+//                    })
                 
             }
         }

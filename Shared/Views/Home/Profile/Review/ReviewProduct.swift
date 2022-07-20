@@ -18,6 +18,7 @@ struct ReviewProduct: View {
     var orderID: String
     var userID: String
     
+    @Binding var showingReviewProductScreen: Bool
     
     @State var rating: Int = 0
     @State private var title:String = ""
@@ -114,7 +115,7 @@ struct ReviewProduct: View {
                 HStack {
                     Spacer()
                     Button(action: {
-                        viewModel4.addReview(companyID: companyID, reviewDetails: details, email: "colinjpower1@gmail.com", orderID: orderID, reviewRating: rating, reviewTitle: title, userID: userID)
+                        viewModel4.addReview(companyID: companyID, reviewDetails: details, email: email, orderID: orderID, reviewRating: rating, reviewTitle: title, userID: userID)
                     }) {
                         Text("Submit")
                             .foregroundColor(rating == 0 ? Color.white.opacity(0.4) : Color.white)
@@ -140,8 +141,8 @@ struct ReviewProduct: View {
 
 
 
-struct ReviewProduct_Previews: PreviewProvider {
-    static var previews: some View {
-        ReviewProduct(companyID: "zKL7SQ0jRP8351a0NnHM", email: "colinjpower1@gmail.com", orderID: "temp Order ID", userID: "temp user ID")
-    }
-}
+//struct ReviewProduct_Previews: PreviewProvider {
+//    static var previews: some View {
+//        ReviewProduct(companyID: "zKL7SQ0jRP8351a0NnHM", email: "colinjpower1@gmail.com", orderID: "temp Order ID", userID: "temp user ID")
+//    }
+//}
