@@ -8,6 +8,10 @@
 import SwiftUI
 
 struct AddCompanyPreview: View {
+    
+    @Binding var isAddCompanyPreviewShown : Bool
+    @State private var companies = ["Company A", "Company B"]
+    
     var body: some View {
         VStack {
             NavigationLink(destination: AddCompany()) {
@@ -23,6 +27,6 @@ struct AddCompanyPreview: View {
 
 struct AddCompanyPreview_Previews: PreviewProvider {
     static var previews: some View {
-        AddCompanyPreview()
+        AddCompanyPreview(isAddCompanyPreviewShown: .constant(true))
     }
 }

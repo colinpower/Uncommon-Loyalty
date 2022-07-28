@@ -11,6 +11,9 @@ struct Profile: View {
     
     @EnvironmentObject var viewModel: AppViewModel
     
+    @Binding var selectedTab: Int
+    
+    
     var body: some View {
         VStack {
             Button(action: {
@@ -20,7 +23,9 @@ struct Profile: View {
                         .background(.green)
                         .foregroundColor(.white)
                 })
+            TabView(selectedTab: $selectedTab)
         }
+        
 //        }.navigationTitle("")
 //            .navigationBarHidden(true)
     }
@@ -28,6 +33,6 @@ struct Profile: View {
 
 struct Profile_Previews: PreviewProvider {
     static var previews: some View {
-        Profile()
+        Profile(selectedTab: .constant(3))
     }
 }

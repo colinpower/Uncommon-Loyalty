@@ -28,6 +28,9 @@
 //https://www.youtube.com/watch?v=Bb66vdrS454
 
 
+//really helpful series from Rebeloper on how to do this
+//https://www.youtube.com/watch?v=CXClHeZNlAE&list=PL_csAAO9PQ8aanonTKCoEB7J4YoxPdz2G&index=2
+
 
 
 //if i decide to do email / pw / verification email
@@ -100,18 +103,17 @@ struct LoginView: View {
     
     var body: some View {
         VStack {
-            Image(systemName: "pencil.circle")
-                .font(.system(size: 150))
             VStack {
                 TextField("Email Address", text: $email)
                     .padding()
                 SecureField("Password", text: $password)
                     .padding()
-                
+
                 Button {
-                    guard !email.isEmpty, !password.isEmpty else {
+                    guard !email.isEmpty else {
                         return
                     }
+                    
                     viewModel.signIn(email: email, password: password)
                 } label: {
                     Text("Sign In")
@@ -149,7 +151,7 @@ struct SignUpView: View {
                     guard !email.isEmpty, !password.isEmpty else {
                         return
                     }
-                    viewModel.signUp(email: email, password: password)
+                    //viewModel.signUp(email: email, password: password)
                 } label: {
                     Text("Create Account")
                         .frame(width: 200, height: 50, alignment: .center)

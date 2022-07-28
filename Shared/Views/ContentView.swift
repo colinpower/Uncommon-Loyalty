@@ -23,44 +23,18 @@ struct ContentView: View {
       }
     
     //Use this var to determine which tab is default
-    @State private var defaultTab = 1
+    @State var selectedTab: Int = 1
     
     var body: some View {
         VStack {
             if viewModel.signedIn {
             
-                TabView(selection: $defaultTab) {
-                    Home()
-                        .tabItem {
-                            Image(systemName: "house")
-                                .renderingMode(.template)
-                            Text("Home")
-                        }.tag(1)
-                    Feed()
-                        .tabItem {
-                            Image(systemName: "newspaper")
-                                .renderingMode(.template)
-                            Text("Feed")
-                        }.tag(2)
-                    
-                    Feedback()
-                        .tabItem {
-                            Image(systemName: "newspaper")
-                                .renderingMode(.template)
-                            Text("Feedback")
-                        }.tag(3)
-//                    Messages()
-//                        .tabItem {
-//                            Image(systemName: "message")
-//                                .renderingMode(.template)
-//                            Text("Messages")
-//                        }.tag(3)
-                    Profile()
-                        .tabItem {
-                            Image(systemName: "person.fill")
-                                .renderingMode(.template)
-                            Text("Profile")
-                        }.tag(4)
+                if selectedTab == 1 {
+                    Home(selectedTab: $selectedTab)
+                } else if selectedTab == 2 {
+                    Feed(selectedTab: $selectedTab)
+                } else if selectedTab == 3 {
+                    Profile(selectedTab: $selectedTab)
                 }
             } else {
                 LoginView()
@@ -70,6 +44,17 @@ struct ContentView: View {
 //            .navigationBarHidden(true)
         .onAppear {
             viewModel.signedIn = viewModel.isSignedIn
+            print("the sign in state is...  \(String(viewModel.isSignedIn))")
+//            AuthStateDidChangeListenerHandle = Auth.auth().addStateDidChangeListener({ (auth, user) in
+//                if user == nil {
+//                    //we are not signed in
+//                    print("not signed in yet")
+//
+//                } else {
+//                    //we do have a signed in user
+//                }
+//            })
+            
         }
     }
 }
