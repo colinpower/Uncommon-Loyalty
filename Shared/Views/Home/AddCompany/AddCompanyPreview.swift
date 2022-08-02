@@ -9,7 +9,7 @@ import SwiftUI
 
 struct AddCompanyPreview: View {
     
-    @Binding var isAddCompanyPreviewShown : Bool
+    @Binding var isAddCompanyPreviewActive : Bool
     @State private var companies = ["Company A", "Company B"]
     
     var body: some View {
@@ -27,6 +27,6 @@ struct AddCompanyPreview: View {
 
 struct AddCompanyPreview_Previews: PreviewProvider {
     static var previews: some View {
-        AddCompanyPreview(isAddCompanyPreviewShown: .constant(true))
+        AddCompanyPreview(isAddCompanyPreviewActive: .constant(true))
     }
 }

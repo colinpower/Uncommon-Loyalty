@@ -51,9 +51,9 @@ struct RewardsProgramWidget: View {
                     .foregroundColor(Color.black)
             }
         }
-        .padding()
-        .background(RoundedRectangle(cornerRadius: 5).fill(status == "Silver" ? Color.white: Color.white))
-        .padding(.horizontal, 12)
+//        .padding()
+//        .background(RoundedRectangle(cornerRadius: 5).fill(status == "Silver" ? Color.white: Color.white))
+//        .padding(.horizontal, 12)
     }
 }
 

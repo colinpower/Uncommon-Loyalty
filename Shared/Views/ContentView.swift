@@ -28,14 +28,14 @@ struct ContentView: View {
     var body: some View {
         VStack {
             if viewModel.signedIn {
-            
-                if selectedTab == 1 {
-                    Home(selectedTab: $selectedTab)
-                } else if selectedTab == 2 {
-                    Feed(selectedTab: $selectedTab)
-                } else if selectedTab == 3 {
-                    Profile(selectedTab: $selectedTab)
-                }
+                Home()
+//                if selectedTab == 1 {
+//                    Home(selectedTab: $selectedTab)
+//                } else if selectedTab == 2 {
+//                    Feed(selectedTab: $selectedTab)
+//                } else if selectedTab == 3 {
+//                    Profile(selectedTab: $selectedTab)
+//                }
             } else {
                 LoginView()
             }

@@ -9,7 +9,7 @@ import SwiftUI
 
 struct ReviewProductCarousel2: View {
     
-    @Binding var showingReviewProductScreen: Bool
+    //@Binding var showingReviewProductScreen: Bool
     
     var body: some View {
         Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
@@ -18,6 +18,6 @@ struct ReviewProductCarousel2: View {
 
 struct ReviewProductCarousel2_Previews: PreviewProvider {
     static var previews: some View {
-        ReviewProductCarousel2(showingReviewProductScreen: .constant(true))
+        ReviewProductCarousel2()
     }
 }
