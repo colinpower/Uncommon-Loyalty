@@ -53,7 +53,7 @@ struct Profile: View {
                                         Spacer()
                                         Image(systemName: "person.crop.circle")
                                             .foregroundColor(Color("Dark1"))
-                                            .font(.system(size: 100))
+                                            .font(.system(size: 80))
                                         Spacer()
                                     }.padding(.top)
                                     Text("Colin Power")
@@ -64,31 +64,31 @@ struct Profile: View {
                                         .font(.system(size: 18))
                                         .fontWeight(.regular)
                                         .foregroundColor(Color("Gray1"))
-                                    Text("(617) 777-2994)")
-                                        .font(.system(size: 18))
-                                        .fontWeight(.regular)
-                                        .foregroundColor(Color("Gray1"))
+//                                    Text("(617) 777-2994)")
+//                                        .font(.system(size: 18))
+//                                        .fontWeight(.regular)
+//                                        .foregroundColor(Color("Gray1"))
                                     
-                                    Button {
-                                        //isAddCompanyPreviewActive.toggle()
-                                    } label: {
-                                        HStack {
-                                            Spacer()
-                                            Text("Edit Profile")
-                                                .font(.system(size: 18))
-                                                .fontWeight(.semibold)
-                                                .foregroundColor(Color("Dark1"))
-                                                .padding(.vertical)
-                                            Spacer()
-                                        }
-                                        .background(RoundedRectangle(cornerRadius: 32).foregroundColor(Color(red: 244/255, green: 244/255, blue: 244/255)))
-                                        .padding(.horizontal)
-                                        .padding(.vertical)
-                                    }
+//                                    Button {
+//                                        //isAddCompanyPreviewActive.toggle()
+//                                    } label: {
+//                                        HStack {
+//                                            Spacer()
+//                                            Text("Edit Profile")
+//                                                .font(.system(size: 18))
+//                                                .fontWeight(.semibold)
+//                                                .foregroundColor(Color("Dark1"))
+//                                                .padding(.vertical)
+//                                            Spacer()
+//                                        }
+//                                        .background(RoundedRectangle(cornerRadius: 32).foregroundColor(Color(red: 244/255, green: 244/255, blue: 244/255)))
+//                                        .padding(.horizontal)
+//                                        .padding(.vertical)
+//                                    }
     //                                    .sheet(isPresented: $isAddCompanyPreviewActive, content: {
     //                                        AddCompanyPreview(isAddCompanyPreviewActive: $isAddCompanyPreviewActive)
     //                                    })
-                                }
+                                }.padding(.bottom)
                                 .background(RoundedRectangle(cornerRadius: 8).foregroundColor(.white))
                                     .padding()
                                 

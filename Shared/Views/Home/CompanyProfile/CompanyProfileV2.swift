@@ -37,14 +37,15 @@ struct CompanyProfileV2: View {
     
     @State private var hasDiscountsCreated = false
     
-    var colorToShow: Color {
+    var colorToShow: [Color] {
         switch viewModel1.oneRewardsProgram.first?.status {
             case "Gold":
-                return Color(red: 114/255, green: 101/255, blue: 82/255)
+                //Foreground, background, primary text, secondary text
+                return [Color("Gold1"), Color("Gold2"), Color(.white), Color("Background")]
             case "Silver":
-                return Color.gray
+                return [Color.gray]
             default:
-                return Color.blue
+                return [Color(.white), Color("Background"), Color("Dark1"), Color("Gray1")]
         }
     }
     
@@ -52,6 +53,7 @@ struct CompanyProfileV2: View {
     
     //Variables for modifying this page
     @State var rewards: Double = 0
+    
     
     
     let discounts: [String] = ["COLIN-GOLD-1", "COLIN-GOLD-2", "COLIN-REFER"]
@@ -63,22 +65,301 @@ struct CompanyProfileV2: View {
     
     
     var body: some View {
-        ScrollView {
-            VStack {
-                ProfileHeader(companyID: companyID, companyName: companyName, email: email, userID: userID)
-                    .padding(.horizontal, 12)
-                    .padding(.top, 12)
-                Divider()
-                ProfileRewardsBalance(progressValue: $progressValue, currentPointsBalance: viewModel1.oneRewardsProgram.first?.currentPointsBalance ?? 0, companyName: "Athleisure LA", companyID: companyID, showingDiscountScreen: $showingDiscountScreen)
-                    .padding(.top, 12)
-                    .padding(.all, 12)
-                MyDiscounts(shortDescription: "Use this code at checkout for $10 off any item", discountCode: "COLIN123")
-                    .padding(.all, 12)
-                YourOrders(companyID: companyID, companyName: companyName, email: email, userID: userID)
-                    .padding(.all, 12)   //need to pass in viewModel4 (Orders observed object)
+        GeometryReader { geometry in
+            ZStack(alignment: .top) {
+                //Background color
+                //Color(red: 244/255, green: 244/255, blue: 244/255)
+                //Color("Background")
+                //Color("Gold2")
+                colorToShow[1]
+                   
+                //Body
+                ScrollView(.vertical, showsIndicators: false) {
                     
+                    VStack {
+                        //Points + Convert (top section)
+                        VStack(alignment: .leading, spacing: 8) {
+                            //Balance + tier
+                            HStack(alignment: .top){
+                                VStack (alignment: .leading){
+                                    Text("Points Balance")
+                                        .font(.system(size: 16))
+                                        .fontWeight(.semibold)
+                                        .foregroundColor(Color("Dark1"))
+                                    Text("825")
+                                        .font(.system(size: 40))
+                                        .fontWeight(.semibold)
+                                        .foregroundColor(Color("Dark1"))
+                                }
+                                Spacer()
+                                Button {
+                                    //navigate to the "understand tiers" page
+                                } label: {
+                                    VStack{
+                                        HStack {
+                                            Text("450 to Platinum")
+                                                .font(.system(size: 14))
+                                                .fontWeight(.regular)
+                                                .foregroundColor(Color("Gray1"))
+                                            Image(systemName: "chevron.right")
+                                                .foregroundColor(Color("Gray2"))
+                                                .font(Font.system(size: 12, weight: .bold))
+                                        }.padding(.top, 2)
+                                    }
+                                }
+                            }.padding(.bottom)
+                            .padding(.bottom)
+                            HStack (alignment: .center, spacing: 16) {
+                                Button {
+                                    //trigger convert points
+                                } label: {
+                                    HStack {
+                                        Spacer()
+                                        Text("Redeem")
+                                            .font(.system(size: 18))
+                                            .fontWeight(.semibold)
+                                            .foregroundColor(Color("Dark1"))
+                                        Spacer()
+                                    }.padding(.vertical, 12)
+                                    .background(RoundedRectangle(cornerRadius: 32).foregroundColor(Color(red: 244/255, green: 244/255, blue: 244/255)))
+                                }
+                                Button {
+                                    //open website
+                                } label: {
+                                    HStack {
+                                        Spacer()
+                                        Text("Go to site")
+                                            .font(.system(size: 18))
+                                            .fontWeight(.semibold)
+                                            .foregroundColor(Color("Dark1"))
+                                        Spacer()
+                                    }.padding(.vertical, 12)
+                                    .background(RoundedRectangle(cornerRadius: 32).foregroundColor(Color(red: 244/255, green: 244/255, blue: 244/255)))
+                                }
+
+                            }
+                        }.padding()
+                        .background(RoundedRectangle(cornerRadius: 16).foregroundColor(.white))
+                        .padding(.horizontal)
+                        .padding(.bottom)
+                        
+                        //Discount codes (if any are available)
+                        VStack(alignment: .leading) {
+                            HStack {
+                                Text("Your Discount Codes")
+                                    .font(.system(size: 18))
+                                    .fontWeight(.semibold)
+                                    .foregroundColor(Color("Dark1"))
+                                Spacer()
+                            }
+                            //FOR EACH DISCOUNT CODE, SHOW IT HERE
+                            ForEach(viewModel2.myDiscountCodes.prefix(2)) { DiscountCode in
+                                HStack {
+                                    Image(systemName: "plus.circle.fill")
+                                        .foregroundColor(.blue)
+                                        .font(.system(size: 40))
+                                    VStack(alignment: .leading, spacing: 3) {
+                                        Text("Invite friends")
+                                            .font(.system(size: 16))
+                                            .fontWeight(.semibold)
+                                            .foregroundColor(Color("Dark1"))
+                                        Text("Get 500 points")
+                                            .font(.system(size: 16))
+                                            .fontWeight(.regular)
+                                            .foregroundColor(Color("Gray2"))
+                                    }
+                                    Spacer()
+                                    Image(systemName: "chevron.right")
+                                        .foregroundColor(Color("Gray3"))
+                                        .font(Font.system(size: 15, weight: .semibold))
+                                }.padding(.vertical)
+                                
+                            }
+                            HStack {
+                                Spacer()
+                                Text("See all")
+                                    .font(.system(size: 16))
+                                    .fontWeight(.semibold)
+                                    .foregroundColor(Color.blue)
+                                Spacer()
+                            }
+                        }.padding()
+                        .background(RoundedRectangle(cornerRadius: 8).foregroundColor(.white))
+                        .padding(.horizontal)
+                        .padding(.bottom)
+                        
+                        //Suggested Reviews / Referrals
+                        ScrollView (.horizontal, showsIndicators: false) {
+                            HStack{
+                                RoundedRectangle(cornerRadius: 16)
+                                    .foregroundColor(Color("Gray3"))
+                                    .frame(width: geometry.size.width/3*2, height: 120)
+                                RoundedRectangle(cornerRadius: 16)
+                                    .foregroundColor(Color("Gray3"))
+                                    .frame(width: geometry.size.width/3*2, height: 120)
+                                RoundedRectangle(cornerRadius: 16)
+                                    .foregroundColor(Color("Gray3"))
+                                    .frame(width: geometry.size.width/3*2, height: 120)
+                            }.padding(.horizontal)
+                                .padding(.bottom)
+                        }
+                        
+                        //Activity
+                        VStack(alignment: .leading) {
+                            HStack {
+                                Text("Recent Activity")
+                                    .font(.system(size: 18))
+                                    .fontWeight(.semibold)
+                                    .foregroundColor(Color("Dark1"))
+                                Spacer()
+                            }
+                            //FOR EACH DISCOUNT CODE, SHOW IT HERE
+                            ForEach(viewModel2.myDiscountCodes.prefix(3)) { DiscountCode in
+                                HStack {
+                                    Image(systemName: "plus.circle.fill")
+                                        .foregroundColor(.blue)
+                                        .font(.system(size: 40))
+                                    VStack(alignment: .leading, spacing: 3) {
+                                        Text("Invite friends")
+                                            .font(.system(size: 16))
+                                            .fontWeight(.semibold)
+                                            .foregroundColor(Color("Dark1"))
+                                        Text("Get 500 points")
+                                            .font(.system(size: 16))
+                                            .fontWeight(.regular)
+                                            .foregroundColor(Color("Gray2"))
+                                    }
+                                    Spacer()
+                                    Image(systemName: "chevron.right")
+                                        .foregroundColor(Color("Gray3"))
+                                        .font(Font.system(size: 15, weight: .semibold))
+                                }.padding(.vertical)
+                                
+                            }
+                            HStack {
+                                Spacer()
+                                Text("See all")
+                                    .font(.system(size: 16))
+                                    .fontWeight(.semibold)
+                                    .foregroundColor(Color.blue)
+                                Spacer()
+                            }
+                        }.padding()
+                        .background(RoundedRectangle(cornerRadius: 8).foregroundColor(.white))
+                        .padding(.horizontal)
+                        .padding(.bottom)
+                        
+                        //Links + Additional info
+                        HStack {
+                            Text("MORE INFO").kerning(1.2)
+                                .font(.system(size: 13))
+                                .fontWeight(.medium)
+                                .foregroundColor(Color("Gray1"))
+                            Spacer()
+                        }.padding(.horizontal)
+                            .padding(.top)
+                        VStack {
+                            //Name
+                            HStack {
+                                Image(systemName: "person.fill")
+                                    .foregroundColor(Color("Dark1"))
+                                    .font(.system(size: 20))
+                                    .frame(width: 40)
+                                Text("Name")
+                                    .font(.system(size: 16))
+                                    .fontWeight(.semibold)
+                                    .foregroundColor(Color("Dark1"))
+                                Spacer()
+                                Image(systemName: "chevron.right")
+                                    .foregroundColor(Color("Gray3"))
+                                    .font(Font.system(size: 15, weight: .semibold))
+                            }.padding(.bottom)
+                                .padding(.bottom)
+                            //Email Address
+                            HStack {
+                                Image(systemName: "envelope.fill")
+                                    .foregroundColor(Color("Dark1"))
+                                    .font(.system(size: 20))
+                                    .frame(width: 40)
+                                Text("Email address")
+                                    .font(.system(size: 16))
+                                    .fontWeight(.semibold)
+                                    .foregroundColor(Color("Dark1"))
+                                Spacer()
+                                Image(systemName: "chevron.right")
+                                    .foregroundColor(Color("Gray3"))
+                                    .font(Font.system(size: 15, weight: .semibold))
+                            }.padding(.bottom)
+                                .padding(.bottom)
+                            
+                            //Notifications
+                            HStack {
+                                Image(systemName: "bell.fill")
+                                    .foregroundColor(Color("Dark1"))
+                                    .font(.system(size: 20))
+                                    .frame(width: 40)
+                                Text("Notifications")
+                                    .font(.system(size: 16))
+                                    .fontWeight(.semibold)
+                                    .foregroundColor(Color("Dark1"))
+                                Spacer()
+                                Image(systemName: "chevron.right")
+                                    .foregroundColor(Color("Gray3"))
+                                    .font(Font.system(size: 15, weight: .semibold))
+                            }.padding(.bottom)
+                                .padding(.bottom)
+                            
+                            //Help
+                            HStack {
+                                Image(systemName: "questionmark.circle.fill")
+                                    .foregroundColor(Color("Dark1"))
+                                    .font(.system(size: 20))
+                                    .frame(width: 40)
+                                Text("Get help")
+                                    .font(.system(size: 16))
+                                    .fontWeight(.semibold)
+                                    .foregroundColor(Color("Dark1"))
+                                Spacer()
+                                Image(systemName: "chevron.right")
+                                    .foregroundColor(Color("Gray3"))
+                                    .font(Font.system(size: 15, weight: .semibold))
+                            }
+                        }
+                        .padding()
+                        .background(.white)
+                        .padding(.bottom)
+                        
+                        
+                    }.padding(.vertical)
+                }
             }
-        }.navigationBarTitle("", displayMode: .inline)
+                    
+
+            
+            
+            
+            
+            
+            
+            //            VStack {
+                
+                
+//                ProfileHeader(companyID: companyID, companyName: companyName, email: email, userID: userID)
+//                    .padding(.horizontal, 12)
+//                    .padding(.top, 12)
+//                Divider()
+//                ProfileRewardsBalance(progressValue: $progressValue, currentPointsBalance: viewModel1.oneRewardsProgram.first?.currentPointsBalance ?? 0, companyName: "Athleisure LA", companyID: companyID, showingDiscountScreen: $showingDiscountScreen)
+//                    .padding(.top, 12)
+//                    .padding(.all, 12)
+//                MyDiscounts(shortDescription: "Use this code at checkout for $10 off any item", discountCode: "COLIN123")
+//                    .padding(.all, 12)
+//                YourOrders(companyID: companyID, companyName: companyName, email: email, userID: userID)
+//                    .padding(.all, 12)   //need to pass in viewModel4 (Orders observed object)
+                    
+//            }
+        }.ignoresSafeArea(.container, edges: [.horizontal, .bottom])
+        .navigationBarTitle("Athleisure Gold", displayMode: .inline)
+        
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     //this is a hack to get a navigationlink inside a toolbarItem

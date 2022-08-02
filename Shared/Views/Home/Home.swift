@@ -77,7 +77,8 @@ struct Home: View {
                                     }.sheet(isPresented: $isAddCompanyPreviewActive, content: {
                                         AddCompanyPreview(isAddCompanyPreviewActive: $isAddCompanyPreviewActive)
                                     })
-                                }.padding()
+                                }.padding(.top)
+                                    .padding(.horizontal)
                                 
                                 //Body
                                 VStack {
@@ -147,7 +148,7 @@ struct Home: View {
                                             .font(.system(size: 16))
                                             .fontWeight(.semibold)
                                             .foregroundColor(Color("Dark1"))
-                                        Text("Which stores should we add?")
+                                        Text("Which stores should we add next?")
                                             .font(.system(size: 16))
                                             .fontWeight(.regular)
                                             .foregroundColor(Color("Gray2"))
@@ -159,7 +160,7 @@ struct Home: View {
                                 }.padding(.bottom)
                                 //Send feedback
                                 HStack {
-                                    Image(systemName: "quote.bubble.fill")
+                                    Image(systemName: "bubble.left.circle.fill")
                                         .foregroundColor(.blue)
                                         .font(.system(size: 40))
                                     VStack(alignment: .leading, spacing: 2) {
@@ -167,7 +168,7 @@ struct Home: View {
                                             .font(.system(size: 16))
                                             .fontWeight(.semibold)
                                             .foregroundColor(Color("Dark1"))
-                                        Text("We'll respond really quickly!")
+                                        Text("We respond super fast!")
                                             .font(.system(size: 16))
                                             .fontWeight(.regular)
                                             .foregroundColor(Color("Gray2"))

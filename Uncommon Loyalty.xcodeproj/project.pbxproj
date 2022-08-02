@@ -347,9 +347,9 @@
 		30C8102228878672004B1DA7 /* CompanyProfile */ = {
 			isa = PBXGroup;
 			children = (
-				30C8101D28877BEF004B1DA7 /* Discount */,
 				304DC88827F3578200E30DCA /* CompanyProfileV2.swift */,
 				3014FA7627965E5200473CE4 /* CompanyRewardsProgramDetails.swift */,
+				30C8101D28877BEF004B1DA7 /* Discount */,
 				30C8101E28877BFB004B1DA7 /* Refer */,
 				30C8101F28877C0A004B1DA7 /* Review */,
 			);
