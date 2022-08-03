@@ -14,10 +14,9 @@ struct Home: View {
     @ObservedObject var viewModel1 = RewardsProgramViewModel()
     
     @State var isAddCompanyPreviewActive:Bool = false
-    @State var isTestPreviewShown:Bool = false
-    
     @State var isProfileActive:Bool = false
-    @State var isAddProgramActive:Bool = false
+    @State var isSendFeedbackActive:Bool = false
+    
     
     @State var x : [CGFloat] = [0, 0, 0, 0, 0, 0]
     @State var colorbg : [Color] = [Color.red, Color.orange, Color.yellow, Color.green, Color.blue, Color.purple]
@@ -51,8 +50,7 @@ struct Home: View {
                                 Profile(isProfileActive: $isProfileActive)
                             })
                         }.padding(.top, 48)
-                        .padding()
-                        .background(Color(red: 244/255, green: 244/255, blue: 244/255))
+                            .padding()
                         
                         ScrollView(.vertical, showsIndicators: false) {
                             //My programs section
@@ -127,10 +125,11 @@ struct Home: View {
                                     .padding(.bottom)
                             }
                             
-                            
+                            Spacer()
+                            Spacer()
                             //MAKE US BETTER
                             HStack {
-                                Text("MAKE US BETTER").kerning(1.2)
+                                Text("HELP US IMPROVE").kerning(1.2)
                                     .font(.system(size: 13))
                                     .fontWeight(.medium)
                                     .foregroundColor(Color("Gray1"))
@@ -139,51 +138,61 @@ struct Home: View {
                                 .padding(.top)
                             VStack{
                                 //Suggest new store
-                                HStack {
-                                    Image(systemName: "building.2.crop.circle.fill")
-                                        .foregroundColor(.blue)
-                                        .font(.system(size: 40))
-                                    VStack(alignment: .leading, spacing: 2) {
-                                        Text("Suggest a store")
-                                            .font(.system(size: 16))
-                                            .fontWeight(.semibold)
-                                            .foregroundColor(Color("Dark1"))
-                                        Text("Which stores should we add next?")
-                                            .font(.system(size: 16))
-                                            .fontWeight(.regular)
-                                            .foregroundColor(Color("Gray2"))
-                                    }
-                                    Spacer()
-                                    Image(systemName: "chevron.right")
-                                        .foregroundColor(Color("Gray3"))
-                                        .font(Font.system(size: 15, weight: .semibold))
-                                }.padding(.bottom)
-                                //Send feedback
-                                HStack {
-                                    Image(systemName: "bubble.left.circle.fill")
-                                        .foregroundColor(.blue)
-                                        .font(.system(size: 40))
-                                    VStack(alignment: .leading, spacing: 2) {
-                                        Text("Send feedback")
-                                            .font(.system(size: 16))
-                                            .fontWeight(.semibold)
-                                            .foregroundColor(Color("Dark1"))
-                                        Text("We respond super fast!")
-                                            .font(.system(size: 16))
-                                            .fontWeight(.regular)
-                                            .foregroundColor(Color("Gray2"))
-                                    }
-                                    Spacer()
-                                    Image(systemName: "chevron.right")
-                                        .foregroundColor(Color("Gray3"))
-                                        .font(Font.system(size: 15, weight: .semibold))
+                                NavigationLink(destination: SuggestAShopPreview()) {
+                                    HStack {
+                                        Image(systemName: "building.2.crop.circle.fill")
+                                            .foregroundColor(.blue)
+                                            .font(.system(size: 40))
+                                        VStack(alignment: .leading, spacing: 2) {
+                                            Text("Suggest a shop")
+                                                .font(.system(size: 16))
+                                                .fontWeight(.semibold)
+                                                .foregroundColor(Color("Dark1"))
+                                            Text("Which shops should we add next?")
+                                                .font(.system(size: 16))
+                                                .fontWeight(.regular)
+                                                .foregroundColor(Color("Gray2"))
+                                        }
+                                        Spacer()
+                                        Image(systemName: "chevron.right")
+                                            .foregroundColor(Color("Gray3"))
+                                            .font(Font.system(size: 15, weight: .semibold))
+                                    }.padding(.bottom)
                                 }
+                                
+                                //Send feedback
+                                Button {
+                                    isSendFeedbackActive.toggle()
+                                } label: {
+                                    HStack {
+                                        Image(systemName: "bubble.left.circle.fill")
+                                            .foregroundColor(.blue)
+                                            .font(.system(size: 40))
+                                        VStack(alignment: .leading, spacing: 2) {
+                                            Text("Send feedback")
+                                                .font(.system(size: 16))
+                                                .fontWeight(.semibold)
+                                                .foregroundColor(Color("Dark1"))
+                                            Text("We respond super fast!")
+                                                .font(.system(size: 16))
+                                                .fontWeight(.regular)
+                                                .foregroundColor(Color("Gray2"))
+                                        }
+                                        Spacer()
+                                        Image(systemName: "chevron.right")
+                                            .foregroundColor(Color("Gray3"))
+                                            .font(Font.system(size: 15, weight: .semibold))
+                                    }
+                                }.fullScreenCover(isPresented: $isSendFeedbackActive) {
+                                    SendFeedback(isSendFeedbackActive: $isSendFeedbackActive)
+                                }
+
+                                
+                                
                                     
                             }.padding(.horizontal, 12)
                             .padding(.vertical)
                             .background(.white)
-                            .padding(.bottom)
-                            
                         }
                     }
                 }

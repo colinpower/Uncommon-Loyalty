@@ -15,6 +15,8 @@ import SwiftUI
 struct CompanyProfileV2: View {
     
     
+    @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
+    
     //Variables received from HomeView
     var companyID: String
     var companyName: String
@@ -40,26 +42,21 @@ struct CompanyProfileV2: View {
     var colorToShow: [Color] {
         switch viewModel1.oneRewardsProgram.first?.status {
             case "Gold":
-                //Foreground, background, primary text, secondary text
-                return [Color("Gold1"), Color("Gold2"), Color(.white), Color("Background")]
+                //Primary Rewards Color, Primary Text on Primary Color, Secondary Text on Primary Color, Button Background, Primary Button Color
+                return [Color("Gold1"), Color(.white), Color("Gold2"), Color("Gold2").opacity(0.25), Color("Gold1")]
             case "Silver":
-                return [Color.gray]
+                return [Color(.white), Color("Dark1"), Color("Gray1"), Color("Background"), Color.blue]
             default:
-                return [Color(.white), Color("Background"), Color("Dark1"), Color("Gray1")]
+                return [Color(.white), Color("Dark1"), Color("Gray1"), Color("Background"), Color.blue]
         }
     }
-    
-    
     
     //Variables for modifying this page
     @State var rewards: Double = 0
     
-    
-    
     let discounts: [String] = ["COLIN-GOLD-1", "COLIN-GOLD-2", "COLIN-REFER"]
     let history: [String] = ["T shirt", "Sweatshirt", "Watch"]
 
-    
     // largeTitle, title, headline, body, caption
     // https://developer.apple.com/documentation/swiftui/foreach
     
@@ -68,11 +65,8 @@ struct CompanyProfileV2: View {
         GeometryReader { geometry in
             ZStack(alignment: .top) {
                 //Background color
-                //Color(red: 244/255, green: 244/255, blue: 244/255)
-                //Color("Background")
-                //Color("Gold2")
-                colorToShow[1]
-                   
+                Color("Background")
+                
                 //Body
                 ScrollView(.vertical, showsIndicators: false) {
                     
@@ -85,11 +79,11 @@ struct CompanyProfileV2: View {
                                     Text("Points Balance")
                                         .font(.system(size: 16))
                                         .fontWeight(.semibold)
-                                        .foregroundColor(Color("Dark1"))
+                                        .foregroundColor(colorToShow[1])
                                     Text("825")
                                         .font(.system(size: 40))
                                         .fontWeight(.semibold)
-                                        .foregroundColor(Color("Dark1"))
+                                        .foregroundColor(colorToShow[1])
                                 }
                                 Spacer()
                                 Button {
@@ -100,9 +94,9 @@ struct CompanyProfileV2: View {
                                             Text("450 to Platinum")
                                                 .font(.system(size: 14))
                                                 .fontWeight(.regular)
-                                                .foregroundColor(Color("Gray1"))
+                                                .foregroundColor(colorToShow[2])
                                             Image(systemName: "chevron.right")
-                                                .foregroundColor(Color("Gray2"))
+                                                .foregroundColor(colorToShow[2])
                                                 .font(Font.system(size: 12, weight: .bold))
                                         }.padding(.top, 2)
                                     }
@@ -118,10 +112,10 @@ struct CompanyProfileV2: View {
                                         Text("Redeem")
                                             .font(.system(size: 18))
                                             .fontWeight(.semibold)
-                                            .foregroundColor(Color("Dark1"))
+                                            .foregroundColor(colorToShow[1])
                                         Spacer()
                                     }.padding(.vertical, 12)
-                                    .background(RoundedRectangle(cornerRadius: 32).foregroundColor(Color(red: 244/255, green: 244/255, blue: 244/255)))
+                                    .background(RoundedRectangle(cornerRadius: 32).foregroundColor(colorToShow[3]))
                                 }
                                 Button {
                                     //open website
@@ -131,15 +125,14 @@ struct CompanyProfileV2: View {
                                         Text("Go to site")
                                             .font(.system(size: 18))
                                             .fontWeight(.semibold)
-                                            .foregroundColor(Color("Dark1"))
+                                            .foregroundColor(colorToShow[1])
                                         Spacer()
                                     }.padding(.vertical, 12)
-                                    .background(RoundedRectangle(cornerRadius: 32).foregroundColor(Color(red: 244/255, green: 244/255, blue: 244/255)))
+                                        .background(RoundedRectangle(cornerRadius: 32).foregroundColor(colorToShow[3]))
                                 }
-
                             }
                         }.padding()
-                        .background(RoundedRectangle(cornerRadius: 16).foregroundColor(.white))
+                        .background(RoundedRectangle(cornerRadius: 16).foregroundColor(colorToShow[0]))
                         .padding(.horizontal)
                         .padding(.bottom)
                         
@@ -156,7 +149,7 @@ struct CompanyProfileV2: View {
                             ForEach(viewModel2.myDiscountCodes.prefix(2)) { DiscountCode in
                                 HStack {
                                     Image(systemName: "plus.circle.fill")
-                                        .foregroundColor(.blue)
+                                        .foregroundColor(colorToShow[4])
                                         .font(.system(size: 40))
                                     VStack(alignment: .leading, spacing: 3) {
                                         Text("Invite friends")
@@ -180,7 +173,7 @@ struct CompanyProfileV2: View {
                                 Text("See all")
                                     .font(.system(size: 16))
                                     .fontWeight(.semibold)
-                                    .foregroundColor(Color.blue)
+                                    .foregroundColor(colorToShow[4])
                                 Spacer()
                             }
                         }.padding()
@@ -217,7 +210,7 @@ struct CompanyProfileV2: View {
                             ForEach(viewModel2.myDiscountCodes.prefix(3)) { DiscountCode in
                                 HStack {
                                     Image(systemName: "plus.circle.fill")
-                                        .foregroundColor(.blue)
+                                        .foregroundColor(colorToShow[4])
                                         .font(.system(size: 40))
                                     VStack(alignment: .leading, spacing: 3) {
                                         Text("Invite friends")
@@ -241,7 +234,7 @@ struct CompanyProfileV2: View {
                                 Text("See all")
                                     .font(.system(size: 16))
                                     .fontWeight(.semibold)
-                                    .foregroundColor(Color.blue)
+                                    .foregroundColor(colorToShow[4])
                                 Spacer()
                             }
                         }.padding()
@@ -357,9 +350,9 @@ struct CompanyProfileV2: View {
 //                    .padding(.all, 12)   //need to pass in viewModel4 (Orders observed object)
                     
 //            }
-        }.ignoresSafeArea(.container, edges: [.horizontal, .bottom])
+        }
+        .ignoresSafeArea(.container, edges: [.horizontal, .bottom])
         .navigationBarTitle("Athleisure Gold", displayMode: .inline)
-        
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     //this is a hack to get a navigationlink inside a toolbarItem

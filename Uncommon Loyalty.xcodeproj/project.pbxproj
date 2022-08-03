@@ -9,6 +9,9 @@
 /* Begin PBXBuildFile section */
 		300C531B2891878600F80B19 /* TabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 300C531A2891878600F80B19 /* TabView.swift */; };
 		300C531D2891878600F80B19 /* TabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 300C531A2891878600F80B19 /* TabView.swift */; };
+		300FF53B289A20DC00455D44 /* SuggestAShopPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 300FF53A289A20DC00455D44 /* SuggestAShopPreview.swift */; };
+		300FF53D289A212100455D44 /* SuggestAShop.swift in Sources */ = {isa = PBXBuildFile; fileRef = 300FF53C289A212100455D44 /* SuggestAShop.swift */; };
+		300FF540289A2D2500455D44 /* SendFeedback.swift in Sources */ = {isa = PBXBuildFile; fileRef = 300FF53F289A2D2500455D44 /* SendFeedback.swift */; };
 		3014FA2A27964E5E00473CE4 /* Tests_iOS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3014FA2927964E5E00473CE4 /* Tests_iOS.swift */; };
 		3014FA2C27964E5E00473CE4 /* Tests_iOSLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3014FA2B27964E5E00473CE4 /* Tests_iOSLaunchTests.swift */; };
 		3014FA3927964E5E00473CE4 /* Uncommon_LoyaltyApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3014FA1127964E5D00473CE4 /* Uncommon_LoyaltyApp.swift */; };
@@ -85,6 +88,9 @@
 
 /* Begin PBXFileReference section */
 		300C531A2891878600F80B19 /* TabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabView.swift; sourceTree = "<group>"; };
+		300FF53A289A20DC00455D44 /* SuggestAShopPreview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SuggestAShopPreview.swift; sourceTree = "<group>"; };
+		300FF53C289A212100455D44 /* SuggestAShop.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SuggestAShop.swift; sourceTree = "<group>"; };
+		300FF53F289A2D2500455D44 /* SendFeedback.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SendFeedback.swift; sourceTree = "<group>"; };
 		3014FA1127964E5D00473CE4 /* Uncommon_LoyaltyApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Uncommon_LoyaltyApp.swift; sourceTree = "<group>"; };
 		3014FA1227964E5D00473CE4 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		3014FA1327964E5E00473CE4 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -168,6 +174,23 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		300FF539289A20B300455D44 /* SuggestAShop */ = {
+			isa = PBXGroup;
+			children = (
+				300FF53A289A20DC00455D44 /* SuggestAShopPreview.swift */,
+				300FF53C289A212100455D44 /* SuggestAShop.swift */,
+			);
+			path = SuggestAShop;
+			sourceTree = "<group>";
+		};
+		300FF53E289A2D1600455D44 /* SendFeedback */ = {
+			isa = PBXGroup;
+			children = (
+				300FF53F289A2D2500455D44 /* SendFeedback.swift */,
+			);
+			path = SendFeedback;
+			sourceTree = "<group>";
+		};
 		3014FA0B27964E5D00473CE4 = {
 			isa = PBXGroup;
 			children = (
@@ -277,8 +300,10 @@
 				3014FA6E27965CFC00473CE4 /* Home.swift */,
 				30BA64D72889AF56002E3FC8 /* ReviewOrReferWidget.swift */,
 				3014FA7227965E0700473CE4 /* RewardsProgramWidget.swift */,
-				30C810292887877D004B1DA7 /* AddCompany */,
 				30546E2627FBD05100173D9D /* UserProfile */,
+				30C810292887877D004B1DA7 /* AddCompany */,
+				300FF539289A20B300455D44 /* SuggestAShop */,
+				300FF53E289A2D1600455D44 /* SendFeedback */,
 				30C8102228878672004B1DA7 /* CompanyProfile */,
 				308B83F727F44DE800BC5211 /* MemberSale.swift */,
 				3014FA7427965E2F00473CE4 /* CompanyProfile.swift */,
@@ -515,6 +540,7 @@
 			files = (
 				3046EC26279FB43500D1CBE7 /* PostInFeed.swift in Sources */,
 				30546E2827FBD06400173D9D /* Profile.swift in Sources */,
+				300FF540289A2D2500455D44 /* SendFeedback.swift in Sources */,
 				30546E2427FBBF7E00173D9D /* LoginView.swift in Sources */,
 				30E67CB427E50DF300D9B96F /* Messages.swift in Sources */,
 				302DE17427B207C80041A981 /* CreateDiscountScreen.swift in Sources */,
@@ -531,6 +557,7 @@
 				30BA64D82889AF56002E3FC8 /* ReviewOrReferWidget.swift in Sources */,
 				30477A8C2815AF540032E57A /* Feedback.swift in Sources */,
 				307BCA2527975F2E000DDD21 /* Transactions.swift in Sources */,
+				300FF53B289A20DC00455D44 /* SuggestAShopPreview.swift in Sources */,
 				3046EC20279FB34F00D1CBE7 /* SaleWidget.swift in Sources */,
 				30E67CB227E4DE4C00D9B96F /* VoteWidget.swift in Sources */,
 				30EA87B32811DC0C00F0CF64 /* ReviewsViewModel.swift in Sources */,
@@ -556,6 +583,7 @@
 				3014FA952796FE7000473CE4 /* DataManager.swift in Sources */,
 				30BA64D42889A177002E3FC8 /* ReviewProductCarousel1.swift in Sources */,
 				3014FA972796FF5B00473CE4 /* RewardsProgramViewModel.swift in Sources */,
+				300FF53D289A212100455D44 /* SuggestAShop.swift in Sources */,
 				3014FA3927964E5E00473CE4 /* Uncommon_LoyaltyApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

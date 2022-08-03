@@ -28,6 +28,10 @@ struct ReviewProductPreview: View {
             ZStack {
                 VStack(spacing:0) {
                     ZStack (alignment: .center) {
+                        
+                        
+                        //CREATE ANIMATED BACKGROUND FOR THIS
+                        //https://www.youtube.com/watch?v=YhhGx0pLOnk
                         Image("ReviewBackground")
                             .resizable()
                             .scaledToFill()
