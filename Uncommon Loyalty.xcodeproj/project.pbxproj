@@ -43,6 +43,8 @@
 		308B83F827F44DE800BC5211 /* MemberSale.swift in Sources */ = {isa = PBXBuildFile; fileRef = 308B83F727F44DE800BC5211 /* MemberSale.swift */; };
 		308B83FA27F5165500BC5211 /* IMG_6178.MOV in Resources */ = {isa = PBXBuildFile; fileRef = 308B83F927F5165500BC5211 /* IMG_6178.MOV */; };
 		308B83FC27F768A200BC5211 /* ReviewHistory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 308B83FB27F768A200BC5211 /* ReviewHistory.swift */; };
+		309468BF289BB345008286E8 /* Components.swift in Sources */ = {isa = PBXBuildFile; fileRef = 309468BE289BB345008286E8 /* Components.swift */; };
+		309468C0289BB345008286E8 /* Components.swift in Sources */ = {isa = PBXBuildFile; fileRef = 309468BE289BB345008286E8 /* Components.swift */; };
 		30BA64D42889A177002E3FC8 /* ReviewProductCarousel1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30BA64D32889A177002E3FC8 /* ReviewProductCarousel1.swift */; };
 		30BA64D62889AB7A002E3FC8 /* ReviewProductCarousel2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30BA64D52889AB7A002E3FC8 /* ReviewProductCarousel2.swift */; };
 		30BA64D82889AF56002E3FC8 /* ReviewOrReferWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30BA64D72889AF56002E3FC8 /* ReviewOrReferWidget.swift */; };
@@ -128,6 +130,7 @@
 		308B83F727F44DE800BC5211 /* MemberSale.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemberSale.swift; sourceTree = "<group>"; };
 		308B83F927F5165500BC5211 /* IMG_6178.MOV */ = {isa = PBXFileReference; lastKnownFileType = video.quicktime; path = IMG_6178.MOV; sourceTree = "<group>"; };
 		308B83FB27F768A200BC5211 /* ReviewHistory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewHistory.swift; sourceTree = "<group>"; };
+		309468BE289BB345008286E8 /* Components.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Components.swift; sourceTree = "<group>"; };
 		30BA64D32889A177002E3FC8 /* ReviewProductCarousel1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewProductCarousel1.swift; sourceTree = "<group>"; };
 		30BA64D52889AB7A002E3FC8 /* ReviewProductCarousel2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewProductCarousel2.swift; sourceTree = "<group>"; };
 		30BA64D72889AF56002E3FC8 /* ReviewOrReferWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewOrReferWidget.swift; sourceTree = "<group>"; };
@@ -286,6 +289,7 @@
 				300C531A2891878600F80B19 /* TabView.swift */,
 				30546E2327FBBF7E00173D9D /* LoginView.swift */,
 				30C8102B2888612F004B1DA7 /* LoginWithEmailView.swift */,
+				309468BE289BB345008286E8 /* Components.swift */,
 				3014FA922796FE1F00473CE4 /* Home */,
 				3014FA932796FE3600473CE4 /* Feed */,
 				30477A8A2815AF430032E57A /* Feedback */,
@@ -539,6 +543,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				3046EC26279FB43500D1CBE7 /* PostInFeed.swift in Sources */,
+				309468BF289BB345008286E8 /* Components.swift in Sources */,
 				30546E2827FBD06400173D9D /* Profile.swift in Sources */,
 				300FF540289A2D2500455D44 /* SendFeedback.swift in Sources */,
 				30546E2427FBBF7E00173D9D /* LoginView.swift in Sources */,
@@ -599,6 +604,7 @@
 				30C8102D2888827F004B1DA7 /* Uncommon_LoyaltyApp.swift in Sources */,
 				30C810322888857B004B1DA7 /* LoginView.swift in Sources */,
 				30BA64D92889AF56002E3FC8 /* ReviewOrReferWidget.swift in Sources */,
+				309468C0289BB345008286E8 /* Components.swift in Sources */,
 				30C8103128888578004B1DA7 /* LoginWithEmailView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

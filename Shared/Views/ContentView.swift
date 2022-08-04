@@ -29,17 +29,11 @@ struct ContentView: View {
         VStack {
             if viewModel.signedIn {
                 Home()
-//                if selectedTab == 1 {
-//                    Home(selectedTab: $selectedTab)
-//                } else if selectedTab == 2 {
-//                    Feed(selectedTab: $selectedTab)
-//                } else if selectedTab == 3 {
-//                    Profile(selectedTab: $selectedTab)
-//                }
+                
             } else {
                 LoginView()
             }
-        }
+        }.preferredColorScheme(.light)
 //        }.navigationTitle("")
 //            .navigationBarHidden(true)
         .onAppear {

@@ -9,7 +9,7 @@ import SwiftUI
 
 struct Feed: View {
     
-    @Binding var selectedTab: Int
+    //@Binding var selectedTab: Int
     //@State private var showingRewardsScreen: Bool = false
     //@ObservedObject var viewModel = PostInFeedViewModel()
     
@@ -44,7 +44,7 @@ struct Feed: View {
 //                        }
                     }
                 }
-                TabView(selectedTab: $selectedTab)
+                //TabView(selectedTab: $selectedTab)
                 
             }
             .onAppear(perform: {
@@ -65,6 +65,6 @@ struct Feed: View {
 
 struct Feed_Previews: PreviewProvider {
     static var previews: some View {
-        Feed(selectedTab: .constant(2))
+        Feed()
     }
 }

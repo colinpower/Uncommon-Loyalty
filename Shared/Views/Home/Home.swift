@@ -16,6 +16,7 @@ struct Home: View {
     @State var isAddCompanyPreviewActive:Bool = false
     @State var isProfileActive:Bool = false
     @State var isSendFeedbackActive:Bool = false
+    @State var showingAnimation:Bool = false
     
     
     @State var x : [CGFloat] = [0, 0, 0, 0, 0, 0]
@@ -27,15 +28,18 @@ struct Home: View {
     var body: some View {
         NavigationView{
             GeometryReader { geometry in
+                
                 ZStack(alignment: .top) {
-                    //Background color
-                    Color(red: 244/255, green: 244/255, blue: 244/255)
                     
-                    //Actual content of this page
+                    //MARK: Background color
+                    Color("Background")
+                    
+                    //the content on top of the background
                     VStack(alignment: .leading) {
-                        //Header
+                        
+                        //MARK: Header
                         HStack{
-                            Text("Loyalty Programs")
+                            Text("Home")
                                 .font(.system(size: 24))
                                 .fontWeight(.semibold)
                                 .foregroundColor(Color("Dark1"))
@@ -49,67 +53,70 @@ struct Home: View {
                             }.fullScreenCover(isPresented: $isProfileActive, content: {
                                 Profile(isProfileActive: $isProfileActive)
                             })
-                        }.padding(.top, 48)
-                            .padding()
+                        }.padding(.top, 60).padding(.horizontal)
                         
+                        //this is the start of the scrollview with all the content
                         ScrollView(.vertical, showsIndicators: false) {
-                            //My programs section
+                            
+                            //MARK: Loyalty Programs
                             VStack(alignment: .leading) {
+                                
                                 //Title
                                 HStack {
-                                    Text("Your Programs")
+                                    Text("Loyalty Programs")
                                         .font(.system(size: 20))
                                         .fontWeight(.semibold)
                                         .foregroundColor(Color("Dark1"))
                                     Spacer()
                                     Button {
                                         isAddCompanyPreviewActive.toggle()
+
                                     } label: {
                                         Text("Add")
                                             .font(.system(size: 16))
                                             .fontWeight(.semibold)
                                             .foregroundColor(Color("Dark1"))
                                             .padding(.vertical, 6)
-                                            .padding(.horizontal, 16)
-                                            .background(RoundedRectangle(cornerRadius: 16).foregroundColor(Color(red: 244/255, green: 244/255, blue: 244/255)))
-                                    }.sheet(isPresented: $isAddCompanyPreviewActive, content: {
+                                            .padding(.horizontal, 12)
+                                            .background(RoundedRectangle(cornerRadius: 19).foregroundColor(Color("Background")))
+                                    }.fullScreenCover(isPresented: $isAddCompanyPreviewActive, content: {
                                         AddCompanyPreview(isAddCompanyPreviewActive: $isAddCompanyPreviewActive)
                                     })
-                                }.padding(.top)
-                                    .padding(.horizontal)
+                                }.padding(.horizontal)
+                                
                                 
                                 //Body
                                 VStack {
-                                    //FOR EACH LOYALTY PROGRAM, SHOW IT HERE
+                                    
                                     ForEach(viewModel1.myRewardsPrograms) { RewardsProgram in
-
+                                        
                                         NavigationLink(destination: CompanyProfileV2(companyID: RewardsProgram.companyID, companyName: RewardsProgram.companyName, email: RewardsProgram.email, userID: RewardsProgram.userID)) {
-                                                RewardsProgramWidget(companyName: RewardsProgram.companyName, image: RewardsProgram.companyName, currentPointsBalance: RewardsProgram.currentPointsBalance, status: RewardsProgram.status)
+                                            
+                                                RewardsProgramWidget(image: RewardsProgram.companyName, company: RewardsProgram.companyName, status: RewardsProgram.status, currentPointsBalance: RewardsProgram.currentPointsBalance)
+                                        
                                         }
                                     }
-                                }.padding()
+                                }.padding(.horizontal)
 
                                 //Footer
                                 HStack() {
                                     Spacer()
                                     Button {
-                                        isProfileActive.toggle()
+                                        isAddCompanyPreviewActive.toggle()
                                     } label: {
                                         Text("See all")
-                                            .font(.system(size: 16))
+                                            .font(.system(size: 18))
                                             .fontWeight(.semibold)
-                                            .foregroundColor(Color.blue)
-                                    }.sheet(isPresented: $isProfileActive, content: {
-                                        Profile(isProfileActive: $isProfileActive)
+                                            .foregroundColor(Color("ThemeBright"))
+                                    }.fullScreenCover(isPresented: $isAddCompanyPreviewActive, content: {
+                                        AddCompanyPreview(isAddCompanyPreviewActive: $isAddCompanyPreviewActive)
                                     })
                                     Spacer()
-                                }.padding()
+                                }.padding(.vertical).padding(.vertical, 4)
+                            }.padding(.top).padding(.vertical)
+                            .background(RoundedRectangle(cornerRadius: 16).foregroundColor(.white)).padding()
 
-                            }
-                            .background(RoundedRectangle(cornerRadius: 8).foregroundColor(.white))
-                            .padding()
-
-                            //New content (horizontal scrollview
+                            //MARK: Quick prompt content
                             ScrollView (.horizontal, showsIndicators: false) {
                                 HStack{
                                     RoundedRectangle(cornerRadius: 16)
@@ -124,75 +131,43 @@ struct Home: View {
                                 }.padding(.horizontal)
                                     .padding(.bottom)
                             }
+                        
+                            Spacer()
                             
-                            Spacer()
-                            Spacer()
-                            //MAKE US BETTER
-                            HStack {
-                                Text("HELP US IMPROVE").kerning(1.2)
-                                    .font(.system(size: 13))
-                                    .fontWeight(.medium)
-                                    .foregroundColor(Color("Gray1"))
-                                Spacer()
-                            }.padding(.horizontal)
-                                .padding(.top)
-                            VStack{
-                                //Suggest new store
+                            NavigationLink(destination: ReviewProductPreview(companyID: "zKL7SQ0jRP8351a0NnHM", email: "colinjpower1@gmail.com", orderID: "", userID: "mhjEZCv9JGdk0NUZaHMcNrDsH1x2")) {
+                                    Image(systemName: "plus.circle.fill")
+                                        .font(.system(size: 30))
+                                    }
+                            
+                            
+                            Button {
+                                showingAnimation.toggle()
+                            } label: {
+                                Text("SHOW ANIMATION")
+                            }.fullScreenCover(isPresented: $showingAnimation, content: {
+                                ReviewProductCarousel2(showingAnimation: $showingAnimation)
+                            })
+                            
+                            
+                            //MARK: HELP US IMPROVE
+                            WideWidgetHeader(title: "HELP US IMPROVE")
+                            VStack {
                                 NavigationLink(destination: SuggestAShopPreview()) {
-                                    HStack {
-                                        Image(systemName: "building.2.crop.circle.fill")
-                                            .foregroundColor(.blue)
-                                            .font(.system(size: 40))
-                                        VStack(alignment: .leading, spacing: 2) {
-                                            Text("Suggest a shop")
-                                                .font(.system(size: 16))
-                                                .fontWeight(.semibold)
-                                                .foregroundColor(Color("Dark1"))
-                                            Text("Which shops should we add next?")
-                                                .font(.system(size: 16))
-                                                .fontWeight(.regular)
-                                                .foregroundColor(Color("Gray2"))
-                                        }
-                                        Spacer()
-                                        Image(systemName: "chevron.right")
-                                            .foregroundColor(Color("Gray3"))
-                                            .font(Font.system(size: 15, weight: .semibold))
-                                    }.padding(.bottom)
-                                }
+                                    
+                                    WideWidgetItem(image: "lightbulb.circle.fill", size: 40, title: "Suggestions", subtitle: "What should we work on next?")
+                                    
+                                }.padding(.bottom)
                                 
                                 //Send feedback
                                 Button {
                                     isSendFeedbackActive.toggle()
                                 } label: {
-                                    HStack {
-                                        Image(systemName: "bubble.left.circle.fill")
-                                            .foregroundColor(.blue)
-                                            .font(.system(size: 40))
-                                        VStack(alignment: .leading, spacing: 2) {
-                                            Text("Send feedback")
-                                                .font(.system(size: 16))
-                                                .fontWeight(.semibold)
-                                                .foregroundColor(Color("Dark1"))
-                                            Text("We respond super fast!")
-                                                .font(.system(size: 16))
-                                                .fontWeight(.regular)
-                                                .foregroundColor(Color("Gray2"))
-                                        }
-                                        Spacer()
-                                        Image(systemName: "chevron.right")
-                                            .foregroundColor(Color("Gray3"))
-                                            .font(Font.system(size: 15, weight: .semibold))
-                                    }
+                                    WideWidgetItem(image: "bubble.left.circle.fill", size: 40, title: "Send feedback", subtitle: "We respond super fast!")
                                 }.fullScreenCover(isPresented: $isSendFeedbackActive) {
                                     SendFeedback(isSendFeedbackActive: $isSendFeedbackActive)
                                 }
 
-                                
-                                
-                                    
-                            }.padding(.horizontal, 12)
-                            .padding(.vertical)
-                            .background(.white)
+                            }.padding(.horizontal, 12).padding(.vertical).background(.white)
                         }
                     }
                 }
@@ -200,19 +175,19 @@ struct Home: View {
             .ignoresSafeArea()
             .navigationTitle("")
             .navigationBarHidden(true)
-            .onAppear(perform: {
-                    self.viewModel1.listenForMyRewardsPrograms(email: Auth.auth().currentUser?.email ?? "")
-                    print("CURRENT USER IS")
-                    print(Auth.auth().currentUser?.email ?? "")
-                    print(self.viewModel1.myRewardsPrograms)
-                })
+            .onAppear {
+                self.viewModel1.listenForMyRewardsPrograms(email: Auth.auth().currentUser?.email ?? "")
+                print("CURRENT USER IS")
+                print(Auth.auth().currentUser?.email ?? "")
+                print(self.viewModel1.myRewardsPrograms)
+            }
             .onDisappear {
-                    print("DISAPPEAR")
-                    if self.viewModel1.listener1 != nil {
-                        print("REMOVING LISTENER")
-                        self.viewModel1.listener1.remove()
-                    }
+                print("DISAPPEAR")
+                if self.viewModel1.listener1 != nil {
+                    print("REMOVING LISTENER")
+                    self.viewModel1.listener1.remove()
                 }
+            }
         }
     }
 }

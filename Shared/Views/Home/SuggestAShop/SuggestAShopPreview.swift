@@ -65,7 +65,7 @@ struct SuggestAShopPreview: View {
                         ForEach(viewModel1.myRewardsPrograms) { RewardsProgram in
 
                             NavigationLink(destination: CompanyProfileV2(companyID: RewardsProgram.companyID, companyName: RewardsProgram.companyName, email: RewardsProgram.email, userID: RewardsProgram.userID)) {
-                                    RewardsProgramWidget(companyName: RewardsProgram.companyName, image: RewardsProgram.companyName, currentPointsBalance: RewardsProgram.currentPointsBalance, status: RewardsProgram.status)
+                                RewardsProgramWidget(image: RewardsProgram.companyName, company: RewardsProgram.companyName, status: RewardsProgram.status, currentPointsBalance: RewardsProgram.currentPointsBalance).padding(.bottom, 8)
                             }
                         }
                     }.padding()

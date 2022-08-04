@@ -13,39 +13,34 @@ struct Profile: View {
     
     @Binding var isProfileActive:Bool
     
+    //Share sheet tutorial
+    //https://www.youtube.com/watch?v=WZOvroeUuxI&t=119s
+    
+    @State private var isShareSheetActive:Bool = false
+    
     
     var body: some View {
         NavigationView{
             GeometryReader { geometry in
+                
+                
                 ZStack(alignment: .top) {
-                    //Background color
-                    Color(red: 244/255, green: 244/255, blue: 244/255)
                     
-                    //Actual content of this page
+                    //MARK: Background color
+                    Color("Background")
+                    
+                    //the content on top of the background
                     VStack(alignment: .leading) {
-                        //Header
-                        HStack (alignment: .center) {
-                            Text("Your account")
-                                .font(.system(size: 24))
-                                .fontWeight(.semibold)
-                                .foregroundColor(Color("Dark1"))
-                            Spacer()
-                            Button {
-                                isProfileActive.toggle()
-                            } label: {
-                                Image(systemName: "xmark")
-                                    .foregroundColor(Color("Dark1"))
-                                    .font(Font.system(size: 20, weight: .semibold))
-                            }
-                        }.padding(.top, 48)
-                        .padding()
-                        .background(Color(red: 244/255, green: 244/255, blue: 244/255))
                         
-                        //Body
+                        //MARK: Header
+                        SheetHeader(title: "Your account", isActive: $isProfileActive)
+                        
+                        
                         ScrollView(.vertical, showsIndicators: false) {
-                            //My programs section
+                            
                             VStack {
-                                //Edit Profile section
+                                
+                                //MARK: Profile Card
                                 VStack(alignment: .center, spacing: 8) {
                                     
                                     //Profile pic
@@ -92,113 +87,35 @@ struct Profile: View {
                                 .background(RoundedRectangle(cornerRadius: 8).foregroundColor(.white))
                                     .padding()
                                 
-                                //Refer a Friend section
-                                HStack {
-                                    Image(systemName: "plus.circle.fill")
-                                        .foregroundColor(.blue)
-                                        .font(.system(size: 48))
-                                    VStack(alignment: .leading, spacing: 3) {
-                                        Text("Invite friends")
-                                            .font(.system(size: 16))
-                                            .fontWeight(.semibold)
-                                            .foregroundColor(Color("Dark1"))
-                                        Text("Get 500 points")
-                                            .font(.system(size: 16))
-                                            .fontWeight(.regular)
-                                            .foregroundColor(Color("Gray2"))
-                                    }
-                                    Spacer()
-                                    Image(systemName: "chevron.right")
-                                        .foregroundColor(Color("Gray3"))
-                                        .font(Font.system(size: 15, weight: .semibold))
-                                }.padding(.horizontal, 12)
-                                .padding(.vertical)
-                                .background(RoundedRectangle(cornerRadius: 8).foregroundColor(.white))
-                                .padding(.bottom)
-                                .padding(.horizontal)
-
-
-                        
-                                //SETTINGS
-                                HStack {
-                                    Text("SETTINGS").kerning(1.2)
-                                        .font(.system(size: 13))
-                                        .fontWeight(.medium)
-                                        .foregroundColor(Color("Gray1"))
-                                    Spacer()
-                                }.padding(.horizontal).padding(.top)
-                                VStack {
-                                    //Name
-                                    HStack {
-                                        Image(systemName: "person.fill")
-                                            .foregroundColor(Color("Dark1"))
-                                            .font(.system(size: 20))
-                                            .frame(width: 40)
-                                        Text("Name")
-                                            .font(.system(size: 16))
-                                            .fontWeight(.semibold)
-                                            .foregroundColor(Color("Dark1"))
-                                        Spacer()
-                                        Image(systemName: "chevron.right")
-                                            .foregroundColor(Color("Gray3"))
-                                            .font(Font.system(size: 15, weight: .semibold))
-                                    }.padding(.bottom)
-                                        .padding(.bottom)
-                                    //Email Address
-                                    HStack {
-                                        Image(systemName: "envelope.fill")
-                                            .foregroundColor(Color("Dark1"))
-                                            .font(.system(size: 20))
-                                            .frame(width: 40)
-                                        Text("Email address")
-                                            .font(.system(size: 16))
-                                            .fontWeight(.semibold)
-                                            .foregroundColor(Color("Dark1"))
-                                        Spacer()
-                                        Image(systemName: "chevron.right")
-                                            .foregroundColor(Color("Gray3"))
-                                            .font(Font.system(size: 15, weight: .semibold))
-                                    }.padding(.bottom)
-                                        .padding(.bottom)
-                                    
-                                    //Notifications
-                                    HStack {
-                                        Image(systemName: "bell.fill")
-                                            .foregroundColor(Color("Dark1"))
-                                            .font(.system(size: 20))
-                                            .frame(width: 40)
-                                        Text("Notifications")
-                                            .font(.system(size: 16))
-                                            .fontWeight(.semibold)
-                                            .foregroundColor(Color("Dark1"))
-                                        Spacer()
-                                        Image(systemName: "chevron.right")
-                                            .foregroundColor(Color("Gray3"))
-                                            .font(Font.system(size: 15, weight: .semibold))
-                                    }.padding(.bottom)
-                                        .padding(.bottom)
-                                    
-                                    //Help
-                                    HStack {
-                                        Image(systemName: "questionmark.circle.fill")
-                                            .foregroundColor(Color("Dark1"))
-                                            .font(.system(size: 20))
-                                            .frame(width: 40)
-                                        Text("Get help")
-                                            .font(.system(size: 16))
-                                            .fontWeight(.semibold)
-                                            .foregroundColor(Color("Dark1"))
-                                        Spacer()
-                                        Image(systemName: "chevron.right")
-                                            .foregroundColor(Color("Gray3"))
-                                            .font(Font.system(size: 15, weight: .semibold))
-                                    }
-                                }
-                                .padding()
-                                .background(.white)
-                                .padding(.bottom)
                                 
-                                // Sign out
+                                //MARK: Invite friends
+                                WidgetSolo(image: "plus.circle.fill", size: 40, firstLine: "Invite friends", secondLine: "Get 500 points", secondLineColor:Color("ThemeBright") , isActive: $isShareSheetActive)
+                                    .sheet(isPresented: $isShareSheetActive, content: {
+                                        ShareSheet(items: ["Hey, download the Uncommon app to manage your rewards points! Check out this link"])
+                                    })
+                                    
+                                 
+
+                                //MARK: Settings
+                                WideWidgetHeader(title: "SETTINGS")
+                                VStack {
+                                    
+                                    //Item 1: Name
+                                    WideWidgetItem(image: "person.fill", size: 20, color: Color("Dark1"), title: "Name")
+                                        .padding(.bottom).padding(.bottom)
+                                    
+                                    //Item 2: Email
+                                    WideWidgetItem(image: "envelope.fill", size: 20, color: Color("Dark1"), title: "Email").padding(.bottom).padding(.bottom)
+                                    
+                                    //Item 3: Notifications
+                                    WideWidgetItem(image: "bell.fill", size: 20, color: Color("Dark1"), title: "Notifications").padding(.bottom).padding(.bottom)
+                                    
+                                    //Item 4: Get help
+                                    WideWidgetItem(image: "questionmark.circle.fill", size: 20, color: Color("Dark1"), title: "Get help").padding(.bottom)
+                                    
+                                }.padding().background(.white).padding(.bottom)
+                                
+                                //MARK: Sign out
                                 HStack {
                                     Spacer()
                                     Button {
@@ -212,8 +129,7 @@ struct Profile: View {
                                             .padding(.horizontal, 16)
                                     }
                                     Spacer()
-                                }.background(.white)
-                                .padding(.bottom, 48)
+                                }.background(.white).padding(.bottom, 48)
                             
                         
                             }
@@ -224,6 +140,8 @@ struct Profile: View {
                 .navigationTitle("")
                 .navigationBarHidden(true)
         }
+        
+        
             
 //            .onAppear(perform: {
 //                    self.viewModel1.listenForMyRewardsPrograms(email: Auth.auth().currentUser?.email ?? "")
@@ -238,7 +156,13 @@ struct Profile: View {
 //                        self.viewModel1.listener1.remove()
 //                    }
 //                }
+    
+        
+    
     }
+    
+    
+    
 }
 
 struct Profile_Previews: PreviewProvider {
@@ -247,6 +171,26 @@ struct Profile_Previews: PreviewProvider {
     }
 }
 
+
+//MARK: creating a VC to show the share sheet
+struct ShareSheet: UIViewControllerRepresentable {
+    //@Binding var isShareSheetActive: Bool
+    
+    var items : [Any]
+
+    func makeUIViewController(context: Context) -> UIViewController {
+        
+        let controller = UIActivityViewController(activityItems: items, applicationActivities: nil)
+        
+        return controller
+    }
+
+    func updateUIViewController(_ uiViewController: UIViewController, context: Context) {
+//        if isShareSheetActive {
+//            uiViewController.present(content(), animated: true, completion: nil)
+//        }
+    }
+}
 
 
 

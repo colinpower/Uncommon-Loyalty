@@ -13,15 +13,39 @@ struct AddCompanyPreview: View {
     @State private var companies = ["Company A", "Company B"]
     
     var body: some View {
-        VStack {
-            NavigationLink(destination: AddCompany()) {
-                AddCompanyWidget()
-            }
-            NavigationLink(destination: AddCompany()) {
-                AddCompanyWidget()
+        ZStack(alignment: .top) {
+            
+            //MARK: Background color
+            Color("Background")
+            
+            //the content on top of the background
+            VStack(alignment: .leading) {
+                SheetHeader(title: "Join Loyalty Programs", isActive: $isAddCompanyPreviewActive)
+                Spacer()
+                NavigationLink(destination: AddCompany()) {
+                    AddCompanyWidget()
+                }
+                NavigationLink(destination: AddCompany()) {
+                    AddCompanyWidget()
+                }
+            
             }
             
-        }
+        }.ignoresSafeArea()
+//            .onAppear {
+//                self.viewModel1.listenForMyRewardsPrograms(email: Auth.auth().currentUser?.email ?? "")
+//                print("CURRENT USER IS")
+//                print(Auth.auth().currentUser?.email ?? "")
+//                print(self.viewModel1.myRewardsPrograms)
+//            }
+//            .onDisappear {
+//                print("DISAPPEAR")
+//                if self.viewModel1.listener1 != nil {
+//                    print("REMOVING LISTENER")
+//                    self.viewModel1.listener1.remove()
+//                }
+//            }
+        
     }
 }
 

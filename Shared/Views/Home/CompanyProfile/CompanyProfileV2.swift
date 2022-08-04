@@ -26,7 +26,16 @@ struct CompanyProfileV2: View {
 //    var status: String
     var urlToShopifySite: String = "https://athleisure-la.myshopify.com"
     
-    @State var showingDiscountScreen: Bool = false
+    @State var isCreateDiscountScreenActive: Bool = false
+    @State var isRedeemScreenActive: Bool = false
+    @State var isDiscount1Active: Bool = false
+    @State var isDiscount2Active: Bool = false
+    
+    @State var isPrompt1Active: Bool = false
+    @State var isPrompt2Active: Bool = false
+    @State var isPrompt3Active: Bool = false
+    @State var isPrompt4Active: Bool = false
+    @State var isPrompt5Active: Bool = false
     
     //vars for the current state
     @State var progressValue: Float = 0.6
@@ -64,15 +73,23 @@ struct CompanyProfileV2: View {
     var body: some View {
         GeometryReader { geometry in
             ZStack(alignment: .top) {
-                //Background color
+                
+                //MARK: Background
                 Color("Background")
                 
-                //Body
+                //The content starts here
                 ScrollView(.vertical, showsIndicators: false) {
-                    
-                    VStack {
-                        //Points + Convert (top section)
+                    VStack(alignment: .leading) {
+                        
+                        //MARK: Rewards "Card"
                         VStack(alignment: .leading, spacing: 8) {
+                            
+//                            ForEach(viewModel2.myDiscountCodes.prefix(1)) { DiscountCode in
+//                                WidgetSolo(image: "dollarsign.circle.fill", size: 38, firstLine: "Discount Available", secondLine: "$" + String(DiscountCode.dollarAmount) + " off any item", secondLineColor: Color("ThemeBright"), buttonTitle: "Use", isActive: $isDiscount1Active)
+//                                    .padding(.bottom, 8)
+//                            }
+                            
+                            
                             //Balance + tier
                             HStack(alignment: .top){
                                 VStack (alignment: .leading){
@@ -105,7 +122,7 @@ struct CompanyProfileV2: View {
                             .padding(.bottom)
                             HStack (alignment: .center, spacing: 16) {
                                 Button {
-                                    //trigger convert points
+                                    isCreateDiscountScreenActive.toggle()
                                 } label: {
                                     HStack {
                                         Spacer()
@@ -116,89 +133,102 @@ struct CompanyProfileV2: View {
                                         Spacer()
                                     }.padding(.vertical, 12)
                                     .background(RoundedRectangle(cornerRadius: 32).foregroundColor(colorToShow[3]))
-                                }
+                                }.fullScreenCover(isPresented: $isCreateDiscountScreenActive, content: {
+                                    CreateDiscountScreen(companyID: companyID, companyName: companyName, availablePoints: 400, isCreateDiscountScreenActive: $isCreateDiscountScreenActive)
+                                    
+                                })
                                 Button {
                                     //open website
                                 } label: {
                                     HStack {
                                         Spacer()
-                                        Text("Go to site")
-                                            .font(.system(size: 18))
-                                            .fontWeight(.semibold)
-                                            .foregroundColor(colorToShow[1])
+                                        Link(destination: URL(string: urlToShopifySite)!) {
+                                            Text("Visit site")
+                                                .font(.system(size: 18))
+                                                .fontWeight(.semibold)
+                                                .foregroundColor(colorToShow[1])
+                                        }
                                         Spacer()
                                     }.padding(.vertical, 12)
                                         .background(RoundedRectangle(cornerRadius: 32).foregroundColor(colorToShow[3]))
                                 }
                             }
                         }.padding()
-                        .background(RoundedRectangle(cornerRadius: 16).foregroundColor(colorToShow[0]))
-                        .padding(.horizontal)
-                        .padding(.bottom)
+                            .background(RoundedRectangle(cornerRadius: 16).foregroundColor(colorToShow[0]))
+                            .padding(.horizontal)
+                            .padding(.bottom, 8)
                         
-                        //Discount codes (if any are available)
-                        VStack(alignment: .leading) {
-                            HStack {
-                                Text("Your Discount Codes")
-                                    .font(.system(size: 18))
-                                    .fontWeight(.semibold)
-                                    .foregroundColor(Color("Dark1"))
-                                Spacer()
-                            }
-                            //FOR EACH DISCOUNT CODE, SHOW IT HERE
-                            ForEach(viewModel2.myDiscountCodes.prefix(2)) { DiscountCode in
-                                HStack {
-                                    Image(systemName: "plus.circle.fill")
-                                        .foregroundColor(colorToShow[4])
-                                        .font(.system(size: 40))
-                                    VStack(alignment: .leading, spacing: 3) {
-                                        Text("Invite friends")
-                                            .font(.system(size: 16))
-                                            .fontWeight(.semibold)
-                                            .foregroundColor(Color("Dark1"))
-                                        Text("Get 500 points")
-                                            .font(.system(size: 16))
-                                            .fontWeight(.regular)
-                                            .foregroundColor(Color("Gray2"))
-                                    }
-                                    Spacer()
-                                    Image(systemName: "chevron.right")
-                                        .foregroundColor(Color("Gray3"))
-                                        .font(Font.system(size: 15, weight: .semibold))
-                                }.padding(.vertical)
+                        //MARK: Discount Codes (if any)
+                        if !viewModel1.oneRewardsProgram.isEmpty {
+                            
+                            //see if you need to list a 2+ of them
+                            if viewModel2.myDiscountCodes.prefix(2).count > 2 {
+                                //then, you need to represent it as a WidgetFloating
                                 
+                                HStack {
+                                    Spacer()
+                                    Text("See all")
+                                        .font(.system(size: 16))
+                                        .fontWeight(.semibold)
+                                        .foregroundColor(colorToShow[4])
+                                    Spacer()
+                                }
+                            } else {
+                                ForEach(viewModel2.myDiscountCodes.prefix(1)) { DiscountCode in
+                                    WidgetSolo(image: "dollarsign.circle.fill", size: 38, firstLine: "Discount Available", secondLine: "$" + String(DiscountCode.dollarAmount) + " off any item", secondLineColor: Color("ThemeBright"), buttonTitle: "Use", isActive: $isDiscount1Active)
+                                        .padding(.bottom, 8)
+                                }
                             }
-                            HStack {
-                                Spacer()
-                                Text("See all")
-                                    .font(.system(size: 16))
-                                    .fontWeight(.semibold)
-                                    .foregroundColor(colorToShow[4])
-                                Spacer()
-                            }
-                        }.padding()
-                        .background(RoundedRectangle(cornerRadius: 8).foregroundColor(.white))
-                        .padding(.horizontal)
-                        .padding(.bottom)
+
+                        }
                         
-                        //Suggested Reviews / Referrals
+                        //MARK: Recommended Actions (Review, Refer)
                         ScrollView (.horizontal, showsIndicators: false) {
                             HStack{
-                                RoundedRectangle(cornerRadius: 16)
-                                    .foregroundColor(Color("Gray3"))
-                                    .frame(width: geometry.size.width/3*2, height: 120)
-                                RoundedRectangle(cornerRadius: 16)
-                                    .foregroundColor(Color("Gray3"))
-                                    .frame(width: geometry.size.width/3*2, height: 120)
-                                RoundedRectangle(cornerRadius: 16)
-                                    .foregroundColor(Color("Gray3"))
-                                    .frame(width: geometry.size.width/3*2, height: 120)
+                                ForEach(viewModel4.myOrders.prefix(3)) { Order in
+                                    Button {
+                                        isPrompt1Active.toggle()
+                                    } label: {
+                                        PromptCard(image: "circle.fill", title: "Write a review", points: 100, text: "Write a review for " + Order.orderID, width: geometry.size.width*4/5)
+                                    }.sheet(isPresented: $isPrompt1Active) {
+                                        ReviewProductPreview(companyID: companyID, email: email, orderID: "123", userID: userID)
+                                    }
+                                }
                             }.padding(.horizontal)
                                 .padding(.bottom)
                         }
+                        //MARK: Trying to hit the ReviewHistory page
+                        NavigationLink(
+                            destination: ReviewHistory(companyID: companyID, email: email, userID: userID),
+                            label: {
+                                HStack(alignment: .center) {
+                                    Image("History")
+                                        .resizable()
+                                        .scaledToFill()
+                                        .frame(width: 24, height: 24, alignment: .center)
+                                        .clipped()
+                                        .cornerRadius(8)
+                                    Text("Review")
+                                        .font(.body)
+                                        .fontWeight(.regular)
+                                        .foregroundColor(.black)
+                                }
+                            })
                         
-                        //Activity
+                        //MARK: Trying to hit the review preview page
+                        NavigationLink(
+                            destination: ReviewProductPreview(companyID: companyID, email: email, orderID: "123", userID: userID),
+                            label: {
+                                Text("Review")
+                                    .font(.body)
+                                    .fontWeight(.medium)
+                                    .foregroundColor(.blue)
+                                    .padding(.trailing, 8)
+                            })
+                        
+                        //MARK: Activity (Purchases, Spent Points, Reviews, Referrals)
                         VStack(alignment: .leading) {
+                            //Header
                             HStack {
                                 Text("Recent Activity")
                                     .font(.system(size: 18))
@@ -206,6 +236,7 @@ struct CompanyProfileV2: View {
                                     .foregroundColor(Color("Dark1"))
                                 Spacer()
                             }
+                            
                             //FOR EACH DISCOUNT CODE, SHOW IT HERE
                             ForEach(viewModel2.myDiscountCodes.prefix(3)) { DiscountCode in
                                 HStack {
@@ -322,7 +353,6 @@ struct CompanyProfileV2: View {
                         .background(.white)
                         .padding(.bottom)
                         
-                        
                     }.padding(.vertical)
                 }
             }
@@ -341,7 +371,7 @@ struct CompanyProfileV2: View {
 //                    .padding(.horizontal, 12)
 //                    .padding(.top, 12)
 //                Divider()
-//                ProfileRewardsBalance(progressValue: $progressValue, currentPointsBalance: viewModel1.oneRewardsProgram.first?.currentPointsBalance ?? 0, companyName: "Athleisure LA", companyID: companyID, showingDiscountScreen: $showingDiscountScreen)
+//                ProfileRewardsBalance(progressValue: $progressValue, currentPointsBalance: viewModel1.oneRewardsProgram.first?.currentPointsBalance ?? 0, companyName: "Athleisure LA", companyID: companyID, isCreateDiscountScreenActive: $isCreateDiscountScreenActive)
 //                    .padding(.top, 12)
 //                    .padding(.all, 12)
 //                MyDiscounts(shortDescription: "Use this code at checkout for $10 off any item", discountCode: "COLIN123")
@@ -373,6 +403,7 @@ struct CompanyProfileV2: View {
             self.viewModel1.listenForOneRewardsProgram(email: "colinjpower1@gmail.com", companyID: companyID)
             self.viewModel2.listenForMyDiscountCodes(email: "colinjpower1@gmail.com", companyID: companyID)
             self.viewModel3.listenForMyTransactions(email: "colinjpower1@gmail.com", companyID: companyID)
+            self.viewModel4.listenForMyOrders(email: "colinjpower1@gmail.com", companyID: companyID)
             //print(self.viewModel3.myTransactions)
         }
         
@@ -482,7 +513,7 @@ struct ProfileRewardsBalance: View {
     var companyName: String
     var companyID: String
     
-    @Binding var showingDiscountScreen: Bool
+    @Binding var isCreateDiscountScreenActive: Bool
     
     var body: some View {
         VStack {
@@ -502,7 +533,7 @@ struct ProfileRewardsBalance: View {
                     .padding(.leading, 8)
                 Spacer()
                 Button(action: {
-                    showingDiscountScreen = true
+                    isCreateDiscountScreenActive = true
                 }) {
                     Text("Convert")
                         .font(.body)
@@ -512,8 +543,9 @@ struct ProfileRewardsBalance: View {
                         .padding(.vertical, 8)
                         .background(RoundedRectangle(cornerRadius: 16)
                                         .fill(Color.blue))
-                }.sheet(isPresented: $showingDiscountScreen, content: {
-                    CreateDiscountScreen(companyID: companyID, companyName: companyName, availablePoints: currentPointsBalance, showingDiscountScreen: $showingDiscountScreen)
+                }.sheet(isPresented: $isCreateDiscountScreenActive, content: {
+                    CreateDiscountScreen(companyID: companyID, companyName: companyName, availablePoints: currentPointsBalance, isCreateDiscountScreenActive: $isCreateDiscountScreenActive)
+                    
                 })
             }
         }
@@ -710,3 +742,47 @@ struct CompanyProfileV2_Previews: PreviewProvider {
 }
 
 
+
+
+//VStack(alignment: .leading) {
+////                                HStack {
+////                                    Text("Your Discount Codes")
+////                                        .font(.system(size: 18))
+////                                        .fontWeight(.semibold)
+////                                        .foregroundColor(Color("Dark1"))
+////                                    Spacer()
+////                                }
+//    //FOR EACH DISCOUNT CODE, SHOW IT HERE
+//    ForEach(viewModel2.myDiscountCodes.prefix(2)) { DiscountCode in
+//    //ForEach(viewModel1.oneRewardsProgram.prefix(2)) { RewardsProgram in
+//
+//        //Text("salfkj")
+//        WidgetSolo(image: "dollarsign.circle.fill", size: 40, firstLine: "aldskfjasd", secondLine: "Discsad;lfkasf", secondLineColor: Color("PrimaryBright"), buttonTitle: "Use", isActive: $isDiscount1Active)
+//            .padding(.bottom, 2)
+//
+////                                    HStack {
+////                                        Image(systemName: "plus.circle.fill")
+////                                            .foregroundColor(colorToShow[4])
+////                                            .font(.system(size: 40))
+////                                        VStack(alignment: .leading, spacing: 3) {
+////                                            Text("Invite friends")
+////                                                .font(.system(size: 16))
+////                                                .fontWeight(.semibold)
+////                                                .foregroundColor(Color("Dark1"))
+////                                            Text("Get 500 points")
+////                                                .font(.system(size: 16))
+////                                                .fontWeight(.regular)
+////                                                .foregroundColor(Color("Gray2"))
+////                                        }
+////                                        Spacer()
+////                                        Image(systemName: "chevron.right")
+////                                            .foregroundColor(Color("Gray3"))
+////                                            .font(Font.system(size: 15, weight: .semibold))
+////                                    }.padding(.vertical)
+//
+//    }
+//
+//}.padding()
+//.background(RoundedRectangle(cornerRadius: 8).foregroundColor(.white))
+//.padding(.horizontal)
+//.padding(.bottom)

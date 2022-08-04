@@ -17,7 +17,7 @@ struct CreateDiscountScreen: View {
     var companyName: String
     var availablePoints: Int
     
-    @Binding var showingDiscountScreen: Bool
+    @Binding var isCreateDiscountScreenActive: Bool
     
     @State var rewardsUsed: Double = 0
     
@@ -75,7 +75,7 @@ struct CreateDiscountScreen: View {
             Button(action: {
                 //create discount code in Firebase
                 viewModel2.addCode(dollars: Int(rewardsUsed), pointsSpent: Int(rewardsUsed), userID: "mhjEZCv9JGdk0NUZaHMcNrDsH1x2", companyName: companyName, companyID: companyID, email: "colinjpower1@gmail.com")
-                showingDiscountScreen.toggle()
+                isCreateDiscountScreenActive.toggle()
             }) {
                 HStack {
                     Spacer()
@@ -99,6 +99,6 @@ struct CreateDiscountScreen: View {
 
 struct CreateDiscountScreen_Previews: PreviewProvider {
     static var previews: some View {
-        CreateDiscountScreen(companyID: "zKL7SQ0jRP8351a0NnHM", companyName: "Athleisure LA", availablePoints: 100, showingDiscountScreen: .constant(true))
+        CreateDiscountScreen(companyID: "zKL7SQ0jRP8351a0NnHM", companyName: "Athleisure LA", availablePoints: 100, isCreateDiscountScreenActive: .constant(true))
     }
 }

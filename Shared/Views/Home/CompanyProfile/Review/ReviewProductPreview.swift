@@ -32,6 +32,7 @@ struct ReviewProductPreview: View {
                         
                         //CREATE ANIMATED BACKGROUND FOR THIS
                         //https://www.youtube.com/watch?v=YhhGx0pLOnk
+                        //AnimatedBackground()
                         Image("ReviewBackground")
                             .resizable()
                             .scaledToFill()
@@ -156,6 +157,10 @@ struct ReviewProductPreview: View {
         .navigationBarTitle("", displayMode: .inline)
     }
 }
+
+
+
+
 
 //                VStack {
 //                    ZStack (alignment: .center) {
