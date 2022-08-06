@@ -21,7 +21,9 @@ struct ReviewProductPreview: View {
     
     @State var showingReviewProductScreen: Bool = false
     
-    @ObservedObject var viewModel4 = ReviewsViewModel()
+    @Binding var isActive: Bool
+    
+    @ObservedObject var viewModel4 = OrdersViewModel()
     
     var body: some View {
         GeometryReader { geometry in
@@ -45,99 +47,90 @@ struct ReviewProductPreview: View {
                             .cornerRadius(20)
                             .shadow(color: .gray, radius: 10, x: 4, y: 4)
                     }
+                    
+                    //MARK: Bottom half (details of order)
                     ZStack (alignment: .center) {
-                        Color(red: 253/255, green: 251/255, blue: 255/255)
-                            //.frame(width: geometry.size.width / 2, height: geometry.size.height / 4, alignment: .center)
+                        
+                        //Background color
+                        Color("Background")
+                        
+                        //View
                         VStack {
+                            
+                            //Details section
+                            VStack(alignment: .leading) {
+                                
+                                //Header
+                                HStack {
+                                    Text("ITEM NAME")
+                                        .font(.system(size: 18))
+                                        .fontWeight(.semibold)
+                                        .foregroundColor(Color("Dark1"))
+                                    Spacer()
+                                }.padding(.bottom)
+                                
+                                //FOR EACH DISCOUNT CODE, SHOW IT HERE
+                                
+                                ForEach(viewModel4.oneOrder.prefix(1)) { Order in
+                                    VStack(alignment: .leading) {
+                                        OrderDetailsForReview(title: "Item", value: Order.item)
+                                        OrderDetailsForReview(title: "Price", value: String(Order.totalPrice))
+                                        OrderDetailsForReview(title: "Size", value: "Medium")
+                                        OrderDetailsForReview(title: "Date", value: "Jan 3")
+                                    }
+                                }
+                                HStack {
+                                    Spacer()
+                                    Text("See all")
+                                        .font(.system(size: 16))
+                                        .fontWeight(.semibold)
+                                        .foregroundColor(Color("Dark1"))
+                                    Spacer()
+                                }
+                            }.padding().padding(.vertical).background(RoundedRectangle(cornerRadius: 16).foregroundColor(.white))
+                                .padding(.horizontal).padding(.bottom)
+                            
                             Spacer()
-                            HStack {
-                                Text("Order Details")
-                                    .font(.title3)
-                                    .fontWeight(.medium)
-                                    .foregroundColor(.black)
-                                Spacer()
-                            }.padding(.leading, 24)
-                            HStack {
-                                Spacer()
-                                //MARK: SIZE
-                                VStack(alignment: .center) {
-                                    Text("Size")
-                                        .font(.title3)
-                                        .padding(.bottom, 8)
-                                        .foregroundColor(Color(red: 135/255, green: 134/255, blue: 135/255))
-                                    Text("M")
-                                        .font(.title2)
-                                        .fontWeight(.medium)
+                            VStack {
+                                
+                                //"Leave points for this review"
+                                HStack {
+                                    Text("Earn +100 pts by leaving a review")
+                                        .font(.body)
+                                        .italic()
                                         .foregroundColor(.black)
-                                }.frame(width: geometry.size.width/4)
-                                    .padding(.vertical, 16)
-                                    .background(RoundedRectangle(cornerRadius: 8).fill(Color(red: 243/255, green: 241/255, blue: 244/255)))
+                                    Spacer()
+                                    Image(systemName: "clock.fill")
+                                    Text("2m")
+                                }.padding(.horizontal, 24).padding(.bottom, 16)
                                 
-                                Spacer()
-                                
-                                //MARK: PRICE
-                                VStack(alignment: .center) {
-                                    Text("Price")
-                                        .font(.title3)
-                                        .padding(.bottom, 8)
-                                        .foregroundColor(Color(red: 135/255, green: 134/255, blue: 135/255))
-                                    Text("$89")
-                                        .font(.title2)
-                                        .fontWeight(.medium)
-                                        .foregroundColor(.black)
-                                }.frame(width: geometry.size.width/4)
-                                    .padding(.vertical, 16)
-                                    .background(RoundedRectangle(cornerRadius: 8).fill(Color(red: 243/255, green: 241/255, blue: 244/255)))
-                                
-                                Spacer()
-                                
-                                //MARK: DELIVERY
-                                VStack(alignment: .center) {
-                                    Text("Delivered")
-                                        .font(.title3)
-                                        .padding(.bottom, 8)
-                                        .foregroundColor(Color(red: 135/255, green: 134/255, blue: 135/255))
-                                    Text("Apr 14")
-                                        .font(.title2)
-                                        .fontWeight(.medium)
-                                        .foregroundColor(.black)
-                                }.frame(width: geometry.size.width/4)
-                                    .padding(.vertical, 16)
-                                    .background(RoundedRectangle(cornerRadius: 8).fill(Color(red: 243/255, green: 241/255, blue: 244/255)))
-                                
-                                Spacer()
-                            }
-                            Spacer()
-                            HStack {
-                                Text("Earn +100 pts by leaving a review")
-                                    .font(.body)
-                                    .italic()
-                                    .foregroundColor(.black)
-                                Spacer()
-                                Image(systemName: "clock.fill")
-                                Text("2m")
-                            }.padding(.horizontal, 24)
-                                .padding(.bottom, 16)
-                            Button(action: {
-                               showingReviewProductScreen = true
-                           }) {
-                               Text("Start Review")
-                                   .foregroundColor(Color.white)
-                                   .font(.body)
-                                   .fontWeight(.semibold)
-                                   .frame(width: geometry.size.width * 0.8, alignment: .center)
-                                   .padding(.vertical, 16)
-                                   .background(RoundedRectangle(cornerRadius: 36)
-                                    .fill(Color.blue))
-                           }.fullScreenCover(isPresented: $showingReviewProductScreen, content: {
-                               ReviewProductCarousel1(showingReviewProductScreen: $showingReviewProductScreen)
-                               //ReviewProduct(companyID: companyID, email: email, orderID: orderID, userID: userID, showingReviewProductScreen: $showingReviewProductScreen)
-                           })
-                        }.padding(.bottom, 40)
+                                //Button
+                                Button(action: {
+                                   showingReviewProductScreen = true
+                               }) {
+                                   Text("Start Review")
+                                       .foregroundColor(Color.white)
+                                       .font(.body)
+                                       .fontWeight(.semibold)
+                                       .frame(width: geometry.size.width * 0.8, alignment: .center)
+                                       .padding(.vertical, 16)
+                                       .background(RoundedRectangle(cornerRadius: 36)
+                                        .fill(Color.blue))
+                               }.fullScreenCover(isPresented: $showingReviewProductScreen, content: {
+                                   ReviewProductCarousel1(showingReviewProductScreen: $showingReviewProductScreen)
+                                   //ReviewProduct(companyID: companyID, email: email, orderID: orderID, userID: userID, showingReviewProductScreen: $showingReviewProductScreen)
+                               })
+                            }.padding(.bottom, 40)
+                        }
                     }
                     
                 }
                 VStack {
+                    Button {
+                        isActive.toggle()
+                    } label: {
+                        Image(systemName: "xmark")
+                    }
                     Text("Kool 2.0 Joggers")
                         .font(.title2)
                         .fontWeight(.medium)
@@ -145,18 +138,20 @@ struct ReviewProductPreview: View {
                     Text("Athleisure LA")
                         .font(.body)
                         .foregroundColor(Color(red: 135/255, green: 134/255, blue: 135/255))
-                }
-                .padding()
-                .padding(.horizontal)
-                .padding(.horizontal)
-                .background(RoundedRectangle(cornerRadius: 24).fill(Color(red: 243/255, green: 241/255, blue: 244/255)).shadow(color: .gray, radius: 10, x: 4, y: 4))
-                
-                
+                }.padding().padding(.horizontal).padding(.horizontal)
+                    .background(RoundedRectangle(cornerRadius: 24).fill(Color(red: 243/255, green: 241/255, blue: 244/255)).shadow(color: .gray, radius: 10, x: 4, y: 4))
             }
         }.ignoresSafeArea()
         .navigationBarTitle("", displayMode: .inline)
+        .onAppear {
+            self.viewModel4.listenForOneOrder(email: "colinjpower1@gmail.com", companyID: companyID, orderID: "BP1KvlMpXqPry3SLRvAu")
+            print("TRIGGERED THIS")
+        }
+        
     }
 }
+
+
 
 
 
@@ -246,7 +241,7 @@ struct ReviewProductPreview: View {
 
 struct ReviewProductPreview_Previews: PreviewProvider {
     static var previews: some View {
-        ReviewProductPreview(companyID: "zKL7SQ0jRP8351a0NnHM", email: "colinjpower1@gmail.com", orderID: "temp Order ID", userID: "temp user ID")
+        ReviewProductPreview(companyID: "zKL7SQ0jRP8351a0NnHM", email: "colinjpower1@gmail.com", orderID: "temp Order ID", userID: "temp user ID", isActive: .constant(true))
     }
 }
 

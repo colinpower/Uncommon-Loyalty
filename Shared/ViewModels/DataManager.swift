@@ -131,6 +131,28 @@ class DataManager: ObservableObject {
         listener(listenerRegistration5) //escaping listener
     }
     
+    func getOneOrder(email: String, companyID: String, orderID: String, onSuccess: @escaping([Orders]) -> Void, listener: @escaping(_ listenerHandle: ListenerRegistration) -> Void) {
+        //print("this ONE function was called")
+        let listenerRegistration6 = db.collection("orders-" + companyID)
+            .whereField("email", isEqualTo: email)
+            .whereField("orderID", isEqualTo: orderID)
+            .addSnapshotListener { (querySnapshot, error) in
+            guard let documents = querySnapshot?.documents else {
+                print("No documents")
+                return
+            }
+            var oneOrderArray = [Orders]()
+
+                oneOrderArray = documents.compactMap { (queryDocumentSnapshot) -> Orders? in
+                    print("SINGLE ORDER")
+                print(try? queryDocumentSnapshot.data(as: Orders.self))
+                return try? queryDocumentSnapshot.data(as: Orders.self)
+                //return try? queryDocumentSnapshot.data(as: Ticket.self)
+            }
+            onSuccess(oneOrderArray)
+        }
+        listener(listenerRegistration6) //escaping listener
+    }
     
     
 //    // MARK: Queries for the INBOX views

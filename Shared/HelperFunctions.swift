@@ -28,7 +28,7 @@ func convertTimestampToString(timestamp: Int) -> String {
         //else, write "Oct 12, 3:43 PM"
         let date1 = Date(timeIntervalSince1970: Double(timestamp))
         let formatter = DateFormatter()
-        formatter.dateFormat = "MM-dd-yy"
+        formatter.dateFormat = "MMMM d"
         
         return formatter.string(from: date1)
 //    }

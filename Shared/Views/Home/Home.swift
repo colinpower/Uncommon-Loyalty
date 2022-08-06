@@ -8,6 +8,11 @@
 import SwiftUI
 import FirebaseAuth
 
+
+//how to merge and store two firestore queries
+//https://stackoverflow.com/questions/65688706/how-to-merge-two-queries-using-firestore-swift
+
+
 struct Home: View {
     
     //@State var showingDiscountScreen: Bool = false
@@ -134,10 +139,10 @@ struct Home: View {
                         
                             Spacer()
                             
-                            NavigationLink(destination: ReviewProductPreview(companyID: "zKL7SQ0jRP8351a0NnHM", email: "colinjpower1@gmail.com", orderID: "", userID: "mhjEZCv9JGdk0NUZaHMcNrDsH1x2")) {
-                                    Image(systemName: "plus.circle.fill")
-                                        .font(.system(size: 30))
-                                    }
+//                            NavigationLink(destination: ReviewProductPreview(companyID: "zKL7SQ0jRP8351a0NnHM", email: "colinjpower1@gmail.com", orderID: "", userID: "mhjEZCv9JGdk0NUZaHMcNrDsH1x2")) {
+//                                    Image(systemName: "plus.circle.fill")
+//                                        .font(.system(size: 30))
+//                                    }
                             
                             
                             Button {

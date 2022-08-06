@@ -80,7 +80,7 @@ struct WidgetSolo: View {
 
                 } else {
                     Image(systemName: "chevron.right")
-                        .foregroundColor(Color("Gray3"))
+                        .foregroundColor(Color("Gray2"))
                         .font(Font.system(size: 15, weight: .semibold))
                 }
             }.padding(.horizontal, 12)
@@ -214,6 +214,8 @@ struct WideWidgetItem: View {
 }
 
 
+//MARK: PROMPT CARD
+//Used on Home, CompanyProfile pages to prompt user to review products or refer them to friends
 struct PromptCard: View {
 
     var image:String
@@ -250,5 +252,95 @@ struct PromptCard: View {
         }.padding()
             .background(RoundedRectangle(cornerRadius: 16).foregroundColor(.white))
             .frame(width: width, height: 160)
+    }
+}
+
+
+//MARK: MY HISTORY
+//This struct formats the discount codes that are available
+struct MyHistoryItem: View {
+    
+    var type: String
+    var timestamp: Int
+    var pointsEarnedOrSpent: Int
+    var colorToShow: Color
+    
+    var iconToShow: String {
+        switch type {
+            case "REFERRAL":
+                return "person.2.fill"
+            case "REVIEW":
+                return "text.bubble.fill"
+            case "ORDER":
+                return "signature"
+            case "DISCOUNTCODE":
+                return "dollarsign.circle.fill"
+            default:
+                return "bag.fill"
+        }
+    }
+    
+    var textToShow: String {
+        switch type {
+            case "REFERRAL":
+                return "Referral bonus"
+            case "REVIEW":
+                return "Review bonus"
+            case "ORDER":
+                return "Purchase"
+            case "DISCOUNTCODE":
+                return "Redeemed points"
+            default:
+                return "bag.fill"
+        }
+    }
+    
+    var body: some View {
+        
+        HStack {
+            Image(systemName: iconToShow)
+                .foregroundColor(colorToShow)
+                .font(.system(size: 40))
+            VStack(alignment: .leading, spacing: 3) {
+                HStack(alignment: .center) {
+                    Text(textToShow)
+                        .font(.system(size: 16))
+                        .fontWeight(.semibold)
+                        .foregroundColor(Color("Dark1"))
+                    Spacer()
+                    Text(String(pointsEarnedOrSpent))
+                        .font(Font.system(size: 15, weight: .semibold))
+                        .foregroundColor(Color("Gray1"))
+                }
+                Text(convertTimestampToString(timestamp: timestamp))
+                    .font(.system(size: 16))
+                    .fontWeight(.regular)
+                    .foregroundColor(Color("Dark1"))
+            }
+        }.padding(.vertical)
+    }
+}
+
+
+//MARK: REVIEW - DETAILS OF PURCHASED ITEM
+//Format the item details
+struct OrderDetailsForReview: View {
+    
+    var title: String
+    var value: String
+    
+    var body: some View {
+        
+        HStack(alignment: .center) {
+            Text(title)
+                .font(.system(size: 16))
+                .fontWeight(.semibold)
+                .foregroundColor(Color("Gray2"))
+            Spacer()
+            Text(value)
+                .font(Font.system(size: 15, weight: .semibold))
+                .foregroundColor(Color("Dark1"))
+        }.padding(.bottom)
+        
     }
 }

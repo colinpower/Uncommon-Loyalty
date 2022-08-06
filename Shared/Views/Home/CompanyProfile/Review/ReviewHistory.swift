@@ -82,17 +82,18 @@ struct ReviewItem: View {
                 
             } else {
                 
-                NavigationLink(
-                    destination: ReviewProductPreview(companyID: companyID, email: email, orderID: orderID, userID: userID),
-                    label: {
-                        Text("Add review")
-                            .font(.subheadline)
-                            .fontWeight(.regular)
-                            .foregroundColor(.blue)
-                        Image(systemName: "chevron.right")
-                            .font(.footnote)
-                            .foregroundColor(.blue)
-                    })
+                Text("need to submit a review!")
+//                NavigationLink(
+//                    destination: ReviewProductPreview(companyID: companyID, email: email, orderID: orderID, userID: userID),
+//                    label: {
+//                        Text("Add review")
+//                            .font(.subheadline)
+//                            .fontWeight(.regular)
+//                            .foregroundColor(.blue)
+//                        Image(systemName: "chevron.right")
+//                            .font(.footnote)
+//                            .foregroundColor(.blue)
+//                    })
             }
                 
         }

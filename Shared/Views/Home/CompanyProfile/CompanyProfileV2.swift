@@ -190,44 +190,18 @@ struct CompanyProfileV2: View {
                                         isPrompt1Active.toggle()
                                     } label: {
                                         PromptCard(image: "circle.fill", title: "Write a review", points: 100, text: "Write a review for " + Order.orderID, width: geometry.size.width*4/5)
-                                    }.sheet(isPresented: $isPrompt1Active) {
-                                        ReviewProductPreview(companyID: companyID, email: email, orderID: "123", userID: userID)
+                                    }.fullScreenCover(isPresented: $isPrompt1Active) {
+                                        ReviewProductPreview(companyID: companyID, email: email, orderID: "123", userID: userID, isActive: $isPrompt1Active)
                                     }
                                 }
                             }.padding(.horizontal)
                                 .padding(.bottom)
                         }
-                        //MARK: Trying to hit the ReviewHistory page
-                        NavigationLink(
-                            destination: ReviewHistory(companyID: companyID, email: email, userID: userID),
-                            label: {
-                                HStack(alignment: .center) {
-                                    Image("History")
-                                        .resizable()
-                                        .scaledToFill()
-                                        .frame(width: 24, height: 24, alignment: .center)
-                                        .clipped()
-                                        .cornerRadius(8)
-                                    Text("Review")
-                                        .font(.body)
-                                        .fontWeight(.regular)
-                                        .foregroundColor(.black)
-                                }
-                            })
                         
-                        //MARK: Trying to hit the review preview page
-                        NavigationLink(
-                            destination: ReviewProductPreview(companyID: companyID, email: email, orderID: "123", userID: userID),
-                            label: {
-                                Text("Review")
-                                    .font(.body)
-                                    .fontWeight(.medium)
-                                    .foregroundColor(.blue)
-                                    .padding(.trailing, 8)
-                            })
                         
                         //MARK: Activity (Purchases, Spent Points, Reviews, Referrals)
                         VStack(alignment: .leading) {
+                            
                             //Header
                             HStack {
                                 Text("Recent Activity")
@@ -238,27 +212,8 @@ struct CompanyProfileV2: View {
                             }
                             
                             //FOR EACH DISCOUNT CODE, SHOW IT HERE
-                            ForEach(viewModel2.myDiscountCodes.prefix(3)) { DiscountCode in
-                                HStack {
-                                    Image(systemName: "plus.circle.fill")
-                                        .foregroundColor(colorToShow[4])
-                                        .font(.system(size: 40))
-                                    VStack(alignment: .leading, spacing: 3) {
-                                        Text("Invite friends")
-                                            .font(.system(size: 16))
-                                            .fontWeight(.semibold)
-                                            .foregroundColor(Color("Dark1"))
-                                        Text("Get 500 points")
-                                            .font(.system(size: 16))
-                                            .fontWeight(.regular)
-                                            .foregroundColor(Color("Gray2"))
-                                    }
-                                    Spacer()
-                                    Image(systemName: "chevron.right")
-                                        .foregroundColor(Color("Gray3"))
-                                        .font(Font.system(size: 15, weight: .semibold))
-                                }.padding(.vertical)
-                                
+                            ForEach(viewModel3.myTransactions.prefix(5)) { DiscountCode in
+                                MyHistoryItem(type: DiscountCode.type, timestamp: DiscountCode.timestamp, pointsEarnedOrSpent: DiscountCode.pointsEarnedOrSpent, colorToShow: colorToShow[4])
                             }
                             HStack {
                                 Spacer()
@@ -269,117 +224,35 @@ struct CompanyProfileV2: View {
                                 Spacer()
                             }
                         }.padding()
+                            .padding(.vertical)
                         .background(RoundedRectangle(cornerRadius: 8).foregroundColor(.white))
                         .padding(.horizontal)
                         .padding(.bottom)
                         
                         //Links + Additional info
-                        HStack {
-                            Text("MORE INFO").kerning(1.2)
-                                .font(.system(size: 13))
-                                .fontWeight(.medium)
-                                .foregroundColor(Color("Gray1"))
-                            Spacer()
-                        }.padding(.horizontal)
-                            .padding(.top)
+                        //MARK: Settings
+                        WideWidgetHeader(title: "SETTINGS")
                         VStack {
-                            //Name
-                            HStack {
-                                Image(systemName: "person.fill")
-                                    .foregroundColor(Color("Dark1"))
-                                    .font(.system(size: 20))
-                                    .frame(width: 40)
-                                Text("Name")
-                                    .font(.system(size: 16))
-                                    .fontWeight(.semibold)
-                                    .foregroundColor(Color("Dark1"))
-                                Spacer()
-                                Image(systemName: "chevron.right")
-                                    .foregroundColor(Color("Gray3"))
-                                    .font(Font.system(size: 15, weight: .semibold))
-                            }.padding(.bottom)
-                                .padding(.bottom)
-                            //Email Address
-                            HStack {
-                                Image(systemName: "envelope.fill")
-                                    .foregroundColor(Color("Dark1"))
-                                    .font(.system(size: 20))
-                                    .frame(width: 40)
-                                Text("Email address")
-                                    .font(.system(size: 16))
-                                    .fontWeight(.semibold)
-                                    .foregroundColor(Color("Dark1"))
-                                Spacer()
-                                Image(systemName: "chevron.right")
-                                    .foregroundColor(Color("Gray3"))
-                                    .font(Font.system(size: 15, weight: .semibold))
-                            }.padding(.bottom)
-                                .padding(.bottom)
                             
-                            //Notifications
-                            HStack {
-                                Image(systemName: "bell.fill")
-                                    .foregroundColor(Color("Dark1"))
-                                    .font(.system(size: 20))
-                                    .frame(width: 40)
-                                Text("Notifications")
-                                    .font(.system(size: 16))
-                                    .fontWeight(.semibold)
-                                    .foregroundColor(Color("Dark1"))
-                                Spacer()
-                                Image(systemName: "chevron.right")
-                                    .foregroundColor(Color("Gray3"))
-                                    .font(Font.system(size: 15, weight: .semibold))
-                            }.padding(.bottom)
-                                .padding(.bottom)
+                            //Item 1: Name
+                            WideWidgetItem(image: "person.fill", size: 20, color: Color("Dark1"), title: "Name").padding(.bottom).padding(.bottom)
                             
-                            //Help
-                            HStack {
-                                Image(systemName: "questionmark.circle.fill")
-                                    .foregroundColor(Color("Dark1"))
-                                    .font(.system(size: 20))
-                                    .frame(width: 40)
-                                Text("Get help")
-                                    .font(.system(size: 16))
-                                    .fontWeight(.semibold)
-                                    .foregroundColor(Color("Dark1"))
-                                Spacer()
-                                Image(systemName: "chevron.right")
-                                    .foregroundColor(Color("Gray3"))
-                                    .font(Font.system(size: 15, weight: .semibold))
-                            }
-                        }
-                        .padding()
-                        .background(.white)
-                        .padding(.bottom)
+                            //Item 2: Email
+                            WideWidgetItem(image: "envelope.fill", size: 20, color: Color("Dark1"), title: "Email").padding(.bottom).padding(.bottom)
+                            
+                            //Item 3: Notifications
+                            WideWidgetItem(image: "bell.fill", size: 20, color: Color("Dark1"), title: "Notifications").padding(.bottom).padding(.bottom)
+                            
+                            //Item 4: Get help
+                            WideWidgetItem(image: "questionmark.circle.fill", size: 20, color: Color("Dark1"), title: "Get help").padding(.bottom)
+                            
+                        }.padding().background(.white).padding(.bottom).padding(.bottom)
                         
                     }.padding(.vertical)
                 }
             }
                     
 
-            
-            
-            
-            
-            
-            
-            //            VStack {
-                
-                
-//                ProfileHeader(companyID: companyID, companyName: companyName, email: email, userID: userID)
-//                    .padding(.horizontal, 12)
-//                    .padding(.top, 12)
-//                Divider()
-//                ProfileRewardsBalance(progressValue: $progressValue, currentPointsBalance: viewModel1.oneRewardsProgram.first?.currentPointsBalance ?? 0, companyName: "Athleisure LA", companyID: companyID, isCreateDiscountScreenActive: $isCreateDiscountScreenActive)
-//                    .padding(.top, 12)
-//                    .padding(.all, 12)
-//                MyDiscounts(shortDescription: "Use this code at checkout for $10 off any item", discountCode: "COLIN123")
-//                    .padding(.all, 12)
-//                YourOrders(companyID: companyID, companyName: companyName, email: email, userID: userID)
-//                    .padding(.all, 12)   //need to pass in viewModel4 (Orders observed object)
-                    
-//            }
         }
         .ignoresSafeArea(.container, edges: [.horizontal, .bottom])
         .navigationBarTitle("Athleisure Gold", displayMode: .inline)
@@ -669,68 +542,7 @@ struct YourOrders: View {
 }
 
 
-//MARK: MY HISTORY
-//This struct formats the discount codes that are available
-struct MyHistoryItem: View {
-    
-    var type: String
-    var timestamp: Int
-    var pointsEarnedOrSpent: Int
-    
-    var iconToShow: String {
-        switch type {
-            case "REFERRAL":
-                return "person.2.fill"
-            case "REVIEW":
-                return "text.bubble.fill"
-            case "ORDER":
-                return "signature"
-            case "DISCOUNTCODE":
-                return "dollarsign.circle.fill"
-            default:
-                return "bag.fill"
-        }
-    }
-    
-    var textToShow: String {
-        switch type {
-            case "REFERRAL":
-                return "Referred a friend"
-            case "REVIEW":
-                return "Created a review"
-            case "ORDER":
-                return "Placed an order"
-            case "DISCOUNTCODE":
-                return "Created a discount code"
-            default:
-                return "bag.fill"
-        }
-    }
-    
-//    var pointsToShow: String = ""
-//
-//    if pointsEarnedOrSpent > 0 {
-//        pointsToShow = "+" + String(pointsEarnedOrSpent)
-//    } else {
-//        pointsToShow = "-" + String(pointsEarnedOrSpent)
-//    }
-//
-    //var description: String
-    
-    var body: some View {
-        HStack {
-            Image(systemName: iconToShow).padding(.trailing, 4)
-            Text(textToShow)
-            Spacer()
-            VStack {
-                Text(String(pointsEarnedOrSpent))
-                Text(convertTimestampToString(timestamp: timestamp))
-                    .font(.footnote)
-            }
-        }.padding(.vertical, 6)
-        .padding(.horizontal, 12)
-    }
-}
+
 
 
 

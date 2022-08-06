@@ -25,7 +25,8 @@ struct CreateDiscountScreen: View {
     
     var body: some View {
         VStack (alignment: .center) {
-            
+            SheetHeader(title: "Redeem", isActive: $isCreateDiscountScreenActive)
+            Spacer()
             VStack(alignment: .center) {
                 Text("Convert Points")
                     .font(.headline)
@@ -39,7 +40,6 @@ struct CreateDiscountScreen: View {
 //                    .foregroundColor(.gray)
             }
             Spacer()
-            Spacer()
             
             VStack (alignment: .center) {
                 Text("$\(rewardsUsed/10, specifier: "%.0f")")
@@ -48,7 +48,6 @@ struct CreateDiscountScreen: View {
                     .padding(.bottom, 12)
             }
             
-            Spacer()
             Spacer()
             
             
@@ -71,12 +70,11 @@ struct CreateDiscountScreen: View {
             
             
             Spacer()
-             
-            Button(action: {
-                //create discount code in Firebase
+            
+            Button {   
                 viewModel2.addCode(dollars: Int(rewardsUsed), pointsSpent: Int(rewardsUsed), userID: "mhjEZCv9JGdk0NUZaHMcNrDsH1x2", companyName: companyName, companyID: companyID, email: "colinjpower1@gmail.com")
                 isCreateDiscountScreenActive.toggle()
-            }) {
+            } label: {
                 HStack {
                     Spacer()
                     Text("Convert points")
