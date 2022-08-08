@@ -70,7 +70,7 @@ class AppViewModel: ObservableObject {
         auth.createUser(withEmail: email, password: password) { [weak self]
             result, error in
             guard result != nil, error == nil else {
-                print(error)
+                print(error!)
                 return
             }
             

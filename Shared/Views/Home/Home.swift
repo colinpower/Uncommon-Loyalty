@@ -23,6 +23,9 @@ struct Home: View {
     @State var isSendFeedbackActive:Bool = false
     @State var showingAnimation:Bool = false
     
+    //TEMPORARY TO TRIGGER THE NOTI PAGE
+    @State var isNotificationsActive:Bool = false
+    
     
     @State var x : [CGFloat] = [0, 0, 0, 0, 0, 0]
     @State var colorbg : [Color] = [Color.red, Color.orange, Color.yellow, Color.green, Color.blue, Color.purple]

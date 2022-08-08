@@ -14,10 +14,12 @@ class TransactionsViewModel: ObservableObject, Identifiable {
     //What arrays or data do we want to be accessible from here? Should be everything we need as it relates to RewardsPrograms
     
     @Published var myTransactions = [Transactions]()
+    @Published var last60DaysTransactions = [Transactions]()
     
     var dm = DataManager()
     
     var listener_Transactions: ListenerRegistration!
+    var listener_Transactions7: ListenerRegistration!
         
     private var db = Firestore.firestore()
     
@@ -31,6 +33,19 @@ class TransactionsViewModel: ObservableObject, Identifiable {
 //            print(self.myTransactions)
         }, listener: { (listener4) in
             self.listener_Transactions = listener4
+        })
+    }
+    
+    func listenForLast60DaysTransactions(email: String, companyID: String) {
+        self.last60DaysTransactions = [Transactions]()
+
+        self.dm.getLast60DaysTransactions(email: email, companyID: companyID, onSuccess: { (transactions) in
+            //if (self.newTickets.isEmpty) {
+                self.last60DaysTransactions = transactions
+
+            
+        }, listener: { (listener7) in
+            self.listener_Transactions7 = listener7
         })
     }
     

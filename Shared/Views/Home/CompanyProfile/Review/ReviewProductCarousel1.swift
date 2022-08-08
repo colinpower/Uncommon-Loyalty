@@ -16,6 +16,7 @@ struct ReviewProductCarousel1: View {
     @State var rating : Int = 0
     
     @State var question1: String = ""
+    @State var question2: String = ""
     
     var body: some View {
         GeometryReader { geometry in
@@ -25,7 +26,7 @@ struct ReviewProductCarousel1: View {
                 
                 //Pages that you scroll through
                 ScrollView(.horizontal) {
-                    HStack {
+                    HStack(spacing: 0) {
                         //MARK: PAGE 1 (Title and First Question)
                         VStack (alignment: .leading) {
                             Spacer()
@@ -45,30 +46,33 @@ struct ReviewProductCarousel1: View {
                                         .font(.body)
                                         .italic()
                                         .padding(.bottom, 24)
-                                    RatingView(rating: $rating)
+                                    RatingView(rating: $rating, width: geometry.size.width, horizontalOffset: $horizontalOffset)
 
                                     Divider().opacity(0.0)
                                         .padding(.bottom, 24)
 
-                                    Button {
-                                        //withAnimation(scaleEffect(1.1))
-                                        //.scaleEffect(1.1)
-                                        withAnimation(.linear(duration: 0.15)) {
-                                            horizontalOffset -= geometry.size.width
-                                        }
-                                        //.animation(.easeInOut(duration: 0.2), value: rating)
-                                    } label: {
-                                        HStack {
-                                            Text("OK")
-                                                .foregroundColor(.white)
-                                                .font(.headline)
-                                            Image(systemName: "checkmark")
-                                                .foregroundColor(.white)
-                                                .font(.headline)
-                                        }.padding()
-                                        .background(RoundedRectangle(cornerRadius: 8)
-                                            .fill(self.rating == 0 ? Color("Gray2") : Color("ThemeBright")))
-                                    }.disabled(self.rating == 0)
+                                    HStack {
+                                        Spacer()
+                                        Button {
+                                            //withAnimation(scaleEffect(1.1))
+                                            //.scaleEffect(1.1)
+                                            withAnimation(.linear(duration: 0.15)) {
+                                                horizontalOffset -= geometry.size.width
+                                            }
+                                            //.animation(.easeInOut(duration: 0.2), value: rating)
+                                        } label: {
+                                            HStack {
+                                                Text("OK")
+                                                    .foregroundColor(.white)
+                                                    .font(.headline)
+                                                Image(systemName: "checkmark")
+                                                    .foregroundColor(.white)
+                                                    .font(.headline)
+                                            }.padding()
+                                            .background(RoundedRectangle(cornerRadius: 8)
+                                                .fill(self.rating == 0 ? Color("Gray2") : Color("ThemeBright")))
+                                        }.disabled(self.rating == 0)
+                                    }
                                 }
 
                             }.padding(.horizontal)
@@ -94,29 +98,28 @@ struct ReviewProductCarousel1: View {
                                         .padding(.bottom, 24)
                                     TextField("Write here...", text: $question1)
                                         .textFieldStyle(RoundedBorderTextFieldStyle())
-    //                                    Text("Write here...")
-    //                                        .foregroundColor(Color(red: 20/255, green: 52/255, blue: 97/255).opacity(0.6))
-    //                                        .font(.title2)
-                                    Divider()
                                         .padding(.bottom, 24)
 
-                                    Button {
-                                        withAnimation(.linear(duration: 0.15)) {
-                                            horizontalOffset -= geometry.size.width
-                                            hideKeyboard()
+                                    HStack {
+                                        Spacer()
+                                        Button {
+                                            withAnimation(.linear(duration: 0.15)) {
+                                                horizontalOffset -= geometry.size.width
+                                                hideKeyboard()
+                                            }
+                                        } label: {
+                                            HStack {
+                                                Text("OK")
+                                                    .foregroundColor(.white)
+                                                    .font(.headline)
+                                                Image(systemName: "checkmark")
+                                                    .foregroundColor(.white)
+                                                    .font(.headline)
+                                            }.padding()
+                                            .background(RoundedRectangle(cornerRadius: 8)
+                                                //.fill(Color("ThemeBright"))
+                                                .fill(self.question1 == "" ? Color("Gray2") : Color("ThemeBright")))
                                         }
-                                    } label: {
-                                        HStack {
-                                            Text("OK")
-                                                .foregroundColor(.white)
-                                                .font(.headline)
-                                            Image(systemName: "checkmark")
-                                                .foregroundColor(.white)
-                                                .font(.headline)
-                                        }.padding()
-                                        .background(RoundedRectangle(cornerRadius: 8)
-                                            //.fill(Color("ThemeBright"))
-                                            .fill(self.question1 == "" ? Color("Gray2") : Color("ThemeBright")))
                                     }
                                 }
 
@@ -145,30 +148,34 @@ struct ReviewProductCarousel1: View {
                                             .font(.title3)
                                             .fontWeight(.semibold)
                                             .padding(.bottom, 24)
-                                        Text("Write here...")
-                                            .foregroundColor(Color(red: 20/255, green: 52/255, blue: 97/255).opacity(0.6))
-                                            .font(.title2)
+                                        TextField("Write here...", text: $question2)
+                                            .textFieldStyle(RoundedBorderTextFieldStyle())
+                                            .padding(.bottom, 24)
                                         Divider()
                                             .padding(.bottom, 24)
                                     }
 
                                     //Submit Button
-                                    Button {
-                                        //NEED TO POST BACK TO FIREBASE HERE
-                                        showingReviewProductScreen = false
-                                    } label: {
-                                        HStack {
-                                            Text("Submit")
-                                                .foregroundColor(.white)
-                                                .font(.headline)
-                                            Image(systemName: "checkmark")
-                                                .foregroundColor(.white)
-                                                .font(.headline)
-                                        }.padding()
-                                        .padding(.horizontal, 32)
-                                        .background(RoundedRectangle(cornerRadius: 8)
-                                        .fill(Color(red: 20/255, green: 52/255, blue: 97/255)))
+                                    HStack {
+                                        Spacer()
+                                        Button {
+                                            //NEED TO POST BACK TO FIREBASE HERE
+                                            showingReviewProductScreen = false
+                                        } label: {
+                                            HStack {
+                                                Text("Submit")
+                                                    .foregroundColor(.white)
+                                                    .font(.headline)
+                                                Image(systemName: "checkmark")
+                                                    .foregroundColor(.white)
+                                                    .font(.headline)
+                                            }.padding()
+                                            .padding(.horizontal, 32)
+                                            .background(RoundedRectangle(cornerRadius: 8)
+                                            .fill(Color(red: 20/255, green: 52/255, blue: 97/255)))
+                                        }
                                     }
+                                    
                                 }
 
                             }.padding(.horizontal)

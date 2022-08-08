@@ -106,7 +106,7 @@ struct VoteWidget: View {
             let storage = Storage.storage().reference()
             storage.child("AthleisureLA.png").downloadURL { (url, err) in
                 if err != nil {
-                    print(err?.localizedDescription)
+                    print(err?.localizedDescription ?? "Issue showing the right image")
                     return
                 } else {
                     self.url = "\(url!)"

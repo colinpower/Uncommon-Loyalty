@@ -31,6 +31,12 @@ struct CompanyProfileV2: View {
     @State var isDiscount1Active: Bool = false
     @State var isDiscount2Active: Bool = false
     
+    
+    @State var isProfileShowing:Bool = false
+    @State var isHistoryActive:Bool = false
+    @State var isNotificationsActive:Bool = false
+
+    
     @State var isPrompt1Active: Bool = false
     @State var isPrompt2Active: Bool = false
     @State var isPrompt3Active: Bool = false
@@ -81,58 +87,64 @@ struct CompanyProfileV2: View {
                 ScrollView(.vertical, showsIndicators: false) {
                     VStack(alignment: .leading) {
                         
-                        //MARK: Rewards "Card"
-                        VStack(alignment: .leading, spacing: 8) {
-                            
-//                            ForEach(viewModel2.myDiscountCodes.prefix(1)) { DiscountCode in
-//                                WidgetSolo(image: "dollarsign.circle.fill", size: 38, firstLine: "Discount Available", secondLine: "$" + String(DiscountCode.dollarAmount) + " off any item", secondLineColor: Color("ThemeBright"), buttonTitle: "Use", isActive: $isDiscount1Active)
-//                                    .padding(.bottom, 8)
-//                            }
-                            
-                            
-                            //Balance + tier
-                            HStack(alignment: .top){
-                                VStack (alignment: .leading){
-                                    Text("Points Balance")
-                                        .font(.system(size: 16))
-                                        .fontWeight(.semibold)
-                                        .foregroundColor(colorToShow[1])
-                                    Text("825")
-                                        .font(.system(size: 40))
-                                        .fontWeight(.semibold)
-                                        .foregroundColor(colorToShow[1])
-                                }
-                                Spacer()
-                                Button {
-                                    //navigate to the "understand tiers" page
-                                } label: {
-                                    VStack{
-                                        HStack {
-                                            Text("450 to Platinum")
-                                                .font(.system(size: 14))
-                                                .fontWeight(.regular)
-                                                .foregroundColor(colorToShow[2])
-                                            Image(systemName: "chevron.right")
-                                                .foregroundColor(colorToShow[2])
-                                                .font(Font.system(size: 12, weight: .bold))
-                                        }.padding(.top, 2)
+                        //MARK: Attempting to create graph here
+                        VStack {
+                            VStack(alignment: .center, spacing: 2) {
+                                Text(String(viewModel1.oneRewardsProgram.first?.currentPointsBalance ?? 0))
+                                    .font(.system(size: 48))
+                                    .fontWeight(.semibold)
+                                    .foregroundColor(colorToShow[1])
+                                Text("Current Balance")
+                                    .font(.system(size: 16))
+                                    .fontWeight(.semibold)
+                                    .foregroundColor(colorToShow[1])
+                                HStack {
+                                    Button {
+                                        //navigate to the "understand tiers" page
+                                    } label: {
+                                        Text("450 to Platinum")
+                                            .font(.system(size: 14))
+                                            .fontWeight(.semibold)
+                                            .foregroundColor(Color("ThemeBright"))
                                     }
+                                    Spacer()
+                                    Text("--------------------")
                                 }
-                            }.padding(.bottom)
-                            .padding(.bottom)
-                            HStack (alignment: .center, spacing: 16) {
+                            }.padding(.horizontal)
+               
+                            
+                            LineGraph(data: createLast60DaysPointsArray(transactions: viewModel3.last60DaysTransactions, currentBalance: viewModel1.oneRewardsProgram.first?.currentPointsBalance ?? 0))
+                                .frame(height: 200)
+                                .padding(.bottom).padding(.bottom)
+                            HStack (alignment: .center, spacing: 8) {
                                 Button {
                                     isCreateDiscountScreenActive.toggle()
                                 } label: {
                                     HStack {
                                         Spacer()
                                         Text("Redeem")
-                                            .font(.system(size: 18))
+                                            .font(.system(size: 16))
                                             .fontWeight(.semibold)
-                                            .foregroundColor(colorToShow[1])
+                                            .foregroundColor(.white)
                                         Spacer()
                                     }.padding(.vertical, 12)
-                                    .background(RoundedRectangle(cornerRadius: 32).foregroundColor(colorToShow[3]))
+                                    .background(RoundedRectangle(cornerRadius: 32).foregroundColor(Color("ThemeBright")))
+                                }.fullScreenCover(isPresented: $isCreateDiscountScreenActive, content: {
+                                    CreateDiscountScreen(companyID: companyID, companyName: companyName, availablePoints: 400, isCreateDiscountScreenActive: $isCreateDiscountScreenActive)
+                                    
+                                })
+                                Button {
+                                    isCreateDiscountScreenActive.toggle()
+                                } label: {
+                                    HStack {
+                                        Spacer()
+                                        Text("Redeem")
+                                            .font(.system(size: 16))
+                                            .fontWeight(.semibold)
+                                            .foregroundColor(.white)
+                                        Spacer()
+                                    }.padding(.vertical, 12)
+                                    .background(RoundedRectangle(cornerRadius: 32).foregroundColor(Color("ThemeBright")))
                                 }.fullScreenCover(isPresented: $isCreateDiscountScreenActive, content: {
                                     CreateDiscountScreen(companyID: companyID, companyName: companyName, availablePoints: 400, isCreateDiscountScreenActive: $isCreateDiscountScreenActive)
                                     
@@ -144,19 +156,95 @@ struct CompanyProfileV2: View {
                                         Spacer()
                                         Link(destination: URL(string: urlToShopifySite)!) {
                                             Text("Visit site")
-                                                .font(.system(size: 18))
+                                                .font(.system(size: 16))
                                                 .fontWeight(.semibold)
-                                                .foregroundColor(colorToShow[1])
+                                                .foregroundColor(.white)
                                         }
                                         Spacer()
                                     }.padding(.vertical, 12)
-                                        .background(RoundedRectangle(cornerRadius: 32).foregroundColor(colorToShow[3]))
+                                        .background(RoundedRectangle(cornerRadius: 32).foregroundColor(Color("ThemeBright")))
                                 }
-                            }
-                        }.padding()
-                            .background(RoundedRectangle(cornerRadius: 16).foregroundColor(colorToShow[0]))
-                            .padding(.horizontal)
-                            .padding(.bottom, 8)
+                            }.padding(.horizontal)
+                                .padding(.bottom)
+                        }
+                        
+//                        Text(String(createLast60DaysPointsArray(transactions: viewModel3.last60DaysTransactions, currentBalance: viewModel1.oneRewardsProgram.first?.currentPointsBalance ?? 0)[0]))
+//                        //MARK: Rewards "Card"
+//                        VStack(alignment: .leading, spacing: 8) {
+//
+////                            ForEach(viewModel2.myDiscountCodes.prefix(1)) { DiscountCode in
+////                                WidgetSolo(image: "dollarsign.circle.fill", size: 38, firstLine: "Discount Available", secondLine: "$" + String(DiscountCode.dollarAmount) + " off any item", secondLineColor: Color("ThemeBright"), buttonTitle: "Use", isActive: $isDiscount1Active)
+////                                    .padding(.bottom, 8)
+////                            }
+//
+//
+//                            //Balance + tier
+//                            HStack(alignment: .top){
+//                                VStack (alignment: .leading){
+//                                    Text("Points Balance")
+//                                        .font(.system(size: 16))
+//                                        .fontWeight(.semibold)
+//                                        .foregroundColor(colorToShow[1])
+//                                    Text(String(viewModel1.oneRewardsProgram.first?.currentPointsBalance ?? 0))
+//                                        .font(.system(size: 40))
+//                                        .fontWeight(.semibold)
+//                                        .foregroundColor(colorToShow[1])
+//                                }
+//                                Spacer()
+//                                Button {
+//                                    //navigate to the "understand tiers" page
+//                                } label: {
+//                                    VStack{
+//                                        HStack {
+//                                            Text("450 to Platinum")
+//                                                .font(.system(size: 14))
+//                                                .fontWeight(.regular)
+//                                                .foregroundColor(colorToShow[2])
+//                                            Image(systemName: "chevron.right")
+//                                                .foregroundColor(colorToShow[2])
+//                                                .font(Font.system(size: 12, weight: .bold))
+//                                        }.padding(.top, 2)
+//                                    }
+//                                }
+//                            }.padding(.bottom)
+//                            .padding(.bottom)
+//                            HStack (alignment: .center, spacing: 16) {
+//                                Button {
+//                                    isCreateDiscountScreenActive.toggle()
+//                                } label: {
+//                                    HStack {
+//                                        Spacer()
+//                                        Text("Redeem")
+//                                            .font(.system(size: 18))
+//                                            .fontWeight(.semibold)
+//                                            .foregroundColor(colorToShow[1])
+//                                        Spacer()
+//                                    }.padding(.vertical, 12)
+//                                    .background(RoundedRectangle(cornerRadius: 32).foregroundColor(colorToShow[3]))
+//                                }.fullScreenCover(isPresented: $isCreateDiscountScreenActive, content: {
+//                                    CreateDiscountScreen(companyID: companyID, companyName: companyName, availablePoints: 400, isCreateDiscountScreenActive: $isCreateDiscountScreenActive)
+//
+//                                })
+//                                Button {
+//                                    //open website
+//                                } label: {
+//                                    HStack {
+//                                        Spacer()
+//                                        Link(destination: URL(string: urlToShopifySite)!) {
+//                                            Text("Visit site")
+//                                                .font(.system(size: 18))
+//                                                .fontWeight(.semibold)
+//                                                .foregroundColor(colorToShow[1])
+//                                        }
+//                                        Spacer()
+//                                    }.padding(.vertical, 12)
+//                                        .background(RoundedRectangle(cornerRadius: 32).foregroundColor(colorToShow[3]))
+//                                }
+//                            }
+//                        }.padding()
+//                            .background(RoundedRectangle(cornerRadius: 16).foregroundColor(colorToShow[0]))
+//                            .padding(.horizontal)
+//                            .padding(.bottom, 8)
                         
                         //MARK: Discount Codes (if any)
                         if !viewModel1.oneRewardsProgram.isEmpty {
@@ -261,35 +349,35 @@ struct CompanyProfileV2: View {
                         .padding(.bottom)
                         
                         
-                        //MARK: Activity (Purchases, Spent Points, Reviews, Referrals)
-                        VStack(alignment: .leading) {
-                            
-                            //Header
-                            HStack {
-                                Text("Recent Activity")
-                                    .font(.system(size: 18))
-                                    .fontWeight(.semibold)
-                                    .foregroundColor(Color("Dark1"))
-                                Spacer()
-                            }
-                            
-                            //FOR EACH DISCOUNT CODE, SHOW IT HERE
-                            ForEach(viewModel3.myTransactions.prefix(3)) { DiscountCode in
-                                MyHistoryItem(type: DiscountCode.type, timestamp: DiscountCode.timestamp, pointsEarnedOrSpent: DiscountCode.pointsEarnedOrSpent, colorToShow: colorToShow[4])
-                            }
-                            HStack {
-                                Spacer()
-                                Text("See all")
-                                    .font(.system(size: 16))
-                                    .fontWeight(.semibold)
-                                    .foregroundColor(colorToShow[4])
-                                Spacer()
-                            }
-                        }.padding()
-                            .padding(.vertical)
-                        .background(RoundedRectangle(cornerRadius: 8).foregroundColor(.white))
-                        .padding(.horizontal)
-                        .padding(.bottom)
+//                        //MARK: Activity (Purchases, Spent Points, Reviews, Referrals)
+//                        VStack(alignment: .leading) {
+//
+//                            //Header
+//                            HStack {
+//                                Text("Recent Activity")
+//                                    .font(.system(size: 18))
+//                                    .fontWeight(.semibold)
+//                                    .foregroundColor(Color("Dark1"))
+//                                Spacer()
+//                            }
+//
+//                            //FOR EACH DISCOUNT CODE, SHOW IT HERE
+//                            ForEach(viewModel3.myTransactions.prefix(3)) { DiscountCode in
+//                                MyHistoryItem(type: DiscountCode.type, timestamp: DiscountCode.timestamp, pointsEarnedOrSpent: DiscountCode.pointsEarnedOrSpent, colorToShow: colorToShow[4])
+//                            }
+//                            HStack {
+//                                Spacer()
+//                                Text("See all")
+//                                    .font(.system(size: 16))
+//                                    .fontWeight(.semibold)
+//                                    .foregroundColor(colorToShow[4])
+//                                Spacer()
+//                            }
+//                        }.padding()
+//                            .padding(.vertical)
+//                        .background(RoundedRectangle(cornerRadius: 8).foregroundColor(.white))
+//                        .padding(.horizontal)
+//                        .padding(.bottom)
                         
                         //Links + Additional info
                         //MARK: Settings
@@ -321,15 +409,25 @@ struct CompanyProfileV2: View {
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     //this is a hack to get a navigationlink inside a toolbarItem
-                    HStack(alignment: .center) {
-                        Text("")
-                        Link(destination: URL(string: urlToShopifySite)!) {
-                            Text("Visit site")
-                                .font(.caption)
-                                .foregroundColor(Color.blue)
-                                .padding(.all, 6)
-                                .background(RoundedRectangle(cornerRadius: 10).fill(Color.blue.opacity(0.15)))
+                    HStack(alignment: .center, spacing: 0) {
+                        Button {
+                            isHistoryActive.toggle()
+                        } label: {
+                            Image(systemName: "clock.fill")
+                                .foregroundColor(Color("ThemePrimary"))
+                        }.fullScreenCover(isPresented: $isHistoryActive) {
+                            History(companyID: companyID, email: email, isHistoryActive: $isHistoryActive)
                         }
+                        
+                        Button {
+                            isNotificationsActive.toggle()
+                        } label: {
+                            Image(systemName: "bell.fill")
+                                .foregroundColor(Color("ThemePrimary"))
+                        }.fullScreenCover(isPresented: $isNotificationsActive) {
+                            Notifications(companyID: companyID, email: email, isNotificationsActive: $isNotificationsActive)
+                        }
+                        
                     }
                 }
             }
@@ -338,6 +436,7 @@ struct CompanyProfileV2: View {
             self.viewModel1.listenForOneRewardsProgram(email: "colinjpower1@gmail.com", companyID: companyID)
             self.viewModel2.listenForMyDiscountCodes(email: "colinjpower1@gmail.com", companyID: companyID)
             self.viewModel3.listenForMyTransactions(email: "colinjpower1@gmail.com", companyID: companyID)
+            self.viewModel3.listenForLast60DaysTransactions(email: "colinjpower1@gmail.com", companyID: companyID)
             self.viewModel4.listenForMyOrders(email: "colinjpower1@gmail.com", companyID: companyID)
             //print(self.viewModel3.myTransactions)
         }

@@ -9,6 +9,8 @@ import SwiftUI
 
 struct RatingView: View {
     @Binding var rating: Int
+    var width: CGFloat
+    @Binding var horizontalOffset: CGFloat
     
     var label = ""
     var maximumRating = 5
@@ -26,6 +28,10 @@ struct RatingView: View {
                     .foregroundColor(number > rating ? offColor : onColor)
                     .onTapGesture {
                         rating = number
+                        withAnimation(.linear(duration: 0.15)) {
+                            horizontalOffset -= width
+                        }
+                        
                     }
             }
         }
@@ -40,8 +46,8 @@ struct RatingView: View {
     }
 }
 
-struct RatingView_Previews: PreviewProvider {
-    static var previews: some View {
-        RatingView(rating: .constant(4))
-    }
-}
+//struct RatingView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        RatingView(rating: .constant(4))
+//    }
+//}

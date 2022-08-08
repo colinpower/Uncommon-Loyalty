@@ -65,38 +65,32 @@ struct ReviewProductPreview: View {
                         VStack {
                             
                             //Details section
-                            VStack(alignment: .leading) {
+                            ScrollView(.vertical) {
+                                VStack {
                                 
-                                //Header
-                                HStack {
-                                    Text("ITEM NAME")
-                                        .font(.system(size: 18))
-                                        .fontWeight(.semibold)
-                                        .foregroundColor(Color("Dark1"))
-                                    Spacer()
-                                }.padding(.bottom)
-                                
-                                //FOR EACH DISCOUNT CODE, SHOW IT HERE
-                                
-                                ForEach(viewModel4.oneOrder.prefix(1)) { Order in
-                                    VStack(alignment: .leading) {
-                                        OrderDetailsForReview(title: "Item", value: Order.item)
-                                        OrderDetailsForReview(title: "Price", value: String(Order.totalPrice))
-                                        OrderDetailsForReview(title: "Size", value: "Medium")
-                                        OrderDetailsForReview(title: "Date", value: "Jan 3")
+                                    //Header
+                                    HStack {
+                                        Text("Order Details")
+                                            .font(.system(size: 18))
+                                            .fontWeight(.semibold)
+                                            .foregroundColor(Color("Dark1"))
+                                        Spacer()
+                                    }.padding(.bottom)
+                                    
+                                    //FOR EACH DISCOUNT CODE, SHOW IT HERE
+                                    
+                                    ForEach(viewModel4.oneOrder.prefix(1)) { Order in
+                                        VStack(alignment: .leading) {
+                                            OrderDetailsForReview(title: "Item", value: Order.item)
+                                            OrderDetailsForReview(title: "Price", value: String(Order.totalPrice))
+                                            OrderDetailsForReview(title: "Size", value: "Medium")
+                                            OrderDetailsForReview(title: "Date", value: "Jan 3")
+                                        }
                                     }
-                                }
-                                HStack {
-                                    Spacer()
-                                    Text("See all")
-                                        .font(.system(size: 16))
-                                        .fontWeight(.semibold)
-                                        .foregroundColor(Color("Dark1"))
-                                    Spacer()
-                                }
-                            }.padding().padding(.vertical).background(RoundedRectangle(cornerRadius: 16).foregroundColor(.white))
-                                .padding(.horizontal).padding(.bottom)
-                            
+                                }.padding().padding(.vertical).background(RoundedRectangle(cornerRadius: 16).foregroundColor(.white))
+                                    .padding()
+                                Spacer()
+                            }
                             Spacer()
                             VStack {
                                 
@@ -128,7 +122,7 @@ struct ReviewProductPreview: View {
                                    //ReviewProduct(companyID: companyID, email: email, orderID: orderID, userID: userID, showingReviewProductScreen: $showingReviewProductScreen)
                                })
                             }.padding(.bottom, 40)
-                        }
+                        }.padding(.top)
                     }
                     
                 }

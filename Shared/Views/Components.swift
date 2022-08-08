@@ -233,7 +233,7 @@ struct PromptCard: View {
                     .scaledToFill()
                     .frame(width: 32, height: 32, alignment: .center)
                     .clipped()
-                    .cornerRadius(12)
+                    .cornerRadius(32)
                     .padding(.trailing, 3)
                 VStack(alignment: .leading) {
                     Text(title)
@@ -305,7 +305,7 @@ struct MyHistoryItem: View {
         HStack {
             Image(systemName: iconToShow)
                 .foregroundColor(colorToShow)
-                .font(.system(size: 40))
+                .font(.system(size: 32))
             VStack(alignment: .leading, spacing: 3) {
                 HStack(alignment: .center) {
                     Text(textToShow)
@@ -313,16 +313,17 @@ struct MyHistoryItem: View {
                         .fontWeight(.semibold)
                         .foregroundColor(Color("Dark1"))
                     Spacer()
-                    Text(String(pointsEarnedOrSpent))
-                        .font(Font.system(size: 15, weight: .semibold))
-                        .foregroundColor(Color("Gray1"))
+                    Text(convertTimestampToString(timestamp: timestamp))
+                        .font(.system(size: 16))
+                        .fontWeight(.semibold)
+                        .foregroundColor(Color("Dark1"))
                 }
-                Text(convertTimestampToString(timestamp: timestamp))
-                    .font(.system(size: 16))
-                    .fontWeight(.regular)
-                    .foregroundColor(Color("Dark1"))
+                Text(String(pointsEarnedOrSpent))
+                    .font(Font.system(size: 16, weight: .regular))
+                    .foregroundColor(Color("Gray1"))
+                
             }
-        }.padding(.vertical)
+        }.padding(.bottom)
     }
 }
 
@@ -388,13 +389,83 @@ struct OrderDetailsForReview: View {
         HStack(alignment: .center) {
             Text(title)
                 .font(.system(size: 16))
-                .fontWeight(.semibold)
-                .foregroundColor(Color("Gray2"))
+                .fontWeight(.regular)
+                .foregroundColor(Color("Dark1"))
             Spacer()
             Text(value)
-                .font(Font.system(size: 15, weight: .semibold))
+                .font(Font.system(size: 16, weight: .semibold))
                 .foregroundColor(Color("Dark1"))
         }.padding(.bottom)
         
     }
+}
+
+
+//VStack {
+//    Text(String(createLast60DaysPointsArray(transactions: viewModel3.last60DaysTransactions, currentBalance: viewModel1.oneRewardsProgram.first?.currentPointsBalance ?? 0)[0]))
+//}
+
+
+
+//MARK: Line Graph for Points
+//Format the item details
+struct LineGraph: View {
+
+    // number of plots
+    var data: [Int]
+    
+    var GoldTier:Double = Double(2500)
+
+    var maxPoint: Double {
+        let max = Double(data.max() ?? 0)
+        if max == 0 {
+            return 1.0
+        }
+        return max
+    }
+
+    var body: some View {
+        GeometryReader { geometry in
+
+            ZStack {
+
+                //let data = pointsOverTime
+                
+                let height = geometry.size.height
+                let width = geometry.size.width
+
+                
+                // Path...
+                Path { path in
+
+                    path.move(to: CGPoint(x: 0, y: height * self.ratio(for: 0)))
+                    
+                    for index in 1..<data.count {
+                        path.addLine(to: CGPoint(
+                            x: CGFloat(index) * width / CGFloat(data.count-1),
+                            y: height * self.ratio(for: index)))
+                    }
+                }
+                .stroke(Color("ThemeBright"), style: StrokeStyle(lineWidth: 4, lineJoin: .round))
+                
+                Path { path in
+                    path.move(to: CGPoint(x: 40, y: height * (1 - GoldTier/maxPoint)))
+                    path.addLine(to: CGPoint(x: width, y: height * (1 - GoldTier/maxPoint)))
+                }.stroke(Color("Gray2"), style: StrokeStyle(lineWidth: 1))
+                
+                Text("Gold")
+                    .font(.system(size: 12))
+                    .fontWeight(.regular)
+                    .foregroundColor(Color("Gray2"))
+                    .position(x: 20, y: height * (1 - GoldTier/maxPoint))
+            }
+            .padding(.vertical)
+        }
+
+    }
+    
+    private func ratio(for index: Int) -> Double {
+        1 - (Double(data[index]) / maxPoint)
+      }
+    
 }

@@ -56,7 +56,7 @@ struct ReviewProduct: View {
                         .fontWeight(.medium)
                         .frame(width: 120, alignment: .leading)
                     Spacer()
-                    RatingView(rating: $rating)
+                    //RatingView(rating: $rating)
                 }.padding(.bottom, 24)
                 
                 HStack(alignment: .center) {

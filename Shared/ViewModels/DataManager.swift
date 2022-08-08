@@ -90,6 +90,7 @@ class DataManager: ObservableObject {
         let listenerRegistration4 = db.collection("history-" + companyID)
             .whereField("email", isEqualTo: email)
             .whereField("companyID", isEqualTo: companyID)
+            .order(by: "timestamp", descending: true)
             .addSnapshotListener { (querySnapshot, error) in
             guard let documents = querySnapshot?.documents else {
                 print("No documents")
@@ -107,6 +108,32 @@ class DataManager: ObservableObject {
         }
         listener(listenerRegistration4) //escaping listener
     }
+    
+    func getLast60DaysTransactions(email: String, companyID: String, onSuccess: @escaping([Transactions]) -> Void, listener: @escaping(_ listenerHandle: ListenerRegistration) -> Void) {
+        //print("this ONE function was called")
+        let listenerRegistration7 = db.collection("history-" + companyID)
+            .whereField("email", isEqualTo: email)
+            .whereField("companyID", isEqualTo: companyID)
+            .whereField("timestamp", isGreaterThan: (Int(Date().timeIntervalSince1970) - 60*86400))
+            .order(by: "timestamp", descending: true)
+            .addSnapshotListener { (querySnapshot, error) in
+            guard let documents = querySnapshot?.documents else {
+                print("No documents")
+                return
+            }
+            var last60DaysTransactionsArray = [Transactions]()
+
+                last60DaysTransactionsArray = documents.compactMap { (queryDocumentSnapshot) -> Transactions? in
+//                    print("HERE!!!")
+//                print(try? queryDocumentSnapshot.data(as: Transactions.self))
+                return try? queryDocumentSnapshot.data(as: Transactions.self)
+                //return try? queryDocumentSnapshot.data(as: Ticket.self)
+            }
+            onSuccess(last60DaysTransactionsArray)
+        }
+        listener(listenerRegistration7) //escaping listener
+    }
+    
     
     func getMyOrders(email: String, companyID: String, onSuccess: @escaping([Orders]) -> Void, listener: @escaping(_ listenerHandle: ListenerRegistration) -> Void) {
         //print("this ONE function was called")

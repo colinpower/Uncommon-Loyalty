@@ -68,6 +68,8 @@
 		30D7430C2895B41900B22448 /* FirebaseFirestoreSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 30D7430B2895B41900B22448 /* FirebaseFirestoreSwift */; };
 		30D7430E2895B41900B22448 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 30D7430D2895B41900B22448 /* FirebaseStorage */; };
 		30D743102895B41900B22448 /* FirebaseStorageCombine-Community in Frameworks */ = {isa = PBXBuildFile; productRef = 30D7430F2895B41900B22448 /* FirebaseStorageCombine-Community */; };
+		30DC3E6B28A11E4B00613B4B /* History.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30DC3E6A28A11E4B00613B4B /* History.swift */; };
+		30DC3E6D28A121AF00613B4B /* Notifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30DC3E6C28A121AF00613B4B /* Notifications.swift */; };
 		30E67CAE27E4D35600D9B96F /* ReviewWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30E67CAD27E4D35600D9B96F /* ReviewWidget.swift */; };
 		30E67CB027E4DB0000D9B96F /* ReviewProduct.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30E67CAF27E4DB0000D9B96F /* ReviewProduct.swift */; };
 		30E67CB227E4DE4C00D9B96F /* VoteWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30E67CB127E4DE4C00D9B96F /* VoteWidget.swift */; };
@@ -121,7 +123,7 @@
 		304DC88A27F4259200E30DCA /* ReferAFriend.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReferAFriend.swift; sourceTree = "<group>"; };
 		30546E2327FBBF7E00173D9D /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		30546E2727FBD06400173D9D /* Profile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Profile.swift; sourceTree = "<group>"; };
-		30546E2A27FBEEDC00173D9D /* Uncommon-Loyalty--iOS--Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "Uncommon-Loyalty--iOS--Info.plist"; sourceTree = "<group>"; };
+		30546E2A27FBEEDC00173D9D /* Uncommon-Loyalty--iOS--Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Uncommon-Loyalty--iOS--Info.plist"; sourceTree = "<group>"; };
 		307BCA2027975C27000DDD21 /* DiscountCodes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscountCodes.swift; sourceTree = "<group>"; };
 		307BCA2227975C8A000DDD21 /* DiscountCodesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscountCodesViewModel.swift; sourceTree = "<group>"; };
 		307BCA2427975F2E000DDD21 /* Transactions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Transactions.swift; sourceTree = "<group>"; };
@@ -141,6 +143,8 @@
 		30C8102A28884650004B1DA7 /* Uncommon Loyalty (iOS).entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Uncommon Loyalty (iOS).entitlements"; sourceTree = "<group>"; };
 		30C8102B2888612F004B1DA7 /* LoginWithEmailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginWithEmailView.swift; sourceTree = "<group>"; };
 		30C8102E288884CF004B1DA7 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		30DC3E6A28A11E4B00613B4B /* History.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = History.swift; sourceTree = "<group>"; };
+		30DC3E6C28A121AF00613B4B /* Notifications.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notifications.swift; sourceTree = "<group>"; };
 		30E67CAD27E4D35600D9B96F /* ReviewWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewWidget.swift; sourceTree = "<group>"; };
 		30E67CAF27E4DB0000D9B96F /* ReviewProduct.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewProduct.swift; sourceTree = "<group>"; };
 		30E67CB127E4DE4C00D9B96F /* VoteWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoteWidget.swift; sourceTree = "<group>"; };
@@ -198,8 +202,8 @@
 			isa = PBXGroup;
 			children = (
 				30C8102A28884650004B1DA7 /* Uncommon Loyalty (iOS).entitlements */,
-				30546E2A27FBEEDC00173D9D /* Uncommon-Loyalty--iOS--Info.plist */,
 				3014FA1027964E5D00473CE4 /* Shared */,
+				30546E2A27FBEEDC00173D9D /* Uncommon-Loyalty--iOS--Info.plist */,
 				3014FA1F27964E5E00473CE4 /* macOS */,
 				3014FA2827964E5E00473CE4 /* Tests iOS */,
 				3014FA3427964E5E00473CE4 /* Tests macOS */,
@@ -381,6 +385,8 @@
 				30C8101D28877BEF004B1DA7 /* Discount */,
 				30C8101E28877BFB004B1DA7 /* Refer */,
 				30C8101F28877C0A004B1DA7 /* Review */,
+				30DC3E6A28A11E4B00613B4B /* History.swift */,
+				30DC3E6C28A121AF00613B4B /* Notifications.swift */,
 			);
 			path = CompanyProfile;
 			sourceTree = "<group>";
@@ -579,12 +585,14 @@
 				30EA87B9281351E200F0CF64 /* Orders.swift in Sources */,
 				30BA64D62889AB7A002E3FC8 /* ReviewProductCarousel2.swift in Sources */,
 				30C8102128877FD1004B1DA7 /* ReviewProductPreview.swift in Sources */,
+				30DC3E6B28A11E4B00613B4B /* History.swift in Sources */,
 				3014FA7127965D1400473CE4 /* Feed.swift in Sources */,
 				3046EC22279FB3DB00D1CBE7 /* VoteOnProduct.swift in Sources */,
 				304DC88927F3578200E30DCA /* CompanyProfileV2.swift in Sources */,
 				3014FA7327965E0700473CE4 /* RewardsProgramWidget.swift in Sources */,
 				30E67CAE27E4D35600D9B96F /* ReviewWidget.swift in Sources */,
 				3014FA6F27965CFC00473CE4 /* Home.swift in Sources */,
+				30DC3E6D28A121AF00613B4B /* Notifications.swift in Sources */,
 				3014FA952796FE7000473CE4 /* DataManager.swift in Sources */,
 				30BA64D42889A177002E3FC8 /* ReviewProductCarousel1.swift in Sources */,
 				3014FA972796FF5B00473CE4 /* RewardsProgramViewModel.swift in Sources */,
@@ -741,7 +749,7 @@
 				CODE_SIGN_ENTITLEMENTS = "Uncommon Loyalty (iOS).entitlements";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = F6HF4R7G4W;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -756,7 +764,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 0.1.0;
 				OTHER_CODE_SIGN_FLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = "Uncommon-Loyalty.Uncommon-Loyalty";
 				PRODUCT_NAME = "Uncommon Loyalty";
@@ -764,7 +772,7 @@
 				SDKROOT = iphoneos;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -776,7 +784,7 @@
 				CODE_SIGN_ENTITLEMENTS = "Uncommon Loyalty (iOS).entitlements";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = F6HF4R7G4W;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -791,7 +799,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 0.1.0;
 				OTHER_CODE_SIGN_FLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = "Uncommon-Loyalty.Uncommon-Loyalty";
 				PRODUCT_NAME = "Uncommon Loyalty";
@@ -799,7 +807,7 @@
 				SDKROOT = iphoneos;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;

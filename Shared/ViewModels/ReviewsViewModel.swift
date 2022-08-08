@@ -35,6 +35,7 @@ class ReviewsViewModel: ObservableObject, Identifiable {
 //    }
     
     func addReview(companyID: String, reviewDetails: String, email: String, orderID: String, reviewRating: Int, reviewTitle: String, userID: String) {
+        
         try db.collection("reviews-" + companyID)
             .addDocument(data: [
                 "companyID": companyID,
