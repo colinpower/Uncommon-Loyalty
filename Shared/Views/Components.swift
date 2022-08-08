@@ -227,10 +227,13 @@ struct PromptCard: View {
     var body: some View {
         VStack(alignment: .leading) {
             //Top part / header
-            HStack {
-                Image(systemName: image)
-                    .foregroundColor(Color("Dark1"))
-                    .font(Font.system(size: 32, weight: .semibold))
+            HStack (alignment: .center) {
+                Image(image)
+                    .resizable()
+                    .scaledToFill()
+                    .frame(width: 32, height: 32, alignment: .center)
+                    .clipped()
+                    .cornerRadius(12)
                     .padding(.trailing, 3)
                 VStack(alignment: .leading) {
                     Text(title)
@@ -239,19 +242,21 @@ struct PromptCard: View {
                         .foregroundColor(Color("Dark1"))
                     Text("+" + String(points))
                         .font(.system(size: 14))
-                        .fontWeight(.regular)
-                        .foregroundColor(Color("Dark2"))
+                        .fontWeight(.semibold)
+                        .foregroundColor(Color("ThemeBright"))
                 }
             }.padding(.bottom)
             Text(text)
                 .font(.system(size: 16))
-                .fontWeight(.semibold)
+                .fontWeight(.regular)
                 .foregroundColor(Color("Dark1"))
-                .frame(maxWidth: width-32)
                 .lineLimit(3)
-        }.padding()
-            .background(RoundedRectangle(cornerRadius: 16).foregroundColor(.white))
-            .frame(width: width, height: 160)
+                .multilineTextAlignment(.leading)
+        }.frame(width: width, height: 120)
+        .padding()
+        .background(RoundedRectangle(cornerRadius: 16).foregroundColor(.white))
+        .padding(.trailing, 8)
+            
     }
 }
 
@@ -320,6 +325,55 @@ struct MyHistoryItem: View {
         }.padding(.vertical)
     }
 }
+
+//MARK: ORDER HISTORY ITEM
+//This struct formats the discount codes that are available
+struct MyRecentOrdersItem: View {
+    
+    var item: String
+    var timestamp: Int
+    var reviewID: String
+    var colorToShow: Color
+    
+    var body: some View {
+        
+        HStack {
+            Image(systemName: "bag.circle.fill")
+                .foregroundColor(colorToShow)
+                .font(.system(size: 32))
+            HStack(alignment: .center) {
+                
+                VStack(alignment: .leading, spacing: 3) {
+                    Text(item)
+                        .font(.system(size: 16))
+                        .fontWeight(.semibold)
+                        .foregroundColor(Color("Dark1"))
+                    Text(convertTimestampToString(timestamp: timestamp))
+                        .font(Font.system(size: 15, weight: .semibold))
+                        .foregroundColor(Color("Gray1"))
+                }
+                Spacer()
+                if reviewID == "fill in later" {
+                    Text("Add Review")
+                        .font(.system(size: 14))
+                        .fontWeight(.semibold)
+                        .foregroundColor(colorToShow)
+                } else {
+                    HStack {
+                        Image(systemName: "checkmark")
+                            .foregroundColor(Color("Dark1"))
+                            .font(.system(size: 14))
+                        Text("Reviewed")
+                            .font(.system(size: 14))
+                            .fontWeight(.regular)
+                            .foregroundColor(Color("Dark1"))
+                    }
+                }
+            }
+        }.padding(.vertical)
+    }
+}
+
 
 
 //MARK: REVIEW - DETAILS OF PURCHASED ITEM

@@ -137,22 +137,65 @@ struct Home: View {
                                     .padding(.bottom)
                             }
                         
-                            Spacer()
-                            
-//                            NavigationLink(destination: ReviewProductPreview(companyID: "zKL7SQ0jRP8351a0NnHM", email: "colinjpower1@gmail.com", orderID: "", userID: "mhjEZCv9JGdk0NUZaHMcNrDsH1x2")) {
-//                                    Image(systemName: "plus.circle.fill")
-//                                        .font(.system(size: 30))
-//                                    }
-                            
-                            
-                            Button {
-                                showingAnimation.toggle()
-                            } label: {
-                                Text("SHOW ANIMATION")
-                            }.fullScreenCover(isPresented: $showingAnimation, content: {
-                                ReviewProductCarousel2(showingAnimation: $showingAnimation)
-                            })
-                            
+                            //MARK: Discover company
+                            //Turn this into a beautiful animation
+                            //https://www.youtube.com/watch?v=f0wYIYfPBa4
+                            VStack(alignment: .leading) {
+                                
+                                //Title
+                                HStack {
+                                    Text("Discover Athleisure LA")
+                                        .font(.system(size: 20))
+                                        .fontWeight(.semibold)
+                                        .foregroundColor(Color("Dark1"))
+                                    Spacer()
+                                    Button {
+                                        isAddCompanyPreviewActive.toggle()
+
+                                    } label: {
+                                        Text("Add")
+                                            .font(.system(size: 16))
+                                            .fontWeight(.semibold)
+                                            .foregroundColor(Color("Dark1"))
+                                            .padding(.vertical, 6)
+                                            .padding(.horizontal, 12)
+                                            .background(RoundedRectangle(cornerRadius: 19).foregroundColor(Color("Background")))
+                                    }.fullScreenCover(isPresented: $isAddCompanyPreviewActive, content: {
+                                        AddCompanyPreview(isAddCompanyPreviewActive: $isAddCompanyPreviewActive)
+                                    })
+                                }.padding(.horizontal)
+                                
+                                
+                                //Body
+                                VStack {
+                                    
+                                    ForEach(viewModel1.myRewardsPrograms) { RewardsProgram in
+                                        
+                                        NavigationLink(destination: CompanyProfileV2(companyID: RewardsProgram.companyID, companyName: RewardsProgram.companyName, email: RewardsProgram.email, userID: RewardsProgram.userID)) {
+                                            
+                                                RewardsProgramWidget(image: RewardsProgram.companyName, company: RewardsProgram.companyName, status: RewardsProgram.status, currentPointsBalance: RewardsProgram.currentPointsBalance)
+                                        
+                                        }
+                                    }
+                                }.padding(.horizontal)
+
+                                //Footer
+                                HStack() {
+                                    Spacer()
+                                    Button {
+                                        isAddCompanyPreviewActive.toggle()
+                                    } label: {
+                                        Text("See all")
+                                            .font(.system(size: 18))
+                                            .fontWeight(.semibold)
+                                            .foregroundColor(Color("ThemeBright"))
+                                    }.fullScreenCover(isPresented: $isAddCompanyPreviewActive, content: {
+                                        AddCompanyPreview(isAddCompanyPreviewActive: $isAddCompanyPreviewActive)
+                                    })
+                                    Spacer()
+                                }.padding(.vertical).padding(.vertical, 4)
+                            }.padding(.top).padding(.vertical)
+                                .background(RoundedRectangle(cornerRadius: 16).foregroundColor(.white)).padding(.horizontal)
                             
                             //MARK: HELP US IMPROVE
                             WideWidgetHeader(title: "HELP US IMPROVE")

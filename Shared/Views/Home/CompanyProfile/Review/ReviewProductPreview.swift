@@ -14,7 +14,7 @@ struct ReviewProductPreview: View {
     var orderID: String
     var userID: String
     
-    
+
     @State var rating: Int = 0
     @State private var title:String = ""
     @State private var details:String = ""
@@ -27,10 +27,12 @@ struct ReviewProductPreview: View {
     
     var body: some View {
         GeometryReader { geometry in
-            ZStack {
+                
                 VStack(spacing:0) {
-                    ZStack (alignment: .center) {
-                        
+                    
+                    //MARK: IMAGE SECTION
+                    //Background + Image of product (taking up 1/3 of screen)
+                    ZStack (alignment: .top) {
                         
                         //CREATE ANIMATED BACKGROUND FOR THIS
                         //https://www.youtube.com/watch?v=YhhGx0pLOnk
@@ -38,17 +40,22 @@ struct ReviewProductPreview: View {
                         Image("ReviewBackground")
                             .resizable()
                             .scaledToFill()
-                            .frame(width: geometry.size.width, height: geometry.size.height / 2, alignment: .center)
-                        Image("AthleisureSweatpants")
-                            .resizable()
-                            .scaledToFill()
-                            .frame(width: geometry.size.width / 2, height: geometry.size.height / 4, alignment: .center)
-                            .clipped()
-                            .cornerRadius(20)
-                            .shadow(color: .gray, radius: 10, x: 4, y: 4)
+                            .frame(width: geometry.size.width, height: geometry.size.height / 3, alignment: .center)
+                        //MARK: Title, X Button
+                        VStack {
+                            SheetHeader(title: "Add a Review", isActive: $isActive)
+                            Image("AthleisureSweatpants")
+                                .resizable()
+                                .scaledToFill()
+                                .frame(width: geometry.size.width / 4, height: geometry.size.height / 8, alignment: .center)
+                                .clipped()
+                                .cornerRadius(16)
+                                .shadow(color: .gray, radius: 10, x: 4, y: 4)
+                                .padding(.vertical)
+                        }
                     }
                     
-                    //MARK: Bottom half (details of order)
+                    //MARK: DETAILS + START REVIEW BUTTON
                     ZStack (alignment: .center) {
                         
                         //Background color
@@ -125,24 +132,7 @@ struct ReviewProductPreview: View {
                     }
                     
                 }
-                VStack {
-                    Button {
-                        isActive.toggle()
-                    } label: {
-                        Image(systemName: "xmark")
-                    }
-                    Text("Kool 2.0 Joggers")
-                        .font(.title2)
-                        .fontWeight(.medium)
-                        .foregroundColor(Color(UIColor.black))
-                    Text("Athleisure LA")
-                        .font(.body)
-                        .foregroundColor(Color(red: 135/255, green: 134/255, blue: 135/255))
-                }.padding().padding(.horizontal).padding(.horizontal)
-                    .background(RoundedRectangle(cornerRadius: 24).fill(Color(red: 243/255, green: 241/255, blue: 244/255)).shadow(color: .gray, radius: 10, x: 4, y: 4))
-            }
         }.ignoresSafeArea()
-        .navigationBarTitle("", displayMode: .inline)
         .onAppear {
             self.viewModel4.listenForOneOrder(email: "colinjpower1@gmail.com", companyID: companyID, orderID: "BP1KvlMpXqPry3SLRvAu")
             print("TRIGGERED THIS")
@@ -152,96 +142,9 @@ struct ReviewProductPreview: View {
 }
 
 
-
-
-
-
-
-//                VStack {
-//                    ZStack (alignment: .center) {
-//                    Image("ReviewBackground")
-//                        .resizable()
-//                        .scaledToFill()
-//                        .frame(width: geometry.size.width, height: geometry.size.height / 2, alignment: .center)
-//                    Image("AthleisureSweatpants")
-//                        .resizable()
-//                        .scaledToFill()
-//                        .frame(width: geometry.size.width / 2, height: geometry.size.height / 4, alignment: .center)
-//                        .clipped()
-//                        .cornerRadius(20)
-//                        .shadow(color: .gray, radius: 10, x: 4, y: 4)
-//                    }
-//                    ZStack (alignment: .center) {
-//                        Color.white
-//                        VStack {
-//                            Spacer()
-//                            Text("here123")
-//
-//                            Spacer()
-//
-//
-//                            //MARK: Submit
-////                            Button(action: {
-////                                showingReviewProductScreen = true
-////                            }) {
-////                                Text("Start Review")
-////                                foregroundColor(Color.white)
-////                                .font(.headline)
-////                                .frame(width: geometry.size.width * 0.8, alignment: .center)
-////                                .padding(.vertical, 16)
-////                                .background(RoundedRectangle(cornerRadius: 36)
-////                                    .fill(Color.blue))
-////                            }.fullScreenCover(isPresented: $showingReviewProductScreen, content: {
-////                                ReviewProductCarousel1(showingReviewProductScreen: $showingReviewProductScreen)
-////                                //ReviewProduct(companyID: companyID, email: email, orderID: orderID, userID: userID, showingReviewProductScreen: $showingReviewProductScreen)
-////                            })
-//
-//
-//                        }.padding(.bottom, 32)
-//
-//
-//                    }
-//
-//                }
-////                VStack {
-////                    Text("Kool 2.0 Joggers")
-////                        .font(.title2)
-////                        .foregroundColor(Color(UIColor.white))
-////        //                        .padding(.bottom, 2)
-////                    Text("$89 / M / Delivered")
-////                        .font(.subheadline)
-////                        .foregroundColor(Color(UIColor.white))
-////                }
-////                .padding()
-////                .padding(.horizontal)
-////                .padding(.horizontal)
-////                .background(RoundedRectangle(cornerRadius: 36).fill(Color(UIColor.lightGray)))
-//
-//
-//            }
-////            HStack {
-////                Spacer()
-////                Button {
-////                    showingReviewProductScreen = false
-////                } label: {
-////                    Image(systemName: "x.circle")
-////                        .font(.title)
-////                        .foregroundColor(Color(UIColor.lightGray))
-////                        .padding(.horizontal, 24)
-////                        .padding(.vertical, 32)
-////                }
-////
-////
-////            }
-//
-//        }.ignoresSafeArea()
-//        //.navigationBarTitle("", displayMode: .inline)
-//    }
-//}
-
 struct ReviewProductPreview_Previews: PreviewProvider {
     static var previews: some View {
-        ReviewProductPreview(companyID: "zKL7SQ0jRP8351a0NnHM", email: "colinjpower1@gmail.com", orderID: "temp Order ID", userID: "temp user ID", isActive: .constant(true))
+        ReviewProductPreview(companyID: "zKL7SQ0jRP8351a0NnHM", email: "colinjpower1@gmail.com", orderID: "BP1KvlMpXqPry3SLRvAu", userID: "temp user ID", isActive: .constant(true))
     }
 }
 

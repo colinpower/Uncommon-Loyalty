@@ -54,9 +54,9 @@ struct CompanyProfileV2: View {
                 //Primary Rewards Color, Primary Text on Primary Color, Secondary Text on Primary Color, Button Background, Primary Button Color
                 return [Color("Gold1"), Color(.white), Color("Gold2"), Color("Gold2").opacity(0.25), Color("Gold1")]
             case "Silver":
-                return [Color(.white), Color("Dark1"), Color("Gray1"), Color("Background"), Color.blue]
+                return [Color(.white), Color("Dark1"), Color("Gray1"), Color("Background"), Color("ThemePrimary")]
             default:
-                return [Color(.white), Color("Dark1"), Color("Gray1"), Color("Background"), Color.blue]
+                return [Color(.white), Color("Dark1"), Color("Gray1"), Color("Background"), Color("ThemePrimary")]
         }
     }
     
@@ -176,27 +176,89 @@ struct CompanyProfileV2: View {
                             } else {
                                 ForEach(viewModel2.myDiscountCodes.prefix(1)) { DiscountCode in
                                     WidgetSolo(image: "dollarsign.circle.fill", size: 38, firstLine: "Discount Available", secondLine: "$" + String(DiscountCode.dollarAmount) + " off any item", secondLineColor: Color("ThemeBright"), buttonTitle: "Use", isActive: $isDiscount1Active)
-                                        .padding(.bottom, 8)
+                                        //.padding(.bottom, 8)
                                 }
                             }
 
                         }
                         
-                        //MARK: Recommended Actions (Review, Refer)
-                        ScrollView (.horizontal, showsIndicators: false) {
-                            HStack{
-                                ForEach(viewModel4.myOrders.prefix(3)) { Order in
-                                    Button {
-                                        isPrompt1Active.toggle()
-                                    } label: {
-                                        PromptCard(image: "circle.fill", title: "Write a review", points: 100, text: "Write a review for " + Order.orderID, width: geometry.size.width*4/5)
-                                    }.fullScreenCover(isPresented: $isPrompt1Active) {
-                                        ReviewProductPreview(companyID: companyID, email: email, orderID: "123", userID: userID, isActive: $isPrompt1Active)
-                                    }
-                                }
-                            }.padding(.horizontal)
-                                .padding(.bottom)
+                        //MARK: Recommended Actions (if any)
+                        //If empty, show the empty state
+                        if viewModel4.myOrders.isEmpty {
+                            Text("No recommended actions")
                         }
+                        //Show the recommended actions
+                        else {
+                            ScrollView (.horizontal, showsIndicators: false) {
+                                HStack{
+
+                                    ForEach(viewModel4.myOrders.indices.prefix(3), id: \.self) { index in
+                                        if index == 0 {
+                                            Button {
+                                                isPrompt1Active.toggle()
+                                            } label: {
+                                                PromptCard(image: "Athleisure LA", title: "Write a review", points: 100, text: "Write a review for ldkjf aldkjfadoi a oiajdflka lkasdf a dfal alsdkfj akjdfa akdjf " + viewModel4.myOrders[index].orderID, width: geometry.size.width*1/2)
+                                            }.fullScreenCover(isPresented: $isPrompt1Active) {
+                                                ReviewProductPreview(companyID: companyID, email: email, orderID: "123", userID: userID, isActive: $isPrompt1Active)
+                                            }
+                                        } else if index == 1 {
+                                            Button {
+                                                isPrompt2Active.toggle()
+                                            } label: {
+                                                PromptCard(image: "Athleisure LA", title: "Write a review", points: 100, text: "Write a review for ldkjf aldkjfadoi a oiajdflka lkasdf a dfal alsdkfj akjdfa akdjf " + viewModel4.myOrders[index].orderID, width: geometry.size.width*1/2)
+                                            }.fullScreenCover(isPresented: $isPrompt2Active) {
+                                                ReviewProductPreview(companyID: companyID, email: email, orderID: "ABC123", userID: userID, isActive: $isPrompt2Active)
+                                            }
+                                        } else if index == 2 {
+                                            
+                                        } else {
+                                            
+                                        }
+                                    }
+//                                    ForEach(viewModel4.myOrders.prefix(3)) { Order in
+//                                        Button {
+//                                            isPrompt1Active.toggle()
+//                                        } label: {
+//                                            PromptCard(image: "Athleisure LA", title: "Write a review", points: 100, text: "Write a review for ldkjf aldkjfadoi a oiajdflka lkasdf a dfal alsdkfj akjdfa akdjf " + Order.orderID, width: geometry.size.width*1/2)
+//                                        }.fullScreenCover(isPresented: $isPrompt1Active) {
+//                                            ReviewProductPreview(companyID: companyID, email: email, orderID: "123", userID: userID, isActive: $isPrompt1Active)
+//                                        }
+//                                    }
+                                }.padding(.horizontal)
+                                    .padding(.vertical)
+                                //.padding(.bottom, 8)
+                            }
+                        }
+                        
+                        //MARK: Recent Orders
+                        VStack(alignment: .leading) {
+                            
+                            //Header
+                            HStack {
+                                Text("Recent Orders")
+                                    .font(.system(size: 18))
+                                    .fontWeight(.semibold)
+                                    .foregroundColor(Color("Dark1"))
+                                Spacer()
+                            }
+                            
+                            //FOR EACH DISCOUNT CODE, SHOW IT HERE
+                            ForEach(viewModel4.myOrders.prefix(5)) { Order in
+                                MyRecentOrdersItem(item: Order.item, timestamp: 1650599999, reviewID: Order.reviewID, colorToShow: colorToShow[4])
+                            }
+                            HStack {
+                                Spacer()
+                                Text("See all")
+                                    .font(.system(size: 16))
+                                    .fontWeight(.semibold)
+                                    .foregroundColor(colorToShow[4])
+                                Spacer()
+                            }
+                        }.padding()
+                            .padding(.vertical)
+                        .background(RoundedRectangle(cornerRadius: 8).foregroundColor(.white))
+                        .padding(.horizontal)
+                        .padding(.bottom)
                         
                         
                         //MARK: Activity (Purchases, Spent Points, Reviews, Referrals)
@@ -212,7 +274,7 @@ struct CompanyProfileV2: View {
                             }
                             
                             //FOR EACH DISCOUNT CODE, SHOW IT HERE
-                            ForEach(viewModel3.myTransactions.prefix(5)) { DiscountCode in
+                            ForEach(viewModel3.myTransactions.prefix(3)) { DiscountCode in
                                 MyHistoryItem(type: DiscountCode.type, timestamp: DiscountCode.timestamp, pointsEarnedOrSpent: DiscountCode.pointsEarnedOrSpent, colorToShow: colorToShow[4])
                             }
                             HStack {
