@@ -98,20 +98,22 @@ struct CompanyProfileV2: View {
                                     .font(.system(size: 16))
                                     .fontWeight(.semibold)
                                     .foregroundColor(colorToShow[1])
-                                HStack {
-                                    Button {
-                                        //navigate to the "understand tiers" page
-                                    } label: {
-                                        Text("450 to Platinum")
-                                            .font(.system(size: 14))
-                                            .fontWeight(.semibold)
-                                            .foregroundColor(Color("ThemeBright"))
-                                    }
-                                    Spacer()
-                                    Text("--------------------")
-                                }
                             }.padding(.horizontal)
+                                .padding(.vertical)
+                                .padding(.vertical)
                
+                            HStack {
+                                Button {
+                                    //navigate to the "understand tiers" page
+                                } label: {
+                                    Text("450 to Platinum")
+                                        .font(.system(size: 14))
+                                        .fontWeight(.semibold)
+                                        .foregroundColor(Color("ThemeBright"))
+                                }
+                                Spacer()
+                                Text("--------------------")
+                            }
                             
                             LineGraph(data: createLast60DaysPointsArray(transactions: viewModel3.last60DaysTransactions, currentBalance: viewModel1.oneRewardsProgram.first?.currentPointsBalance ?? 0))
                                 .frame(height: 200)

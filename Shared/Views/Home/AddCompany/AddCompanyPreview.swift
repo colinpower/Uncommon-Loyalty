@@ -13,25 +13,27 @@ struct AddCompanyPreview: View {
     @State private var companies = ["Company A", "Company B"]
     
     var body: some View {
-        ZStack(alignment: .top) {
-            
-            //MARK: Background color
-            Color("Background")
-            
-            //the content on top of the background
-            VStack(alignment: .leading) {
-                SheetHeader(title: "Join Loyalty Programs", isActive: $isAddCompanyPreviewActive)
-                Spacer()
-                NavigationLink(destination: AddCompany()) {
-                    AddCompanyWidget()
+        NavigationView {
+            GeometryReader { geometry in
+                ZStack(alignment: .top) {
+                    
+                    //MARK: Background color
+                    Color("Background")
+                    
+                    //the content on top of the background
+                    VStack {
+                        SheetHeader(title: "Join Loyalty Programs", isActive: $isAddCompanyPreviewActive)
+                        ScrollView(.vertical, showsIndicators: false) {
+                            AddCompanyWidget(backgroundImage: "Skincare Background", companyLogo: "Athleisure LA", company: "Athleisure LA", joiningBonus: "15% on new purchases", color: Color("Background"))
+                            
+                        }//.padding(.top, 120)
+                    }
                 }
-                NavigationLink(destination: AddCompany()) {
-                    AddCompanyWidget()
-                }
-            
-            }
-            
-        }.ignoresSafeArea()
+            }.ignoresSafeArea()
+            .navigationTitle("")
+            .navigationBarHidden(true)
+        }
+        
 //            .onAppear {
 //                self.viewModel1.listenForMyRewardsPrograms(email: Auth.auth().currentUser?.email ?? "")
 //                print("CURRENT USER IS")

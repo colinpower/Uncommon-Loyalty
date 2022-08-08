@@ -13,41 +13,67 @@ struct Notifications: View {
     var companyID: String
     var email: String
     
+    
+    @State private var news_email = false
+    
     @Binding var isNotificationsActive:Bool
     
     var body: some View {
-        GeometryReader { geometry in
-                        
-            ZStack(alignment: .top) {
-                
-                //MARK: Background color
-                Color("Background")
-                
+
                 //the content on top of the background
                 VStack(alignment: .leading) {
                     
                     //MARK: Header
                     SheetHeader(title: "Notifications", isActive: $isNotificationsActive)
-                    
-                    ScrollView(.vertical, showsIndicators: false) {
-                        
-                        List {
-                            Section {
-                                HStack {
-                                    Text("123")
-                                    Spacer()
-                                    Text("123")
-                                }
-                            } header: {
-                                Text("NEWS")
+                    Spacer()
+                    Text("asldfkjasldfkj")
+                    List {
+                        Section {
+                            VStack {
+                                Toggle("123", isOn: $news_email)
+                                Toggle("123", isOn: $news_email)
+                                Toggle("123", isOn: $news_email)
                             }
-
+                        } header: {
+                            Text("NEWS")
                         }
-                            
+                        Section {
+                            VStack {
+                                Toggle("123", isOn: $news_email)
+                                Toggle("123", isOn: $news_email)
+                                Toggle("123", isOn: $news_email)
+                            }
+                        } header: {
+                            Text("MORE")
+                        }
+                        Section {
+                            VStack {
+                                Toggle("123", isOn: $news_email)
+                                Toggle("123", isOn: $news_email)
+                                Toggle("123", isOn: $news_email)
+                            }
+                        } header: {
+                            Text("ANOTHER")
+                        }
+                        
+                        Section {
+                            VStack {
+                                Toggle("123", isOn: $news_email)
+                                Toggle("123", isOn: $news_email)
+                                Toggle("123", isOn: $news_email)
+                            }
+                        } header: {
+                            Text("FINAL ONE")
+                        }
+
                     }
-                }
-            }
-        }.ignoresSafeArea()
+//                    ScrollView(.vertical, showsIndicators: false) {
+//
+//
+//
+//                    }
+                    //Spacer()
+                }.ignoresSafeArea()
 //        .onAppear {
 //            self.viewModel3.listenForMyTransactions(email: "colinjpower1@gmail.com", companyID: companyID)
 //        }

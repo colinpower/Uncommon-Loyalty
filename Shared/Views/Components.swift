@@ -376,6 +376,58 @@ struct MyRecentOrdersItem: View {
 }
 
 
+//MARK: QUICK ACTIONS ITEM
+//This struct formats the discount codes that are available
+struct MyQuickActionsItem: View {
+    
+    var companyImage: String
+    var company: String
+    var item: String
+    var action: String
+    //var colorToShow: Color
+    
+    var body: some View {
+        
+        HStack {
+            Image(companyImage)
+                .resizable()
+                .scaledToFill()
+                .frame(width: 32, height: 32, alignment: .center)
+                .clipped()
+                .cornerRadius(32)
+                .padding(.trailing, 6)
+                
+            HStack(alignment: .center) {
+                
+                VStack(alignment: .leading, spacing: 3) {
+                    Text(company)
+                        .font(.system(size: 16))
+                        .fontWeight(.semibold)
+                        .foregroundColor(Color("Dark1"))
+                    Text(item)
+                        .font(Font.system(size: 15, weight: .semibold))
+                        .foregroundColor(Color("Gray1"))
+                }
+                Spacer()
+                if action == "Review" {
+                    Text("Add Review")
+                        .font(.system(size: 14))
+                        .fontWeight(.semibold)
+                        .foregroundColor(Color("ThemePrimary"))
+                } else {
+                    HStack {
+                        Text("Refer")
+                            .font(.system(size: 14))
+                            .fontWeight(.regular)
+                            .foregroundColor(Color("ThemePrimary"))
+                    }
+                }
+            }
+        }.padding(.bottom)
+    }
+}
+
+
 
 //MARK: REVIEW - DETAILS OF PURCHASED ITEM
 //Format the item details
