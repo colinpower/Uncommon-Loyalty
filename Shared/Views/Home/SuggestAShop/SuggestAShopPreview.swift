@@ -14,12 +14,13 @@ struct SuggestAShopPreview: View {
     
     @State var isSuggestAShopActive:Bool = false
     
+    @Binding var isShowingDetailView:Bool
+    
     var body: some View {
-        ZStack {
-            Color("Background")
-            
-            Spacer()
-            
+        NavigationView {
+//        ZStack(alignment: .top) {
+//            Color("Background")
+//
             VStack {
                 ScrollView(.vertical) {
                 VStack(alignment: .leading) {
@@ -47,6 +48,14 @@ struct SuggestAShopPreview: View {
                         .padding(.horizontal)
                     
                     //Body
+                    
+                    Text("here's the button")
+                    Button {
+                        isShowingDetailView.toggle()
+                    } label: {
+                        Text("CLICK HERE")
+                    }
+                    
                     VStack {
                         Text("use a table here for formatting!!!")
                         HStack {
@@ -73,28 +82,40 @@ struct SuggestAShopPreview: View {
                 }
                 .background(RoundedRectangle(cornerRadius: 8).foregroundColor(.white))
                 .padding()
-            }
-            }.padding(.top, 96)
-        }.ignoresSafeArea()
-        .navigationBarTitle("Suggest a Shop", displayMode: .inline)
-        .onAppear(perform: {
-                self.viewModel1.listenForMyRewardsPrograms(email: Auth.auth().currentUser?.email ?? "")
-                print("CURRENT USER IS")
-                print(Auth.auth().currentUser?.email ?? "")
-                print(self.viewModel1.myRewardsPrograms)
-            })
-        .onDisappear {
-                print("DISAPPEAR")
-                if self.viewModel1.listener1 != nil {
-                    print("REMOVING LISTENER")
-                    self.viewModel1.listener1.remove()
-                }
-        }
+                }//.ignoresSafeArea()
+            }//.padding(.top, 96)//.ignoresSafeArea()
+        //}
+        .navigationBarTitle("", displayMode: .inline)
+        .navigationBarHidden(true)
+        .edgesIgnoringSafeArea([.top, .bottom])
+//        .navigationBarItems(leading:
+//            Button {
+//            isShowingDetailView.toggle()
+//        } label: {
+//            Image(systemName: "arrow.left")
+//        })
+        
+    }
+        //.ignoresSafeArea()
+        //.navigationBarTitle("Suggest a Shop", displayMode: .inline)
+//        .onAppear(perform: {
+//                self.viewModel1.listenForMyRewardsPrograms(email: Auth.auth().currentUser?.email ?? "")
+//                print("CURRENT USER IS")
+//                print(Auth.auth().currentUser?.email ?? "")
+//                print(self.viewModel1.myRewardsPrograms)
+//            })
+//        .onDisappear {
+//                print("DISAPPEAR")
+//                if self.viewModel1.listener1 != nil {
+//                    print("REMOVING LISTENER")
+//                    self.viewModel1.listener1.remove()
+//                }
+//        }
     }
 }
 
 struct SuggestAShopPreview_Previews: PreviewProvider {
     static var previews: some View {
-        SuggestAShopPreview()
+        SuggestAShopPreview(isShowingDetailView: .constant(true))
     }
 }

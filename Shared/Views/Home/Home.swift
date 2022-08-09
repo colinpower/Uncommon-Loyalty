@@ -27,6 +27,11 @@ struct Home: View {
     @State var isFeaturedWidget2Active:Bool = false
     
     
+    //TEMP VAR
+    @State var isShowingDetailView = false
+    @State private var selection: String? = nil
+    
+    
     
     //@Binding var selectedTab: Int
     
@@ -90,8 +95,7 @@ struct Home: View {
                                     }.fullScreenCover(isPresented: $isAddCompanyPreviewActive, content: {
                                         AddCompanyPreview(isAddCompanyPreviewActive: $isAddCompanyPreviewActive)
                                     })
-                                }.padding(.horizontal)
-                                
+                                }
                                 
                                 //Body
                                 VStack {
@@ -104,24 +108,9 @@ struct Home: View {
                                         
                                         }
                                     }
-                                }.padding(.horizontal)
+                                }
 
-                                //Footer
-                                HStack() {
-                                    Spacer()
-                                    Button {
-                                        isAddCompanyPreviewActive.toggle()
-                                    } label: {
-                                        Text("See all")
-                                            .font(.system(size: 18))
-                                            .fontWeight(.semibold)
-                                            .foregroundColor(Color("ThemeBright"))
-                                    }.fullScreenCover(isPresented: $isAddCompanyPreviewActive, content: {
-                                        AddCompanyPreview(isAddCompanyPreviewActive: $isAddCompanyPreviewActive)
-                                    })
-                                    Spacer()
-                                }.padding(.vertical).padding(.vertical, 4)
-                            }.padding(.top).padding(.vertical)
+                            }.padding().padding(.top)
                                 .background(RoundedRectangle(cornerRadius: 16).foregroundColor(.white)).padding(.horizontal).padding(.top)
 
                         
@@ -175,11 +164,21 @@ struct Home: View {
                             //MARK: HELP US IMPROVE
                             WideWidgetHeader(title: "HELP US IMPROVE")
                             VStack {
-                                NavigationLink(destination: SuggestAShopPreview()) {
-                                    
+                                
+                                NavigationLink(destination: SuggestAShopPreview(isShowingDetailView: $isShowingDetailView).navigationBarTitle("", displayMode: .inline).navigationBarHidden(true), isActive: $isShowingDetailView) {
                                     WideWidgetItem(image: "lightbulb.circle.fill", size: 40, title: "Suggestions", subtitle: "What should we work on next?")
-                                    
-                                }.padding(.bottom)
+                                }
+
+                                
+//                                Button("Tap to show detail") {
+//                                    self.isShowingDetailView = true
+//                                }
+                                
+//                                NavigationLink(destination: SuggestAShopPreview()) {
+//
+//                                    WideWidgetItem(image: "lightbulb.circle.fill", size: 40, title: "Suggestions", subtitle: "What should we work on next?")
+//
+//                                }.padding(.bottom)
                                 
                                 //Send feedback
                                 Button {
