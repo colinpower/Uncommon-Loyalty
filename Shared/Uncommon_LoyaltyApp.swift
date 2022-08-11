@@ -5,6 +5,14 @@
 //  Created by Colin Power on 1/17/22.
 //
 
+// handling notification deeplinking
+//https://stackoverflow.com/questions/68144739/how-can-i-deep-link-from-a-notification-to-a-screen-in-swiftui
+
+//for implementing crashlytics.. need to force a crash. then it should be sent to Firebase
+//https://www.youtube.com/watch?v=l-iN0kY_bmg
+
+
+
 import SwiftUI
 import Firebase
 import FirebaseCore
@@ -12,11 +20,7 @@ import FirebaseAuth
 import FirebaseFirestore
 import FirebaseDynamicLinks
 
-// handling notification deeplinking
-//https://stackoverflow.com/questions/68144739/how-can-i-deep-link-from-a-notification-to-a-screen-in-swiftui
 
-//for implementing crashlytics.. need to force a crash. then it should be sent to Firebase
-//https://www.youtube.com/watch?v=l-iN0kY_bmg
 
 final class AppDelegate: NSObject, UIApplicationDelegate {
 
@@ -43,6 +47,7 @@ struct Uncommon_LoyaltyApp: App {
     
     var body: some Scene {
         let viewModel = AppViewModel()
+        
         WindowGroup {
             ContentView()
                 .environmentObject(viewModel)

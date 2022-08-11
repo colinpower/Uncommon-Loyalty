@@ -42,7 +42,7 @@ struct AddCompanyWidget: View {
                     
                     Spacer()
                     NavigationLink {
-                        AddCompany()
+                        AddCompany(companyIcon: companyLogo, company: company, backgroundImage: backgroundImage, joiningBonus: joiningBonus)
                     } label: {
                         Text("Join")
                             .font(.system(size: 16))
@@ -53,7 +53,7 @@ struct AddCompanyWidget: View {
                             .background(RoundedRectangle(cornerRadius: 16).foregroundColor(color))
                     }
 
-                }.padding().background(.ultraThickMaterial, in: Rectangle())
+                }.padding().background(.ultraThinMaterial, in: Rectangle())
             }.frame(height: 250)
         }
         .clipShape(RoundedRectangle(cornerRadius: 30, style: .continuous))

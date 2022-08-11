@@ -110,7 +110,7 @@ struct Home: View {
                                     }
                                 }
 
-                            }.padding().padding(.top)
+                            }.padding().padding(.vertical)
                                 .background(RoundedRectangle(cornerRadius: 16).foregroundColor(.white)).padding(.horizontal).padding(.top)
 
                         
@@ -208,10 +208,19 @@ struct Home: View {
             .navigationTitle("")
             .navigationBarHidden(true)
             .onAppear {
-                self.viewModel1.listenForMyRewardsPrograms(email: Auth.auth().currentUser?.email ?? "")
-                print("CURRENT USER IS")
-                print(Auth.auth().currentUser?.email ?? "")
-                print(self.viewModel1.myRewardsPrograms)
+//                if Auth.auth().currentUser?.isEmailVerified != nil {
+//                    if Auth.auth().currentUser?.isEmailVerified! {
+                        self.viewModel1.listenForMyRewardsPrograms(email: Auth.auth().currentUser?.email ?? "")
+                        print("CURRENT USER IS")
+                        print(Auth.auth().currentUser?.email ?? "")
+                        print(self.viewModel1.myRewardsPrograms)
+//                    } else {
+//                        //email not verified yet.. need to get them to verify
+//                    }
+//                } else {
+//                    //should never hit this screen... idk what to do
+//                }
+                
             }
             .onDisappear {
                 print("DISAPPEAR")

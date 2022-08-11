@@ -24,9 +24,12 @@ struct AddCompanyPreview: View {
                     VStack {
                         SheetHeader(title: "Join Loyalty Programs", isActive: $isAddCompanyPreviewActive)
                         ScrollView(.vertical, showsIndicators: false) {
-                            AddCompanyWidget(backgroundImage: "Skincare Background", companyLogo: "Athleisure LA", company: "Athleisure LA", joiningBonus: "15% on new purchases", color: Color("Background"))
+                            AddCompanyWidget(backgroundImage: "Skincare Background", companyLogo: "Skincare Icon", company: "Sarah Wilson", joiningBonus: "20% for new customers", color: Color("Skincare"))
+                            AddCompanyWidget(backgroundImage: "Makeup Background", companyLogo: "Makeup Icon", company: "Make Me Glitter Now", joiningBonus: "15% on new purchases", color: Color("Makeup"))
+                            AddCompanyWidget(backgroundImage: "Facewash Background", companyLogo: "Facewash Icon", company: "FRE Skincare", joiningBonus: "20% on new purchases", color: Color("Facewash"))
+                            AddCompanyWidget(backgroundImage: "Yoga Background", companyLogo: "Yoga Icon", company: "PEACE", joiningBonus: "10% on new purchases", color: Color("Yoga"))
                             
-                        }//.padding(.top, 120)
+                        }
                     }
                 }
             }.ignoresSafeArea()
