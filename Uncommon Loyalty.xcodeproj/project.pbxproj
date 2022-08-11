@@ -25,6 +25,8 @@
 		3014FA952796FE7000473CE4 /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3014FA942796FE7000473CE4 /* DataManager.swift */; };
 		3014FA972796FF5B00473CE4 /* RewardsProgramViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3014FA962796FF5B00473CE4 /* RewardsProgramViewModel.swift */; };
 		302DE17427B207C80041A981 /* CreateDiscountScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 302DE17327B207C70041A981 /* CreateDiscountScreen.swift */; };
+		3032828D28A4AE930038A053 /* LoginSuccessView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3032828C28A4AE930038A053 /* LoginSuccessView.swift */; };
+		3032828E28A4AE930038A053 /* LoginSuccessView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3032828C28A4AE930038A053 /* LoginSuccessView.swift */; };
 		3046EC20279FB34F00D1CBE7 /* SaleWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3046EC1F279FB34F00D1CBE7 /* SaleWidget.swift */; };
 		3046EC22279FB3DB00D1CBE7 /* VoteOnProduct.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3046EC21279FB3DB00D1CBE7 /* VoteOnProduct.swift */; };
 		3046EC24279FB3E800D1CBE7 /* SaleForProduct.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3046EC23279FB3E800D1CBE7 /* SaleForProduct.swift */; };
@@ -116,6 +118,7 @@
 		3014FA942796FE7000473CE4 /* DataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
 		3014FA962796FF5B00473CE4 /* RewardsProgramViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RewardsProgramViewModel.swift; sourceTree = "<group>"; };
 		302DE17327B207C70041A981 /* CreateDiscountScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateDiscountScreen.swift; sourceTree = "<group>"; };
+		3032828C28A4AE930038A053 /* LoginSuccessView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginSuccessView.swift; sourceTree = "<group>"; };
 		3046EC1F279FB34F00D1CBE7 /* SaleWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SaleWidget.swift; sourceTree = "<group>"; };
 		3046EC21279FB3DB00D1CBE7 /* VoteOnProduct.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoteOnProduct.swift; sourceTree = "<group>"; };
 		3046EC23279FB3E800D1CBE7 /* SaleForProduct.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SaleForProduct.swift; sourceTree = "<group>"; };
@@ -296,6 +299,7 @@
 			isa = PBXGroup;
 			children = (
 				3014FA1227964E5D00473CE4 /* ContentView.swift */,
+				3032828C28A4AE930038A053 /* LoginSuccessView.swift */,
 				300C531A2891878600F80B19 /* TabView.swift */,
 				30546E2327FBBF7E00173D9D /* LoginView.swift */,
 				30C8102B2888612F004B1DA7 /* LoginWithEmailView.swift */,
@@ -603,6 +607,7 @@
 				30DC3E7828A167C900613B4B /* FeaturedView2.swift in Sources */,
 				3014FA792796FBF800473CE4 /* RewardsProgram.swift in Sources */,
 				30EA87B9281351E200F0CF64 /* Orders.swift in Sources */,
+				3032828D28A4AE930038A053 /* LoginSuccessView.swift in Sources */,
 				30BA64D62889AB7A002E3FC8 /* ReviewProductCarousel2.swift in Sources */,
 				30C8102128877FD1004B1DA7 /* ReviewProductPreview.swift in Sources */,
 				30DC3E6B28A11E4B00613B4B /* History.swift in Sources */,
@@ -633,6 +638,7 @@
 				30C810322888857B004B1DA7 /* LoginView.swift in Sources */,
 				30BA64D92889AF56002E3FC8 /* ReviewOrReferWidget.swift in Sources */,
 				309468C0289BB345008286E8 /* Components.swift in Sources */,
+				3032828E28A4AE930038A053 /* LoginSuccessView.swift in Sources */,
 				30C8103128888578004B1DA7 /* LoginWithEmailView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

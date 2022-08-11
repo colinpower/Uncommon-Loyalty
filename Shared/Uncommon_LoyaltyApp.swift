@@ -33,8 +33,6 @@ final class AppDelegate: NSObject, UIApplicationDelegate {
         
         return true
     }
-    
-    
 }
 
 @main
@@ -43,7 +41,6 @@ struct Uncommon_LoyaltyApp: App {
     //need this line here to handle push notifications or other
     @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
     
-    //var window: UIWindow?
     
     var body: some Scene {
         let viewModel = AppViewModel()
@@ -52,16 +49,26 @@ struct Uncommon_LoyaltyApp: App {
             ContentView()
                 .environmentObject(viewModel)
             
+
+        }
+    }
+}
+    
+
+
+
+
+
 //                .onContinueUserActivity(NSUserActivityTypeBrowsingWeb, perform: onWebBrowserActivity)
 //                .onOpenURL {
 //                    url in
 //                    print("incoming URL parameter is \(url)")
 //                    let linkHandled = FIRDynamicLinks.dynamicLinks().handleUniversalLink(<#T##NSURL#>, completion: <#T##FIRDynamicLinkUniversalLinkHandler#>)
-//                }
-        }
-    }
-}
-    
+
+
+
+
+
 //    //@available(iOS 9.0, *)
 //    func application(_ application: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey: Any]) -> Bool {
 //        print("this function OPEN URL OPTIONS KEY was called")
