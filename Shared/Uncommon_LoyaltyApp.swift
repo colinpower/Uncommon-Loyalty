@@ -41,7 +41,7 @@ struct Uncommon_LoyaltyApp: App {
     //need this line here to handle push notifications or other
     @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
     
-    
+
     var body: some Scene {
         let viewModel = AppViewModel()
         

@@ -42,133 +42,169 @@ import FirebaseAuth
 
 class AppViewModel: ObservableObject {
     
-    
-    let auth = Auth.auth()
-    
     @Published var signedIn = false
 
+    let auth = Auth.auth()
+    
+    //do I need to do guard let here??
+    let email = Auth.auth().currentUser?.email
+    
+    let userID = Auth.auth().currentUser?.uid
     
     var isSignedIn: Bool {
         return auth.currentUser != nil
     }
     
-    func signIn(email: String, password: String) {
-        auth.signIn(withEmail: email, password: password) { [weak self]
-            result, error in
-            guard result != nil, error == nil else {
-                return
-            }
-            DispatchQueue.main.async {
-                //Success
-                self?.signedIn = true
-            }
-            
-        }
-    }
     
-    func signUp(email: String, password: String) {
-        auth.createUser(withEmail: email, password: password) { [weak self]
-            result, error in
-            guard result != nil, error == nil else {
-                print(error!)
-                return
-            }
-            
-            DispatchQueue.main.async {
-                //Success
+    
+    func passwordlessSignIn(email: String, link: String,
+                                      completion: @escaping (Result<User?, Error>) -> Void) {
+        Auth.auth().signIn(withEmail: email, link: link) { result, error in
+          if let error = error {
+            print("Authentication error: \(error.localizedDescription).")
+            completion(.failure(error))
+          } else {
+            print("Authentication was successful.")
+            completion(.success(result?.user))
+          }
+        }
+      }
+    
+    //MARK: TESTING ONLY - MUST DELETE WHEN SHIPPING
+    //COMMENT THIS FUNCTION.. ONLY FOR TESTING
+    func signIn(email: String, password: String) {
+            auth.signIn(withEmail: email, password: password) { [weak self]
+                result, error in
+                guard result != nil, error == nil else {
+                    return
+                }
+                DispatchQueue.main.async {
+                    //Success
+                    self?.signedIn = true
+                }
                 
-                self?.signedIn = true
             }
         }
-    }
+    
     
     func signOut() {
-        
         try? auth.signOut()
-        
         self.signedIn = false
     }
-    
     
 }
 
 
 
 struct LoginView: View {
-    @State private var email = ""
-    @State private var password = ""
     
-    @EnvironmentObject var viewModel: AppViewModel
+    //@EnvironmentObject var viewModel: AppViewModel
+    
+    @Binding var email: String
+    @Binding var alertItem: AlertItem?
+    
+    @Binding var isShowingCheckEmailView: Bool
     
     
     var body: some View {
-        VStack {
-            VStack {
-                TextField("Email Address", text: $email)
-                    .padding()
-                SecureField("Password", text: $password)
-                    .padding()
-
-                Button {
-                    guard !email.isEmpty else {
-                        return
+        if isShowingCheckEmailView {
+            CheckYourEmail(isShowingCheckEmailView: $isShowingCheckEmailView)
+        } else {
+        
+            ZStack {
+            Color("bg")
+            
+            VStack(alignment: .leading) {
+                
+                Spacer()
+                VStack(alignment: .leading, spacing: 0) {
+                    Text("Uncommon App")
+                        .foregroundColor(Color("ThemeLight"))
+                        .font(.system(size: 40))
+                        .fontWeight(.bold)
+                        .padding(.bottom, 8)
+                    Text("The easiest way to be loyal!")
+                        .foregroundColor(Color("ThemeLight"))
+                        .font(.system(size: 18))
+                        .fontWeight(.regular)
+                }
+                Spacer()
+                Spacer()
+//                Text("Enter the email you use when you shop.")
+//                    .foregroundColor(Color("ThemeLight"))
+//                    .font(.system(size: 16))
+//                    .fontWeight(.regular)
+//                    .lineLimit(2)
+//                    .padding(.bottom, 16)
+                HStack (alignment: .center) {
+                    VStack(alignment: .leading, spacing: 0) {
+                        TextField("Enter your email", text: $email)
+                            .font(.system(size: 16, weight: .semibold))
+                            .foregroundColor(Color("ThemePrimary"))
+                            .frame(height: 60)
+                            .padding(.horizontal)
+                            .background(RoundedRectangle(cornerRadius: 16).fill(Color.white))
+                            .onSubmit {
+                                sendSignInLink()
+                                withAnimation {
+                                    isShowingCheckEmailView = true
+                                }
+                            }
+                            .submitLabel(.send)
+                            .keyboardType(.emailAddress)
+                            .disableAutocorrection(true)
                     }
                     
-                    viewModel.signIn(email: email, password: password)
-                } label: {
-                    Text("Sign In")
-                        .frame(width: 200, height: 50, alignment: .center)
-                        .cornerRadius(8)
-                        .foregroundColor(.white)
-                        .background(Color.blue)
+                    Button {
+                        sendSignInLink()
+                        isShowingCheckEmailView = true
+                    } label: {
+                        Image(systemName: "arrow.right")
+                            .font(Font.system(size: 40, weight: .bold))
+                            .padding(.horizontal)
+                            .frame(height: 48)
+                            .foregroundColor(.white)
+                    }.disabled(email.isEmpty)
+                        .fullScreenCover(isPresented: $isShowingCheckEmailView) {
+                            CheckYourEmail(isShowingCheckEmailView: $isShowingCheckEmailView)
+                        }
                 }
-                
-                NavigationLink("Create account", destination: SignUpView())
-
-            }
+                Spacer()
+                Spacer()
+                HStack {
+                    Spacer()
+                    Text("(No passwords needed, ever)")
+                        .foregroundColor(Color("ThemeLight"))
+                        .font(.system(size: 13))
+                        .fontWeight(.regular)
+                    Spacer()
+                }
+                Spacer()
+            }.padding(.horizontal).padding(.horizontal)
+        }.edgesIgnoringSafeArea(.all)
         }
     }
-}
+    
+    private func sendSignInLink() {
+       let actionCodeSettings = ActionCodeSettings()
+       actionCodeSettings.url = URL(string: "https://uncommonloyalty.page.link/open")
+       actionCodeSettings.handleCodeInApp = true
+       actionCodeSettings.setIOSBundleID(Bundle.main.bundleIdentifier!)
 
-struct SignUpView: View {
-    @State private var email = ""
-    @State private var password = ""
-    
-    @EnvironmentObject var viewModel: AppViewModel
-    
-    
-    var body: some View {
-        VStack {
-            Image(systemName: "pencil.circle")
-                .font(.system(size: 150))
-            VStack {
-                TextField("Email Address", text: $email)
-                    .padding()
-                SecureField("Password", text: $password)
-                    .padding()
-                
-                Button {
-                    guard !email.isEmpty, !password.isEmpty else {
-                        return
-                    }
-                    //viewModel.signUp(email: email, password: password)
-                } label: {
-                    Text("Create Account")
-                        .frame(width: 200, height: 50, alignment: .center)
-                        .cornerRadius(8)
-                        .foregroundColor(.white)
-                        .background(Color.blue)
-                }
+       Auth.auth().sendSignInLink(toEmail: email,
+                                  actionCodeSettings: actionCodeSettings) { error in   // 2
+         if let error = error {
+           alertItem = AlertItem(
+             title: "The sign in link could not be sent.",
+             message: error.localizedDescription
+           )
+         }
+       }
+     }
 
-            }
-        }
-    }
 }
 
 
 
-struct LoginView_Previews: PreviewProvider {
-    static var previews: some View {
-        LoginView()
-    }
-}
+
+

@@ -38,6 +38,12 @@ struct SheetHeader: View {
 }
 
 
+struct AlertItem: Identifiable {
+  var id = UUID()
+  var title: String
+  var message: String
+}
+
 struct WidgetSolo: View {
     
     var image: String

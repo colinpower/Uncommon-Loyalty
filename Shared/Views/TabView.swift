@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct TabView: View {
+struct MyTabView: View {
     
     @Binding var selectedTab: Int
     
@@ -44,8 +44,8 @@ struct TabView: View {
     }
 }
 
-struct TabView_Previews: PreviewProvider {
+struct MyTabView_Previews: PreviewProvider {
     static var previews: some View {
-        TabView(selectedTab: .constant(1))
+        MyTabView(selectedTab: .constant(1))
     }
 }

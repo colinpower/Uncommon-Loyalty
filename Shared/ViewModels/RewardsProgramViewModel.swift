@@ -53,34 +53,30 @@ class RewardsProgramViewModel: ObservableObject, Identifiable {
         })
     }
     
+    
+    func addLoyaltyProgram(companyID: String, companyName: String, currentPointsBalance: Int, email: String, lifetimePoints: Int, referralCode: String, status: String, userID: String) {
+        
+        //try <- I eliminated the try / catch thing.. this seems like it should work just fine?
+        db.collection("loyaltyprograms").document(userID + "-" + companyID)
+            .setData([
+                "companyID": companyID,
+                "companyName": companyName,
+                "currentPointsBalance": currentPointsBalance,
+                "email": email,
+                "lifetimePoints": lifetimePoints,
+                "numberOfReferrals": 0,
+                "numberOfReviews": 0,
+                "referralCode": "",
+                "status": status,
+                "timestampJoined": Int(round(Date().timeIntervalSince1970)),
+                "userID": userID
+            ]) { err in
+                if let err = err {
+                    print("Error updating document: \(err)")
+                } else {
+                    print("hasSeenFRE set to True")
+                }
 
-    
-//    func acceptTicket(ticketReference: String) {
-//        db.collection("tickets").document(ticketReference).updateData([
-//            "agentID": "colinjpower1"
-//        ]) { err in
-//            if let err = err {
-//                print("Error updating document: \(err)")
-//            } else {
-//                //print("Document successfully updated")
-//            }
-//        }
-//    }
-//
-//    // MARK: Queries for the INBOX views
-//    func listenForMyTickets() {
-//        self.myTickets = [Ticket]()
-//
-//        self.dm.getMyTickets(onSuccess: { (tickets) in
-//            self.myTickets = tickets
-//        }, listener: { (listener) in
-//            self.listener2 = listener
-//        })
-//    }
-    
-    
-    
-    
-    
-  
+        }
+    }
 }

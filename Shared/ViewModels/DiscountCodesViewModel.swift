@@ -35,7 +35,7 @@ class DiscountCodesViewModel: ObservableObject, Identifiable {
     }
     
     func addCode(dollars: Int, pointsSpent: Int, userID: String, companyName: String, companyID: String, email: String) {
-        try db.collection("discountcodes-" + companyID)
+        db.collection("discountcodes-" + companyID)
             .addDocument(data: [
                 "code": "COLIN-DISCOUNT-ADDED",
                 "companyName": companyName,
@@ -48,7 +48,14 @@ class DiscountCodesViewModel: ObservableObject, Identifiable {
                 "timestampCreated": Int(round(Date().timeIntervalSince1970)),
                 "timestampUsed": 0,
                 "userID": userID
-            ])
+            ]) { err in
+                    if let err = err {
+                        print("Error updating document: \(err)")
+                    } else {
+                        print("hasSeenFRE set to True")
+                    }
+
+            }
     }
     
 }

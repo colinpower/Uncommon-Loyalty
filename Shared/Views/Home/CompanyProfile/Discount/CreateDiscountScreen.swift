@@ -4,24 +4,23 @@
 //
 //  Created by Colin Power on 2/7/22.
 //
+//note.. need to move NavigationView into the Home view instead of in the tabview.. this way the popup screen won't revert back to the home view
+//https://developer.apple.com/forums/thread/695596
+
+
 
 import SwiftUI
 
 struct CreateDiscountScreen: View {
     
-    //note.. need to move NavigationView into the Home view instead of in the tabview.. this way the popup screen won't revert back to the home view
-    //https://developer.apple.com/forums/thread/695596
-    
-    //Adding comment
-    var companyID: String
-    var companyName: String
-    var availablePoints: Int
-    
-    @Binding var isCreateDiscountScreenActive: Bool
-    
+    @ObservedObject var viewModel2 = DiscountCodesViewModel()
     @State var rewardsUsed: Double = 0
     
-    @ObservedObject var viewModel2 = DiscountCodesViewModel()
+    @Binding var isCreateDiscountScreenActive: Bool
+    var companyID: String
+    var companyName: String
+    var currentPointsBalance: Int
+    
     
     var body: some View {
         VStack (alignment: .center) {
@@ -32,12 +31,10 @@ struct CreateDiscountScreen: View {
                     .font(.headline)
                     .foregroundColor(.black)
                     .padding(.bottom, 8)
-                Text(String(availablePoints-Int(rewardsUsed)) + " POINTS AVAILABLE")
+                Text(String(currentPointsBalance-Int(rewardsUsed)) + " POINTS AVAILABLE")
                     .font(.footnote)
                     .foregroundColor(.gray)
-//                Text("CONVERT POINTS INTO A DISCOUNT CODE")
-//                    .font(.footnote)
-//                    .foregroundColor(.gray)
+
             }
             Spacer()
             
@@ -56,7 +53,7 @@ struct CreateDiscountScreen: View {
             
             Slider(
                 value: $rewardsUsed,
-                in: 0...Double(availablePoints),
+                in: 0...Double(currentPointsBalance),
                 step: 50,
                 onEditingChanged: { (_) in
                     // nil here
@@ -97,6 +94,6 @@ struct CreateDiscountScreen: View {
 
 struct CreateDiscountScreen_Previews: PreviewProvider {
     static var previews: some View {
-        CreateDiscountScreen(companyID: "zKL7SQ0jRP8351a0NnHM", companyName: "Athleisure LA", availablePoints: 100, isCreateDiscountScreenActive: .constant(true))
+        CreateDiscountScreen(isCreateDiscountScreenActive: .constant(true), companyID: "zKL7SQ0jRP8351a0NnHM", companyName: "Athleisure LA", currentPointsBalance: 100)
     }
 }

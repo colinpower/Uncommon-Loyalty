@@ -182,6 +182,55 @@ class DataManager: ObservableObject {
     }
     
     
+    func getMyCompanies( onSuccess: @escaping([Companies]) -> Void, listener: @escaping(_ listenerHandle: ListenerRegistration) -> Void) {
+        //print("this ONE function was called")
+        let listenerRegistration = db.collection("companies")
+            .addSnapshotListener { (querySnapshot, error) in
+            guard let documents = querySnapshot?.documents else {
+                print("No documents")
+                return
+            }
+            var myCompaniesArray = [Companies]()
+
+                myCompaniesArray = documents.compactMap { (queryDocumentSnapshot) -> Companies? in
+                    print("THIS IS THE COMPANIES")
+                print(try? queryDocumentSnapshot.data(as: Companies.self))
+                return try? queryDocumentSnapshot.data(as: Companies.self)
+                //return try? queryDocumentSnapshot.data(as: Ticket.self)
+            }
+            onSuccess(myCompaniesArray)
+        }
+        listener(listenerRegistration) //escaping listener
+    }
+    
+    func getOneUser(email: String, onSuccess: @escaping([Users]) -> Void, listener: @escaping(_ listenerHandle: ListenerRegistration) -> Void) {
+        
+        
+        let listenerRegistration = db.collection("users")
+            .whereField("email", isEqualTo: email)
+            .addSnapshotListener { (querySnapshot, error) in
+            guard let documents = querySnapshot?.documents else {
+                print("No documents")
+                return
+            }
+            var oneUserArray = [Users]()
+
+                oneUserArray = documents.compactMap { (queryDocumentSnapshot) -> Users? in
+                    print("SINGLE USER")
+                print(try? queryDocumentSnapshot.data(as: Users.self))
+                return try? queryDocumentSnapshot.data(as: Users.self)
+                //return try? queryDocumentSnapshot.data(as: Ticket.self)
+            }
+            onSuccess(oneUserArray)
+        }
+        listener(listenerRegistration) //escaping listener
+    }
+    
+    
+    
+    
+    
+    
 //    // MARK: Queries for the INBOX views
 //    func getMyTickets(onSuccess: @escaping([Ticket]) -> Void, listener: @escaping(_ listenerHandle: ListenerRegistration) -> Void) {
 //

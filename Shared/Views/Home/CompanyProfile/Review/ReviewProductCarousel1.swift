@@ -25,7 +25,7 @@ struct ReviewProductCarousel1: View {
                 Color("Background")
                 
                 //Pages that you scroll through
-                ScrollView(.horizontal) {
+//                ScrollView(.horizontal) {
                     HStack(spacing: 0) {
                         //MARK: PAGE 1 (Title and First Question)
                         VStack (alignment: .leading) {
@@ -183,8 +183,11 @@ struct ReviewProductCarousel1: View {
                         }.frame(width: geometry.size.width, height: geometry.size.height, alignment: .center)
                             .offset(x: horizontalOffset)
                     }
-                }
-                .ignoresSafeArea(.keyboard)
+                    .frame(width: geometry.size.width*3)
+                    .ignoresSafeArea(.keyboard)
+//                }
+                
+                
                 
                 
                 // X button, footer, header

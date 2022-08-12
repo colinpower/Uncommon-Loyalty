@@ -36,7 +36,7 @@ class ReviewsViewModel: ObservableObject, Identifiable {
     
     func addReview(companyID: String, reviewDetails: String, email: String, orderID: String, reviewRating: Int, reviewTitle: String, userID: String) {
         
-        try db.collection("reviews-" + companyID)
+        db.collection("reviews-" + companyID)
             .addDocument(data: [
                 "companyID": companyID,
                 "details": reviewDetails,
@@ -48,7 +48,14 @@ class ReviewsViewModel: ObservableObject, Identifiable {
                 "timestamp": Int(round(Date().timeIntervalSince1970)),
                 "title": reviewTitle,
                 "userID": userID
-            ])
+            ]) { err in
+                if let err = err {
+                    print("Error updating document: \(err)")
+                } else {
+                    print("hasSeenFRE set to True")
+                }
+
+        }
     }
     
 }

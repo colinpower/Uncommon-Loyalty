@@ -25,8 +25,12 @@
 		3014FA952796FE7000473CE4 /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3014FA942796FE7000473CE4 /* DataManager.swift */; };
 		3014FA972796FF5B00473CE4 /* RewardsProgramViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3014FA962796FF5B00473CE4 /* RewardsProgramViewModel.swift */; };
 		302DE17427B207C80041A981 /* CreateDiscountScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 302DE17327B207C70041A981 /* CreateDiscountScreen.swift */; };
-		3032828D28A4AE930038A053 /* LoginSuccessView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3032828C28A4AE930038A053 /* LoginSuccessView.swift */; };
-		3032828E28A4AE930038A053 /* LoginSuccessView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3032828C28A4AE930038A053 /* LoginSuccessView.swift */; };
+		3032829328A4CEB60038A053 /* FirstRunExperience.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3032829228A4CEB60038A053 /* FirstRunExperience.swift */; };
+		3032829428A4CEB60038A053 /* FirstRunExperience.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3032829228A4CEB60038A053 /* FirstRunExperience.swift */; };
+		3032829628A4EFF80038A053 /* LoginViewTesting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3032829528A4EFF80038A053 /* LoginViewTesting.swift */; };
+		3032829728A4EFF80038A053 /* LoginViewTesting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3032829528A4EFF80038A053 /* LoginViewTesting.swift */; };
+		3032829928A4F2C60038A053 /* CheckYourEmail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3032829828A4F2C60038A053 /* CheckYourEmail.swift */; };
+		3032829A28A4F2C60038A053 /* CheckYourEmail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3032829828A4F2C60038A053 /* CheckYourEmail.swift */; };
 		3046EC20279FB34F00D1CBE7 /* SaleWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3046EC1F279FB34F00D1CBE7 /* SaleWidget.swift */; };
 		3046EC22279FB3DB00D1CBE7 /* VoteOnProduct.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3046EC21279FB3DB00D1CBE7 /* VoteOnProduct.swift */; };
 		3046EC24279FB3E800D1CBE7 /* SaleForProduct.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3046EC23279FB3E800D1CBE7 /* SaleForProduct.swift */; };
@@ -40,6 +44,11 @@
 		307BCA2327975C8A000DDD21 /* DiscountCodesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 307BCA2227975C8A000DDD21 /* DiscountCodesViewModel.swift */; };
 		307BCA2527975F2E000DDD21 /* Transactions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 307BCA2427975F2E000DDD21 /* Transactions.swift */; };
 		307BCA2727975F89000DDD21 /* TransactionsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 307BCA2627975F89000DDD21 /* TransactionsViewModel.swift */; };
+		3088073C28A563BA003D1B99 /* Companies.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3088073B28A563BA003D1B99 /* Companies.swift */; };
+		3088073E28A56488003D1B99 /* CompaniesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3088073D28A56488003D1B99 /* CompaniesViewModel.swift */; };
+		3088074028A5980D003D1B99 /* TempFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3088073F28A5980D003D1B99 /* TempFile.swift */; };
+		3088074228A61A6F003D1B99 /* Users.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3088074128A61A6F003D1B99 /* Users.swift */; };
+		3088074428A61BEB003D1B99 /* UsersViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3088074328A61BEB003D1B99 /* UsersViewModel.swift */; };
 		308B83F627F441A600BC5211 /* RatingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 308B83F527F441A600BC5211 /* RatingView.swift */; };
 		308B83F827F44DE800BC5211 /* MemberSale.swift in Sources */ = {isa = PBXBuildFile; fileRef = 308B83F727F44DE800BC5211 /* MemberSale.swift */; };
 		308B83FA27F5165500BC5211 /* IMG_6178.MOV in Resources */ = {isa = PBXBuildFile; fileRef = 308B83F927F5165500BC5211 /* IMG_6178.MOV */; };
@@ -54,11 +63,9 @@
 		30C81024288786EB004B1DA7 /* AddCompanyPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30C81023288786EB004B1DA7 /* AddCompanyPreview.swift */; };
 		30C81026288786F2004B1DA7 /* AddCompany.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30C81025288786F2004B1DA7 /* AddCompany.swift */; };
 		30C8102828878776004B1DA7 /* AddCompanyWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30C8102728878776004B1DA7 /* AddCompanyWidget.swift */; };
-		30C8102C2888612F004B1DA7 /* LoginWithEmailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30C8102B2888612F004B1DA7 /* LoginWithEmailView.swift */; };
 		30C8102D2888827F004B1DA7 /* Uncommon_LoyaltyApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3014FA1127964E5D00473CE4 /* Uncommon_LoyaltyApp.swift */; };
 		30C8102F288884CF004B1DA7 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 30C8102E288884CF004B1DA7 /* GoogleService-Info.plist */; };
 		30C81030288884CF004B1DA7 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 30C8102E288884CF004B1DA7 /* GoogleService-Info.plist */; };
-		30C8103128888578004B1DA7 /* LoginWithEmailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30C8102B2888612F004B1DA7 /* LoginWithEmailView.swift */; };
 		30C810322888857B004B1DA7 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30546E2327FBBF7E00173D9D /* LoginView.swift */; };
 		30C8103428888580004B1DA7 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3014FA1227964E5D00473CE4 /* ContentView.swift */; };
 		30D743012894334C00B22448 /* SDWebImageSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = 30D743002894334C00B22448 /* SDWebImageSwiftUI */; };
@@ -118,7 +125,9 @@
 		3014FA942796FE7000473CE4 /* DataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
 		3014FA962796FF5B00473CE4 /* RewardsProgramViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RewardsProgramViewModel.swift; sourceTree = "<group>"; };
 		302DE17327B207C70041A981 /* CreateDiscountScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateDiscountScreen.swift; sourceTree = "<group>"; };
-		3032828C28A4AE930038A053 /* LoginSuccessView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginSuccessView.swift; sourceTree = "<group>"; };
+		3032829228A4CEB60038A053 /* FirstRunExperience.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstRunExperience.swift; sourceTree = "<group>"; };
+		3032829528A4EFF80038A053 /* LoginViewTesting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewTesting.swift; sourceTree = "<group>"; };
+		3032829828A4F2C60038A053 /* CheckYourEmail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckYourEmail.swift; sourceTree = "<group>"; };
 		3046EC1F279FB34F00D1CBE7 /* SaleWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SaleWidget.swift; sourceTree = "<group>"; };
 		3046EC21279FB3DB00D1CBE7 /* VoteOnProduct.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoteOnProduct.swift; sourceTree = "<group>"; };
 		3046EC23279FB3E800D1CBE7 /* SaleForProduct.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SaleForProduct.swift; sourceTree = "<group>"; };
@@ -133,6 +142,11 @@
 		307BCA2227975C8A000DDD21 /* DiscountCodesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscountCodesViewModel.swift; sourceTree = "<group>"; };
 		307BCA2427975F2E000DDD21 /* Transactions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Transactions.swift; sourceTree = "<group>"; };
 		307BCA2627975F89000DDD21 /* TransactionsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionsViewModel.swift; sourceTree = "<group>"; };
+		3088073B28A563BA003D1B99 /* Companies.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Companies.swift; sourceTree = "<group>"; };
+		3088073D28A56488003D1B99 /* CompaniesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = CompaniesViewModel.swift; path = Shared/CompaniesViewModel.swift; sourceTree = SOURCE_ROOT; };
+		3088073F28A5980D003D1B99 /* TempFile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TempFile.swift; sourceTree = "<group>"; };
+		3088074128A61A6F003D1B99 /* Users.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Users.swift; sourceTree = "<group>"; };
+		3088074328A61BEB003D1B99 /* UsersViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsersViewModel.swift; sourceTree = "<group>"; };
 		308B83F527F441A600BC5211 /* RatingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RatingView.swift; sourceTree = "<group>"; };
 		308B83F727F44DE800BC5211 /* MemberSale.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemberSale.swift; sourceTree = "<group>"; };
 		308B83F927F5165500BC5211 /* IMG_6178.MOV */ = {isa = PBXFileReference; lastKnownFileType = video.quicktime; path = IMG_6178.MOV; sourceTree = "<group>"; };
@@ -146,7 +160,6 @@
 		30C81025288786F2004B1DA7 /* AddCompany.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCompany.swift; sourceTree = "<group>"; };
 		30C8102728878776004B1DA7 /* AddCompanyWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCompanyWidget.swift; sourceTree = "<group>"; };
 		30C8102A28884650004B1DA7 /* Uncommon Loyalty (iOS).entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Uncommon Loyalty (iOS).entitlements"; sourceTree = "<group>"; };
-		30C8102B2888612F004B1DA7 /* LoginWithEmailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginWithEmailView.swift; sourceTree = "<group>"; };
 		30C8102E288884CF004B1DA7 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		30DC3E6A28A11E4B00613B4B /* History.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = History.swift; sourceTree = "<group>"; };
 		30DC3E6C28A121AF00613B4B /* Notifications.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notifications.swift; sourceTree = "<group>"; };
@@ -274,9 +287,11 @@
 			isa = PBXGroup;
 			children = (
 				3014FA782796FBF700473CE4 /* RewardsProgram.swift */,
+				3088073B28A563BA003D1B99 /* Companies.swift */,
 				307BCA2027975C27000DDD21 /* DiscountCodes.swift */,
 				307BCA2427975F2E000DDD21 /* Transactions.swift */,
 				30EA87B8281351E200F0CF64 /* Orders.swift */,
+				3088074128A61A6F003D1B99 /* Users.swift */,
 				3046EC25279FB43500D1CBE7 /* PostInFeed.swift */,
 			);
 			path = Models;
@@ -285,12 +300,14 @@
 		3014FA902796FE0800473CE4 /* ViewModels */ = {
 			isa = PBXGroup;
 			children = (
+				3088073D28A56488003D1B99 /* CompaniesViewModel.swift */,
 				3014FA942796FE7000473CE4 /* DataManager.swift */,
 				3014FA962796FF5B00473CE4 /* RewardsProgramViewModel.swift */,
 				307BCA2227975C8A000DDD21 /* DiscountCodesViewModel.swift */,
 				30EA87B22811DC0C00F0CF64 /* ReviewsViewModel.swift */,
 				307BCA2627975F89000DDD21 /* TransactionsViewModel.swift */,
 				30EA87B62813516100F0CF64 /* OrdersViewModel.swift */,
+				3088074328A61BEB003D1B99 /* UsersViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -299,10 +316,10 @@
 			isa = PBXGroup;
 			children = (
 				3014FA1227964E5D00473CE4 /* ContentView.swift */,
-				3032828C28A4AE930038A053 /* LoginSuccessView.swift */,
 				300C531A2891878600F80B19 /* TabView.swift */,
 				30546E2327FBBF7E00173D9D /* LoginView.swift */,
-				30C8102B2888612F004B1DA7 /* LoginWithEmailView.swift */,
+				3032829828A4F2C60038A053 /* CheckYourEmail.swift */,
+				3032829528A4EFF80038A053 /* LoginViewTesting.swift */,
 				309468BE289BB345008286E8 /* Components.swift */,
 				3014FA922796FE1F00473CE4 /* Home */,
 				3014FA932796FE3600473CE4 /* Feed */,
@@ -316,6 +333,7 @@
 			isa = PBXGroup;
 			children = (
 				3014FA6E27965CFC00473CE4 /* Home.swift */,
+				3032829228A4CEB60038A053 /* FirstRunExperience.swift */,
 				30DC3E7428A1674200613B4B /* Featured */,
 				30BA64D72889AF56002E3FC8 /* ReviewOrReferWidget.swift */,
 				30546E2627FBD05100173D9D /* UserProfile */,
@@ -407,6 +425,7 @@
 				30C81023288786EB004B1DA7 /* AddCompanyPreview.swift */,
 				30C8102728878776004B1DA7 /* AddCompanyWidget.swift */,
 				30C81025288786F2004B1DA7 /* AddCompany.swift */,
+				3088073F28A5980D003D1B99 /* TempFile.swift */,
 			);
 			path = AddCompany;
 			sourceTree = "<group>";
@@ -571,6 +590,7 @@
 			files = (
 				3046EC26279FB43500D1CBE7 /* PostInFeed.swift in Sources */,
 				309468BF289BB345008286E8 /* Components.swift in Sources */,
+				3088073E28A56488003D1B99 /* CompaniesViewModel.swift in Sources */,
 				30546E2827FBD06400173D9D /* Profile.swift in Sources */,
 				300FF540289A2D2500455D44 /* SendFeedback.swift in Sources */,
 				30546E2427FBBF7E00173D9D /* LoginView.swift in Sources */,
@@ -578,20 +598,23 @@
 				30DC3E7628A1675700613B4B /* FeaturedWidget2.swift in Sources */,
 				302DE17427B207C80041A981 /* CreateDiscountScreen.swift in Sources */,
 				30E67CB027E4DB0000D9B96F /* ReviewProduct.swift in Sources */,
+				3088073C28A563BA003D1B99 /* Companies.swift in Sources */,
+				3032829628A4EFF80038A053 /* LoginViewTesting.swift in Sources */,
 				3014FA3B27964E5E00473CE4 /* ContentView.swift in Sources */,
 				30EA87B72813516200F0CF64 /* OrdersViewModel.swift in Sources */,
 				304DC88B27F4259200E30DCA /* ReferAFriend.swift in Sources */,
 				30C81024288786EB004B1DA7 /* AddCompanyPreview.swift in Sources */,
 				3046EC24279FB3E800D1CBE7 /* SaleForProduct.swift in Sources */,
-				30C8102C2888612F004B1DA7 /* LoginWithEmailView.swift in Sources */,
 				30EA87B5281342DE00F0CF64 /* HelperFunctions.swift in Sources */,
 				308B83F627F441A600BC5211 /* RatingView.swift in Sources */,
 				30C81026288786F2004B1DA7 /* AddCompany.swift in Sources */,
 				30BA64D82889AF56002E3FC8 /* ReviewOrReferWidget.swift in Sources */,
+				3032829928A4F2C60038A053 /* CheckYourEmail.swift in Sources */,
 				30477A8C2815AF540032E57A /* Feedback.swift in Sources */,
 				30DC3E7128A13D3600613B4B /* FeaturedWidget1.swift in Sources */,
 				307BCA2527975F2E000DDD21 /* Transactions.swift in Sources */,
 				300FF53B289A20DC00455D44 /* SuggestAShopPreview.swift in Sources */,
+				3088074028A5980D003D1B99 /* TempFile.swift in Sources */,
 				3046EC20279FB34F00D1CBE7 /* SaleWidget.swift in Sources */,
 				30E67CB227E4DE4C00D9B96F /* VoteWidget.swift in Sources */,
 				30EA87B32811DC0C00F0CF64 /* ReviewsViewModel.swift in Sources */,
@@ -606,13 +629,15 @@
 				308B83F827F44DE800BC5211 /* MemberSale.swift in Sources */,
 				30DC3E7828A167C900613B4B /* FeaturedView2.swift in Sources */,
 				3014FA792796FBF800473CE4 /* RewardsProgram.swift in Sources */,
+				3088074228A61A6F003D1B99 /* Users.swift in Sources */,
 				30EA87B9281351E200F0CF64 /* Orders.swift in Sources */,
-				3032828D28A4AE930038A053 /* LoginSuccessView.swift in Sources */,
 				30BA64D62889AB7A002E3FC8 /* ReviewProductCarousel2.swift in Sources */,
+				3032829328A4CEB60038A053 /* FirstRunExperience.swift in Sources */,
 				30C8102128877FD1004B1DA7 /* ReviewProductPreview.swift in Sources */,
 				30DC3E6B28A11E4B00613B4B /* History.swift in Sources */,
 				3014FA7127965D1400473CE4 /* Feed.swift in Sources */,
 				3046EC22279FB3DB00D1CBE7 /* VoteOnProduct.swift in Sources */,
+				3088074428A61BEB003D1B99 /* UsersViewModel.swift in Sources */,
 				304DC88927F3578200E30DCA /* CompanyProfileV2.swift in Sources */,
 				30DC3E7328A1407B00613B4B /* FeaturedView1.swift in Sources */,
 				30E67CAE27E4D35600D9B96F /* ReviewWidget.swift in Sources */,
@@ -635,11 +660,12 @@
 				300C531D2891878600F80B19 /* TabView.swift in Sources */,
 				30C8103428888580004B1DA7 /* ContentView.swift in Sources */,
 				30C8102D2888827F004B1DA7 /* Uncommon_LoyaltyApp.swift in Sources */,
+				3032829428A4CEB60038A053 /* FirstRunExperience.swift in Sources */,
 				30C810322888857B004B1DA7 /* LoginView.swift in Sources */,
 				30BA64D92889AF56002E3FC8 /* ReviewOrReferWidget.swift in Sources */,
+				3032829A28A4F2C60038A053 /* CheckYourEmail.swift in Sources */,
 				309468C0289BB345008286E8 /* Components.swift in Sources */,
-				3032828E28A4AE930038A053 /* LoginSuccessView.swift in Sources */,
-				30C8103128888578004B1DA7 /* LoginWithEmailView.swift in Sources */,
+				3032829728A4EFF80038A053 /* LoginViewTesting.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -705,6 +731,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = NO;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -759,6 +786,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = NO;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				OTHER_LDFLAGS = "-ObjC";
@@ -782,7 +810,6 @@
 				INFOPLIST_FILE = "Uncommon-Loyalty--iOS--Info.plist";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				IPHONEOS_DEPLOYMENT_TARGET = 15.2;
@@ -817,7 +844,6 @@
 				INFOPLIST_FILE = "Uncommon-Loyalty--iOS--Info.plist";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				IPHONEOS_DEPLOYMENT_TARGET = 15.2;

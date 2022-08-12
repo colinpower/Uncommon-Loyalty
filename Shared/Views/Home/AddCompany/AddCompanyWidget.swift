@@ -6,44 +6,72 @@
 //
 
 import SwiftUI
+import SDWebImageSwiftUI
+import FirebaseStorage
+
 
 struct AddCompanyWidget: View {
     
-    var backgroundImage: String
-    var companyLogo: String
-    var company: String
-    var joiningBonus: String
+    @State var backgroundURL = ""
+    @State var iconURL = ""
+    
+    
+    var companyID: String
+    var companyName: String
+    var joiningBonus: Int
     var color: Color
+    var website: String
+    
     
     var body: some View {
         ZStack(alignment: .center) {
-            Image(backgroundImage)
-                .resizable()
-                .aspectRatio(contentMode: .fill)
-                .cornerRadius(30)
-                .frame(height: 250)
+            
+            if backgroundURL != "" {
+                WebImage(url: URL(string: backgroundURL)!)
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .cornerRadius(30)
+                    .frame(height: 250)
+            } else {
+                Image("FeaturedAthleisure")
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .cornerRadius(30)
+                    .frame(height: 250)
+            }
+            
+            
             VStack {
                 Spacer()
                 HStack {
-                    Image(companyLogo)
-                        .resizable()
-                        .frame(width: 32, height: 32)
-                        .cornerRadius(32)
+                    
+                    if iconURL != "" {
+                        WebImage(url: URL(string: iconURL)!)
+                            .resizable()
+                            .frame(width: 32, height: 32)
+                            .cornerRadius(32)
+                    } else {
+                        Image("Diamond")
+                            .resizable()
+                            .frame(width: 32, height: 32)
+                            .cornerRadius(32)
+                    }
+                    
                     VStack(alignment: .leading) {
-                        Text(company)
+                        Text(companyName)
                             .font(.system(size: 16))
                             .fontWeight(.semibold)
                             .foregroundColor(Color("Dark1"))
-                        Text(joiningBonus)
+                        Text(String(joiningBonus))
                             .font(.system(size: 16))
                             .fontWeight(.semibold)
                             .foregroundColor(Color("Dark1"))
                     }
                     
                     Spacer()
-                    NavigationLink {
-                        AddCompany(companyIcon: companyLogo, company: company, backgroundImage: backgroundImage, joiningBonus: joiningBonus)
-                    } label: {
+                    
+                    
+//                    {
                         Text("Join")
                             .font(.system(size: 16))
                             .fontWeight(.semibold)
@@ -51,7 +79,20 @@ struct AddCompanyWidget: View {
                             .padding(.vertical, 6)
                             .padding(.horizontal, 16)
                             .background(RoundedRectangle(cornerRadius: 16).foregroundColor(color))
-                    }
+//                    }
+                    
+                    
+//                    NavigationLink {
+//                        AddCompany(isAddCompanyActive: $isAddCompanyActive, isAddCompanyPreviewActive: $isAddCompanyPreviewActive, companyID: companyID, companyName: companyName, joiningBonus: joiningBonus, website: website)
+//                    } label: {
+//                        Text("Join")
+//                            .font(.system(size: 16))
+//                            .fontWeight(.semibold)
+//                            .foregroundColor(Color("Dark1"))
+//                            .padding(.vertical, 6)
+//                            .padding(.horizontal, 16)
+//                            .background(RoundedRectangle(cornerRadius: 16).foregroundColor(color))
+//                    }
 
                 }.padding().background(.ultraThinMaterial, in: Rectangle())
             }.frame(height: 250)
@@ -59,6 +100,32 @@ struct AddCompanyWidget: View {
         .clipShape(RoundedRectangle(cornerRadius: 30, style: .continuous))
         .padding(.horizontal)
         .padding(.bottom)
+        
+        .onAppear {
+            let backgroundPath = "companies/" + companyID + "/background.png"
+            let iconPath = "companies/" + companyID + "/icon.png"
+            
+            let storage = Storage.storage().reference()
+            
+            storage.child(backgroundPath).downloadURL { url, err in
+                if err != nil {
+                    print(err?.localizedDescription ?? "Issue showing the right image")
+                    return
+                } else {
+                    self.backgroundURL = "\(url!)"
+                }
+            }
+            
+            storage.child(iconPath).downloadURL { url, err in
+                if err != nil {
+                    print(err?.localizedDescription ?? "Issue showing the right image")
+                    return
+                } else {
+                    self.iconURL = "\(url!)"
+                }
+            }
+            
+        }
     }
 }
 

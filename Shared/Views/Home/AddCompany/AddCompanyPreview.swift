@@ -7,10 +7,17 @@
 
 import SwiftUI
 
+
+//need to change this view to just be getting a snapshot
+
 struct AddCompanyPreview: View {
     
+    
+    @StateObject var viewModel_companies = CompaniesViewModel()
+
     @Binding var isAddCompanyPreviewActive : Bool
-    @State private var companies = ["Company A", "Company B"]
+    
+    
     
     var body: some View {
         NavigationView {
@@ -24,10 +31,17 @@ struct AddCompanyPreview: View {
                     VStack {
                         SheetHeader(title: "Join Loyalty Programs", isActive: $isAddCompanyPreviewActive)
                         ScrollView(.vertical, showsIndicators: false) {
-                            AddCompanyWidget(backgroundImage: "Skincare Background", companyLogo: "Skincare Icon", company: "Sarah Wilson", joiningBonus: "20% for new customers", color: Color("Skincare"))
-                            AddCompanyWidget(backgroundImage: "Makeup Background", companyLogo: "Makeup Icon", company: "Make Me Glitter Now", joiningBonus: "15% on new purchases", color: Color("Makeup"))
-                            AddCompanyWidget(backgroundImage: "Facewash Background", companyLogo: "Facewash Icon", company: "FRE Skincare", joiningBonus: "20% on new purchases", color: Color("Facewash"))
-                            AddCompanyWidget(backgroundImage: "Yoga Background", companyLogo: "Yoga Icon", company: "PEACE", joiningBonus: "10% on new purchases", color: Color("Yoga"))
+                            
+                            
+                            ForEach(viewModel_companies.myCompanies) { Company in
+
+                                
+                                NavigationLink(destination: AddCompany(companyID: Company.companyID, companyName: Company.companyName, joiningBonus: Company.joiningBonus, website: Company.website)
+                                    .navigationBarTitle("", displayMode: .inline)) {
+                                        AddCompanyWidget(companyID: Company.companyID, companyName: Company.companyName, joiningBonus: Company.joiningBonus, color: Color("Skincare"), website: Company.website)
+                                    }
+                            }
+                            
                             
                         }
                     }
@@ -35,27 +49,40 @@ struct AddCompanyPreview: View {
             }.ignoresSafeArea()
             .navigationTitle("")
             .navigationBarHidden(true)
+            .onAppear {
+                self.viewModel_companies.listenForMyCompanies()
+                //print("CURRENT USER IS")
+                //print(Auth.auth().currentUser?.email ?? "")
+                print("REAPPEAR")
+                print(self.viewModel_companies.myCompanies)
+            }
+            .onDisappear {
+                print("DISAPPEAR")
+                if self.viewModel_companies.listener_myCompanies != nil {
+                    print("REMOVING LISTENER")
+                    self.viewModel_companies.listener_myCompanies.remove()
+                }
+            }
         }
         
-//            .onAppear {
-//                self.viewModel1.listenForMyRewardsPrograms(email: Auth.auth().currentUser?.email ?? "")
-//                print("CURRENT USER IS")
-//                print(Auth.auth().currentUser?.email ?? "")
-//                print(self.viewModel1.myRewardsPrograms)
-//            }
-//            .onDisappear {
-//                print("DISAPPEAR")
-//                if self.viewModel1.listener1 != nil {
-//                    print("REMOVING LISTENER")
-//                    self.viewModel1.listener1.remove()
-//                }
-//            }
+        
         
     }
 }
 
-struct AddCompanyPreview_Previews: PreviewProvider {
-    static var previews: some View {
-        AddCompanyPreview(isAddCompanyPreviewActive: .constant(true))
-    }
-}
+//struct AddCompanyPreview_Previews: PreviewProvider {
+//    static var previews: some View {
+//        AddCompanyPreview(isAddCompanyPreviewActive: .constant(true))
+//    }
+//}
+
+
+
+
+
+//                            AddCompanyWidget(backgroundImage: "Makeup Background", companyLogo: "Makeup Icon", company: "Make Me Glitter Now", joiningBonus: "15% on new purchases", color: Color("Makeup"))
+
+
+//                            AddCompanyWidget(backgroundImage: "Makeup Background", companyLogo: "Makeup Icon", company: "Make Me Glitter Now", joiningBonus: "15% on new purchases", color: Color("Makeup"))
+//                            AddCompanyWidget(backgroundImage: "Facewash Background", companyLogo: "Facewash Icon", company: "FRE Skincare", joiningBonus: "20% on new purchases", color: Color("Facewash"))
+//                            AddCompanyWidget(backgroundImage: "Yoga Background", companyLogo: "Yoga Icon", company: "PEACE", joiningBonus: "10% on new purchases", color: Color("Yoga"))
