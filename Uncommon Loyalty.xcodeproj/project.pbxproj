@@ -49,6 +49,7 @@
 		3088074028A5980D003D1B99 /* TempFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3088073F28A5980D003D1B99 /* TempFile.swift */; };
 		3088074228A61A6F003D1B99 /* Users.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3088074128A61A6F003D1B99 /* Users.swift */; };
 		3088074428A61BEB003D1B99 /* UsersViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3088074328A61BEB003D1B99 /* UsersViewModel.swift */; };
+		3088074628A678A3003D1B99 /* FirstRunExperienceSwitcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3088074528A678A3003D1B99 /* FirstRunExperienceSwitcher.swift */; };
 		308B83F627F441A600BC5211 /* RatingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 308B83F527F441A600BC5211 /* RatingView.swift */; };
 		308B83F827F44DE800BC5211 /* MemberSale.swift in Sources */ = {isa = PBXBuildFile; fileRef = 308B83F727F44DE800BC5211 /* MemberSale.swift */; };
 		308B83FA27F5165500BC5211 /* IMG_6178.MOV in Resources */ = {isa = PBXBuildFile; fileRef = 308B83F927F5165500BC5211 /* IMG_6178.MOV */; };
@@ -147,6 +148,7 @@
 		3088073F28A5980D003D1B99 /* TempFile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TempFile.swift; sourceTree = "<group>"; };
 		3088074128A61A6F003D1B99 /* Users.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Users.swift; sourceTree = "<group>"; };
 		3088074328A61BEB003D1B99 /* UsersViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsersViewModel.swift; sourceTree = "<group>"; };
+		3088074528A678A3003D1B99 /* FirstRunExperienceSwitcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstRunExperienceSwitcher.swift; sourceTree = "<group>"; };
 		308B83F527F441A600BC5211 /* RatingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RatingView.swift; sourceTree = "<group>"; };
 		308B83F727F44DE800BC5211 /* MemberSale.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemberSale.swift; sourceTree = "<group>"; };
 		308B83F927F5165500BC5211 /* IMG_6178.MOV */ = {isa = PBXFileReference; lastKnownFileType = video.quicktime; path = IMG_6178.MOV; sourceTree = "<group>"; };
@@ -333,6 +335,7 @@
 			isa = PBXGroup;
 			children = (
 				3014FA6E27965CFC00473CE4 /* Home.swift */,
+				3088074528A678A3003D1B99 /* FirstRunExperienceSwitcher.swift */,
 				3032829228A4CEB60038A053 /* FirstRunExperience.swift */,
 				30DC3E7428A1674200613B4B /* Featured */,
 				30BA64D72889AF56002E3FC8 /* ReviewOrReferWidget.swift */,
@@ -646,6 +649,7 @@
 				3014FA952796FE7000473CE4 /* DataManager.swift in Sources */,
 				30BA64D42889A177002E3FC8 /* ReviewProductCarousel1.swift in Sources */,
 				3014FA972796FF5B00473CE4 /* RewardsProgramViewModel.swift in Sources */,
+				3088074628A678A3003D1B99 /* FirstRunExperienceSwitcher.swift in Sources */,
 				300FF53D289A212100455D44 /* SuggestAShop.swift in Sources */,
 				3014FA3927964E5E00473CE4 /* Uncommon_LoyaltyApp.swift in Sources */,
 			);
