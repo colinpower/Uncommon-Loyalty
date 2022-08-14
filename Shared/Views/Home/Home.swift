@@ -18,6 +18,7 @@ struct Home: View {
     @EnvironmentObject var viewModel: AppViewModel
     
     @ObservedObject var viewModel1 = RewardsProgramViewModel()
+    @ObservedObject var reviewsViewModel = ReviewsViewModel()
     
     @Namespace var namespace1
     @Namespace var namespace2
@@ -29,6 +30,7 @@ struct Home: View {
     @State var isFeaturedWidget1Active:Bool = false
     @State var isFeaturedWidget2Active:Bool = false
     @State var showFirstRunExperience:Bool = true
+    
     
     
     //TEMP VAR
@@ -73,7 +75,6 @@ struct Home: View {
                         ScrollView(.vertical, showsIndicators: false) {
                             
                             
-                            
                             //MARK: Loyalty Programs
                             VStack(alignment: .leading) {
                                 
@@ -115,6 +116,7 @@ struct Home: View {
                                 VStack {
                                     
                                     ForEach(viewModel1.myRewardsPrograms) { RewardsProgram in
+                                        
                                         
                                         NavigationLink(destination: CompanyProfileV2(companyID: RewardsProgram.companyID, companyName: RewardsProgram.companyName, email: RewardsProgram.email, userID: RewardsProgram.userID)) {
                                             

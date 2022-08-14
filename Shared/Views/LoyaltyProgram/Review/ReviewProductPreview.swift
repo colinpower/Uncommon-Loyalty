@@ -118,8 +118,7 @@ struct ReviewProductPreview: View {
                                        .background(RoundedRectangle(cornerRadius: 36)
                                         .fill(Color.blue))
                                }.fullScreenCover(isPresented: $showingReviewProductScreen, content: {
-                                   ReviewProductCarousel1(showingReviewProductScreen: $showingReviewProductScreen)
-                                   //ReviewProduct(companyID: companyID, email: email, orderID: orderID, userID: userID, showingReviewProductScreen: $showingReviewProductScreen)
+                                   ReviewProductCarousel1(showingReviewProductScreen: $showingReviewProductScreen, companyID: companyID, orderID: orderID, email: email, emailUID: userID)
                                })
                             }.padding(.bottom, 40)
                         }.padding(.top)
@@ -130,6 +129,9 @@ struct ReviewProductPreview: View {
         .onAppear {
             self.viewModel4.listenForOneOrder(email: "colinjpower1@gmail.com", companyID: companyID, orderID: "BP1KvlMpXqPry3SLRvAu")
             print("TRIGGERED THIS")
+        }
+        .onDisappear{
+            print("Review Product Preview disappearing!!")
         }
         
     }

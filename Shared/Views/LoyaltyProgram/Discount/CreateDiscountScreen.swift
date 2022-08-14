@@ -13,19 +13,30 @@ import SwiftUI
 
 struct CreateDiscountScreen: View {
     
+    @EnvironmentObject var viewModel: AppViewModel
+    
+    @ObservedObject var viewModel1 = RewardsProgramViewModel()
     @ObservedObject var viewModel2 = DiscountCodesViewModel()
+    
+    
     @State var rewardsUsed: Double = 0
     
     @Binding var isCreateDiscountScreenActive: Bool
+    
     var companyID: String
     var companyName: String
     var currentPointsBalance: Int
     
     
+    
     var body: some View {
         VStack (alignment: .center) {
+            
+            //MARK: Header
             SheetHeader(title: "Redeem", isActive: $isCreateDiscountScreenActive)
             Spacer()
+            
+            //MARK: Description
             VStack(alignment: .center) {
                 Text("Convert Points")
                     .font(.headline)
@@ -34,24 +45,19 @@ struct CreateDiscountScreen: View {
                 Text(String(currentPointsBalance-Int(rewardsUsed)) + " POINTS AVAILABLE")
                     .font(.footnote)
                     .foregroundColor(.gray)
-
             }
             Spacer()
             
-            VStack (alignment: .center) {
-                Text("$\(rewardsUsed/10, specifier: "%.0f")")
-                    .font(.system(size: 100))
-                    .foregroundColor(.green)
-                    .padding(.bottom, 12)
-            }
-            
+            //MARK: Amount
+            Text("$\(rewardsUsed/10, specifier: "%.0f")")
+                .font(.system(size: 100))
+                .foregroundColor(currentPointsBalance == 0 ? Color.gray : Color.green)
+                .padding(.bottom, 12)
             Spacer()
-            
-            
             
             //MARK: SLIDER
-            
-            Slider(
+            if currentPointsBalance > 0 {
+                Slider(
                 value: $rewardsUsed,
                 in: 0...Double(currentPointsBalance),
                 step: 50,
@@ -62,14 +68,27 @@ struct CreateDiscountScreen: View {
                 maximumValueLabel: Text(""),
                 label: {
                     Text("")
-                })
-                
-            
-            
+                }).padding()
+            } else {
+                Slider(
+                value: $rewardsUsed,
+                in: 0...Double(100),
+                step: 50,
+                onEditingChanged: { (_) in
+                    // nil here
+                },
+                minimumValueLabel: Text(""),
+                maximumValueLabel: Text(""),
+                label: {
+                    Text("")
+                }).padding().disabled(true)
+            }
             Spacer()
             
+            //MARK: Convert Points Button
             Button {   
-                viewModel2.addCode(dollars: Int(rewardsUsed), pointsSpent: Int(rewardsUsed), userID: "mhjEZCv9JGdk0NUZaHMcNrDsH1x2", companyName: companyName, companyID: companyID, email: "colinjpower1@gmail.com")
+                viewModel2.addCode(dollars: Int(rewardsUsed)/10, pointsSpent: Int(rewardsUsed), userID: viewModel.userID!, companyName: companyName, companyID: companyID, email: viewModel.email!)
+                viewModel1.updateLoyaltyPointsForReason(userID: viewModel.userID!, companyID: companyID, changeInPoints: Int(rewardsUsed) * -1, reason: "CreatedDiscount")
                 isCreateDiscountScreenActive.toggle()
             } label: {
                 HStack {
@@ -81,14 +100,13 @@ struct CreateDiscountScreen: View {
                         .padding(.vertical, 12)
                     Spacer()
                 }
-                .background(RoundedRectangle(cornerRadius: 24).fill(.blue))
+                .background(RoundedRectangle(cornerRadius: 24).fill(currentPointsBalance == 0 ? Color.gray : Color.blue))
                 .padding(.horizontal, 24)
             }
-            .disabled(rewardsUsed==0)
+                .disabled(rewardsUsed==0)
             
-        }.padding(.horizontal, 12)
-            .padding(.vertical, 24)
-        //.navigationBarTitle("Create Discount", displayMode: .inline)
+        }.navigationTitle("").navigationBarHidden(true)
+            .ignoresSafeArea().padding(.horizontal).padding(.bottom)
     }
 }
 

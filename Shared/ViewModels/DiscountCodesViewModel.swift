@@ -37,14 +37,14 @@ class DiscountCodesViewModel: ObservableObject, Identifiable {
     func addCode(dollars: Int, pointsSpent: Int, userID: String, companyName: String, companyID: String, email: String) {
         db.collection("discountcodes-" + companyID)
             .addDocument(data: [
-                "code": "COLIN-DISCOUNT-ADDED",
+                "code": "",
                 "companyName": companyName,
                 "companyID": companyID,
                 "dollarAmount": dollars,
                 "email": email,
                 "minimumSpendRequired": 100,
                 "pointsSpent": pointsSpent,
-                "status": "ACTIVE",
+                "status": "PENDING",
                 "timestampCreated": Int(round(Date().timeIntervalSince1970)),
                 "timestampUsed": 0,
                 "userID": userID

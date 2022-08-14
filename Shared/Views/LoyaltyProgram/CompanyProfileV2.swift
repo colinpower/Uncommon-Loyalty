@@ -20,9 +20,11 @@ struct CompanyProfileV2: View {
     //Variables received from HomeView
     var companyID: String
     var companyName: String
+    
     //var currentPointsBalance: Int
     var email: String
     var userID: String
+    
 //    var status: String
     var urlToShopifySite: String = "https://athleisure-la.myshopify.com"
     
@@ -90,7 +92,7 @@ struct CompanyProfileV2: View {
                         //MARK: Attempting to create graph here
                         VStack {
                             VStack(alignment: .center, spacing: 2) {
-                                Text(String(viewModel1.oneRewardsProgram.first?.currentPointsBalance ?? 0))
+                                Text(String(viewModel1.oneRewardsProgram.first?.currentPointsBalance ?? -1))
                                     .font(.system(size: 48))
                                     .fontWeight(.semibold)
                                     .foregroundColor(colorToShow[1])
@@ -118,7 +120,9 @@ struct CompanyProfileV2: View {
                             LineGraph(data: createLast60DaysPointsArray(transactions: viewModel3.last60DaysTransactions, currentBalance: viewModel1.oneRewardsProgram.first?.currentPointsBalance ?? 0))
                                 .frame(height: 200)
                                 .padding(.bottom).padding(.bottom)
-                            HStack (alignment: .center, spacing: 8) {
+                            
+                            
+                            HStack (alignment: .center, spacing: 24) {
                                 Button {
                                     isCreateDiscountScreenActive.toggle()
                                 } label: {
@@ -132,8 +136,7 @@ struct CompanyProfileV2: View {
                                     }.padding(.vertical, 12)
                                     .background(RoundedRectangle(cornerRadius: 32).foregroundColor(Color("ThemeBright")))
                                 }.fullScreenCover(isPresented: $isCreateDiscountScreenActive, content: {
-                                    CreateDiscountScreen(isCreateDiscountScreenActive: $isCreateDiscountScreenActive, companyID: companyID, companyName: companyName, currentPointsBalance: viewModel1.oneRewardsProgram.first?.currentPointsBalance ?? 0)
-                                    
+                                    CreateDiscountScreen(isCreateDiscountScreenActive: $isCreateDiscountScreenActive, companyID: companyID, companyName: companyName, currentPointsBalance: viewModel1.oneRewardsProgram.first?.currentPointsBalance ?? 0).navigationTitle("").navigationBarHidden(true)
                                 })
                     
                                 Button {
@@ -155,101 +158,29 @@ struct CompanyProfileV2: View {
                                 .padding(.bottom)
                         }
                         
-//                        Text(String(createLast60DaysPointsArray(transactions: viewModel3.last60DaysTransactions, currentBalance: viewModel1.oneRewardsProgram.first?.currentPointsBalance ?? 0)[0]))
-//                        //MARK: Rewards "Card"
-//                        VStack(alignment: .leading, spacing: 8) {
-//
-////                            ForEach(viewModel2.myDiscountCodes.prefix(1)) { DiscountCode in
-////                                WidgetSolo(image: "dollarsign.circle.fill", size: 38, firstLine: "Discount Available", secondLine: "$" + String(DiscountCode.dollarAmount) + " off any item", secondLineColor: Color("ThemeBright"), buttonTitle: "Use", isActive: $isDiscount1Active)
-////                                    .padding(.bottom, 8)
-////                            }
-//
-//
-//                            //Balance + tier
-//                            HStack(alignment: .top){
-//                                VStack (alignment: .leading){
-//                                    Text("Points Balance")
-//                                        .font(.system(size: 16))
-//                                        .fontWeight(.semibold)
-//                                        .foregroundColor(colorToShow[1])
-//                                    Text(String(viewModel1.oneRewardsProgram.first?.currentPointsBalance ?? 0))
-//                                        .font(.system(size: 40))
-//                                        .fontWeight(.semibold)
-//                                        .foregroundColor(colorToShow[1])
-//                                }
-//                                Spacer()
-//                                Button {
-//                                    //navigate to the "understand tiers" page
-//                                } label: {
-//                                    VStack{
-//                                        HStack {
-//                                            Text("450 to Platinum")
-//                                                .font(.system(size: 14))
-//                                                .fontWeight(.regular)
-//                                                .foregroundColor(colorToShow[2])
-//                                            Image(systemName: "chevron.right")
-//                                                .foregroundColor(colorToShow[2])
-//                                                .font(Font.system(size: 12, weight: .bold))
-//                                        }.padding(.top, 2)
-//                                    }
-//                                }
-//                            }.padding(.bottom)
-//                            .padding(.bottom)
-//                            HStack (alignment: .center, spacing: 16) {
-//                                Button {
-//                                    isCreateDiscountScreenActive.toggle()
-//                                } label: {
-//                                    HStack {
-//                                        Spacer()
-//                                        Text("Redeem")
-//                                            .font(.system(size: 18))
-//                                            .fontWeight(.semibold)
-//                                            .foregroundColor(colorToShow[1])
-//                                        Spacer()
-//                                    }.padding(.vertical, 12)
-//                                    .background(RoundedRectangle(cornerRadius: 32).foregroundColor(colorToShow[3]))
-//                                }.fullScreenCover(isPresented: $isCreateDiscountScreenActive, content: {
-//                                    CreateDiscountScreen(companyID: companyID, companyName: companyName, availablePoints: 400, isCreateDiscountScreenActive: $isCreateDiscountScreenActive)
-//
-//                                })
-//                                Button {
-//                                    //open website
-//                                } label: {
-//                                    HStack {
-//                                        Spacer()
-//                                        Link(destination: URL(string: urlToShopifySite)!) {
-//                                            Text("Visit site")
-//                                                .font(.system(size: 18))
-//                                                .fontWeight(.semibold)
-//                                                .foregroundColor(colorToShow[1])
-//                                        }
-//                                        Spacer()
-//                                    }.padding(.vertical, 12)
-//                                        .background(RoundedRectangle(cornerRadius: 32).foregroundColor(colorToShow[3]))
-//                                }
-//                            }
-//                        }.padding()
-//                            .background(RoundedRectangle(cornerRadius: 16).foregroundColor(colorToShow[0]))
-//                            .padding(.horizontal)
-//                            .padding(.bottom, 8)
                         
                         //MARK: Discount Codes (if any)
                         if !viewModel1.oneRewardsProgram.isEmpty {
                             
                             //see if you need to list a 2+ of them
-                            if viewModel2.myDiscountCodes.prefix(2).count > 2 {
+                            if viewModel2.myDiscountCodes.count > 2 {
                                 //then, you need to represent it as a WidgetFloating
+                                VStack {
+                                    ForEach(viewModel2.myDiscountCodes.prefix(2)) { DiscountCode in
+                                        WidgetSolo(image: "dollarsign.circle.fill", size: 38, firstLine: "Discount Available", secondLine: "$" + String(DiscountCode.dollarAmount) + " off any item", secondLineColor: Color("ThemeBright"), buttonTitle: "Use", isActive: $isDiscount1Active)
+                                    }
                                 
-                                HStack {
-                                    Spacer()
-                                    Text("See all")
-                                        .font(.system(size: 16))
-                                        .fontWeight(.semibold)
-                                        .foregroundColor(colorToShow[4])
-                                    Spacer()
+                                    HStack {
+                                        Spacer()
+                                        Text("See all")
+                                            .font(.system(size: 16))
+                                            .fontWeight(.semibold)
+                                            .foregroundColor(colorToShow[4])
+                                        Spacer()
+                                    }
                                 }
                             } else {
-                                ForEach(viewModel2.myDiscountCodes.prefix(1)) { DiscountCode in
+                                ForEach(viewModel2.myDiscountCodes.prefix(2)) { DiscountCode in
                                     WidgetSolo(image: "dollarsign.circle.fill", size: 38, firstLine: "Discount Available", secondLine: "$" + String(DiscountCode.dollarAmount) + " off any item", secondLineColor: Color("ThemeBright"), buttonTitle: "Use", isActive: $isDiscount1Active)
                                         //.padding(.bottom, 8)
                                 }
@@ -364,7 +295,7 @@ struct CompanyProfileV2: View {
 
         }
         .ignoresSafeArea(.container, edges: [.horizontal, .bottom])
-        .navigationBarTitle("Athleisure Gold", displayMode: .inline)
+        .navigationBarTitle(viewModel1.oneRewardsProgram.first?.companyName ?? "", displayMode: .inline)
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     //this is a hack to get a navigationlink inside a toolbarItem

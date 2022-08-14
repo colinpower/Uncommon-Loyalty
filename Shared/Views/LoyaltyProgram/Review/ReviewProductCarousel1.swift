@@ -8,15 +8,26 @@
 import SwiftUI
 
 struct ReviewProductCarousel1: View {
+
+    @EnvironmentObject var viewModel: AppViewModel
+
+    @ObservedObject var reviewsViewModel = ReviewsViewModel()
+    @ObservedObject var rewardsProgramViewModel = RewardsProgramViewModel()
+
     
     @Binding var showingReviewProductScreen: Bool
     
     @State var horizontalOffset : CGFloat = 0
-    
     @State var rating : Int = 0
+    @State var response1: String = ""
+    @State var response2: String = ""
     
-    @State var question1: String = ""
-    @State var question2: String = ""
+    var companyID: String
+    var orderID: String
+    var email: String
+    var emailUID: String
+    
+    
     
     var body: some View {
         GeometryReader { geometry in
@@ -96,7 +107,7 @@ struct ReviewProductCarousel1: View {
                                         .font(.title3)
                                         .fontWeight(.semibold)
                                         .padding(.bottom, 24)
-                                    TextField("Write here...", text: $question1)
+                                    TextField("Write here...", text: $response1)
                                         .textFieldStyle(RoundedBorderTextFieldStyle())
                                         .padding(.bottom, 24)
 
@@ -118,7 +129,7 @@ struct ReviewProductCarousel1: View {
                                             }.padding()
                                             .background(RoundedRectangle(cornerRadius: 8)
                                                 //.fill(Color("ThemeBright"))
-                                                .fill(self.question1 == "" ? Color("Gray2") : Color("ThemeBright")))
+                                                .fill(self.response1 == "" ? Color("Gray2") : Color("ThemeBright")))
                                         }
                                     }
                                 }
@@ -148,7 +159,7 @@ struct ReviewProductCarousel1: View {
                                             .font(.title3)
                                             .fontWeight(.semibold)
                                             .padding(.bottom, 24)
-                                        TextField("Write here...", text: $question2)
+                                        TextField("Write here...", text: $response2)
                                             .textFieldStyle(RoundedBorderTextFieldStyle())
                                             .padding(.bottom, 24)
                                         Divider()
@@ -160,6 +171,8 @@ struct ReviewProductCarousel1: View {
                                         Spacer()
                                         Button {
                                             //NEED TO POST BACK TO FIREBASE HERE
+                                            reviewsViewModel.addReview(companyID: companyID, email: email, orderID: orderID, reviewRating: rating, questionsArray: ["q1", "q2"], responsesArray: [response1, response2], reviewTitle: "blank title", userID: emailUID)
+                                            rewardsProgramViewModel.updateLoyaltyPointsForReason(userID: emailUID, companyID: companyID, changeInPoints: 100, reason: "SubmittedReview")
                                             showingReviewProductScreen = false
                                         } label: {
                                             HStack {
@@ -243,7 +256,7 @@ struct ReviewProductCarousel1: View {
 struct ReviewProductCarousel1_Previews: PreviewProvider {
     static var previews: some View {
         Group {
-            ReviewProductCarousel1(showingReviewProductScreen: .constant(true))
+            ReviewProductCarousel1(showingReviewProductScreen: .constant(true), companyID: "zKL7SQ0jRP8351a0NnHM", orderID: "BP1KvlMpXqPry3SLRvAu", email: "colinjpower1@gmail.com", emailUID: "mhjEZCv9JGdk0NUZaHMcNrDsH1x2")
         }
     }
 }

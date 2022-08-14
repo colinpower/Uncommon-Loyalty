@@ -34,19 +34,20 @@ class ReviewsViewModel: ObservableObject, Identifiable {
 //        })
 //    }
     
-    func addReview(companyID: String, reviewDetails: String, email: String, orderID: String, reviewRating: Int, reviewTitle: String, userID: String) {
+    func addReview(companyID: String, email: String, orderID: String, reviewRating: Int, questionsArray: [String], responsesArray: [String], reviewTitle: String, userID: String) {
         
-        db.collection("reviews-" + companyID)
+        db.collection("reviews")
             .addDocument(data: [
                 "companyID": companyID,
-                "details": reviewDetails,
                 "email": email,
                 "historyID": "",
                 "orderID": orderID,
                 "photoID": "",
-                "rating": reviewRating,
+                "reviewQuestions": questionsArray,
+                "reviewRating": reviewRating,
+                "reviewResponses": responsesArray,
+                "reviewTitle": reviewTitle,
                 "timestamp": Int(round(Date().timeIntervalSince1970)),
-                "title": reviewTitle,
                 "userID": userID
             ]) { err in
                 if let err = err {
@@ -58,4 +59,21 @@ class ReviewsViewModel: ObservableObject, Identifiable {
         }
     }
     
+    
+//    func addReview1(reviewQuestions: ReviewDetails, reviewResponses: [String]) {
+//
+//        db.collection("reviews")
+//            .addDocument(data: [
+//                "reviewQuestions": reviewQuestions,
+//                "reviewResponses": reviewResponses,
+//                "timestamp": Int(round(Date().timeIntervalSince1970))
+//            ]) { err in
+//                if let err = err {
+//                    print("Error updating document: \(err)")
+//                } else {
+//                    print("hasSeenFRE set to True")
+//                }
+//
+//        }
+//    }
 }

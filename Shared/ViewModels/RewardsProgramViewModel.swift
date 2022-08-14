@@ -19,7 +19,6 @@ class RewardsProgramViewModel: ObservableObject, Identifiable {
     
     var dm = DataManager()
     
-    
     var listener1: ListenerRegistration!
     var listener2: ListenerRegistration!
         
@@ -79,4 +78,24 @@ class RewardsProgramViewModel: ObservableObject, Identifiable {
 
         }
     }
+    
+    func updateLoyaltyPointsForReason(userID: String, companyID: String, changeInPoints: Int, reason: String) {
+        
+        //try <- I eliminated the try / catch thing.. this seems like it should work just fine?
+                
+        if reason == "CreatedDiscount" {
+            db.collection("loyaltyprograms").document(userID + "-" + companyID)
+                .updateData([
+                    "currentPointsBalance": FieldValue.increment(Int64(changeInPoints))
+                ]);
+        } else if reason == "SubmittedReview" {
+            db.collection("loyaltyprograms").document(userID + "-" + companyID)
+                .updateData([
+                    "currentPointsBalance": FieldValue.increment(Int64(changeInPoints)),
+                    "lifetimePoints": FieldValue.increment(Int64(changeInPoints)),
+                    "numberOfReviews": FieldValue.increment(Int64(1))
+                ]);
+        }
+    }
+    
 }
