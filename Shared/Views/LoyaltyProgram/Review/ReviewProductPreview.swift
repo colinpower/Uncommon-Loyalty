@@ -81,7 +81,7 @@ struct ReviewProductPreview: View {
                                     
                                     ForEach(viewModel4.oneOrder.prefix(1)) { Order in
                                         VStack(alignment: .leading) {
-                                            OrderDetailsForReview(title: "Item", value: Order.item)
+                                            OrderDetailsForReview(title: "Item", value: Order.item_firstItemTitle)
                                             OrderDetailsForReview(title: "Price", value: String(Order.totalPrice))
                                             OrderDetailsForReview(title: "Size", value: "Medium")
                                             OrderDetailsForReview(title: "Date", value: "Jan 3")

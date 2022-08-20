@@ -15,13 +15,21 @@ struct DiscountCodes: Identifiable, Codable {
     var code: String
     var companyName: String
     var companyID: String
+    var discountID: String
     var dollarAmount: Int
+    var domain: String
     var email: String
+    var firstNameID: String
+    var graphqlID: String
+    var historyID: String
     var minimumSpendRequired: Int
     var pointsSpent: Int
     var status: String
-    var timestampCreated: Int
-    var timestampUsed: Int
+    var timestamp_Created: Int
+    var timestamp_Active: Int
+    var timestamp_Used: Int
+    var usageLimit: Int
+    var usedOnOrderID: String
     var userID: String
     //need to add RewardsProgramReference?? so I can query this specific loyalty program?
 
@@ -30,13 +38,21 @@ struct DiscountCodes: Identifiable, Codable {
         case code
         case companyName
         case companyID
+        case discountID
         case dollarAmount
+        case domain
         case email
+        case firstNameID
+        case graphqlID
+        case historyID
         case minimumSpendRequired
         case pointsSpent
         case status
-        case timestampCreated
-        case timestampUsed
+        case timestamp_Created
+        case timestamp_Active
+        case timestamp_Used
+        case usageLimit
+        case usedOnOrderID
         case userID
     }
 }

@@ -87,7 +87,7 @@ struct CreateDiscountScreen: View {
             
             //MARK: Convert Points Button
             Button {   
-                viewModel2.addCode(dollars: Int(rewardsUsed)/10, pointsSpent: Int(rewardsUsed), userID: viewModel.userID!, companyName: companyName, companyID: companyID, email: viewModel.email!)
+                viewModel2.addCode(companyID: companyID, companyName: companyName, dollars: Int(rewardsUsed)/10, domain: "athleisure-la.myshopify.com", email: viewModel.email!, firstNameID: "COLIN1", pointsSpent: Int(rewardsUsed), usageLimit: 1, userID: viewModel.userID!)
                 viewModel1.updateLoyaltyPointsForReason(userID: viewModel.userID!, companyID: companyID, changeInPoints: Int(rewardsUsed) * -1, reason: "CreatedDiscount")
                 isCreateDiscountScreenActive.toggle()
             } label: {

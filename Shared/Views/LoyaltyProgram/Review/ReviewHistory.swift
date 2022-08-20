@@ -22,7 +22,7 @@ struct ReviewHistory: View {
         ScrollView {
             VStack {
                 ForEach(ordersViewModel.myOrders) { myOrder in
-                    ReviewItem(companyID: myOrder.companyID, email: myOrder.email, orderID: myOrder.orderID, userID: myOrder.userID, reviewPoints: 0, title: myOrder.title, totalPrice: myOrder.totalPrice)
+                    ReviewItem(companyID: myOrder.companyID, email: myOrder.email, orderID: myOrder.orderID, userID: myOrder.userID, reviewPoints: 0, title: myOrder.item_firstItemTitle, totalPrice: myOrder.totalPrice)
                 }
             }
         

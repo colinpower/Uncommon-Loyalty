@@ -34,19 +34,27 @@ class DiscountCodesViewModel: ObservableObject, Identifiable {
         })
     }
     
-    func addCode(dollars: Int, pointsSpent: Int, userID: String, companyName: String, companyID: String, email: String) {
-        db.collection("discountcodes-" + companyID)
+    func addCode(companyID: String, companyName: String, dollars: Int, domain: String, email: String, firstNameID: String, pointsSpent: Int, usageLimit: Int, userID: String) {
+        db.collection("discount")
             .addDocument(data: [
                 "code": "",
                 "companyName": companyName,
                 "companyID": companyID,
+                "discountID": "",
                 "dollarAmount": dollars,
+                "domain": domain,
                 "email": email,
-                "minimumSpendRequired": 100,
+                "firstNameID": firstNameID,
+                "graphqlID": "",
+                "historyID": "",
+                "minimumSpendRequired": 0,
                 "pointsSpent": pointsSpent,
                 "status": "PENDING",
-                "timestampCreated": Int(round(Date().timeIntervalSince1970)),
-                "timestampUsed": 0,
+                "timestamp_Created": Int(round(Date().timeIntervalSince1970)),
+                "timestamp_Active": 0,
+                "timestamp_Used": 0,
+                "usageLimit": usageLimit,
+                "usedOnOrderID": "",
                 "userID": userID
             ]) { err in
                     if let err = err {
@@ -54,8 +62,6 @@ class DiscountCodesViewModel: ObservableObject, Identifiable {
                     } else {
                         print("hasSeenFRE set to True")
                     }
-
             }
     }
-    
 }

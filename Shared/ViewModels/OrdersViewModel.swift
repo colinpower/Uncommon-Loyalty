@@ -29,7 +29,7 @@ class OrdersViewModel: ObservableObject, Identifiable {
         self.dm.getMyOrders(email: email, companyID: companyID, onSuccess: { (orders) in
             //if (self.newTickets.isEmpty) {
                 self.myOrders = orders
-            print("this is the orderes")
+            print("this is my orders")
             print(self.myOrders)
         }, listener: { (listener5) in
             self.listener_Orders = listener5

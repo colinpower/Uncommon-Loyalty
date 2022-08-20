@@ -19,6 +19,7 @@ struct Home: View {
     
     @ObservedObject var viewModel1 = RewardsProgramViewModel()
     @ObservedObject var reviewsViewModel = ReviewsViewModel()
+    @ObservedObject var itemsViewModel = ItemsViewModel()
     
     @Namespace var namespace1
     @Namespace var namespace2
@@ -229,7 +230,6 @@ struct Home: View {
                 self.viewModel1.listenForMyRewardsPrograms(email: viewModel.email ?? "")
                 print("CURRENT USER IS")
                 print(viewModel.email ?? "")
-                
                 
             }
             .onDisappear {

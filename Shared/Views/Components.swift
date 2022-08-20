@@ -267,71 +267,7 @@ struct PromptCard: View {
 }
 
 
-//MARK: MY HISTORY
-//This struct formats the discount codes that are available
-struct MyHistoryItem: View {
-    
-    var type: String
-    var timestamp: Int
-    var pointsEarnedOrSpent: Int
-    var colorToShow: Color
-    
-    var iconToShow: String {
-        switch type {
-            case "REFERRAL":
-                return "person.2.fill"
-            case "REVIEW":
-                return "text.bubble.fill"
-            case "ORDER":
-                return "signature"
-            case "DISCOUNTCODE":
-                return "dollarsign.circle.fill"
-            default:
-                return "bag.fill"
-        }
-    }
-    
-    var textToShow: String {
-        switch type {
-            case "REFERRAL":
-                return "Referral bonus"
-            case "REVIEW":
-                return "Review bonus"
-            case "ORDER":
-                return "Purchase"
-            case "DISCOUNTCODE":
-                return "Redeemed points"
-            default:
-                return "bag.fill"
-        }
-    }
-    
-    var body: some View {
-        
-        HStack {
-            Image(systemName: iconToShow)
-                .foregroundColor(colorToShow)
-                .font(.system(size: 32))
-            VStack(alignment: .leading, spacing: 3) {
-                HStack(alignment: .center) {
-                    Text(textToShow)
-                        .font(.system(size: 16))
-                        .fontWeight(.semibold)
-                        .foregroundColor(Color("Dark1"))
-                    Spacer()
-                    Text(convertTimestampToString(timestamp: timestamp))
-                        .font(.system(size: 16))
-                        .fontWeight(.semibold)
-                        .foregroundColor(Color("Dark1"))
-                }
-                Text(String(pointsEarnedOrSpent))
-                    .font(Font.system(size: 16, weight: .regular))
-                    .foregroundColor(Color("Gray1"))
-                
-            }
-        }.padding(.bottom)
-    }
-}
+
 
 //MARK: ORDER HISTORY ITEM
 //This struct formats the discount codes that are available

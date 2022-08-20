@@ -16,15 +16,20 @@ struct Orders: Identifiable, Codable {
     var discountAmount: String
     var discountCode: String
     var discountCodeID: String
+    var domain: String
     var email: String
     var historyID: String
-    var item: String
-    var numberOfItemsInOrder: Int
+    var itemIDs: [String]
+    var item_firstItemTitle: String
+    var numberOfReviews: Int
     var orderID: String
+    var orderStatusURL: String
     var pointsEarned: Int
-    var reviewID: String
+    var referralCode: String
+    var referralID: String
+    var shopifyOrderID: Int
     var status: String
-    var title: String
+    var timestamp: Int
     var totalPrice: Int
     var userID: String
     //need to add RewardsProgramReference?? so I can query this specific loyalty program?
@@ -35,15 +40,20 @@ struct Orders: Identifiable, Codable {
         case discountAmount
         case discountCode
         case discountCodeID
+        case domain
         case email
         case historyID
-        case item
-        case numberOfItemsInOrder
+        case itemIDs
+        case item_firstItemTitle
+        case numberOfReviews
         case orderID
+        case orderStatusURL
         case pointsEarned
-        case reviewID
+        case referralCode
+        case referralID
+        case shopifyOrderID
         case status
-        case title
+        case timestamp
         case totalPrice
         case userID
     }
