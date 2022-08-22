@@ -1,5 +1,5 @@
 //
-//  Orders_One.swift
+//  OneOrder.swift
 //  Uncommon Loyalty (iOS)
 //
 //  Created by Colin Power on 8/22/22.
@@ -8,7 +8,8 @@
 import SwiftUI
 import Firebase
 
-struct Orders_One: View {
+struct OneOrder: View {
+    
     //Required variables to be passed
     @State var email: String
     @State var companyID: String
@@ -51,8 +52,8 @@ struct Orders_One: View {
     }
 }
 
-struct Orders_One_Previews: PreviewProvider {
+struct OneOrder_Previews: PreviewProvider {
     static var previews: some View {
-        Orders_One(email: "colinjpower1@gmail.com", companyID: "zKL7SQ0jRP8351a0NnHM", orderID: "0aLyC3D7wXp8cuZMhtmM")
+        OneOrder(email: "colinjpower1@gmail.com", companyID: "zKL7SQ0jRP8351a0NnHM", orderID: "0aLyC3D7wXp8cuZMhtmM")
     }
 }

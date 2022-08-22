@@ -37,7 +37,13 @@ struct CompanyProfileV2: View {
     @State var isProfileShowing:Bool = false
     @State var isHistoryActive:Bool = false
     @State var isNotificationsActive:Bool = false
+    
+    @State var isReferACompanyActive:Bool = false
+    
+    @State var isShowingAllOrdersForCompany = false
 
+    
+    @State var showSheet:Bool = false
     
     @State var isPrompt1Active: Bool = false
     @State var isPrompt2Active: Bool = false
@@ -49,13 +55,17 @@ struct CompanyProfileV2: View {
     @State var progressValue: Float = 0.6
     @State var isDiscountButtonAvailable: Bool = false
     
+    @State var isDiscountCodeCopied:Bool = false
+    
+    
+    //Listeners - must listen for RewardsProgram, Discounts,
     @ObservedObject var viewModel1 = RewardsProgramViewModel()
     @ObservedObject var viewModel2 = DiscountCodesViewModel()
     @ObservedObject var viewModel3 = TransactionsViewModel()
     //@ObservedObject var ordersViewModel = OrdersViewModel()
     @ObservedObject var viewModel_Items = ItemsViewModel()
     
-    @StateObject var ordersViewModel = OrdersViewModel()
+    @ObservedObject var ordersViewModel = OrdersViewModel()
     
     
     @State private var hasDiscountsCreated = false
@@ -80,27 +90,24 @@ struct CompanyProfileV2: View {
         GeometryReader { geometry in
             ZStack(alignment: .top) {
                 
-                //MARK: BACKGROUND
+                //MARK: ZStack Layer 1 - Background
                 Color("Background")
                 
-                //MARK: CONTENT
-                //The content starts here
+                //MARK: ZStack Layer 2 - Content
                 ScrollView(.vertical, showsIndicators: false) {
                     
+                    //MARK: VStack Section (for ScrollView)
                     VStack(alignment: .leading) {
                         
-//                        NavigationLink(destination: Orders_One(email: "colinjpower1@gmail.com", companyID: "zKL7SQ0jRP8351a0NnHM", orderID: "0aLyC3D7wXp8cuZMhtmM")) {
-//                                Text("click here to see an order")
-//                        }
                         
                         
-                        //MARK: TOP CARD W/CURRENT POINTS
+                        //MARK: TOP CARD
                         VStack(alignment: .leading) {
                         
-                            //Current balance + pending points
+                            //MARK: TOP CARD - CURRENT BALANCE & INFO
                             HStack (alignment: .top) {
                                 VStack(alignment: .leading, spacing: 2) {
-                                    Text("Current Balance")
+                                    Text("My Points Balance")
                                         .font(.system(size: 16))
                                         .fontWeight(.semibold)
                                         .foregroundColor(colorToShow[1])
@@ -110,17 +117,17 @@ struct CompanyProfileV2: View {
                                         .foregroundColor(colorToShow[1])
                                 }
                                 Spacer()
-                                Text("450 pending >")
+                                Text("(i)")
                                     .font(.system(size: 16))
                                     .fontWeight(.regular)
                                     .foregroundColor(Color("ThemeBright"))
                                     .padding(.top, 4)
                             }.padding(.bottom).padding(.bottom)
                             
-                            //Buttons
-                            HStack (alignment: .center, spacing: 8) {
+                            //MARK: TOP CARD - BUTTONS
+                            HStack (alignment: .center, spacing: 20) {
                                 
-                                //Redeem
+                                //MARK: TOP CARD - BUTTONS - REDEEM
                                 Button {
                                     isCreateDiscountScreenActive.toggle()
                                 } label: {
@@ -136,29 +143,15 @@ struct CompanyProfileV2: View {
                                 }.fullScreenCover(isPresented: $isCreateDiscountScreenActive, content: {
                                     CreateDiscountScreen(isCreateDiscountScreenActive: $isCreateDiscountScreenActive, companyID: companyID, companyName: companyName, currentPointsBalance: viewModel1.oneRewardsProgram.first?.currentPointsBalance ?? 0).navigationTitle("").navigationBarHidden(true)
                                 })
-                                
-                                //Gift
-                                Button {
-                                    //isCreateDiscountScreenActive.toggle()
-                                } label: {
-                                    HStack {
-                                        Spacer()
-                                        Image(systemName: "gift.fill")
-                                            .font(.system(size: 16, weight: .semibold))
-                                            .foregroundColor(.white)
-                                        Spacer()
-                                    }.padding(.vertical, 12)
-                                    .background(RoundedRectangle(cornerRadius: 32).foregroundColor(Color("ThemeBright")))
-                                }
                         
-                                //Visit site
+                                //MARK: TOP CARD - BUTTONS - VISIT
                                 Button {
                                     //open website
                                 } label: {
                                     HStack {
                                         Spacer()
                                         Link(destination: URL(string: urlToShopifySite)!) {
-                                            Text("Visit")
+                                            Text("Open website")
                                                 .font(.system(size: 16))
                                                 .fontWeight(.semibold)
                                                 .foregroundColor(.white)
@@ -173,32 +166,130 @@ struct CompanyProfileV2: View {
                             .padding()
                         
                         
-                        //MARK: DISCOUNT CODES (IF ANY)
+                        //MARK: DISCOUNT CODES
                         if !viewModel1.oneRewardsProgram.isEmpty {
                             
+                            //MARK: DISCOUNT CODES - IF THEY EXIST
                             //see if you need to list a 2+ of them
-                            if viewModel2.myDiscountCodes.count > 3 {
+                            //if viewModel2.myDiscountCodes.count == 1 {
                                 //then, you need to represent it as a WidgetFloating
-                                VStack {
-                                    ForEach(viewModel2.myDiscountCodes.prefix(2)) { DiscountCode in
+                                ForEach(viewModel2.myDiscountCodes.prefix(1)) { DiscountCode in
+                                    
+                                    
+                                    Button {
+                                        showSheet = true
+                                    } label: {
                                         DiscountCodeSolo(image: "dollarsign.circle.fill", size: 38, firstLine: "Discount Available", secondLine: "$" + String(DiscountCode.dollarAmount) + " off any item", secondLineColor: Color("ThemeBright"), buttonTitle: "Use", status: DiscountCode.status, code: DiscountCode.code, isActive: $isDiscount1Active)
+                                    }.halfSheet(showSheet: $showSheet) {
+                                        //my half sheet view
+                                        HStack {
+                                            Spacer()
+                                            VStack {
+                                                VStack(alignment: .center, spacing: 4) {
+                                                    Text("$" + String(DiscountCode.dollarAmount) + " Discount")
+                                                        .font(.system(size: 19))
+                                                        .fontWeight(.semibold)
+                                                        .foregroundColor(Color("Dark1"))
+                                                    Text("You can use this discount on any purchase.")
+                                                        .font(.system(size: 17))
+                                                        .fontWeight(.regular)
+                                                        .foregroundColor(Color("Gray1"))
+                                                }.padding(.top, 48)
+                                                
+                                                Spacer()
+                                                Text(DiscountCode.code)
+                                                    .font(.system(size: 60))
+                                                    .fontWeight(.bold)
+                                                    .foregroundColor(Color("ThemePrimary"))
+                                                Spacer()
+                                                
+//                                                HStack {
+//                                                    VStack(alignment: .leading) {
+//                                                        Text(DiscountCode.code.uppercased())
+//                                                            .kerning(1.3)
+//                                                            .font(.system(size: 17))
+//                                                            .fontWeight(.semibold)
+//                                                            .foregroundColor(Color("Dark1"))
+//                                                        Text("Discount Code")
+//                                                            .kerning(1.05)
+//                                                            .font(.system(size: 16))
+//                                                            .fontWeight(.regular)
+//                                                            .foregroundColor(Color("Gray1"))
+//                                                    }
+//                                                    Spacer()
+//                                                    Button {
+//                                                        isDiscountCodeCopied.toggle()
+//                                                        UIPasteboard.general.string = DiscountCode.code
+//                                                    } label: {
+//                                                        if isDiscountCodeCopied {
+//                                                            Image(systemName: "checkmark")
+//                                                                .foregroundColor(Color("ThemePrimary"))
+//                                                                .font(.system(size: CGFloat(18)))
+//                                                        } else {
+//                                                            Image(systemName: "doc.on.doc.fill")
+//                                                                .foregroundColor(Color("ThemePrimary"))
+//                                                                .font(.system(size: CGFloat(18), weight: .semibold))
+//                                                        }
+//                                                    }
+//                                                }
+//                                                .padding()
+//                                                .padding(.horizontal)
+                                                
+                                                
+                                                Button {
+                                                    
+                                                } label: {
+                                                    HStack {
+                                                        Spacer()
+                                                        Text("Copy code")
+                                                            .font(.system(size: 18))
+                                                            .fontWeight(.semibold)
+                                                            .foregroundColor(Color(.white))
+                                                            .padding(.vertical)
+                                                        Spacer()
+                                                    }
+                                                    .background(RoundedRectangle(cornerRadius: 32).foregroundColor(Color("ThemeAction")))
+                                                    .padding(.horizontal)
+                                                    .padding(.horizontal)
+                                                }
+                                                
+                                                Button {
+                                                    
+                                                } label: {
+                                                    Text("How do I use this discount code?")
+                                                        .font(.system(size: 18))
+                                                        .fontWeight(.semibold)
+                                                        .foregroundColor(Color("ThemePrimary"))
+                                                        .padding()
+                                                }
+                                                
+                                                Divider()
+                                                Button {
+                                                    showSheet = false
+                                                } label: {
+                                                    Text("Close sheet")
+                                                        .font(.system(size: 18))
+                                                        .fontWeight(.semibold)
+                                                        .foregroundColor(Color("Dark1"))
+                                                        .padding()
+                                                }.padding(.bottom)
+
+                                            }
+                                            Spacer()
+                                        }
+                                        .edgesIgnoringSafeArea(.all)
+                                            .background(Color.white)
+                                        
+                                    } onEnd : {
+                                        print("Dismissed")
                                     }
+                                }
                                 
-                                    HStack {
-                                        Spacer()
-                                        Text("See all")
-                                            .font(.system(size: 16))
-                                            .fontWeight(.semibold)
-                                            .foregroundColor(colorToShow[4])
-                                        Spacer()
-                                    }
-                                }
-                            } else {
-                                ForEach(viewModel2.myDiscountCodes.prefix(3)) { DiscountCode in
-                                    DiscountCodeSolo(image: "dollarsign.circle.fill", size: 38, firstLine: "Discount Available", secondLine: "$" + String(DiscountCode.dollarAmount) + " off any item", secondLineColor: Color("ThemeBright"), buttonTitle: "Use", status: DiscountCode.status, code: DiscountCode.code, isActive: $isDiscount1Active)
-                                        //.padding(.bottom, 8)
-                                }
-                            }
+                            
+                        //MARK: DISCOUNT CODES - IF NONE
+                        } else {
+                            
+                            
                         }
                         
                         //MARK: RECOMMENDED ACTIONS (IF ANY)
@@ -270,16 +361,23 @@ struct CompanyProfileV2: View {
                             
                             ForEach(ordersViewModel.snapshotOfOrders.prefix(5)) { Order in
                                 
-                                NavigationLink(destination: Orders_One(email: email, companyID: companyID, orderID: Order.orderID)) {
+                                NavigationLink(destination: OneOrder(email: email, companyID: companyID, orderID: Order.orderID)) {
                                     MyRecentOrdersItem(item: Order.item_firstItemTitle, timestamp: Order.timestamp, reviewID: Order.orderID, colorToShow: colorToShow[4])
                                 }
                             }
                             HStack {
                                 Spacer()
-                                Text("See all")
-                                    .font(.system(size: 16))
-                                    .fontWeight(.semibold)
-                                    .foregroundColor(colorToShow[4])
+                                Button {
+                                    isShowingAllOrdersForCompany = true
+                                } label: {
+                                    Text("See all")
+                                        .font(.system(size: 16))
+                                        .fontWeight(.semibold)
+                                        .foregroundColor(colorToShow[4])
+                                }.fullScreenCover(isPresented: $isShowingAllOrdersForCompany) {
+                                    AllOrdersForCompany(userID: userID, companyID: companyID, isShowingAllOrdersForCompany: $isShowingAllOrdersForCompany)
+                                }
+                                
                                 Spacer()
                             }
                         }.padding()
@@ -293,12 +391,12 @@ struct CompanyProfileV2: View {
                         
                         //Links + Additional info
                         //MARK: Settings
-                        WideWidgetHeader(title: "SETTINGS")
+                        WideWidgetHeader(title: "MORE")
                         VStack {
                             
                             //Item 1: Name
                             
-                            NavigationLink(destination: History(companyID: companyID, email: email, isHistoryActive: $isHistoryActive)) {
+                            NavigationLink(destination: History(userID: userID, companyID: companyID, isHistoryActive: $isHistoryActive)) {
                                 WideWidgetItem(image: "clock.fill", size: 20, color: Color("Dark1"), title: "History").padding(.bottom).padding(.bottom)
                             }
                             
@@ -307,23 +405,34 @@ struct CompanyProfileV2: View {
                             } label: {
                                 WideWidgetItem(image: "clock.fill", size: 20, color: Color("Dark1"), title: "History").padding(.bottom).padding(.bottom)
                             }.fullScreenCover(isPresented: $isHistoryActive) {
-                                History(companyID: companyID, email: email, isHistoryActive: $isHistoryActive)
+                                History(userID: userID, companyID: companyID, isHistoryActive: $isHistoryActive)
                             }
                             
                             
                             //Item 2: Email
-                            WideWidgetItem(image: "envelope.fill", size: 20, color: Color("Dark1"), title: "Email").padding(.bottom).padding(.bottom)
+                            WideWidgetItem(image: "envelope.fill", size: 20, color: Color("Dark1"), title: "Contact").padding(.bottom).padding(.bottom)
                             
                             //Item 3: Notifications
-                            WideWidgetItem(image: "bell.fill", size: 20, color: Color("Dark1"), title: "Notifications").padding(.bottom).padding(.bottom)
+                            Button {
+                                isNotificationsActive.toggle()
+                            } label: {
+                                WideWidgetItem(image: "bell.fill", size: 20, color: Color("Dark1"), title: "Notifications").padding(.bottom).padding(.bottom)
+                            }.fullScreenCover(isPresented: $isNotificationsActive) {
+                                Notifications(companyID: companyID, email: email, isNotificationsActive: $isNotificationsActive)
+                            }
+                            
                             
                             //Item 4: Get help
                             WideWidgetItem(image: "questionmark.circle.fill", size: 20, color: Color("Dark1"), title: "Get help").padding(.bottom)
+                            
+                            //Item 5: About
+                            WideWidgetItem(image: "questionmark.circle.fill", size: 20, color: Color("Dark1"), title: "About").padding(.bottom)
                             
                         }.padding().background(.white).padding(.bottom).padding(.bottom)
                         
                     }.padding(.vertical)
                 }
+                
             }
                     
 
@@ -335,24 +444,19 @@ struct CompanyProfileV2: View {
                     //this is a hack to get a navigationlink inside a toolbarItem
                     HStack(alignment: .center, spacing: 0) {
                         Button {
-                            isHistoryActive.toggle()
+                            isReferACompanyActive.toggle()
                         } label: {
-                            Image(systemName: "clock.fill")
-                                .font(.system(size: 18))
-                                .foregroundColor(Color("ThemePrimary"))
-                        }.fullScreenCover(isPresented: $isHistoryActive) {
-                            History(companyID: companyID, email: email, isHistoryActive: $isHistoryActive)
+                            Text("Get $20")
+                                .font(.system(size: 16))
+                                .fontWeight(.semibold)
+                                .foregroundColor(Color("ThemeLight"))
+                                .padding(.all, 6)
+                                .background(RoundedRectangle(cornerRadius: 16).foregroundColor(Color("ThemeAction")))
+                        }.fullScreenCover(isPresented: $isReferACompanyActive) {
+                            ReferAFriend(companyID: companyID, companyName: "alsdkfjsad", isReferCompanyActive: $isReferACompanyActive)
                         }
                         
-                        Button {
-                            isNotificationsActive.toggle()
-                        } label: {
-                            Image(systemName: "bell.fill")
-                                .font(.system(size: 18))
-                                .foregroundColor(Color("ThemePrimary"))
-                        }.fullScreenCover(isPresented: $isNotificationsActive) {
-                            Notifications(companyID: companyID, email: email, isNotificationsActive: $isNotificationsActive)
-                        }
+                        
                         
                     }
                 }
@@ -487,6 +591,54 @@ struct DiscountCodeSolo: View {
     
     
     var body: some View {
+            HStack {
+                Image("Athleisure LA")
+                    .resizable()
+                    .scaledToFill()
+                    .frame(width: 48, height: 48, alignment: .center)
+                    .clipped()
+                    .cornerRadius(24)
+                    .padding(.trailing, 6)
+                VStack(alignment: .leading, spacing: 3) {
+                    Text("Discount Created")
+                        .font(.system(size: 16))
+                        .fontWeight(.medium)
+                        .foregroundColor(Color("Dark1"))
+                    Text(secondLine)
+                        .font(.system(size: 15))
+                        .fontWeight(.semibold)
+                        .foregroundColor(Color("ThemePrimary"))
+                }
+                Spacer()
+                Text("Use")
+                    .font(.system(size: 16))
+                    .fontWeight(.semibold)
+                    .foregroundColor(.white)
+                    .padding(.vertical, 6)
+                    .padding(.horizontal, 16)
+                    .background(RoundedRectangle(cornerRadius: 16).foregroundColor(Color("ThemePrimary")))
+            }.padding(.horizontal)
+            .padding(.vertical)
+            .background(RoundedRectangle(cornerRadius: 8).foregroundColor(.white))
+            .padding(.horizontal)
+    }
+}
+
+struct DiscountCodeSolo1: View {
+    
+    var image: String
+    var size: Int? = 48
+    var firstLine: String
+    var secondLine: String
+    var secondLineColor: Color? = Color("Gray2")
+    var buttonTitle: String? = ""
+    var status: String
+    var code: String
+    
+    @Binding var isActive: Bool
+    
+    
+    var body: some View {
         Button {
             isActive.toggle()
         } label: {
@@ -524,5 +676,96 @@ struct DiscountCodeSolo: View {
             .background(RoundedRectangle(cornerRadius: 8).foregroundColor(.white))
         }
         .padding(.horizontal)
+    }
+}
+
+
+//for creating the half sheet https://www.youtube.com/watch?v=rQKT7tn4uag
+extension View {
+    
+    //Binding show variable
+    func halfSheet<SheetView: View>(showSheet: Binding<Bool>, @ViewBuilder sheetView: @escaping () -> SheetView, onEnd: @escaping ()->())-> some View {
+        
+        //use .overlay because it will automatically use hte swiftui frame size only
+        return self
+            .background(
+                HalfSheetHelper(sheetView: sheetView(), showSheet: showSheet, onEnd: onEnd)
+            )
+    }
+}
+
+//UI KIt integration
+struct HalfSheetHelper<SheetView: View>: UIViewControllerRepresentable {
+    
+    var sheetView: SheetView
+    @Binding var showSheet:Bool
+    var onEnd: () -> ()
+    
+    
+    let controller = UIViewController()
+    
+    func makeCoordinator() -> Coordinator {
+        return Coordinator(parent: self)
+    }
+    
+    func makeUIViewController(context: Context) -> UIViewController {
+        controller.view.backgroundColor = .clear
+        
+        return controller
+    }
+    
+    func updateUIViewController(_ uiViewController: UIViewController, context: Context) {
+        
+        if showSheet {
+            
+            //isPresenting
+            let sheetController = CustomHostingController(rootView: sheetView)
+            sheetController.presentationController?.delegate = context.coordinator
+            uiViewController.present(sheetController, animated: true)
+        }
+        else {
+            // closing view when showSheet toggled again...
+            uiViewController.dismiss(animated: true)
+        }
+    }
+    
+    //on Dismiss
+    class Coordinator: NSObject, UISheetPresentationControllerDelegate {
+        var parent: HalfSheetHelper
+        
+        init(parent: HalfSheetHelper) {
+            self.parent = parent
+        }
+        
+        func presentationControllerWillDismiss(_ presentationController: UIPresentationController) {
+            parent.showSheet = false
+        }
+        
+        func presentationControllerDidDismiss(_ presentationController: UIPresentationController) {
+            parent.showSheet = false
+            parent.onEnd()
+        }
+    }
+    
+}
+
+// Custom UIHostingController for halfSheet...
+class CustomHostingController<Content: View>: UIHostingController<Content> {
+    
+    override func viewDidLoad() {
+        
+        view.backgroundColor = .clear
+        
+        //setting presentation controller properties...
+        if let presentationController = presentationController as? UISheetPresentationController{
+            
+            presentationController.detents = [
+                .medium(),
+                .large()
+            ]
+            
+            //to show grabber
+            presentationController.prefersGrabberVisible = true
+        }
     }
 }

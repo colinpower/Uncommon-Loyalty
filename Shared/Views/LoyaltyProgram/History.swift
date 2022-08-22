@@ -10,13 +10,12 @@ import SwiftUI
 struct History: View {
     
     
+    var userID: String
     var companyID: String
-    var email: String
-    
     
     @Binding var isHistoryActive:Bool
     
-    @ObservedObject var viewModel3 = TransactionsViewModel()
+    @ObservedObject var transactionsViewModel = TransactionsViewModel()
     
     var body: some View {
         GeometryReader { geometry in
@@ -38,7 +37,7 @@ struct History: View {
                         VStack(alignment: .leading) {
                             
                             //For each History item...
-                            ForEach(viewModel3.myTransactions.prefix(15)) { transaction in
+                            ForEach(transactionsViewModel.snapshotOfTransactionsForCompany.prefix(15)) { transaction in
                                 MyHistoryItem(type: transaction.type, timestamp: transaction.timestamp, pointsEarnedOrSpent: transaction.pointsEarned, colorToShow: Color("ThemePrimary"))
                             }
                             HStack {
@@ -59,14 +58,14 @@ struct History: View {
             }
         }.ignoresSafeArea()
         .onAppear {
-            self.viewModel3.listenForMyTransactions(email: "colinjpower1@gmail.com", companyID: companyID)
+            self.transactionsViewModel.getSnapshotOfTransactionsForCompany(userID: userID, companyID: companyID)
         }
     }
 }
 
 struct History_Previews: PreviewProvider {
     static var previews: some View {
-        History(companyID: "zKL7SQ0jRP8351a0NnHM", email: "colinjpower1@gmail.com", isHistoryActive: .constant(true))
+        History(userID: "", companyID: "zKL7SQ0jRP8351a0NnHM", isHistoryActive: .constant(true))
     }
 }
 

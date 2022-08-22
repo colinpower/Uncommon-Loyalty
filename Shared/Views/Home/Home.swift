@@ -23,6 +23,9 @@ struct Home: View {
     @ObservedObject var itemsViewModel = ItemsViewModel()
     
     
+    @StateObject var ordersViewModel = OrdersViewModel()
+    
+    
     //For the clever pop up things
     @Namespace var namespace1
     @Namespace var namespace2
@@ -35,6 +38,8 @@ struct Home: View {
     @State var isProfileActive:Bool = false
     @State var isSendFeedbackActive:Bool = false
     
+    
+    @State var isShowingAllOrders:Bool = false
     
     //Remove this one
     @State var showFirstRunExperience:Bool = true
@@ -74,7 +79,7 @@ struct Home: View {
                             }.fullScreenCover(isPresented: $isProfileActive, content: {
                                 Profile(isProfileActive: $isProfileActive)
                             })
-                        }.padding(.top, 60).padding(.horizontal)
+                        }.padding(.top, 60).padding(.horizontal).padding(.bottom)
                         
                         
                         //MARK: VStack Section 2 - Scrollview
@@ -86,7 +91,7 @@ struct Home: View {
                                 
                                 //Title
                                 HStack {
-                                    Text("Loyalty Programs")
+                                    Text("My Loyalty Programs")
                                         .font(.system(size: 20))
                                         .fontWeight(.semibold)
                                         .foregroundColor(Color("Dark1"))
@@ -108,7 +113,7 @@ struct Home: View {
                                             Text("Add")
                                                 .font(.system(size: 16))
                                                 .fontWeight(.semibold)
-                                                .foregroundColor(Color(.white))
+                                                .foregroundColor(Color("ThemeLight"))
                                                 .padding(.vertical, 6)
                                                 .padding(.horizontal, 12)
                                                 .background(RoundedRectangle(cornerRadius: 19).foregroundColor(Color("ThemeAction")))
@@ -133,20 +138,8 @@ struct Home: View {
                                 }
 
                             }.padding().padding(.vertical)
-                                .background(RoundedRectangle(cornerRadius: 16).foregroundColor(.white)).padding(.horizontal).padding(.top)
+                                .background(RoundedRectangle(cornerRadius: 16).foregroundColor(.white)).padding(.horizontal).padding(.bottom)
 
-                            //MARK: testing a tabview for a scrolling list of images
-                            //Scrolling list of images
-                            
-                            
-                            //MARK: Discover company (beautiful animation)
-                            //https://www.youtube.com/watch?v=f0wYIYfPBa4
-                            FeaturedWidget1(namespace: namespace1, isFeaturedWidget1Active: $isFeaturedWidget1Active, category: "Discover", title: "Athleisure's Design Inspiration", subtitle: "After 24 years, how does Athleisure keep reinventing their brand and their iconic look?", backgroundImage: "YellowAthleisure", foregroundImage: "FeaturedAthleisure")
-                                .onTapGesture {
-                                    withAnimation(.spring(response: 0.6, dampingFraction: 0.8)) {
-                                        isFeaturedWidget1Active.toggle()
-                                    }
-                                }
                             
                             //MARK: Quick actions
                             VStack(alignment: .leading, spacing: 0) {
@@ -173,7 +166,59 @@ struct Home: View {
                                     MyQuickActionsItem(companyImage: "Athleisure LA", company: "Athleisure LA", item: "JOGGERS", action: "Review")
                                     MyQuickActionsItem(companyImage: "LululemonGold", company: "Lululemon", item: "Sweatshirt", action: "Refer")
                                 }.padding(.top)
-                            }.padding().background(RoundedRectangle(cornerRadius: 16).foregroundColor(.white)).padding(.horizontal)
+                            }.padding().background(RoundedRectangle(cornerRadius: 16).foregroundColor(.white)).padding(.horizontal).padding(.bottom)
+                            
+                            
+                            //MARK: Recent Orders
+                            VStack(alignment: .leading) {
+                                
+                                //Header
+                                HStack {
+                                    Text("Recent Orders")
+                                        .font(.system(size: 18))
+                                        .fontWeight(.semibold)
+                                        .foregroundColor(Color("Dark1"))
+                                    Spacer()
+                                }
+                                
+                                //For each recent order, show an item
+                                
+                                ForEach(ordersViewModel.allOrders.prefix(5)) { Order in
+                                    
+                                    NavigationLink(destination: OneOrder(email: Order.email, companyID: Order.companyID, orderID: Order.orderID)) {
+                                        MyRecentOrdersItem(item: Order.item_firstItemTitle, timestamp: Order.timestamp, reviewID: Order.orderID, colorToShow: Color("Dark1"))
+                                    }
+                                }
+                                HStack {
+                                    Spacer()
+                                    Button {
+                                        isShowingAllOrders = true
+                                    } label: {
+                                        Text("See all")
+                                            .font(.system(size: 16))
+                                            .fontWeight(.semibold)
+                                            .foregroundColor(Color("ThemeAction"))
+                                    }.fullScreenCover(isPresented: $isShowingAllOrders) {
+                                        AllOrders(userID: viewModel.userID ?? "", isShowingAllOrders: $isShowingAllOrders)
+                                    }
+                                    Spacer()
+                                }
+                            }.padding()
+                                .padding(.vertical)
+                            .background(RoundedRectangle(cornerRadius: 8).foregroundColor(.white))
+                            .padding(.horizontal)
+                            .padding(.bottom)
+                            
+                            
+                            
+                            //MARK: Discover company (beautiful animation)
+                            //https://www.youtube.com/watch?v=f0wYIYfPBa4
+                            FeaturedWidget1(namespace: namespace1, isFeaturedWidget1Active: $isFeaturedWidget1Active, category: "Discover", title: "Athleisure's Design Inspiration", subtitle: "After 24 years, how does Athleisure keep reinventing their brand and their iconic look?", backgroundImage: "YellowAthleisure", foregroundImage: "FeaturedAthleisure")
+                                .onTapGesture {
+                                    withAnimation(.spring(response: 0.6, dampingFraction: 0.8)) {
+                                        isFeaturedWidget1Active.toggle()
+                                    }
+                                }
                             
                             
                             //MARK: Discover company (beautiful animation)
@@ -233,6 +278,9 @@ struct Home: View {
             .navigationBarHidden(true)
             .onAppear {
                 self.rewardsProgramViewModel.listenForMyRewardsPrograms(email: viewModel.email ?? "")
+                
+                self.ordersViewModel.listenForAllOrders(userID: viewModel.userID ?? "")
+                //self.ordersViewModel.snapshotOfAllOrders(userID: viewModel.userID ?? "")
                 print("CURRENT USER IS")
                 print(viewModel.email ?? "")
                 
@@ -242,6 +290,10 @@ struct Home: View {
                 if self.rewardsProgramViewModel.listener1 != nil {
                     print("REMOVING LISTENER")
                     self.rewardsProgramViewModel.listener1.remove()
+                }
+                if self.ordersViewModel.listenerForAllOrders != nil {
+                    print("REMOVING LISTENER FOR ALL ORDERS")
+                    self.ordersViewModel.listenerForAllOrders.remove()
                 }
                 
             }

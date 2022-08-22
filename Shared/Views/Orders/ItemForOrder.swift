@@ -49,7 +49,7 @@ struct ItemForOrder: View {
             } label: {
                 Text("show Refer screen")
             }.fullScreenCover(isPresented: $isShowingReferScreen) {
-                ReferAFriend(companyID: companyID, companyName: "Athleisure LA TEST")
+                ReferAFriend(companyID: companyID, companyName: "Athleisure LA TEST", isReferCompanyActive: $isShowingReferScreen)
             }
             
             

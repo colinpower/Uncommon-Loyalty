@@ -16,6 +16,8 @@ class TransactionsViewModel: ObservableObject, Identifiable {
     @Published var myTransactions = [Transactions]()
     @Published var last60DaysTransactions = [Transactions]()
     
+    @Published var snapshotOfTransactionsForCompany = [Transactions]()
+    
     var dm = DataManager()
     
     var listener_Transactions: ListenerRegistration!
@@ -48,6 +50,35 @@ class TransactionsViewModel: ObservableObject, Identifiable {
             self.listener_Transactions7 = listener7
         })
     }
+    
+    func getSnapshotOfTransactionsForCompany(userID: String, companyID: String) {
+        //print("this ONE function was called")
+        
+        //var ordersSnapshot = [Orders]()
+        
+        db.collection("history")
+            .whereField("userID", isEqualTo: userID)
+            .whereField("companyID", isEqualTo: companyID)
+            .whereField("timestamp", isNotEqualTo: -1)
+            .order(by: "timestamp", descending: true)
+            .getDocuments { (snapshot, error) in
+                
+                guard let snapshot = snapshot, error == nil else {
+                    //handle error
+                    print("found error in getSnapshotOfTransactionsForCompany")
+                    return
+                }
+                print("Number of documents: \(snapshot.documents.count ?? -1)")
+                
+                self.snapshotOfTransactionsForCompany = snapshot.documents.compactMap({ queryDocumentSnapshot -> Transactions? in
+                    print("AT THE TRY STATEMENT")
+                    print(try? queryDocumentSnapshot.data(as: Transactions.self))
+                    return try? queryDocumentSnapshot.data(as: Transactions.self)
+                })
+            }
+    }
+    
+    
     
 }
 

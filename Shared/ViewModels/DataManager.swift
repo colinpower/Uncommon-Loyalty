@@ -252,7 +252,29 @@ class DataManager: ObservableObject {
         listener(listenerRegistration12) //escaping listener
     }
     
-    
+    func getAllOrders(userID: String, onSuccess: @escaping([Orders]) -> Void, listener: @escaping(_ listenerHandle: ListenerRegistration) -> Void) {
+        //print("this ONE function was called")
+        let listenerRegistration = db.collection("order")
+            .whereField("userID", isEqualTo: userID)
+            .order(by: "timestamp", descending: true)
+            .addSnapshotListener { (querySnapshot, error) in
+            guard let documents = querySnapshot?.documents else {
+                print("didn't find any documents for getAllOrders")
+                print("No documents")
+                return
+            }
+            var allOrdersArray = [Orders]()
+
+                allOrdersArray = documents.compactMap { (queryDocumentSnapshot) -> Orders? in
+                    print("THIS IS ALL THE ORDERS")
+                print(try? queryDocumentSnapshot.data(as: Orders.self))
+                return try? queryDocumentSnapshot.data(as: Orders.self)
+                //return try? queryDocumentSnapshot.data(as: Ticket.self)
+            }
+            onSuccess(allOrdersArray)
+        }
+        listener(listenerRegistration) //escaping listener
+    }
     
     func getMyOrders(email: String, companyID: String, onSuccess: @escaping([Orders]) -> Void, listener: @escaping(_ listenerHandle: ListenerRegistration) -> Void) {
         //print("this ONE function was called")

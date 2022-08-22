@@ -13,6 +13,8 @@ struct ReferAFriend: View {
     var companyName: String
     var referralCode: String = "COLIN-REFERRAL-05"
     
+    @Binding var isReferCompanyActive: Bool
+    
     @State private var copyText:String = "Copy"
     @State private var copyColor:Color = Color.blue
     
@@ -20,6 +22,14 @@ struct ReferAFriend: View {
     
     var body: some View {
         VStack (alignment: .leading) {
+            
+            Button {
+                isReferCompanyActive = false
+            } label: {
+                Image(systemName: "xmark")
+            }
+            
+            
             HStack {
                 Image("ReferralGoldGift")
                     .resizable()
@@ -128,6 +138,6 @@ struct ReferAFriend: View {
 
 struct ReferAFriend_Previews: PreviewProvider {
     static var previews: some View {
-        ReferAFriend(companyID: "zKL7SQ0jRP8351a0NnHM", companyName: "Athleisure LA")
+        ReferAFriend(companyID: "zKL7SQ0jRP8351a0NnHM", companyName: "Athleisure LA", isReferCompanyActive: .constant(true))
     }
 }

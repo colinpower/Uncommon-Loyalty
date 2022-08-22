@@ -13,18 +13,36 @@ import Combine
 class OrdersViewModel: ObservableObject, Identifiable {
     //What arrays or data do we want to be accessible from here? Should be everything we need as it relates to RewardsPrograms
     
+    @Published var allOrders = [Orders]()
     @Published var myOrders = [Orders]()
     @Published var oneOrder = [Orders]()
     
+    @Published var snapshotOfAllOrders = [Orders]()
     @Published var snapshotOfOrders = [Orders]()
     @Published var snapshotOfOrder = [Orders]()
     
     var dm = DataManager()
     
+    var listenerForAllOrders: ListenerRegistration!
     var listener_MyOrders: ListenerRegistration!
     var listener_OneOrder: ListenerRegistration!
         
     private var db = Firestore.firestore()
+    
+    
+    func listenForAllOrders(userID: String) {
+        self.allOrders = [Orders]()
+
+        self.dm.getAllOrders(userID: userID, onSuccess: { (orders) in
+            //if (self.newTickets.isEmpty) {
+                self.allOrders = orders
+            print("this is all orders")
+            print(self.allOrders)
+        }, listener: { (listener) in
+            self.listenerForAllOrders = listener
+        })
+    }
+    
     
     func listenForMyOrders(email: String, companyID: String) {
         self.myOrders = [Orders]()
@@ -52,7 +70,31 @@ class OrdersViewModel: ObservableObject, Identifiable {
         })
     }
     
-    
+    func snapshotOfAllOrders(userID: String) {
+        //print("this ONE function was called")
+        
+        //var ordersSnapshot = [Orders]()
+        
+        db.collection("order")
+            .whereField("userID", isEqualTo: userID)
+            .whereField("timestamp", isNotEqualTo: 0)
+            .order(by: "timestamp", descending: true)
+            .getDocuments { (snapshot, error) in
+                
+                guard let snapshot = snapshot, error == nil else {
+                    //handle error
+                    print("found error in getAllOrdersSnapshot")
+                    return
+                }
+                print("Number of documents: \(snapshot.documents.count ?? -1)")
+                
+                self.snapshotOfAllOrders = snapshot.documents.compactMap({ queryDocumentSnapshot -> Orders? in
+                    print("AT THE TRY STATEMENT")
+                    print(try? queryDocumentSnapshot.data(as: Orders.self))
+                    return try? queryDocumentSnapshot.data(as: Orders.self)
+                })
+            }
+    }
     
     func snapshotOfOrders(userID: String, companyID: String) {
         //print("this ONE function was called")
