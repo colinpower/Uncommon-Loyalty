@@ -35,7 +35,7 @@ struct OneOrder: View {
                 ForEach(order.itemIDs, id: \.self) { itemID in
                     
                     Text(itemID)
-                    NavigationLink(destination: ItemForOrder(email: email, companyID: companyID, itemID: itemID)) {
+                    NavigationLink(destination: ItemForOrder(userID: "mhjEZCv9JGdk0NUZaHMcNrDsH1x2", email: email, companyID: companyID, itemID: itemID)) {
                         HStack {
                             Text(itemID)
 //                            Text(order.item_firstItemTitle)

@@ -237,7 +237,7 @@ struct CompanyProfileV2: View {
                                                 
                                                 
                                                 Button {
-                                                    
+                                                    UIPasteboard.general.string = DiscountCode.code
                                                 } label: {
                                                     HStack {
                                                         Spacer()

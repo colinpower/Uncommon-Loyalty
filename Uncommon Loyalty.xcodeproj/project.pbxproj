@@ -869,7 +869,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.1.1;
+				MARKETING_VERSION = 0.2.0;
 				OTHER_CODE_SIGN_FLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = "Uncommon-Loyalty.Uncommon-Loyalty";
 				PRODUCT_NAME = "Uncommon Loyalty";
@@ -903,7 +903,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.1.1;
+				MARKETING_VERSION = 0.2.0;
 				OTHER_CODE_SIGN_FLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = "Uncommon-Loyalty.Uncommon-Loyalty";
 				PRODUCT_NAME = "Uncommon Loyalty";

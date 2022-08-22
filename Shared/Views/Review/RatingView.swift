@@ -20,17 +20,27 @@ struct RatingView: View {
     var offColor = Color.gray.opacity(0.3)
     var onColor = Color.yellow
     
+    @State var wasRatingTapped:Bool = false
+    
     var body: some View {
         HStack {
             ForEach(1..<maximumRating + 1, id: \.self) { number in
                 returnImage(for: number)
                     .font(.title)
                     .foregroundColor(number > rating ? offColor : onColor)
+                    .opacity(wasRatingTapped ? 0 : 1)
                     .onTapGesture {
                         rating = number
-                        withAnimation(.linear(duration: 0.15).delay(0.5)) {
+                        withAnimation(.linear(duration: 0.15).delay(0.55)) {
                             horizontalOffset -= width
                         }
+                        withAnimation(.easeInOut(duration: 0.1).repeatCount(3, autoreverses: true)) {
+                            wasRatingTapped.toggle()
+                        }
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.35) {
+                            wasRatingTapped = false
+                        }
+                                                      
                         
                     }
             }
