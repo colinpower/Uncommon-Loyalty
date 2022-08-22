@@ -13,8 +13,8 @@ struct DiscountCodes: Identifiable, Codable {
     //means that whenever we map from a doc into a Ticket struct, it'll read the document and map it into this thing
     @DocumentID var id: String? = UUID().uuidString
     var code: String
-    var companyName: String
     var companyID: String
+    var companyName: String
     var discountID: String
     var dollarAmount: Int
     var domain: String

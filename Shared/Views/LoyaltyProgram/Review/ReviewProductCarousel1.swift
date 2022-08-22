@@ -22,8 +22,10 @@ struct ReviewProductCarousel1: View {
     @State var response1: String = ""
     @State var response2: String = ""
     
+    @State private var blinkingOKButton: Bool = false
+    
     var companyID: String
-    var orderID: String
+    var itemID: String
     var email: String
     var emailUID: String
     
@@ -57,7 +59,7 @@ struct ReviewProductCarousel1: View {
                                         .font(.body)
                                         .italic()
                                         .padding(.bottom, 24)
-                                    RatingView(rating: $rating, width: geometry.size.width, horizontalOffset: $horizontalOffset)
+                                    RatingView(rating: $rating, width: geometry.size.width, horizontalOffset: $horizontalOffset)   //try passing $blinkingOKButton into the rating view
 
                                     Divider().opacity(0.0)
                                         .padding(.bottom, 24)
@@ -67,7 +69,12 @@ struct ReviewProductCarousel1: View {
                                         Button {
                                             //withAnimation(scaleEffect(1.1))
                                             //.scaleEffect(1.1)
-                                            withAnimation(.linear(duration: 0.15)) {
+                                            withAnimation(.easeInOut(duration: 0.12).repeatCount(3, autoreverses: true)) {
+                                                blinkingOKButton.toggle()
+                                            }
+                                            
+                                            withAnimation(.linear(duration: 0.15).delay(0.6)) {
+                                                blinkingOKButton = false
                                                 horizontalOffset -= geometry.size.width
                                             }
                                             //.animation(.easeInOut(duration: 0.2), value: rating)
@@ -82,6 +89,7 @@ struct ReviewProductCarousel1: View {
                                             }.padding()
                                             .background(RoundedRectangle(cornerRadius: 8)
                                                 .fill(self.rating == 0 ? Color("Gray2") : Color("ThemeBright")))
+                                            .opacity(blinkingOKButton ? 0 : 1)
                                         }.disabled(self.rating == 0)
                                     }
                                 }
@@ -112,9 +120,18 @@ struct ReviewProductCarousel1: View {
                                         .padding(.bottom, 24)
 
                                     HStack {
-                                        Spacer()
                                         Button {
                                             withAnimation(.linear(duration: 0.15)) {
+                                                horizontalOffset += geometry.size.width
+                                            }
+                                        } label: {
+                                            Image(systemName: "arrow.left.circle.fill")
+                                                .foregroundColor(Color("ThemeBright"))
+                                                .font(Font.system(size: 40, weight: .semibold))
+                                        }.disabled(horizontalOffset == 0)
+                                        Spacer()
+                                        Button {
+                                            withAnimation(.linear(duration: 0.15).delay(0.5)) {
                                                 horizontalOffset -= geometry.size.width
                                                 hideKeyboard()
                                             }
@@ -171,7 +188,7 @@ struct ReviewProductCarousel1: View {
                                         Spacer()
                                         Button {
                                             //NEED TO POST BACK TO FIREBASE HERE
-                                            reviewsViewModel.addReview(companyID: companyID, email: email, orderID: orderID, reviewRating: rating, questionsArray: ["q1", "q2"], responsesArray: [response1, response2], reviewTitle: "blank title", userID: emailUID)
+                                            reviewsViewModel.addReview(companyID: companyID, email: email, itemID: itemID, reviewRating: rating, questionsArray: ["q1", "q2"], responsesArray: [response1, response2], reviewTitle: "blank title", userID: emailUID)
                                             rewardsProgramViewModel.updateLoyaltyPointsForReason(userID: emailUID, companyID: companyID, changeInPoints: 100, reason: "SubmittedReview")
                                             showingReviewProductScreen = false
                                         } label: {
@@ -256,7 +273,7 @@ struct ReviewProductCarousel1: View {
 struct ReviewProductCarousel1_Previews: PreviewProvider {
     static var previews: some View {
         Group {
-            ReviewProductCarousel1(showingReviewProductScreen: .constant(true), companyID: "zKL7SQ0jRP8351a0NnHM", orderID: "BP1KvlMpXqPry3SLRvAu", email: "colinjpower1@gmail.com", emailUID: "mhjEZCv9JGdk0NUZaHMcNrDsH1x2")
+            ReviewProductCarousel1(showingReviewProductScreen: .constant(true), companyID: "zKL7SQ0jRP8351a0NnHM", itemID: "Z3GBvz1xRYuHl8Tj6Z9j", email: "colinjpower1@gmail.com", emailUID: "mhjEZCv9JGdk0NUZaHMcNrDsH1x2")
         }
     }
 }

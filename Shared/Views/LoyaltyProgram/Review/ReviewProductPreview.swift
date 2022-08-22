@@ -11,7 +11,7 @@ struct ReviewProductPreview: View {
     
     var companyID: String
     var email: String
-    var orderID: String
+    var itemID: String
     var userID: String
     
 
@@ -24,6 +24,8 @@ struct ReviewProductPreview: View {
     @Binding var isActive: Bool
     
     @ObservedObject var viewModel4 = OrdersViewModel()
+    
+    @ObservedObject var viewModel_Items = ItemsViewModel()
     
     var body: some View {
         GeometryReader { geometry in
@@ -118,7 +120,7 @@ struct ReviewProductPreview: View {
                                        .background(RoundedRectangle(cornerRadius: 36)
                                         .fill(Color.blue))
                                }.fullScreenCover(isPresented: $showingReviewProductScreen, content: {
-                                   ReviewProductCarousel1(showingReviewProductScreen: $showingReviewProductScreen, companyID: companyID, orderID: orderID, email: email, emailUID: userID)
+                                   ReviewProductCarousel1(showingReviewProductScreen: $showingReviewProductScreen, companyID: companyID, itemID: itemID, email: email, emailUID: userID)
                                })
                             }.padding(.bottom, 40)
                         }.padding(.top)
@@ -127,8 +129,9 @@ struct ReviewProductPreview: View {
                 }
         }.ignoresSafeArea()
         .onAppear {
-            self.viewModel4.listenForOneOrder(email: "colinjpower1@gmail.com", companyID: companyID, orderID: "BP1KvlMpXqPry3SLRvAu")
-            print("TRIGGERED THIS")
+            self.viewModel_Items.listenForOneItem(email: email, companyID: companyID, itemID: itemID)
+//            self.viewModel4.listenForOneOrder(email: "colinjpower1@gmail.com", companyID: companyID, orderID: "BP1KvlMpXqPry3SLRvAu")
+//            print("TRIGGERED THIS")
         }
         .onDisappear{
             print("Review Product Preview disappearing!!")
@@ -140,7 +143,7 @@ struct ReviewProductPreview: View {
 
 struct ReviewProductPreview_Previews: PreviewProvider {
     static var previews: some View {
-        ReviewProductPreview(companyID: "zKL7SQ0jRP8351a0NnHM", email: "colinjpower1@gmail.com", orderID: "BP1KvlMpXqPry3SLRvAu", userID: "temp user ID", isActive: .constant(true))
+        ReviewProductPreview(companyID: "zKL7SQ0jRP8351a0NnHM", email: "colinjpower1@gmail.com", itemID: "Z3GBvz1xRYuHl8Tj6Z9j", userID: "temp user ID", isActive: .constant(true))
     }
 }
 

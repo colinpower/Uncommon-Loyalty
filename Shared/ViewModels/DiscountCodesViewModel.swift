@@ -38,8 +38,8 @@ class DiscountCodesViewModel: ObservableObject, Identifiable {
         db.collection("discount")
             .addDocument(data: [
                 "code": "",
-                "companyName": companyName,
                 "companyID": companyID,
+                "companyName": companyName,
                 "discountID": "",
                 "dollarAmount": dollars,
                 "domain": domain,
@@ -50,8 +50,8 @@ class DiscountCodesViewModel: ObservableObject, Identifiable {
                 "minimumSpendRequired": 0,
                 "pointsSpent": pointsSpent,
                 "status": "PENDING",
-                "timestamp_Created": Int(round(Date().timeIntervalSince1970)),
                 "timestamp_Active": 0,
+                "timestamp_Created": Int(round(Date().timeIntervalSince1970)),
                 "timestamp_Used": 0,
                 "usageLimit": usageLimit,
                 "usedOnOrderID": "",

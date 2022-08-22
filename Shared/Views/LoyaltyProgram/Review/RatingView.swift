@@ -28,7 +28,7 @@ struct RatingView: View {
                     .foregroundColor(number > rating ? offColor : onColor)
                     .onTapGesture {
                         rating = number
-                        withAnimation(.linear(duration: 0.15)) {
+                        withAnimation(.linear(duration: 0.15).delay(0.5)) {
                             horizontalOffset -= width
                         }
                         

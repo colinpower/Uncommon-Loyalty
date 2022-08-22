@@ -262,6 +262,7 @@ class DataManager: ObservableObject {
             .order(by: "timestamp", descending: true)
             .addSnapshotListener { (querySnapshot, error) in
             guard let documents = querySnapshot?.documents else {
+                print("didn't find any documents for getMyOrders")
                 print("No documents")
                 return
             }

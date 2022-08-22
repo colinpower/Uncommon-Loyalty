@@ -210,13 +210,11 @@ struct CompanyProfileV2: View {
                                             Button {
                                                 isPrompt1Active.toggle()
                                             } label: {
-                                                Text("example 1")
-//                                                PromptCard(image: "Athleisure LA", title: "Write a review", points: 100, text: "Write a review for ldkjf aldkjfadoi a oiajdflka lkasdf a dfal alsdkfj akjdfa akdjf " + viewModel5.mySuggestedItems[index].itemID, width: geometry.size.width*1/2)
+                                                PromptCard(image: "Athleisure LA", title: "Write a review", points: 100, text: "Write a review for ldkjf aldkjfadoi a oiajdflka lkasdf a dfal alsdkfj akjdfa akdjf " + viewModel_Items.myReviewableItemsForCompany[index].itemID, width: geometry.size.width*1/2)
                                             }
-//                                            .fullScreenCover(isPresented: $isPrompt1Active) {
-                                                //ReviewProductPreview(companyID: companyID, email: email, orderID: "123", userID: userID, isActive: $isPrompt1Active)
-                                                
-//                                            }
+                                            .fullScreenCover(isPresented: $isPrompt1Active) {
+                                                ReviewProductPreview(companyID: companyID, email: email, itemID: viewModel_Items.myReviewableItemsForCompany[index].itemID, userID: userID, isActive: $isPrompt1Active)
+                                            }
                                         } else if index == 1 {
                                             Button {
                                                 isPrompt2Active.toggle()
@@ -261,7 +259,7 @@ struct CompanyProfileV2: View {
                             }
                             
                             //For each recent order, show an item
-                            ForEach(viewModel4.myOrders.prefix(5)) { Order in
+                            ForEach(viewModel4.myOrders.prefix(5).reversed()) { Order in
                                 MyRecentOrdersItem(item: Order.item_firstItemTitle, timestamp: Order.timestamp, reviewID: Order.orderID, colorToShow: colorToShow[4])
                             }
                             HStack {
