@@ -281,7 +281,7 @@ class DataManager: ObservableObject {
     
     func getOneOrder(email: String, companyID: String, orderID: String, onSuccess: @escaping([Orders]) -> Void, listener: @escaping(_ listenerHandle: ListenerRegistration) -> Void) {
         //print("this ONE function was called")
-        let listenerRegistration6 = db.collection("orders-" + companyID)
+        let listenerRegistration6 = db.collection("order")
             .whereField("email", isEqualTo: email)
             .whereField("orderID", isEqualTo: orderID)
             .addSnapshotListener { (querySnapshot, error) in

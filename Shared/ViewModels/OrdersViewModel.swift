@@ -16,10 +16,13 @@ class OrdersViewModel: ObservableObject, Identifiable {
     @Published var myOrders = [Orders]()
     @Published var oneOrder = [Orders]()
     
+    @Published var snapshotOfOrders = [Orders]()
+    @Published var snapshotOfOrder = [Orders]()
+    
     var dm = DataManager()
     
-    var listener_Orders: ListenerRegistration!
-    var listener_Orders2: ListenerRegistration!
+    var listener_MyOrders: ListenerRegistration!
+    var listener_OneOrder: ListenerRegistration!
         
     private var db = Firestore.firestore()
     
@@ -32,7 +35,7 @@ class OrdersViewModel: ObservableObject, Identifiable {
             print("this is my orders")
             print(self.myOrders)
         }, listener: { (listener5) in
-            self.listener_Orders = listener5
+            self.listener_MyOrders = listener5
         })
     }
     
@@ -45,8 +48,67 @@ class OrdersViewModel: ObservableObject, Identifiable {
             print("this is the one order")
             print(self.oneOrder)
         }, listener: { (listener6) in
-            self.listener_Orders2 = listener6
+            self.listener_OneOrder = listener6
         })
     }
+    
+    
+    
+    func snapshotOfOrders(userID: String, companyID: String) {
+        //print("this ONE function was called")
+        
+        //var ordersSnapshot = [Orders]()
+        
+        db.collection("order")
+            .whereField("userID", isEqualTo: userID)
+            .whereField("companyID", isEqualTo: companyID)
+            .whereField("timestamp", isNotEqualTo: 0)
+            .order(by: "timestamp", descending: true)
+            .getDocuments { (snapshot, error) in
+                
+                guard let snapshot = snapshot, error == nil else {
+                    //handle error
+                    print("found error in getOneOrderSnapshot")
+                    return
+                }
+                print("Number of documents: \(snapshot.documents.count ?? -1)")
+                
+                self.snapshotOfOrders = snapshot.documents.compactMap({ queryDocumentSnapshot -> Orders? in
+                    print("AT THE TRY STATEMENT")
+                    print(try? queryDocumentSnapshot.data(as: Orders.self))
+                    return try? queryDocumentSnapshot.data(as: Orders.self)
+                })
+            }
+    }
+    
+    func snapshotOfOrder(orderID: String) {
+        //print("this ONE function was called")
+        
+        //var ordersSnapshot = [Orders]()
+        
+        db.collection("order")
+            .whereField("orderID", isEqualTo: orderID)
+            .getDocuments { (snapshot, error) in
+                
+                guard let snapshot = snapshot, error == nil else {
+                    //handle error
+                    print("found error in snapshotOfOrder")
+                    return
+                }
+                print("Number of documents: \(snapshot.documents.count ?? -1)")
+                
+                self.snapshotOfOrder = snapshot.documents.compactMap({ queryDocumentSnapshot -> Orders? in
+                    print("AT THE TRY STATEMENT")
+                    print(try? queryDocumentSnapshot.data(as: Orders.self))
+                    return try? queryDocumentSnapshot.data(as: Orders.self)
+                })
+            }
+        
+    }
+
+
+    
+    
+    
     
 }

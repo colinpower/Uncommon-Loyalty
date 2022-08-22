@@ -52,8 +52,11 @@ struct CompanyProfileV2: View {
     @ObservedObject var viewModel1 = RewardsProgramViewModel()
     @ObservedObject var viewModel2 = DiscountCodesViewModel()
     @ObservedObject var viewModel3 = TransactionsViewModel()
-    @ObservedObject var viewModel4 = OrdersViewModel()
+    //@ObservedObject var ordersViewModel = OrdersViewModel()
     @ObservedObject var viewModel_Items = ItemsViewModel()
+    
+    @StateObject var ordersViewModel = OrdersViewModel()
+    
     
     @State private var hasDiscountsCreated = false
     
@@ -85,6 +88,11 @@ struct CompanyProfileV2: View {
                 ScrollView(.vertical, showsIndicators: false) {
                     
                     VStack(alignment: .leading) {
+                        
+//                        NavigationLink(destination: Orders_One(email: "colinjpower1@gmail.com", companyID: "zKL7SQ0jRP8351a0NnHM", orderID: "0aLyC3D7wXp8cuZMhtmM")) {
+//                                Text("click here to see an order")
+//                        }
+                        
                         
                         //MARK: TOP CARD W/CURRENT POINTS
                         VStack(alignment: .leading) {
@@ -259,8 +267,12 @@ struct CompanyProfileV2: View {
                             }
                             
                             //For each recent order, show an item
-                            ForEach(viewModel4.myOrders.prefix(5).reversed()) { Order in
-                                MyRecentOrdersItem(item: Order.item_firstItemTitle, timestamp: Order.timestamp, reviewID: Order.orderID, colorToShow: colorToShow[4])
+                            
+                            ForEach(ordersViewModel.snapshotOfOrders.prefix(5)) { Order in
+                                
+                                NavigationLink(destination: Orders_One(email: email, companyID: companyID, orderID: Order.orderID)) {
+                                    MyRecentOrdersItem(item: Order.item_firstItemTitle, timestamp: Order.timestamp, reviewID: Order.orderID, colorToShow: colorToShow[4])
+                                }
                             }
                             HStack {
                                 Spacer()
@@ -285,6 +297,11 @@ struct CompanyProfileV2: View {
                         VStack {
                             
                             //Item 1: Name
+                            
+                            NavigationLink(destination: History(companyID: companyID, email: email, isHistoryActive: $isHistoryActive)) {
+                                WideWidgetItem(image: "clock.fill", size: 20, color: Color("Dark1"), title: "History").padding(.bottom).padding(.bottom)
+                            }
+                            
                             Button {
                                 isHistoryActive.toggle()
                             } label: {
@@ -345,11 +362,11 @@ struct CompanyProfileV2: View {
             self.viewModel1.listenForOneRewardsProgram(email: "colinjpower1@gmail.com", companyID: companyID)
             self.viewModel2.listenForMyDiscountCodes(email: "colinjpower1@gmail.com", companyID: companyID)
             self.viewModel3.listenForMyTransactions(email: "colinjpower1@gmail.com", companyID: companyID)
-            //self.viewModel3.listenForLast60DaysTransactions(email: "colinjpower1@gmail.com", companyID: companyID)
-            self.viewModel4.listenForMyOrders(email: "colinjpower1@gmail.com", companyID: companyID)
             self.viewModel_Items.listenForMyReviewableItemsForCompany(email: email, companyID: companyID)
-            //self.viewModel_Items.listenForMyItems(email: "colinjpower1@gmail.com", companyID: companyID)
-            //print(self.viewModel3.myTransactions)
+            
+            //self.ordersViewModel.listenForMyOrders(email: "colinjpower1@gmail.com", companyID: companyID)
+            
+            self.ordersViewModel.snapshotOfOrders(userID: userID, companyID: companyID)
         }
         .onDisappear {
             if self.viewModel1.listener2 != nil {
@@ -368,9 +385,9 @@ struct CompanyProfileV2: View {
 //                print("REMOVING LISTENER_TRANSACTIONS7")
 //                self.viewModel3.listener_Transactions7.remove()
 //            }
-            if self.viewModel4.listener_Orders != nil {
+            if self.ordersViewModel.listener_MyOrders != nil {
                 print("REMOVING LISTENER_ORDERS")
-                self.viewModel4.listener_Orders.remove()
+                self.ordersViewModel.listener_MyOrders.remove()
             }
             if self.viewModel_Items.listener_MyReviewableItemsForCompany != nil {
                 print("REMOVING LISTENER_ITEMS")

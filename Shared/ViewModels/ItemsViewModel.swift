@@ -19,6 +19,9 @@ class ItemsViewModel: ObservableObject, Identifiable {
     @Published var myReferableItemsForCompany = [Items]()
     @Published var oneItem = [Items]()
     
+    
+    @Published var snapshotOfItem = [Items]()
+    
     var dm = DataManager()
     
     var listener_MyItems: ListenerRegistration!
@@ -92,6 +95,31 @@ class ItemsViewModel: ObservableObject, Identifiable {
         }, listener: { (listener12) in
             self.listener_OneItem = listener12
         })
+    }
+    
+    
+    func getSnapshotOfItem(itemID: String) {
+        //print("this ONE function was called")
+        
+        
+        db.collection("item")
+            .whereField("itemID", isEqualTo: itemID)
+            .getDocuments { (snapshot, error) in
+                
+                guard let snapshot = snapshot, error == nil else {
+                    //handle error
+                    print("found error in snapshotOfItem")
+                    return
+                }
+                print("Number of documents: \(snapshot.documents.count ?? -1)")
+                
+                self.snapshotOfItem = snapshot.documents.compactMap({ queryDocumentSnapshot -> Items? in
+                    print("AT THE TRY STATEMENT FOR ITEMS")
+                    print(try? queryDocumentSnapshot.data(as: Items.self))
+                    return try? queryDocumentSnapshot.data(as: Items.self)
+                })
+            }
+        
     }
     
 }

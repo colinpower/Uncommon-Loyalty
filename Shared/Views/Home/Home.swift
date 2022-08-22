@@ -17,43 +17,48 @@ struct Home: View {
     
     @EnvironmentObject var viewModel: AppViewModel
     
-    @ObservedObject var viewModel1 = RewardsProgramViewModel()
+    //Listeners for updates
+    @ObservedObject var rewardsProgramViewModel = RewardsProgramViewModel()
     @ObservedObject var reviewsViewModel = ReviewsViewModel()
     @ObservedObject var itemsViewModel = ItemsViewModel()
     
+    
+    //For the clever pop up things
     @Namespace var namespace1
     @Namespace var namespace2
-    
-    @State var isAddCompanyActive:Bool = false
-    @State var isAddCompanyPreviewActive:Bool = false
-    @State var isProfileActive:Bool = false
-    @State var isSendFeedbackActive:Bool = false
     @State var isFeaturedWidget1Active:Bool = false
     @State var isFeaturedWidget2Active:Bool = false
-    @State var showFirstRunExperience:Bool = true
     
+    //Initialize variables
+    @State var isAddCompanyActive:Bool = false
+    @State var isAddCompanyPreviewActive:Bool = false               //might not need this one? Can create a dif @State var on the AddCompany screen
+    @State var isProfileActive:Bool = false
+    @State var isSendFeedbackActive:Bool = false
+    
+    
+    //Remove this one
+    @State var showFirstRunExperience:Bool = true
     
     
     //TEMP VAR
     @State var isShowingDetailView = false
-    @State private var selection: String? = nil
 
     
     var body: some View {
         
         NavigationView{
             GeometryReader { geometry in
-                
                 ZStack(alignment: .top) {
                     
-                    //MARK: Background color
+                    
+                    //MARK: ZStack Layer 1 - Background
                     Color("Background")
                     
-                    //the content on top of the background
+                    //MARK: ZStack Layer 2 - Content
                     VStack(alignment: .leading) {
                         
                         
-                        //MARK: Header
+                        //MARK: VStack Section 1 - Header
                         HStack{
                             Text("Home")
                                 .font(.system(size: 24))
@@ -72,7 +77,7 @@ struct Home: View {
                         }.padding(.top, 60).padding(.horizontal)
                         
                         
-                        //this is the start of the scrollview with all the content
+                        //MARK: VStack Section 2 - Scrollview
                         ScrollView(.vertical, showsIndicators: false) {
                             
                             
@@ -91,22 +96,22 @@ struct Home: View {
 
                                     } label: {
                                         
-                                        if viewModel1.myRewardsPrograms.first == nil {
+                                        if rewardsProgramViewModel.myRewardsPrograms.first == nil {
                                             Text("Add")
                                                 .font(.system(size: 16))
                                                 .fontWeight(.semibold)
                                                 .foregroundColor(Color.white)
                                                 .padding(.vertical, 6)
                                                 .padding(.horizontal, 12)
-                                                .background(RoundedRectangle(cornerRadius: 19).foregroundColor(Color("ThemeAction")))
+                                                .background(RoundedRectangle(cornerRadius: 19).foregroundColor(Color("ThemePrimary")))
                                         } else {
                                             Text("Add")
                                                 .font(.system(size: 16))
                                                 .fontWeight(.semibold)
-                                                .foregroundColor(Color("Dark1"))
+                                                .foregroundColor(Color(.white))
                                                 .padding(.vertical, 6)
                                                 .padding(.horizontal, 12)
-                                                .background(RoundedRectangle(cornerRadius: 19).foregroundColor(Color("Background")))
+                                                .background(RoundedRectangle(cornerRadius: 19).foregroundColor(Color("ThemeAction")))
                                         }
                                     }.fullScreenCover(isPresented: $isAddCompanyPreviewActive, content: {
                                         AddCompanyPreview(isAddCompanyPreviewActive: $isAddCompanyPreviewActive)
@@ -116,7 +121,7 @@ struct Home: View {
                                 //Body
                                 VStack {
                                     
-                                    ForEach(viewModel1.myRewardsPrograms) { RewardsProgram in
+                                    ForEach(rewardsProgramViewModel.myRewardsPrograms) { RewardsProgram in
                                         
                                         
                                         NavigationLink(destination: CompanyProfileV2(companyID: RewardsProgram.companyID, companyName: RewardsProgram.companyName, email: RewardsProgram.email, userID: RewardsProgram.userID)) {
@@ -227,16 +232,16 @@ struct Home: View {
             .navigationTitle("")
             .navigationBarHidden(true)
             .onAppear {
-                self.viewModel1.listenForMyRewardsPrograms(email: viewModel.email ?? "")
+                self.rewardsProgramViewModel.listenForMyRewardsPrograms(email: viewModel.email ?? "")
                 print("CURRENT USER IS")
                 print(viewModel.email ?? "")
                 
             }
             .onDisappear {
                 print("DISAPPEAR")
-                if self.viewModel1.listener1 != nil {
+                if self.rewardsProgramViewModel.listener1 != nil {
                     print("REMOVING LISTENER")
-                    self.viewModel1.listener1.remove()
+                    self.rewardsProgramViewModel.listener1.remove()
                 }
                 
             }
