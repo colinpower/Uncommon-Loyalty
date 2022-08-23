@@ -7,6 +7,8 @@
 
 import SwiftUI
 import Foundation
+import SDWebImageSwiftUI
+import FirebaseStorage
 
 struct SheetHeader: View {
     
@@ -227,38 +229,42 @@ struct PromptCard: View {
     var image:String
     var title:String
     var points:Int
-    var text: String
-    var width: CGFloat
+    var itemID: String
+    //private var urlForItem: String = ""
+    
+    
+    
     
     var body: some View {
         VStack(alignment: .leading) {
-            //Top part / header
-            HStack (alignment: .center) {
-                Image(image)
-                    .resizable()
-                    .scaledToFill()
-                    .frame(width: 32, height: 32, alignment: .center)
-                    .clipped()
-                    .cornerRadius(32)
-                    .padding(.trailing, 3)
-                VStack(alignment: .leading) {
-                    Text(title)
-                        .font(.system(size: 16))
-                        .fontWeight(.semibold)
-                        .foregroundColor(Color("Dark1"))
-                    Text("+" + String(points))
-                        .font(.system(size: 14))
-                        .fontWeight(.semibold)
-                        .foregroundColor(Color("ThemeBright"))
-                }
-            }.padding(.bottom)
-            Text(text)
+            
+            //MARK: THE IMAGE
+            ZStack {
+//                if urlForItem != "" {
+//                    WebImage(url: URL(string: urlForItem)!)
+//                        .resizable()
+//                        .aspectRatio(contentMode: .fit)
+//                        .cornerRadius(30)
+//                        .frame(height: 250)
+//                } else {
+                    Image("AthleisureJogger")
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .cornerRadius(30)
+                        .frame(height: 150)
+//                }
+            }
+            
+            Text("Write a review")
                 .font(.system(size: 16))
-                .fontWeight(.regular)
+                .fontWeight(.semibold)
                 .foregroundColor(Color("Dark1"))
-                .lineLimit(3)
-                .multilineTextAlignment(.leading)
-        }.frame(width: width, height: 120)
+            Text("+" + String(points) + "points")
+                .font(.system(size: 14))
+                .fontWeight(.semibold)
+                .foregroundColor(Color("ThemeBright"))
+            
+        }.frame(width: 130, height: 180)
         .padding()
         .background(RoundedRectangle(cornerRadius: 16).foregroundColor(.white))
         .padding(.trailing, 8)

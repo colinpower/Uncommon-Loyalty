@@ -154,11 +154,11 @@ struct CompanyProfileV2: View {
                                             Text("Open website")
                                                 .font(.system(size: 16))
                                                 .fontWeight(.semibold)
-                                                .foregroundColor(.white)
+                                                .foregroundColor(Color("Dark1"))
                                         }
                                         Spacer()
                                     }.padding(.vertical, 12)
-                                        .background(RoundedRectangle(cornerRadius: 32).foregroundColor(Color("ThemeBright")))
+                                        .background(RoundedRectangle(cornerRadius: 32).foregroundColor(Color("Background")))
                                 }
                             }
                         }.padding()
@@ -295,6 +295,7 @@ struct CompanyProfileV2: View {
                         //MARK: RECOMMENDED ACTIONS (IF ANY)
                         //If empty, show the empty state
                         
+                        //Handle empty state
                         if viewModel_Items.myReviewableItemsForCompany.isEmpty {
                             Text("No recommended actions")
                         }
@@ -309,11 +310,11 @@ struct CompanyProfileV2: View {
                                             Button {
                                                 isPrompt1Active.toggle()
                                             } label: {
-                                                PromptCard(image: "Athleisure LA", title: "Write a review", points: 100, text: "Write a review for ldkjf aldkjfadoi a oiajdflka lkasdf a dfal alsdkfj akjdfa akdjf " + viewModel_Items.myReviewableItemsForCompany[index].itemID, width: geometry.size.width*1/2)
+                                                PromptCard(image: "Athleisure LA", title: "Write a review", points: 100, itemID: viewModel_Items.myReviewableItemsForCompany[index].itemID)
                                             }
-                                            .fullScreenCover(isPresented: $isPrompt1Active) {
-                                                ReviewProductPreview(companyID: companyID, email: email, itemID: viewModel_Items.myReviewableItemsForCompany[index].itemID, userID: userID, isActive: $isPrompt1Active)
-                                            }
+//                                            .fullScreenCover(isPresented: $isPrompt1Active) {
+//                                                ReviewProductPreview(companyID: companyID, email: email, itemID: viewModel_Items.myReviewableItemsForCompany[index].itemID, userID: userID, isActive: $isPrompt1Active)
+//                                            }
                                         } else if index == 1 {
                                             Button {
                                                 isPrompt2Active.toggle()
@@ -447,11 +448,12 @@ struct CompanyProfileV2: View {
                             isReferACompanyActive.toggle()
                         } label: {
                             Text("Get $20")
-                                .font(.system(size: 16))
+                                .font(.system(size: 14))
                                 .fontWeight(.semibold)
-                                .foregroundColor(Color("ThemeLight"))
-                                .padding(.all, 6)
-                                .background(RoundedRectangle(cornerRadius: 16).foregroundColor(Color("ThemeAction")))
+                                .foregroundColor(Color("ThemeAction"))
+                                .padding(.vertical, 6)
+                                .padding(.horizontal)
+                                .background(RoundedRectangle(cornerRadius: 16).foregroundColor(Color("ThemeLight")))
                         }.fullScreenCover(isPresented: $isReferACompanyActive) {
                             ReferAFriend(companyID: companyID, companyName: "alsdkfjsad", isReferCompanyActive: $isReferACompanyActive)
                         }

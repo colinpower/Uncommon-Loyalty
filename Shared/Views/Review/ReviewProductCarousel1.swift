@@ -24,7 +24,11 @@ struct ReviewProductCarousel1: View {
     
     @State private var blinkingOKButton: Bool = false
     
-    @State var pointsEarned: Int = 0
+    @State var pointsEarned: Double = 0
+    
+    //@State var numberOfTotalQuestions: Int = 3
+    @State var questionsArray: [String] = [String](repeating: "", count: 3)
+    @State var answersArray: [String] = [String](repeating: "", count: 3)
     
     
     var companyID: String
@@ -67,18 +71,26 @@ struct ReviewProductCarousel1: View {
 
                         //MARK: LEFT/RIGHT ARROWS + SCOREBOARD
                         HStack {
+                            //MARK: LEFT ARROW
                             Button {
                                 withAnimation(.linear(duration: 0.15)) {
                                     horizontalOffset = calculateNewHorizontalOffset(currentHorizontalOffset: horizontalOffset, numberOfQuestions: numberOfScreens, screenWidth: screenWidth, moveToTheRight: false)
                                     
                                     //horizontalOffset += geometry.size.width
                                 }
+                                hideKeyboard()
                             } label: {
-                                Image(systemName: "arrow.left.circle.fill")
-                                    .foregroundColor(Color("ThemeBright"))
-                                    .font(Font.system(size: 40, weight: .semibold))
+                                ZStack {
+                                    Circle()
+                                        .foregroundColor(.white)
+                                        .frame(width: 32, height: 32, alignment: .center)
+                                    Image(systemName: "arrow.left.circle.fill")
+                                        .foregroundColor(horizontalOffset == screenWidth ? Color("Dark2") : Color("ThemeBright"))
+                                        .font(Font.system(size: 40, weight: .semibold))
+                                }
                             }.disabled(horizontalOffset == screenWidth)
 
+                            //MARK: RIGHT ARROW
                             Button {
                                 withAnimation(.linear(duration: 0.15)) {
 
@@ -87,22 +99,26 @@ struct ReviewProductCarousel1: View {
                                     
                                     //horizontalOffset -= geometry.size.width
                                 }
+                                hideKeyboard()
                             } label: {
                                 ZStack {
                                     Circle()
                                         .foregroundColor(.white)
                                         .frame(width: 32, height: 32, alignment: .center)
                                     Image(systemName: "arrow.right.circle.fill")
-                                        .foregroundColor(Color("ThemeBright"))
+                                        .foregroundColor(horizontalOffset == (screenWidth - (screenWidth * CGFloat(numberOfScreens - 1))) ? Color("Dark2") : Color("ThemeBright"))
                                         .font(Font.system(size: 40, weight: .semibold))
-                                }
+                                }.opacity(rating == 0 ? 0 : 1)
                             }.disabled(horizontalOffset == (screenWidth - (screenWidth * CGFloat(numberOfScreens - 1))))
                             
                             Spacer()
-                            Text("150 points")
-                                .font(.system(size: 16))
-                                .fontWeight(.semibold)
-                                .foregroundColor(Color("Dark1"))
+                            
+                            //MARK: POINTS
+                            VStack {
+                                Color.clear
+                                    .frame(width: screenWidth/2, height: 96)
+                                    .animatingOverlay(for: pointsEarned)
+                            }
                         }
                         .padding(.horizontal)
                         .frame(height: 96)
@@ -115,42 +131,35 @@ struct ReviewProductCarousel1: View {
                         
                         //MARK: PAGE 1 (Title and First Question)
                         VStack (alignment: .leading) {
-                            
-                            HStack(alignment: .center) {
-                
+                                //MARK: EVERYTHING IN QUESTION 1
                                 VStack(alignment: .leading) {
                                     Text("1 / 3")
-                                        .foregroundColor(Color("Dark1"))
+                                        .foregroundColor(.white)
                                         .font(.headline)
                                         .padding(.bottom, 48)
                                     Text("What would you rate this item?")
-                                        .foregroundColor(Color(red: 20/255, green: 52/255, blue: 97/255))
+                                        .foregroundColor(.white)
                                         .font(.title3)
                                         .fontWeight(.semibold)
                                     Text("1 = Not good, 5 = Amazing")
-                                        .foregroundColor(Color(red: 20/255, green: 52/255, blue: 97/255))
+                                        .foregroundColor(.white)
                                         .font(.body)
                                         .italic()
                                         .padding(.bottom, 24)
-                                    RatingView(rating: $rating, width: screenWidth, horizontalOffset: $horizontalOffset)   //try passing $blinkingOKButton into the rating view
-                
-                                    Divider().opacity(0.0)
-                                        .padding(.bottom, 24)
-                
+                                    RatingView(rating: $rating, width: screenWidth, horizontalOffset: $horizontalOffset, questionsArray: $questionsArray, answersArray: $answersArray, pointsEarned: $pointsEarned)                //try passing $blinkingOKButton into the rating view
+                                        .padding(.bottom)
+                                    
+                                    //MARK: THE OK BUTTON
                                     HStack {
                                         Spacer()
+                                        
                                         Button {
-                                            //withAnimation(scaleEffect(1.1))
-                                            //.scaleEffect(1.1)
-                                            withAnimation(.easeInOut(duration: 0.12).repeatCount(3, autoreverses: true)) {
-                                                blinkingOKButton.toggle()
+                                            withAnimation(.linear(duration: 0.15)) {
+                                                horizontalOffset = calculateNewHorizontalOffset(currentHorizontalOffset: horizontalOffset, numberOfQuestions: numberOfScreens, screenWidth: screenWidth, moveToTheRight: true)
                                             }
-                
-                                            withAnimation(.linear(duration: 0.15).delay(0.6)) {
-                                                blinkingOKButton = false
-                                                horizontalOffset -= geometry.size.width
-                                            }
-                                            //.animation(.easeInOut(duration: 0.2), value: rating)
+                                            
+                                            print(questionsArray)
+                                            print(answersArray)
                                         } label: {
                                             HStack {
                                                 Text("OK")
@@ -161,16 +170,200 @@ struct ReviewProductCarousel1: View {
                                                     .font(.headline)
                                             }.padding()
                                             .background(RoundedRectangle(cornerRadius: 8)
-                                                .fill(self.rating == 0 ? Color("Gray2") : Color("ThemeBright")))
-                                            .opacity(blinkingOKButton ? 0 : 1)
-                                        }.disabled(self.rating == 0)
+                                                .fill(Color("ThemeBright")))
+                                        }   //.disabled(self.rating == 0)
                                     }
                                 }
-                
-                            }.padding(.horizontal)
+                                .padding(.horizontal)
+               
                             Spacer()
-                        }
-                            .frame(width: UIScreen.main.bounds.width, alignment: .center)
+                        }.frame(width: UIScreen.main.bounds.width, alignment: .center)
+                        
+                        
+                        
+                        //MARK: PAGE 2 (Second Question)
+                        VStack (alignment: .leading) {
+                            VStack(alignment: .leading) {
+                                Text("2 / 3")
+                                    .foregroundColor(.white)
+                                    .font(.headline)
+                                    .padding(.bottom, 48)
+                                Text("How would you describe the quality of the fabric?")
+                                    .foregroundColor(.white)
+                                    .font(.title3)
+                                    .fontWeight(.semibold)
+                                    .padding(.bottom, 24)
+                                TextField("Write here...", text: $response1)
+                                    .textFieldStyle(RoundedBorderTextFieldStyle())
+                                    .padding(.bottom, 24)
+                                    .onSubmit {
+                                        if answersArray[1].isEmpty {
+                                            withAnimation {
+                                                pointsEarned = pointsEarned + 100
+                                            }
+                                        }
+                                        
+                                        
+                                        if !response1.isEmpty {
+                                            questionsArray[1] = ("How would you describe the quality of the fabric?")
+                                            answersArray[1] = (response1)
+                                        }
+                                        
+                                        
+                                        withAnimation(.linear(duration: 0.15)) {
+                                            horizontalOffset = calculateNewHorizontalOffset(currentHorizontalOffset: horizontalOffset, numberOfQuestions: numberOfScreens, screenWidth: screenWidth, moveToTheRight: true)
+                                        }
+                                        hideKeyboard()
+                                    }
+                                    .submitLabel(.done)
+                                    
+            
+                                HStack {
+                                    Spacer()
+                                    Button {
+                                        if answersArray[1].isEmpty {
+                                            withAnimation {
+                                                pointsEarned = pointsEarned + 100
+                                            }
+                                        }
+                                        
+                                        
+                                        
+                                        if !response1.isEmpty {
+                                            questionsArray[1] = ("How would you describe the quality of the fabric?")
+                                            answersArray[1] = (response1)
+                                            
+                                        }
+                                        
+                                        withAnimation(.linear(duration: 0.15)) {
+                                            horizontalOffset = calculateNewHorizontalOffset(currentHorizontalOffset: horizontalOffset, numberOfQuestions: numberOfScreens, screenWidth: screenWidth, moveToTheRight: true)
+                                        }
+                                        
+                                        
+                                        
+                                        hideKeyboard()
+                                        print(questionsArray)
+                                        print(answersArray)
+                                    } label: {
+                                        HStack {
+                                            Text("OK")
+                                                .foregroundColor(.white)
+                                                .font(.headline)
+                                            Image(systemName: "checkmark")
+                                                .foregroundColor(.white)
+                                                .font(.headline)
+                                        }.padding()
+                                        .background(RoundedRectangle(cornerRadius: 8)
+                                            .fill(Color("ThemeBright")))
+                                    }
+                                }
+                            }.padding(.horizontal)
+
+                            Spacer()
+                        }.frame(width: UIScreen.main.bounds.width, alignment: .center)
+                        
+                        
+                        
+                        //MARK: PAGE 3 (Third Question)
+                        VStack (alignment: .leading) {
+                            VStack(alignment: .leading) {
+                                Text("3 / 3")
+                                    .foregroundColor(.white)
+                                    .font(.headline)
+                                    .padding(.bottom, 48)
+                                
+                                Text("How was the shipping process?")
+                                    .foregroundColor(.white)
+                                    .font(.title3)
+                                    .fontWeight(.semibold)
+                                    .padding(.bottom, 24)
+                                TextField("Write here...", text: $response2)
+                                    .textFieldStyle(RoundedBorderTextFieldStyle())
+                                    .padding(.bottom, 24)
+                                    .onSubmit {
+                                        if answersArray[2].isEmpty {
+                                            withAnimation {
+                                                pointsEarned = pointsEarned + 100
+                                            }
+                                        }
+                                        
+                                        
+                                        if !response2.isEmpty {
+                                            questionsArray[2] = ("How was the shipping process?")
+                                            answersArray[2] = (response2)
+                                        }
+                                        
+                                        
+//                                        withAnimation(.linear(duration: 0.15)) {
+//                                            horizontalOffset = calculateNewHorizontalOffset(currentHorizontalOffset: horizontalOffset, numberOfQuestions: numberOfScreens, screenWidth: screenWidth, moveToTheRight: true)
+//                                        }
+                                        hideKeyboard()
+                                        
+                                        //Post back to the reviews viewmodel
+                                        
+                                        reviewsViewModel.addReview(companyID: companyID, email: email, itemID: itemID, reviewRating: rating, questionsArray: questionsArray, responsesArray: answersArray, reviewTitle: answersArray[1], userID: emailUID)
+                                        
+                                        //Dismiss the prompt
+                                        
+                                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) {
+                                            showingReviewProductScreen = false
+                                        }
+                                                                                
+                                        
+                                        
+                                    }
+                                    .submitLabel(.done)
+                                    
+            
+                                HStack {
+                                    Spacer()
+                                    Button {
+                                        if answersArray[2].isEmpty {
+                                            withAnimation {
+                                                pointsEarned = pointsEarned + 100
+                                            }
+                                        }
+                                        
+                                        if !response2.isEmpty {
+                                            questionsArray[2] = ("How was the shipping process?")
+                                            answersArray[2] = (response2)
+                                        }
+                                        
+                                        
+//                                        withAnimation(.linear(duration: 0.15)) {
+//                                            horizontalOffset = calculateNewHorizontalOffset(currentHorizontalOffset: horizontalOffset, numberOfQuestions: numberOfScreens, screenWidth: screenWidth, moveToTheRight: true)
+//                                        }
+                                        hideKeyboard()
+                                        print(questionsArray)
+                                        print(answersArray)
+                                        
+                                        //Post back to the reviews viewmodel
+                                        
+                                        reviewsViewModel.addReview(companyID: companyID, email: email, itemID: itemID, reviewRating: rating, questionsArray: questionsArray, responsesArray: answersArray, reviewTitle: answersArray[1], userID: emailUID)
+                                        
+                                        //Dismiss the prompt
+                                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) {
+                                            showingReviewProductScreen = false
+                                        }
+                                        
+                                        
+                                    } label: {
+                                        HStack {
+                                            Text("Submit")
+                                                .foregroundColor(.white)
+                                                .font(.headline)
+                                            Image(systemName: "checkmark")
+                                                .foregroundColor(.white)
+                                                .font(.headline)
+                                        }.padding()
+                                        .background(RoundedRectangle(cornerRadius: 8)
+                                            .fill(Color("ThemeBright")))
+                                    }
+                                }
+                            }.padding(.horizontal)
+
+                            Spacer()
+                        }.frame(width: UIScreen.main.bounds.width, alignment: .center)
                         
                         
                         
@@ -178,10 +371,9 @@ struct ReviewProductCarousel1: View {
                         
                         
                         
-                        Rectangle().foregroundColor(.green)
-                            .frame(width: UIScreen.main.bounds.width)
-                        Rectangle().foregroundColor(.yellow)
-                            .frame(width: UIScreen.main.bounds.width)
+                        
+//                        Rectangle().foregroundColor(.yellow)
+//                            .frame(width: UIScreen.main.bounds.width)
                     }.frame(width: UIScreen.main.bounds.width*3, height: UIScreen.main.bounds.height - CGFloat(200))
                         .offset(x:horizontalOffset)
                 //Content HStack section
@@ -198,6 +390,8 @@ struct ReviewProductCarousel1: View {
             print(String(Int(UIScreen.main.bounds.width)))
             print("screenWidth Variable")
             print(String(Int(screenWidth)))
+            
+            
         }
     }
     
@@ -237,6 +431,14 @@ struct ReviewProductCarousel1: View {
     
 }
 
+extension View {
+    func animatingOverlay(for number: Double) -> some View {
+        modifier(AnimatableNumberModifier(number: number))
+    }
+}
+
+
+
 struct ReviewProductCarousel1_Previews: PreviewProvider {
     static var previews: some View {
         Group {
@@ -257,184 +459,20 @@ extension View {
 
 
 
-
-//
-////Pages that you scroll through
-////                ScrollView(.horizontal) {
-//    HStack(spacing: 0) {
-//        //MARK: PAGE 1 (Title and First Question)
-//        VStack (alignment: .leading) {
-//            Spacer()
-//            HStack(alignment: .center) {
-//
-//                VStack(alignment: .leading) {
-//                    Text("1 / 3")
-//                        .foregroundColor(Color("Dark1"))
-//                        .font(.headline)
-//                        .padding(.bottom, 48)
-//                    Text("What would you rate this item?")
-//                        .foregroundColor(Color(red: 20/255, green: 52/255, blue: 97/255))
-//                        .font(.title3)
-//                        .fontWeight(.semibold)
-//                    Text("1 = Not good, 5 = Amazing")
-//                        .foregroundColor(Color(red: 20/255, green: 52/255, blue: 97/255))
-//                        .font(.body)
-//                        .italic()
-//                        .padding(.bottom, 24)
-//                    RatingView(rating: $rating, width: geometry.size.width, horizontalOffset: $horizontalOffset)   //try passing $blinkingOKButton into the rating view
-//
-//                    Divider().opacity(0.0)
-//                        .padding(.bottom, 24)
-//
-//                    HStack {
-//                        Spacer()
-//                        Button {
-//                            //withAnimation(scaleEffect(1.1))
-//                            //.scaleEffect(1.1)
-//                            withAnimation(.easeInOut(duration: 0.12).repeatCount(3, autoreverses: true)) {
-//                                blinkingOKButton.toggle()
-//                            }
-//
-//                            withAnimation(.linear(duration: 0.15).delay(0.6)) {
-//                                blinkingOKButton = false
-//                                horizontalOffset -= geometry.size.width
-//                            }
-//                            //.animation(.easeInOut(duration: 0.2), value: rating)
-//                        } label: {
-//                            HStack {
-//                                Text("OK")
-//                                    .foregroundColor(.white)
-//                                    .font(.headline)
-//                                Image(systemName: "checkmark")
-//                                    .foregroundColor(.white)
-//                                    .font(.headline)
-//                            }.padding()
-//                            .background(RoundedRectangle(cornerRadius: 8)
-//                                .fill(self.rating == 0 ? Color("Gray2") : Color("ThemeBright")))
-//                            .opacity(blinkingOKButton ? 0 : 1)
-//                        }.disabled(self.rating == 0)
-//                    }
-//                }
-//
-//            }.padding(.horizontal)
-//            Spacer()
-//        }.frame(width: geometry.size.width, height: geometry.size.height, alignment: .center)
-//            .offset(x: horizontalOffset)
-//
-//
-//        //MARK: PAGE 2 (Second Question)
-//        VStack (alignment: .leading) {
-//            Spacer()
-//            HStack(alignment: .center) {
-//
-//                VStack(alignment: .leading) {
-//                    Text("2 / 3")
-//                        .foregroundColor(Color("Dark1"))
-//                        .font(.headline)
-//                        .padding(.bottom, 48)
-//                    Text("How would you describe the quality of the fabric?")
-//                        .foregroundColor(Color(red: 20/255, green: 52/255, blue: 97/255))
-//                        .font(.title3)
-//                        .fontWeight(.semibold)
-//                        .padding(.bottom, 24)
-//                    TextField("Write here...", text: $response1)
-//                        .textFieldStyle(RoundedBorderTextFieldStyle())
-//                        .padding(.bottom, 24)
-//
-//                    HStack {
-//                        Button {
-//                            withAnimation(.linear(duration: 0.15)) {
-//                                horizontalOffset += geometry.size.width
-//                            }
-//                        } label: {
-//                            Image(systemName: "arrow.left.circle.fill")
-//                                .foregroundColor(Color("ThemeBright"))
-//                                .font(Font.system(size: 40, weight: .semibold))
-//                        }.disabled(horizontalOffset == 0)
-//                        Spacer()
-//                        Button {
-//                            withAnimation(.linear(duration: 0.15).delay(0.5)) {
-//                                horizontalOffset -= geometry.size.width
-//                                hideKeyboard()
-//                            }
-//                        } label: {
-//                            HStack {
-//                                Text("OK")
-//                                    .foregroundColor(.white)
-//                                    .font(.headline)
-//                                Image(systemName: "checkmark")
-//                                    .foregroundColor(.white)
-//                                    .font(.headline)
-//                            }.padding()
-//                            .background(RoundedRectangle(cornerRadius: 8)
-//                                //.fill(Color("ThemeBright"))
-//                                .fill(self.response1 == "" ? Color("Gray2") : Color("ThemeBright")))
-//                        }
-//                    }
-//                }
-//
-//            }.padding(.horizontal)
-//            Spacer()
-//        }.frame(width: geometry.size.width, height: geometry.size.height, alignment: .center)
-//            .offset(x: horizontalOffset)
-//
-//
-//        //MARK: Page 3 (final question and completion)
-//        VStack (alignment: .leading) {
-//            Spacer()
-//            HStack(alignment: .center) {
-//
-//                //The stacked question + button
-//                VStack(alignment: .center) {
-//
-//                    //The section above
-//                    VStack(alignment: .leading) {
-//                        Text("3 / 3")
-//                            .foregroundColor(Color("Dark1"))
-//                            .font(.headline)
-//                            .padding(.bottom, 48)
-//                        Text("How was the shipping process?")
-//                            .foregroundColor(Color(red: 20/255, green: 52/255, blue: 97/255))
-//                            .font(.title3)
-//                            .fontWeight(.semibold)
-//                            .padding(.bottom, 24)
-//                        TextField("Write here...", text: $response2)
-//                            .textFieldStyle(RoundedBorderTextFieldStyle())
-//                            .padding(.bottom, 24)
-//                        Divider()
-//                            .padding(.bottom, 24)
-//                    }
-//
-//                    //Submit Button
-//                    HStack {
-//                        Spacer()
-//                        Button {
-//                            //NEED TO POST BACK TO FIREBASE HERE
-//                            reviewsViewModel.addReview(companyID: companyID, email: email, itemID: itemID, reviewRating: rating, questionsArray: ["q1", "q2"], responsesArray: [response1, response2], reviewTitle: "blank title", userID: emailUID)
-//                            rewardsProgramViewModel.updateLoyaltyPointsForReason(userID: emailUID, companyID: companyID, changeInPoints: 100, reason: "SubmittedReview")
-//                            showingReviewProductScreen = false
-//                        } label: {
-//                            HStack {
-//                                Text("Submit")
-//                                    .foregroundColor(.white)
-//                                    .font(.headline)
-//                                Image(systemName: "checkmark")
-//                                    .foregroundColor(.white)
-//                                    .font(.headline)
-//                            }.padding()
-//                            .padding(.horizontal, 32)
-//                            .background(RoundedRectangle(cornerRadius: 8)
-//                            .fill(Color(red: 20/255, green: 52/255, blue: 97/255)))
-//                        }
-//                    }
-//
-//                }
-//
-//            }.padding(.horizontal)
-//            Spacer()
-//        }.frame(width: geometry.size.width, height: geometry.size.height, alignment: .center)
-//            .offset(x: horizontalOffset)
-//    }
-//    .frame(width: geometry.size.width*3)
-//    .ignoresSafeArea(.keyboard)
-////                }
+struct AnimatableNumberModifier: AnimatableModifier {
+    var number: Double
+    
+    var animatableData: Double {
+        get { number }
+        set { number = newValue }
+    }
+    
+    func body(content: Content) -> some View {
+        content
+            .overlay(
+                Text("\(Int(number))")
+                    .font(.system(size: 72, weight: .bold))
+                    .foregroundColor(Color("ThemePrimary"))
+            )
+    }
+}

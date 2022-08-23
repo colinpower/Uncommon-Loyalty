@@ -23,11 +23,9 @@ struct ReferAFriend: View {
     var body: some View {
         VStack (alignment: .leading) {
             
-            Button {
-                isReferCompanyActive = false
-            } label: {
-                Image(systemName: "xmark")
-            }
+            SheetHeader(title: "Refer A Friend", isActive: $isReferCompanyActive)
+                .padding(.bottom)
+                .padding(.bottom)
             
             
             HStack {
@@ -77,62 +75,12 @@ struct ReferAFriend: View {
                     }
                 
             }
-            .padding(.bottom, 24)
-//            Text("More ways to share")
-//                .font(.title3)
-//                .fontWeight(.medium)
-//                .padding(.bottom, 12)
-//            HStack {
-//                VStack {
-//                    Image(systemName: "message.circle.fill")
-//                        .resizable()
-//                        .scaledToFill()
-//                        .frame(width: 60, height: 60, alignment: .center)
-//                        .clipped()
-//                        .cornerRadius(10)
-//                        .foregroundColor(.green)
-//                    Text("iMessage")
-//                }
-//                .frame(width: 80, height: 80, alignment: .center)
-//                .padding()
-//                .background(RoundedRectangle(cornerRadius: 5)
-//                    .stroke(.black.opacity(0.3)))
-//                Spacer()
-//                VStack {
-//                    Image(systemName: "envelope.circle.fill")
-//                        .resizable()
-//                        .scaledToFill()
-//                        .frame(width: 60, height: 60, alignment: .center)
-//                        .clipped()
-//                        .cornerRadius(10)
-//                        .foregroundColor(.cyan)
-//                    Text("Email")
-//                }.frame(width: 80, height: 80, alignment: .center)
-//                .padding()
-//                .background(RoundedRectangle(cornerRadius: 5)
-//                    .stroke(.black.opacity(0.3)))
-//                Spacer()
-//                VStack {
-//                    Image(systemName: "square.and.arrow.up.circle.fill")
-//                        .resizable()
-//                        .scaledToFit()
-//                        .frame(width: 60, height: 60, alignment: .center)
-//                        .clipped()
-//                        .cornerRadius(10)
-//                        .foregroundColor(.indigo)
-//                    Text("Share")
-//                }.frame(width: 80, height: 80, alignment: .center)
-//                .padding()
-//                .background(RoundedRectangle(cornerRadius: 5)
-//                    .stroke(.black.opacity(0.3)))
-//            }
-//            .padding(.bottom, 24)
 
             Spacer()
-        }
-        .padding(.horizontal, 24)
-        .padding(.top, 36)
-        .navigationBarTitle("Refer", displayMode: .inline)
+        }.padding(.horizontal)
+        .ignoresSafeArea()
+        
+        
     }
 }
 

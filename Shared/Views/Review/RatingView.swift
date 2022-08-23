@@ -12,6 +12,11 @@ struct RatingView: View {
     var width: CGFloat
     @Binding var horizontalOffset: CGFloat
     
+    @Binding var questionsArray: [String]
+    @Binding var answersArray: [String]
+    
+    @Binding var pointsEarned: Double
+    
     var label = ""
     var maximumRating = 5
     var offImage: Image?
@@ -30,7 +35,18 @@ struct RatingView: View {
                     .foregroundColor(number > rating ? offColor : onColor)
                     .opacity(wasRatingTapped ? 0 : 1)
                     .onTapGesture {
+                        if rating == 0 {        //i.e. it's the first time the user has seen this page
+                            withAnimation {
+                                pointsEarned = pointsEarned + 100
+                            }
+                        }
+
                         rating = number
+                        questionsArray[0] = ("rating")
+                        answersArray[0] = (String(rating))
+                        
+                        
+                        
                         withAnimation(.linear(duration: 0.15).delay(0.55)) {
                             horizontalOffset -= width
                         }
@@ -40,7 +56,7 @@ struct RatingView: View {
                         DispatchQueue.main.asyncAfter(deadline: .now() + 0.35) {
                             wasRatingTapped = false
                         }
-                                                      
+                        
                         
                     }
             }
