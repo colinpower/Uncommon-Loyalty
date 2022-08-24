@@ -44,6 +44,8 @@ struct CompanyProfileV2: View {
 
     
     @State var showSheet:Bool = false
+    @State var showSheet2:Bool = false
+    @State var showSheetRedeem: Bool = false
     
     @State var isPrompt1Active: Bool = false
     @State var isPrompt2Active: Bool = false
@@ -128,6 +130,97 @@ struct CompanyProfileV2: View {
                             HStack (alignment: .center, spacing: 20) {
                                 
                                 //MARK: TOP CARD - BUTTONS - REDEEM
+                                
+//                                Button {
+//                                    showSheetRedeem = true
+//                                } label: {
+//                                    HStack {
+//                                        Spacer()
+//                                        Text("Redeem")
+//                                            .font(.system(size: 16))
+//                                            .fontWeight(.semibold)
+//                                            .foregroundColor(.white)
+//                                        Spacer()
+//                                    }.padding(.vertical, 12)
+//                                    .background(RoundedRectangle(cornerRadius: 32).foregroundColor(Color("ThemeBright")))
+//                                }.halfSheet(showSheet: $showSheetRedeem) {
+//                                    //my half sheet view
+//                                    HStack {
+//                                        Spacer()
+//
+//                                        CreateDiscountScreen2(isCreateDiscountScreen2Active: $showSheetRedeem, companyID: companyID, companyName: companyName, currentPointsBalance: viewModel1.oneRewardsProgram.first?.currentPointsBalance ?? 0).navigationTitle("").navigationBarHidden(true)
+//
+//                                        Spacer()
+//                                        }.edgesIgnoringSafeArea(.all)
+//                                        .background(Color.white)
+//
+//                                } onEnd : {
+//                                    print("Dismissed")
+//                                }
+                                
+//                                Button {
+//                                    showSheet2 = true
+//                                } label: {
+//                                    Text("OPEN HALF SHEET")
+//                                }.halfSheet2(showSheet2: $showSheet2) {
+//                                    //my half sheet view
+//                                    HStack {
+//                                        Spacer()
+//                                        VStack {
+//                                            Text("asldkjfalsdkfjsd")
+//
+//                                            Spacer()
+//                                            Text("saldkfjasldf")
+//                                            Spacer()
+//
+//                                            Button {
+//                                                UIPasteboard.general.string = "asdlfkjasdlfas"
+//                                            } label: {
+//                                                HStack {
+//                                                    Spacer()
+//                                                    Text("Copy code")
+//                                                        .font(.system(size: 18))
+//                                                        .fontWeight(.semibold)
+//                                                        .foregroundColor(Color(.white))
+//                                                        .padding(.vertical)
+//                                                    Spacer()
+//                                                }
+//                                                .background(RoundedRectangle(cornerRadius: 32).foregroundColor(Color("ThemeAction")))
+//                                                .padding(.horizontal)
+//                                                .padding(.horizontal)
+//                                            }
+//
+//
+//
+//                                            Divider()
+//                                            Button {
+//                                                showSheet2 = false
+//                                            } label: {
+//                                                Text("Close sheet")
+//                                                    .font(.system(size: 18))
+//                                                    .fontWeight(.semibold)
+//                                                    .foregroundColor(Color("Dark1"))
+//                                                    .padding()
+//                                            }.padding(.bottom)
+//
+//                                        }
+//                                        Spacer()
+//                                    }
+//                                    .edgesIgnoringSafeArea(.all)
+//                                        .background(Color.white)
+//
+//                                } onEnd2 : {
+//                                    print("Dismissed")
+//                                }
+                                
+                                
+                                
+                                
+                                
+                                
+                                
+                                
+                                
                                 Button {
                                     isCreateDiscountScreenActive.toggle()
                                 } label: {
@@ -202,38 +295,7 @@ struct CompanyProfileV2: View {
                                                     .fontWeight(.bold)
                                                     .foregroundColor(Color("ThemePrimary"))
                                                 Spacer()
-                                                
-//                                                HStack {
-//                                                    VStack(alignment: .leading) {
-//                                                        Text(DiscountCode.code.uppercased())
-//                                                            .kerning(1.3)
-//                                                            .font(.system(size: 17))
-//                                                            .fontWeight(.semibold)
-//                                                            .foregroundColor(Color("Dark1"))
-//                                                        Text("Discount Code")
-//                                                            .kerning(1.05)
-//                                                            .font(.system(size: 16))
-//                                                            .fontWeight(.regular)
-//                                                            .foregroundColor(Color("Gray1"))
-//                                                    }
-//                                                    Spacer()
-//                                                    Button {
-//                                                        isDiscountCodeCopied.toggle()
-//                                                        UIPasteboard.general.string = DiscountCode.code
-//                                                    } label: {
-//                                                        if isDiscountCodeCopied {
-//                                                            Image(systemName: "checkmark")
-//                                                                .foregroundColor(Color("ThemePrimary"))
-//                                                                .font(.system(size: CGFloat(18)))
-//                                                        } else {
-//                                                            Image(systemName: "doc.on.doc.fill")
-//                                                                .foregroundColor(Color("ThemePrimary"))
-//                                                                .font(.system(size: CGFloat(18), weight: .semibold))
-//                                                        }
-//                                                    }
-//                                                }
-//                                                .padding()
-//                                                .padding(.horizontal)
+
                                                 
                                                 
                                                 Button {
@@ -694,6 +756,17 @@ extension View {
                 HalfSheetHelper(sheetView: sheetView(), showSheet: showSheet, onEnd: onEnd)
             )
     }
+    
+//    //Binding show variable 2
+//    func halfSheet2<SheetView: View>(showSheet2: Binding<Bool>, @ViewBuilder sheetView2: @escaping () -> SheetView, onEnd2: @escaping ()->())-> some View {
+//
+//        //use .overlay because it will automatically use hte swiftui frame size only
+//        return self
+//            .background(
+//                HalfSheetHelper2(sheetView2: sheetView2(), showSheet2: showSheet2, onEnd2: onEnd2)
+//            )
+//    }
+    
 }
 
 //UI KIt integration
@@ -751,6 +824,64 @@ struct HalfSheetHelper<SheetView: View>: UIViewControllerRepresentable {
     
 }
 
+////UI KIt integration 2
+//struct HalfSheetHelper2<SheetView: View>: UIViewControllerRepresentable {
+//
+//    var sheetView2: SheetView
+//    @Binding var showSheet2:Bool
+//    var onEnd2: () -> ()
+//
+//
+//    let controller2 = UIViewController()
+//
+//    func makeCoordinator() -> Coordinator2 {
+//        return Coordinator2(parent2: self)
+//    }
+//
+//    func makeUIViewController(context: Context) -> UIViewController {
+//        controller2.view.backgroundColor = .clear
+//
+//        return controller2
+//    }
+//
+//
+//    func updateUIViewController(_ uiViewController: UIViewController, context: Context) {
+//
+//        if showSheet2 {
+//
+//            //isPresenting
+//            let sheetController2 = CustomHostingController2(rootView: sheetView2)
+//            sheetController2.presentationController?.delegate = context.coordinator
+//            uiViewController.present(sheetController2, animated: true)
+//        }
+//        else {
+//            // closing view when showSheet toggled again...
+//            uiViewController.dismiss(animated: true)
+//        }
+//    }
+//
+//    //on Dismiss
+//    class Coordinator2: NSObject, UISheetPresentationControllerDelegate {
+//        var parent2: HalfSheetHelper2
+//
+//        init(parent2: HalfSheetHelper2) {
+//            self.parent2 = parent2
+//        }
+//
+//        func presentationControllerWillDismiss(_ presentationController: UIPresentationController) {
+//            parent2.showSheet2 = false
+//        }
+//
+//        func presentationControllerDidDismiss(_ presentationController: UIPresentationController) {
+//            parent2.showSheet2 = false
+//            parent2.onEnd2()
+//        }
+//    }
+//
+//}
+
+
+
 // Custom UIHostingController for halfSheet...
 class CustomHostingController<Content: View>: UIHostingController<Content> {
     
@@ -771,3 +902,25 @@ class CustomHostingController<Content: View>: UIHostingController<Content> {
         }
     }
 }
+
+
+//// Custom UIHostingController for halfSheet2...
+//class CustomHostingController2<Content: View>: UIHostingController<Content> {
+//
+//    override func viewDidLoad() {
+//
+//        view.backgroundColor = .clear
+//
+//        //setting presentation controller properties...
+//        if let presentationController = presentationController as? UISheetPresentationController{
+//
+//            presentationController.detents = [
+//                .medium(),
+//                .large()
+//            ]
+//
+//            //to show grabber
+//            presentationController.prefersGrabberVisible = true
+//        }
+//    }
+//}

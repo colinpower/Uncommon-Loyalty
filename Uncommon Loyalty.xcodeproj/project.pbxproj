@@ -29,6 +29,7 @@
 		302AB47528B359820086D4CA /* OneOrder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 302AB47428B359820086D4CA /* OneOrder.swift */; };
 		302AB47728B359D00086D4CA /* ItemForOrder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 302AB47628B359D00086D4CA /* ItemForOrder.swift */; };
 		302AB47928B3941E0086D4CA /* AllOrdersForCompany.swift in Sources */ = {isa = PBXBuildFile; fileRef = 302AB47828B3941E0086D4CA /* AllOrdersForCompany.swift */; };
+		302AB47D28B47F970086D4CA /* CreateDiscountScreen2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 302AB47C28B47F970086D4CA /* CreateDiscountScreen2.swift */; };
 		302DE17427B207C80041A981 /* CreateDiscountScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 302DE17327B207C70041A981 /* CreateDiscountScreen.swift */; };
 		3032829328A4CEB60038A053 /* FirstRunExperience.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3032829228A4CEB60038A053 /* FirstRunExperience.swift */; };
 		3032829428A4CEB60038A053 /* FirstRunExperience.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3032829228A4CEB60038A053 /* FirstRunExperience.swift */; };
@@ -134,6 +135,7 @@
 		302AB47428B359820086D4CA /* OneOrder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OneOrder.swift; sourceTree = "<group>"; };
 		302AB47628B359D00086D4CA /* ItemForOrder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemForOrder.swift; sourceTree = "<group>"; };
 		302AB47828B3941E0086D4CA /* AllOrdersForCompany.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllOrdersForCompany.swift; sourceTree = "<group>"; };
+		302AB47C28B47F970086D4CA /* CreateDiscountScreen2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateDiscountScreen2.swift; sourceTree = "<group>"; };
 		302DE17327B207C70041A981 /* CreateDiscountScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateDiscountScreen.swift; sourceTree = "<group>"; };
 		3032829228A4CEB60038A053 /* FirstRunExperience.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstRunExperience.swift; sourceTree = "<group>"; };
 		3032829528A4EFF80038A053 /* LoginViewTesting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewTesting.swift; sourceTree = "<group>"; };
@@ -432,6 +434,7 @@
 			isa = PBXGroup;
 			children = (
 				302DE17327B207C70041A981 /* CreateDiscountScreen.swift */,
+				302AB47C28B47F970086D4CA /* CreateDiscountScreen2.swift */,
 			);
 			path = Discount;
 			sourceTree = "<group>";
@@ -668,6 +671,7 @@
 				302AB47328B3597A0086D4CA /* AllOrders.swift in Sources */,
 				30E67CB227E4DE4C00D9B96F /* VoteWidget.swift in Sources */,
 				30EA87B32811DC0C00F0CF64 /* ReviewsViewModel.swift in Sources */,
+				302AB47D28B47F970086D4CA /* CreateDiscountScreen2.swift in Sources */,
 				302AB47528B359820086D4CA /* OneOrder.swift in Sources */,
 				3014FA7527965E2F00473CE4 /* CompanyProfile.swift in Sources */,
 				300C531B2891878600F80B19 /* TabView.swift in Sources */,

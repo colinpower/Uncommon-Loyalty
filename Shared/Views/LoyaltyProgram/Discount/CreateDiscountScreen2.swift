@@ -1,5 +1,5 @@
 //
-//  CreateDiscountScreen.swift
+//  CreateDiscountScreen2.swift
 //  Uncommon Loyalty (iOS)
 //
 //  Created by Colin Power on 2/7/22.
@@ -11,7 +11,7 @@
 
 import SwiftUI
 
-struct CreateDiscountScreen: View {
+struct CreateDiscountScreen2: View {
     
     @EnvironmentObject var viewModel: AppViewModel
     
@@ -21,7 +21,7 @@ struct CreateDiscountScreen: View {
     
     @State var rewardsUsed: Double = 0
     
-    @Binding var isCreateDiscountScreenActive: Bool
+    @Binding var isCreateDiscountScreen2Active: Bool
     
     var companyID: String
     var companyName: String
@@ -29,12 +29,11 @@ struct CreateDiscountScreen: View {
     
     
     
-    
     var body: some View {
         VStack (alignment: .center) {
             
             //MARK: Header
-            SheetHeader(title: "Redeem", isActive: $isCreateDiscountScreenActive)
+            SheetHeader(title: "Redeem", isActive: $isCreateDiscountScreen2Active)
             Spacer()
             
             //MARK: Description
@@ -87,10 +86,10 @@ struct CreateDiscountScreen: View {
             Spacer()
             
             //MARK: Convert Points Button
-            Button {   
+            Button {
                 viewModel2.addCode(companyID: companyID, companyName: companyName, dollars: Int(rewardsUsed)/10, domain: "athleisure-la.myshopify.com", email: viewModel.email!, firstNameID: "COLIN1", pointsSpent: Int(rewardsUsed), usageLimit: 1, userID: viewModel.userID!)
                 viewModel1.updateLoyaltyPointsForReason(userID: viewModel.userID!, companyID: companyID, changeInPoints: Int(rewardsUsed) * -1, reason: "CreatedDiscount")
-                isCreateDiscountScreenActive.toggle()
+                isCreateDiscountScreen2Active.toggle()
             } label: {
                 HStack {
                     Spacer()
@@ -111,8 +110,8 @@ struct CreateDiscountScreen: View {
     }
 }
 
-struct CreateDiscountScreen_Previews: PreviewProvider {
+struct CreateDiscountScreen2_Previews: PreviewProvider {
     static var previews: some View {
-        CreateDiscountScreen(isCreateDiscountScreenActive: .constant(true), companyID: "zKL7SQ0jRP8351a0NnHM", companyName: "Athleisure LA", currentPointsBalance: 100)
+        CreateDiscountScreen2(isCreateDiscountScreen2Active: .constant(true), companyID: "zKL7SQ0jRP8351a0NnHM", companyName: "Athleisure LA", currentPointsBalance: 100)
     }
 }
