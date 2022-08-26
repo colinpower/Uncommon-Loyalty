@@ -10,12 +10,16 @@ import SwiftUI
 
 struct Earn: View {
     
+    //Required for any tab
     @ObservedObject var viewModel = AppViewModel()
-    
-    @ObservedObject var itemsViewModel = ItemsViewModel()
-    
     @Binding var selectedTab:Int
     @State var isProfileActive:Bool = false
+    
+    //Data for this view
+    @ObservedObject var itemsViewModel = ItemsViewModel()
+    
+    //Variables for this view
+    
     
     
     var body: some View {
@@ -24,275 +28,203 @@ struct Earn: View {
             VStack {
                 //MARK: TITLE
                 PageHeader(isProfileActive: $isProfileActive, pageTitle: "Earn")
-                
+                Divider().padding(.horizontal).padding(.bottom)
+                //MARK: CONTENT
                 ScrollView {
-                    VStack(alignment: .leading, spacing: 12) {
-                        //Title
-                        HStack {
-                            Text("Latest Rewards")
-                                .font(.system(size: 32))
-                                .fontWeight(.bold)
-                                .foregroundColor(Color("Dark1"))
-                            Spacer()
-                            Text("See all")
+                    VStack(alignment: .center, spacing: 12) {
+                        
+                        //MARK: REVIEWS SECTION - TITLE AND DESCRIPTION
+                        VStack(alignment: .leading, spacing: 8) {
+                            //Title
+                            HStack(alignment: .center) {
+                                Text("Latest Rewards")
+                                    .font(.system(size: 24))
+                                    .fontWeight(.bold)
+                                    .foregroundColor(Color("Dark1"))
+                                Spacer()
+                                Text("See all")
+                                    .font(.system(size: 16))
+                                    .fontWeight(.regular)
+                                    .foregroundColor(.blue)
+                            }
+                            
+                            //Description
+                            Text("Earn points for reviews and referrals")
                                 .font(.system(size: 16))
-                                .fontWeight(.semibold)
-                                .foregroundColor(Color(.blue))
+                                .fontWeight(.regular)
+                                .foregroundColor(Color("Gray1"))
+                                .multilineTextAlignment(.leading)
                         }.padding(.horizontal)
                         
-                        Text("Earn points for reviewing recent purchases or referring favorite items to your friends.")
-                            .font(.system(size: 16))
-                            .fontWeight(.regular)
-                            .foregroundColor(Color("Gray1"))
-                            .multilineTextAlignment(.leading)
-                            .lineSpacing(8)
-                            .frame(width: UIScreen.main.bounds.width/4*3)
-                            .padding(.horizontal)
-                        
-                        
-                        ScrollView (.horizontal, showsIndicators: false) {
-                            HStack(alignment: .center, spacing: 16) {
+                        //MARK: REVIEWS SECTION - CONTENT
+                        ScrollView (.vertical, showsIndicators: false) {
+                            VStack(alignment: .center, spacing: 24) {
                                 ForEach(itemsViewModel.snapshotOfReviewableItems.prefix(5)) { item in
-                                
-                                    NavigationLink {
-                                        IntentToReview(itemObject: item)
-                                    } label: {
+                                                                    
+                                    LargeItemReviewWidget(item: item)
 
-//                                        ZStack(alignment: .topLeading) {
-
-                                            //Picture + Description on bottom
-                                            VStack(spacing:0) {
-                                                Image("redshorts")
-                                                    .resizable()
-                                                    .aspectRatio(contentMode: .fit)
-                                                    .cornerRadius(30)
-                                                    .padding()
-                                                    .frame(width: UIScreen.main.bounds.width/3*2, height: UIScreen.main.bounds.height/3)
-                                                HStack {
-                                                    VStack(alignment: .leading, spacing: 8) {
-                                                        Text("Joggers 2.0")
-                                                            .font(.system(size: 20))
-                                                            .fontWeight(.semibold)
-                                                            .foregroundColor(Color("Dark1"))
-                                                        Text("From Lululemon".uppercased())
-                                                            .font(.system(size: 14))
-                                                            .fontWeight(.regular)
-                                                            .foregroundColor(Color("Gray1"))
-                                                    }
-                                                    Spacer()
-                                                    VStack (alignment: .center, spacing: 2) {
-                                                        Text("Review".uppercased())
-                                                            .font(.system(size: 16))
-                                                            .fontWeight(.bold)
-                                                            .foregroundColor(Color(.blue))
-                                                            .padding(.horizontal, 16)
-                                                            .padding(.vertical, 6)
-                                                            .background(RoundedRectangle(cornerRadius: 16).foregroundColor(Color("Background")))
-                                                        HStack(alignment: .center, spacing: 6) {
-                                                            Image(systemName: "clock")
-                                                                .font(.system(size: 10, weight: .regular))
-                                                                .foregroundColor(Color("Gray1"))
-                                                            Text("30s")
-                                                                .font(.system(size: 12, weight: .regular))
-                                                                .foregroundColor(Color("Gray1"))
-                                                        }
-                                                    }
-                                                }.padding()
-                                                .frame(width: UIScreen.main.bounds.width/3*2)
-                                                .background(.white, in: Rectangle())
-
-                                            }
-                                            //Company name in top left corner
-//                                            Text("+250 POINTS")
-//                                                .font(.system(size: 16))
-//                                                .fontWeight(.semibold)
-//                                                .padding()
-//                                                .foregroundColor(.white)
-//                                                .background(RoundedRectangle(cornerRadius: 16).foregroundColor(Color(.blue)))
-//                                        }
-                                        .background(RoundedRectangle(cornerRadius: 16).foregroundColor(Color(.white)))
-                                        .clipShape(RoundedRectangle(cornerRadius: 16))
-                                        .shadow(color: .black.opacity(0.3), radius: 10, x: 0, y: 0)
-                                        .padding(.vertical, 32)
-                                    }
                                 }
                                     
-                            }.padding(.leading)
+                            }.padding(.vertical)
                         }
-                        .padding(.vertical)
-                        
-                        //Title
-                        HStack {
-                            Text("Recent Orders")
-                                .font(.system(size: 32))
-                                .fontWeight(.bold)
-                                .foregroundColor(Color("Dark1"))
-                            Spacer()
-                            Text("See all")
-                                .font(.system(size: 16))
-                                .fontWeight(.semibold)
-                                .foregroundColor(Color(.blue))
-                        }.padding(.horizontal)
-                        
-                        ScrollView (.horizontal, showsIndicators: false) {
-                            HStack(alignment: .center, spacing: 16) {
-                                ForEach(itemsViewModel.snapshotOfReviewableItems.prefix(5)) { item in
-                                
-                                    NavigationLink {
-                                        IntentToReview(itemObject: item)
-                                    } label: {
-
-                                        ZStack(alignment: .topLeading) {
-
-                                            //Picture + Description on bottom
-                                            VStack(spacing:0) {
-                                                Image("redshorts")
-                                                    .resizable()
-                                                    .aspectRatio(contentMode: .fit)
-                                                    .cornerRadius(30)
-                                                    .padding()
-                                                    .frame(width: UIScreen.main.bounds.width/3*2, height: UIScreen.main.bounds.height/3)
-                                                HStack {
-                                                    VStack(alignment: .leading, spacing: 8) {
-                                                        Text("Joggers 2.0")
-                                                            .font(.system(size: 20))
-                                                            .fontWeight(.semibold)
-                                                            .foregroundColor(Color("Dark1"))
-                                                        Text("From Lululemon".uppercased())
-                                                            .font(.system(size: 14))
-                                                            .fontWeight(.regular)
-                                                            .foregroundColor(Color("Gray1"))
-                                                    }
-                                                    Spacer()
-                                                    VStack (alignment: .center, spacing: 2) {
-                                                        Text("Review".uppercased())
-                                                            .font(.system(size: 16))
-                                                            .fontWeight(.bold)
-                                                            .foregroundColor(Color(.blue))
-                                                            .padding(.horizontal, 16)
-                                                            .padding(.vertical, 6)
-                                                            .background(RoundedRectangle(cornerRadius: 16).foregroundColor(Color("Background")))
-                                                        HStack(alignment: .center, spacing: 6) {
-                                                            Image(systemName: "clock")
-                                                                .font(.system(size: 10, weight: .regular))
-                                                                .foregroundColor(Color("Gray1"))
-                                                            Text("30s")
-                                                                .font(.system(size: 12, weight: .regular))
-                                                                .foregroundColor(Color("Gray1"))
-                                                        }
-                                                    }
-                                                }.padding()
-                                                .frame(width: UIScreen.main.bounds.width/3*2)
-                                                .background(.white, in: Rectangle())
-
-                                            }
-                                            //Company name in top left corner
-                                            Text("+250 POINTS")
-                                                .font(.system(size: 16))
-                                                .fontWeight(.semibold)
-                                                .padding()
-                                                .foregroundColor(.white)
-                                                .background(RoundedRectangle(cornerRadius: 16).foregroundColor(Color(.blue)))
-                                        }
-                                        .background(RoundedRectangle(cornerRadius: 16).foregroundColor(Color(.blue).opacity(0.1)))
-                                        .clipShape(RoundedRectangle(cornerRadius: 16))
-                                        .shadow(color: .black.opacity(0.3), radius: 10, x: 0, y: 0)
-                                        .overlay(
-                                            RoundedRectangle(cornerRadius: 16)
-                                                .stroke(Color(.blue), lineWidth: 4)
-                                        ).padding(.vertical)
-                                        
-                                    }
-                                }
-                                    
-                            }.padding(.leading)
-                        }
-                            .padding(.vertical, 32)
-                        
-                        Spacer()
-                        
-                        
-                        
                     }
-                    
-                    
-                    
-                    
+
                 }
                 
+                //MARK: TABS
                 MyTabView(selectedTab: $selectedTab)
                 
-            }.ignoresSafeArea()
+            }.ignoresSafeArea()                     //Note: need to ignoreSafeArea, set nav title to "", set barHidden to true in order not to break when returning from a navigationViewChild
                 .navigationTitle("")
                 .navigationBarHidden(true)
             .onAppear {
                 self.itemsViewModel.getSnapshotOfReviewableItems(userID: viewModel.userID ?? "")
-                print(self.itemsViewModel.snapshotOfReviewableItems)
+                //print(self.itemsViewModel.snapshotOfReviewableItems)
             }
         }
     }
-            
-            
-                    
-                    
-                    
-                    //suggestedReviews
-                    
-            
-
+    
+    struct LargeItemReviewWidget: View {
         
+        var item: Items
+        
+        var body: some View {
+            
+            //Link to the Review Interceptor page
+            NavigationLink {
+                IntentToReview(itemObject: item)
+            } label: {
+
+                //Stack the following: a white card with the shadow, then the content of the card, then the overlaid "250 POINTS" and the review icon
+                ZStack(alignment: .center) {
+                    
+                    //Background Color
+                    RoundedRectangle(cornerRadius: 16)
+                        .foregroundColor(.white)
+                        //.frame(width: geometry.size.width, height: geometry.size.height)
+                        .shadow(color: .black.opacity(0.3), radius: 20, x: 0, y: 10)
+                    
+                    GeometryReader { geometry in
+                        
+                        ZStack (alignment: .top) {
+                            
+                            //MARK: THE IMAGE AND DESCRIPTION
+                            VStack(spacing: 0) {
+
+                                Image("redshorts")
+                                    .resizable()
+                                    .aspectRatio(contentMode: .fit)
+                                    .cornerRadius(30)
+                                    .padding()
+                                    .frame(width: geometry.size.width, height: geometry.size.height - 90)
+                                
+                                Divider()
+                                HStack(alignment: .center, spacing: 0) {
+                                    Image("Athleisure LA")
+                                        .resizable()
+                                        .scaledToFill()
+                                        .frame(width: 48, height: 48, alignment: .center)
+                                        .clipped()
+                                        .cornerRadius(12)
+                                        .padding(.trailing)
+                                    
+                                    VStack(alignment: .leading, spacing: 1) {
+                                        Text("Lululemon")
+                                            .font(.system(size: 15))
+                                            .fontWeight(.semibold)
+                                            .foregroundColor(Color("Dark1"))
+                                        Text("Joggers 2.0")
+                                            .font(.system(size: 14))
+                                            .fontWeight(.regular)
+                                            .foregroundColor(Color("Dark1"))
+                                    }
+                                    Spacer()
+                                    
+                                    VStack(alignment: .center, spacing: 0) {
+                                        Text("Review".uppercased())
+                                            .font(.system(size: 16))
+                                            .fontWeight(.bold)
+                                            .foregroundColor(.blue)
+                                            .padding(.horizontal)
+                                            .padding(.vertical, 8)
+                                            .background(RoundedRectangle(cornerRadius: 16).foregroundColor(.gray.opacity(0.15)))
+                                            .padding(.top, 14)
+                                        HStack(alignment: .center, spacing: 4) {
+                                            Image(systemName: "clock")
+                                                .font(.system(size: 7, weight: .regular))
+                                                .foregroundColor(Color("Gray1"))
+                                            Text("30 SECONDS")
+                                                .font(.system(size: 9, weight: .regular))
+                                                .foregroundColor(Color("Gray1"))
+                                        }.padding(.top, 4)
+                                    }
+                                    
+                                    
+                                }
+                                .padding()
+                                .padding(.bottom, 2)
+                                .frame(width: geometry.size.width, height: CGFloat(90))
+                                .background(.gray.opacity(0.05), in: Rectangle())
+                            }
+                            
+                            //MARK: THE CALLOUT TO BE OVERLAID
+                            VStack(alignment: .center, spacing: 0) {
+                                HStack(alignment: .top, spacing: 0) {
+                                    Text("+250 POINTS")
+                                        .font(.system(size: 15))
+                                        .fontWeight(.bold)
+                                        .padding(.vertical, 8)
+                                        .padding(.horizontal)
+                                        .foregroundColor(.white)
+                                        .background(RoundedCornersShape(corners: [.topLeft, .bottomRight], radius: 16)
+                                            .foregroundColor(Color("ReviewTeal")))
+                                    
+                                    Spacer()
+                                    Image(systemName: "star.circle")
+                                        .font(.system(size: 32, weight: .medium))
+                                        .padding(.all)
+                                        .foregroundColor(Color("ReviewTeal"))
+                                }
+                                Spacer()
+                                
+                                
+                            }
+                            
+                        
+//                        //Object GOES HERE
+                        }
+                    }.frame(height: UIScreen.main.bounds.width - 24 + 32 + 24)
+                    .clipShape(RoundedRectangle(cornerRadius: 16))
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 16)
+                            .stroke(Color("ReviewTeal"), lineWidth: 4)
+                    )
+                    
+                    
+                    
+                    
+                    //.shadow(color: .black, radius: 30, x: 0, y: 0)
+                }   //minus side padding, plus bottom icon size, plus bottom icon vertical padding
+                .padding(.horizontal)
+                
+            }
+        }
+    }
+    
+    
+    struct RoundedCornersShape: Shape {
+        let corners: UIRectCorner
+        let radius: CGFloat
+        
+        func path(in rect: CGRect) -> Path {
+            let path = UIBezierPath(roundedRect: rect,
+                                    byRoundingCorners: corners,
+                                    cornerRadii: CGSize(width: radius, height: radius))
+            return Path(path.cgPath)
+        }
+    }
     
 }
-    
-    
-    
-//    var RecentOrders: some View {
-        
-        
-        //                //MARK: Recent Orders
-        //                VStack(alignment: .leading) {
-        //
-        //                    //Header
-        //                    HStack {
-        //                        Text("Recent Orders")
-        //                            .font(.system(size: 18))
-        //                            .fontWeight(.semibold)
-        //                            .foregroundColor(Color("Dark1"))
-        //                        Spacer()
-        //                    }
-        //
-        //                    //For each recent order, show an item
-        //
-        //                    ForEach(ordersViewModel.allOrders.prefix(5)) { Order in
-        //
-        //                        NavigationLink(destination: OneOrder(email: Order.email, companyID: Order.companyID, orderID: Order.orderID)) {
-        //                            MyRecentOrdersItem(item: Order.item_firstItemTitle, timestamp: Order.timestamp, reviewID: Order.orderID, colorToShow: Color("Dark1"))
-        //                        }
-        //                    }
-        //                    HStack {
-        //                        Spacer()
-        //                        Button {
-        //                            isShowingAllOrders = true
-        //                        } label: {
-        //                            Text("See all")
-        //                                .font(.system(size: 16))
-        //                                .fontWeight(.semibold)
-        //                                .foregroundColor(Color("ThemeAction"))
-        //                        }.fullScreenCover(isPresented: $isShowingAllOrders) {
-        //                            AllOrders(userID: viewModel.userID ?? "", isShowingAllOrders: $isShowingAllOrders)
-        //                        }
-        //                        Spacer()
-        //                    }
-        //                }.padding()
-        //                    .padding(.vertical)
-        //                .background(RoundedRectangle(cornerRadius: 8).foregroundColor(.white))
-        //                .padding(.horizontal)
-        //                .padding(.bottom)
-        
-        
-        
-//    }
-    
     
 
 struct Earn_Previews: PreviewProvider {
