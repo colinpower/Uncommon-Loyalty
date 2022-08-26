@@ -304,12 +304,12 @@ struct CompanyProfileV2: View {
                             
                             //For each recent order, show an item
                             
-                            ForEach(ordersViewModel.snapshotOfOrders.prefix(5)) { Order in
-                                
-                                NavigationLink(destination: OneOrder(email: email, companyID: companyID, orderID: Order.orderID)) {
-                                    MyRecentOrdersItem(item: Order.item_firstItemTitle, timestamp: Order.timestamp, reviewID: Order.orderID, colorToShow: colorToShow[4])
-                                }
-                            }
+//                            ForEach(ordersViewModel.snapshotOfOrders.prefix(5)) { Order in
+//                                
+//                                NavigationLink(destination: OneOrder(email: email, companyID: companyID, orderID: Order.orderID)) {
+//                                    MyRecentOrdersItem(item: Order.item_firstItemTitle, timestamp: Order.timestamp, reviewID: Order.orderID, colorToShow: colorToShow[4])
+//                                }
+//                            }
                             HStack {
                                 Spacer()
                                 Button {

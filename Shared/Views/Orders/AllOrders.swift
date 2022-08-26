@@ -9,138 +9,320 @@ import SwiftUI
 
 struct AllOrders: View {
     
-    //Required variables to be passed
-    var userID: String
+    //Initialize the view with the following variables
+    @EnvironmentObject var viewModel: AppViewModel
+    @Binding var selectedTab: Int
     
-    @Binding var isShowingAllOrders: Bool
-    
-    
-    //Getting the
+    //Getting the data for this view
     @StateObject var ordersViewModel = OrdersViewModel()
     
+    
+    //Required variables to be passed
+    //var userID: String
+    
+    //@Binding var isShowingAllOrders: Bool
+    
+
+
+    
+    
     var body: some View {
+        
+        
+        
+        
         NavigationView {
-            ZStack {
-                Color("Background")
+                
+            VStack {
+                HStack {
+                    Text("Orders")
+                        .font(.system(size: 40, weight: .bold))
+                        .foregroundColor(.black)
+                    Spacer()
+                    Image(systemName: "person.crop.circle")
+                        .font(.system(size: 32, weight: .regular))
+                }.padding([.horizontal, .bottom])
+                    .padding(.top, 60)
                 
                 ScrollView(.vertical, showsIndicators: false) {
-                VStack {
-                    
-                    SheetHeader(title: "All Orders", isActive: $isShowingAllOrders)
-                    
-                    ForEach(ordersViewModel.snapshotOfAllOrders) { order in
-                        OrderForAllOrdersViews(orderSnapshot: order)
                         
+                    ForEach(ordersViewModel.snapshotOfAllOrders) { order in
+                        
+                        //title
+                        VStack {
+                            //This is the title of the order
+                            AllOrdersSingleOrderTitle()
+                            AllOrdersSingleItemView(order: order)
+                            //This is the set of items in the order
+                            
+                            
+                        }.padding(.bottom)
                     }
-                    
-                    
-                }.onAppear {
-                    self.ordersViewModel.snapshotOfAllOrders(userID: userID)
                 }
+                    .padding([.top, .horizontal])
+                    .background(Color("Background"))
+            
+                MyTabView(selectedTab: $selectedTab)
+            }.background(Color("Background"))
+            .ignoresSafeArea()
+            .navigationTitle("")
+            .navigationBarHidden(true)
+            .onAppear {
+                self.ordersViewModel.snapshotOfAllOrders(userID: viewModel.userID ?? "")
             }
-            }
-                .ignoresSafeArea()
-                .navigationTitle("")
-                .navigationBarHidden(true)
-        }
-        
+        }//.ignoresSafeArea()
     }
 }
 
 struct AllOrders_Previews: PreviewProvider {
     static var previews: some View {
-        AllOrders(userID: "mhjEZCv9JGdk0NUZaHMcNrDsH1x2", isShowingAllOrders: .constant(true))
+        AllOrders(selectedTab: .constant(1))//userID: "mhjEZCv9JGdk0NUZaHMcNrDsH1x2") //, isShowingAllOrders: .constant(true))
     }
 }
 
 
+struct AllOrdersSingleOrderTitle: View {
+
+    var body: some View {
+
+        HStack {
+            Image("Athleisure LA")
+                .resizable()
+                .scaledToFit()
+                .frame(width: 28, height: 28, alignment: .center)
+                .clipped()
+                .cornerRadius(8)
+                .padding(.trailing, 6)
+            Text("Aug. 6 - Athleisure LA")
+                .font(.system(size: 28))
+                .fontWeight(.semibold)
+                .foregroundColor(Color("Dark1"))
+            Spacer()
+        }.padding(.bottom, 4)
+    }
+
+}
 
 
-struct OrderForAllOrdersViews: View {
+struct AllOrdersMainContentOfItem: View {
     
-    //Required variables to be passed
-    
-    
-    @State var orderSnapshot: Orders
+    var firstItemTitle: String
     
     var body: some View {
-        VStack(spacing: 0) {
-            
-            //Header
-            HStack {
-                Text(orderSnapshot.companyID)
-                Spacer()
-                Text("Details")
-            }.padding()
-                .background(.red)
-            
-            VStack {
-            
-                //$ / Points
-                HStack {
-                    VStack(alignment: .leading) {
-                        Text("$" + String(orderSnapshot.totalPrice))
-                        Text("Total Price")
-                    }
-                    Spacer()
-                    VStack(alignment: .leading) {
-                        Text(String(orderSnapshot.pointsEarned))
-                        Text("Points Earned")
-                    }
-                }.padding(.trailing)
-                
-                Divider().padding(.vertical)
-                
-                // Number, Date, Return
-                HStack {
-                    Text("Order Number")
-                    Spacer()
-                    Text("#42255")
-                }.padding(.bottom)
-                
-                HStack {
-                    Text("Ordered on")
-                    Spacer()
-                    Text("Aug 06")
-                }.padding(.bottom)
-                
-                HStack {
-                    Text("Days to return")
-                    Spacer()
-                    Text("4 days")
-                }
-                
-                Divider().padding(.vertical)
-                
-                //Subheader
-                HStack {
-                    Text("Items")
-                    Spacer()
-                    Text("Details")
-                }
-                
-                //Items loop through
-                ForEach(orderSnapshot.itemIDs, id: \.self) { itemID in
-                    
-                    NavigationLink(destination: ItemForOrder(userID: "mhjEZCv9JGdk0NUZaHMcNrDsH1x2",email: orderSnapshot.email, companyID: orderSnapshot.companyID, itemID: itemID)) {
-                        HStack {
-                            Image(systemName: "checkmark.circle")
-                                .font(.system(size: 18))
-                            Text(itemID)
-                            Spacer()
-                            Text("View")
-                        }.navigationTitle("")
-                        .navigationBarHidden(true)
-                    }
-                }
-            }.padding(.horizontal)
-                .padding(.bottom)
-                .background(.white)
+        VStack(alignment: .leading, spacing: 0) {
+            Text("Athleisure LA")
+                .font(.system(size: 13))
+                .fontWeight(.regular)
+                .foregroundColor(Color("Dark2"))
+                .padding(.bottom, 3)
+            Text(firstItemTitle)
+                .font(.system(size: 16))
+                .fontWeight(.semibold)
+                .foregroundColor(Color("Dark1"))
+                .padding(.bottom, 8)
+            HStack(alignment: .center, spacing: 0) {
+                Text("Status: ")
+                    .font(.system(size: 12))
+                    .fontWeight(.semibold)
+                    .foregroundColor(Color("Dark1"))
+                Text("Delivered")
+                    .font(.system(size: 12))
+                    .fontWeight(.regular)
+                    .foregroundColor(Color("Dark2"))
+            }.padding(.bottom, 4)
+            HStack(alignment: .center, spacing: 0) {
+                Text("Points Earned: ")
+                    .font(.system(size: 12))
+                    .fontWeight(.semibold)
+                    .foregroundColor(Color("Dark1"))
+                Text("900 / 20K")
+                    .font(.system(size: 12))
+                    .fontWeight(.regular)
+                    .foregroundColor(Color("Dark2"))
+            }
         }
-        .clipShape(RoundedRectangle(cornerRadius: 24))
-        //.background(RoundedRectangle(cornerRadius: 24))
-        .padding()
+        
+    }
+    
+    
+}
+
+
+struct AllOrdersSingleItemView: View {
+    
+    var order: Orders
+
+    var body: some View {
+        
+        VStack {
+            ForEach(order.itemIDs, id: \.self) { itemID in
+                
+                NavigationLink(destination: ItemForOrder(itemID: itemID)) {
+                    HStack {
+                        //image
+                        Image("redshorts")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 100, height: 100, alignment: .center)
+                            .clipped()
+                            .cornerRadius(8)
+                            .padding(.trailing)
+                        
+                        //main content
+                        AllOrdersMainContentOfItem(firstItemTitle: order.item_firstItemTitle)
+                        
+                        //spacer + arrow
+                        Spacer()
+                        
+                        Image(systemName: "chevron.right")
+                            .font(.system(size: 16, weight: .medium))
+                            .foregroundColor(.gray.opacity(0.6))
+                        
+                    }.padding(.all)
+                }
+                
+                //if there's only one item... or it's the last item in the order, don't add a divider
+                if (order.itemIDs.count < 2) || (itemID == order.itemIDs[order.itemIDs.count-1]) {
+                    
+                } else {
+                    
+                    //Else, add the divider to separate individual orders
+                    Divider().padding(.leading)
+                     
+                }
+                
+            }
+        }.background(RoundedRectangle(cornerRadius: 12).foregroundColor(.white))
+        .navigationTitle("")
+        .navigationBarHidden(true)
+        
         
         
     }
+    
+    
 }
+
+
+//struct OrderForAllOrdersViews: View {
+//
+//    //Required variables to be passed
+//
+//
+//    @State var orderSnapshot: Orders
+//
+//    var body: some View {
+//        VStack(spacing: 0) {
+//
+//            //Header
+//            HStack {
+//                Text(orderSnapshot.companyID)
+//                Spacer()
+//                Text("Details")
+//            }.padding()
+//                .background(.red)
+//
+//            VStack {
+//
+//                //$ / Points
+//                HStack {
+//                    VStack(alignment: .leading) {
+//                        Text("$" + String(orderSnapshot.totalPrice))
+//                        Text("Total Price")
+//                    }
+//                    Spacer()
+//                    VStack(alignment: .leading) {
+//                        Text(String(orderSnapshot.pointsEarned))
+//                        Text("Points Earned")
+//                    }
+//                }.padding(.trailing)
+//
+//                Divider().padding(.vertical)
+//
+//                // Number, Date, Return
+//                HStack {
+//                    Text("Order Number")
+//                    Spacer()
+//                    Text("#42255")
+//                }.padding(.bottom)
+//
+//                HStack {
+//                    Text("Ordered on")
+//                    Spacer()
+//                    Text("Aug 06")
+//                }.padding(.bottom)
+//
+//                HStack {
+//                    Text("Days to return")
+//                    Spacer()
+//                    Text("4 days")
+//                }
+//
+//                Divider().padding(.vertical)
+//
+//                //Subheader
+//                HStack {
+//                    Text("Items")
+//                    Spacer()
+//                    Text("Details")
+//                }
+//
+//                //Items loop through
+//                ForEach(orderSnapshot.itemIDs, id: \.self) { itemID in
+//
+//                    NavigationLink(destination: ItemForOrder(itemID: itemID)) {
+//                        HStack {
+//                            Image(systemName: "checkmark.circle")
+//                                .font(.system(size: 18))
+//                            Text(itemID)
+//                            Spacer()
+//                            Text("View")
+//                        }.navigationTitle("")
+//                        .navigationBarHidden(true)
+//                    }
+//                }
+//            }.padding(.horizontal)
+//                .padding(.bottom)
+//                .background(.white)
+//        }
+//        .clipShape(RoundedRectangle(cornerRadius: 24))
+//        //.background(RoundedRectangle(cornerRadius: 24))
+//        .padding()
+//
+//
+//    }
+//}
+
+
+
+
+
+//EXPLORING A VIEW WHERE YOU SHOW THE NUMBER OF POINTS EARNED ON EACH ORDER
+//HStack(alignment: .center, spacing: 0) {
+//                        Image(systemName: "heart.fill")
+//                            .font(.system(size: 14, weight: .regular))
+//                            .foregroundColor(.green)
+//                            .padding(.trailing, 2)
+//                        Text("900")
+//                            .font(.system(size: 14))
+//                            .fontWeight(.medium)
+//                            .foregroundColor(.green)
+//                            .padding(.trailing, 8)
+//                        Image(systemName: "star")
+//                            .font(.system(size: 14, weight: .regular))
+//                            .foregroundColor(.gray)
+//                            .padding(.trailing, 2)
+//                        Text("250")
+//                            .font(.system(size: 14))
+//                            .fontWeight(.regular)
+//                            .foregroundColor(Color(.gray))
+//                            .padding(.trailing, 6)
+//                        Image(systemName: "paperplane")
+//                            .font(.system(size: 14, weight: .regular))
+//                            .foregroundColor(.gray)
+//                            .padding(.trailing, 2)
+//                        Text("20K")
+//                            .font(.system(size: 14))
+//                            .fontWeight(.regular)
+//                            .foregroundColor(Color(.gray))
+//                    }

@@ -57,7 +57,7 @@ struct CreateDiscountScreen: View {
             Spacer()
             
             //MARK: SLIDER
-            if currentPointsBalance > 0 {
+            if currentPointsBalance > 50 {
                 Slider(
                 value: $rewardsUsed,
                 in: 0...Double(currentPointsBalance),

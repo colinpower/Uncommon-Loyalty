@@ -11,12 +11,13 @@ struct ItemForOrder: View {
     
     @EnvironmentObject var viewModel: AppViewModel
     
+    var itemID: String
     
     //Required variables to be passed
-    var userID: String
-    var email: String
-    var companyID: String
-    var itemID: String
+//    var userID: String
+//    var email: String
+//    var companyID: String
+//    var itemID: String
     
     
     //Setup variables for Review / Referral
@@ -70,7 +71,7 @@ struct ItemForOrder: View {
                                 } label: {
                                     Text("show Refer screen")
                                 }.fullScreenCover(isPresented: $isShowingReferScreen) {
-                                    ReferAFriend(companyID: companyID, companyName: "Athleisure LA TEST", isReferCompanyActive: $isShowingReferScreen)
+                                    ReferAFriend(companyID: item.companyID, companyName: "Athleisure LA TEST", isReferCompanyActive: $isShowingReferScreen)
                                 }
                                 Spacer()
                             }
@@ -154,11 +155,11 @@ struct ItemForOrder: View {
     }
 }
 
-struct ItemForOrder_Previews: PreviewProvider {
-    static var previews: some View {
-        ItemForOrder(userID: "mhjEZCv9JGdk0NUZaHMcNrDsH1x2", email: "colinjpower1@gmail.com", companyID: "zKL7SQ0jRP8351a0NnHM", itemID: "Z3GBvz1xRYuHl8Tj6Z9j")
-    }
-}
+//struct ItemForOrder_Previews: PreviewProvider {
+//    static var previews: some View {
+//        ItemForOrder(item: Items)
+//    }
+//}
 
 
 

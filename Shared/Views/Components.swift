@@ -52,15 +52,13 @@ struct MyTabView: View {
     @Binding var selectedTab:Int
     
     var body: some View {
-        HStack(alignment: .center) {
+        HStack(alignment: .center, spacing: UIScreen.main.bounds.width/11) {
             Spacer()
             TabViewItem(position: 0, selectedTab: $selectedTab)
-            Spacer()
             TabViewItem(position: 1, selectedTab: $selectedTab)
-            Spacer()
             TabViewItem(position: 2, selectedTab: $selectedTab)
-            Spacer()
             TabViewItem(position: 3, selectedTab: $selectedTab)
+            TabViewItem(position: 4, selectedTab: $selectedTab)
             Spacer()
         }.padding(.vertical)
         .padding(.bottom)
@@ -82,10 +80,12 @@ struct TabViewItem: View {
         case 0:
             return "dollarsign.circle.fill"
         case 1:
-            return "house.fill"
+            return "bag.fill"
         case 2:
-            return "safari.fill"
+            return "house.fill"
         case 3:
+            return "safari.fill"
+        case 4:
             return "creditcard.fill"
         default:
             return "house.fill"

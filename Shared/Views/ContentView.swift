@@ -29,7 +29,7 @@ struct ContentView: View {
     @ObservedObject var viewModel_Users = UsersViewModel()
     
     //Add state var if it needs to be readable and passed across all screens. For example, a live workout in the Liftin' app is accessible anywhere
-    @State var selectedTab:Int = 3
+    @State var selectedTab:Int = 1
     
     //Can I move these variables to the Login view instead?
     @State private var email: String = ""
@@ -45,10 +45,15 @@ struct ContentView: View {
                 case 0:
                     Earn(selectedTab: $selectedTab)
                 case 1:
-                    Home(selectedTab: $selectedTab)
+                    AllOrders(selectedTab: $selectedTab)
+                    //ItemsAndOrders(selectedTab: $selectedTab)
+                    //Home(selectedTab: $selectedTab)
                 case 2:
-                    Discover(selectedTab: $selectedTab)
+                    Home(selectedTab: $selectedTab)
+                    //Home(selectedTab: $selectedTab)
                 case 3:
+                    Discover(selectedTab: $selectedTab)
+                case 4:
                     Wallet(selectedTab: $selectedTab)
                 default:
                     Home(selectedTab: $selectedTab)
