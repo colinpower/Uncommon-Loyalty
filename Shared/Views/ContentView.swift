@@ -29,14 +29,31 @@ struct ContentView: View {
     @ObservedObject var viewModel_Users = UsersViewModel()
     
     //Add state var if it needs to be readable and passed across all screens. For example, a live workout in the Liftin' app is accessible anywhere
+    @State var selectedTab:Int = 0
+    
+    //Can I move these variables to the Login view instead?
     @State private var email: String = ""
     @State private var alertItem: AlertItem? = nil
     @State var isShowingCheckEmailView: Bool = false
     
+    
     var body: some View {
         VStack {
             if viewModel.signedIn {
-                Home()
+                
+                switch selectedTab {
+                case 0:
+                    Earn(selectedTab: $selectedTab)
+                case 1:
+                    Home(selectedTab: $selectedTab)
+                case 2:
+                    Discover(selectedTab: $selectedTab)
+                case 3:
+                    Wallet(selectedTab: $selectedTab)
+                default:
+                    Home(selectedTab: $selectedTab)
+                }
+
             } else {
                 //MARK: TESTING ONLY - MUST DELETE WHEN SHIPPING
                 LoginView(email: $email, alertItem: $alertItem, isShowingCheckEmailView: $isShowingCheckEmailView)

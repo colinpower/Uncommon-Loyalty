@@ -9,8 +9,6 @@ import SwiftUI
 
 struct TempFile: View {
     
-    @Binding var selectedRP: RewardsProgram
-    
     
     var body: some View {
         

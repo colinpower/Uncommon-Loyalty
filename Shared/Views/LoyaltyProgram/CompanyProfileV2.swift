@@ -119,9 +119,8 @@ struct CompanyProfileV2: View {
                                         .foregroundColor(colorToShow[1])
                                 }
                                 Spacer()
-                                Text("(i)")
-                                    .font(.system(size: 16))
-                                    .fontWeight(.regular)
+                                Image(systemName: "ellipsis.circle")
+                                    .font(.system(size: 16, weight: .semibold))
                                     .foregroundColor(Color("ThemeBright"))
                                     .padding(.top, 4)
                             }.padding(.bottom).padding(.bottom)
@@ -130,96 +129,6 @@ struct CompanyProfileV2: View {
                             HStack (alignment: .center, spacing: 20) {
                                 
                                 //MARK: TOP CARD - BUTTONS - REDEEM
-                                
-//                                Button {
-//                                    showSheetRedeem = true
-//                                } label: {
-//                                    HStack {
-//                                        Spacer()
-//                                        Text("Redeem")
-//                                            .font(.system(size: 16))
-//                                            .fontWeight(.semibold)
-//                                            .foregroundColor(.white)
-//                                        Spacer()
-//                                    }.padding(.vertical, 12)
-//                                    .background(RoundedRectangle(cornerRadius: 32).foregroundColor(Color("ThemeBright")))
-//                                }.halfSheet(showSheet: $showSheetRedeem) {
-//                                    //my half sheet view
-//                                    HStack {
-//                                        Spacer()
-//
-//                                        CreateDiscountScreen2(isCreateDiscountScreen2Active: $showSheetRedeem, companyID: companyID, companyName: companyName, currentPointsBalance: viewModel1.oneRewardsProgram.first?.currentPointsBalance ?? 0).navigationTitle("").navigationBarHidden(true)
-//
-//                                        Spacer()
-//                                        }.edgesIgnoringSafeArea(.all)
-//                                        .background(Color.white)
-//
-//                                } onEnd : {
-//                                    print("Dismissed")
-//                                }
-                                
-//                                Button {
-//                                    showSheet2 = true
-//                                } label: {
-//                                    Text("OPEN HALF SHEET")
-//                                }.halfSheet2(showSheet2: $showSheet2) {
-//                                    //my half sheet view
-//                                    HStack {
-//                                        Spacer()
-//                                        VStack {
-//                                            Text("asldkjfalsdkfjsd")
-//
-//                                            Spacer()
-//                                            Text("saldkfjasldf")
-//                                            Spacer()
-//
-//                                            Button {
-//                                                UIPasteboard.general.string = "asdlfkjasdlfas"
-//                                            } label: {
-//                                                HStack {
-//                                                    Spacer()
-//                                                    Text("Copy code")
-//                                                        .font(.system(size: 18))
-//                                                        .fontWeight(.semibold)
-//                                                        .foregroundColor(Color(.white))
-//                                                        .padding(.vertical)
-//                                                    Spacer()
-//                                                }
-//                                                .background(RoundedRectangle(cornerRadius: 32).foregroundColor(Color("ThemeAction")))
-//                                                .padding(.horizontal)
-//                                                .padding(.horizontal)
-//                                            }
-//
-//
-//
-//                                            Divider()
-//                                            Button {
-//                                                showSheet2 = false
-//                                            } label: {
-//                                                Text("Close sheet")
-//                                                    .font(.system(size: 18))
-//                                                    .fontWeight(.semibold)
-//                                                    .foregroundColor(Color("Dark1"))
-//                                                    .padding()
-//                                            }.padding(.bottom)
-//
-//                                        }
-//                                        Spacer()
-//                                    }
-//                                    .edgesIgnoringSafeArea(.all)
-//                                        .background(Color.white)
-//
-//                                } onEnd2 : {
-//                                    print("Dismissed")
-//                                }
-                                
-                                
-                                
-                                
-                                
-                                
-                                
-                                
                                 
                                 Button {
                                     isCreateDiscountScreenActive.toggle()
@@ -367,44 +276,17 @@ struct CompanyProfileV2: View {
                                 HStack{
                                     
                                     
-                                    ForEach(viewModel_Items.myReviewableItemsForCompany.indices.prefix(3), id: \.self) { index in
-                                        if index == 0 {
-                                            Button {
-                                                isPrompt1Active.toggle()
-                                            } label: {
-                                                PromptCard(image: "Athleisure LA", title: "Write a review", points: 100, itemID: viewModel_Items.myReviewableItemsForCompany[index].itemID)
-                                            }
-//                                            .fullScreenCover(isPresented: $isPrompt1Active) {
-//                                                ReviewProductPreview(companyID: companyID, email: email, itemID: viewModel_Items.myReviewableItemsForCompany[index].itemID, userID: userID, isActive: $isPrompt1Active)
-//                                            }
-                                        } else if index == 1 {
-                                            Button {
-                                                isPrompt2Active.toggle()
-                                            } label: {
-                                                Text("example 2")
-//                                                PromptCard(image: "Athleisure LA", title: "Write a review", points: 100, text: "Write a review for ldkjf aldkjfadoi a oiajdflka lkasdf a dfal alsdkfj akjdfa akdjf " + viewModel5.mySuggestedItems[index].itemID, width: geometry.size.width*1/2)
-                                            }
-//                                            .fullScreenCover(isPresented: $isPrompt2Active) {
-//                                                ReviewProductPreview(companyID: companyID, email: email, orderID: "ABC123", userID: userID, isActive: $isPrompt2Active)
-//                                            }
-                                        } else if index == 2 {
-                                            
-                                        } else {
-                                            
+                                    ForEach(viewModel_Items.myReviewableItemsForCompany.prefix(3)) { item in
+                                        
+                                        NavigationLink {
+                                            IntentToReview(itemObject: item)
+                                        } label: {
+                                            PromptCard(image: "Athleisure LA", title: "Write a review", points: 100, itemID: item.itemID)
+                                                .shadow(color: Color.black.opacity(0.3), radius: 10, x: 0, y: 10)
                                         }
                                     }
-//                                    ForEach(viewModel4.myOrders.prefix(3)) { Order in
-//                                        Button {
-//                                            isPrompt1Active.toggle()
-//                                        } label: {
-//                                            PromptCard(image: "Athleisure LA", title: "Write a review", points: 100, text: "Write a review for ldkjf aldkjfadoi a oiajdflka lkasdf a dfal alsdkfj akjdfa akdjf " + Order.orderID, width: geometry.size.width*1/2)
-//                                        }.fullScreenCover(isPresented: $isPrompt1Active) {
-//                                            ReviewProductPreview(companyID: companyID, email: email, orderID: "123", userID: userID, isActive: $isPrompt1Active)
-//                                        }
-//                                    }
                                 }.padding(.horizontal)
                                     .padding(.vertical)
-                                //.padding(.bottom, 8)
                             }
                         }
                         
@@ -549,10 +431,6 @@ struct CompanyProfileV2: View {
                 print("REMOVING LISTENER_TRANSACTIONS")
                 self.viewModel3.listener_Transactions.remove()
             }
-//            if self.viewModel3.listener_Transactions7 != nil {
-//                print("REMOVING LISTENER_TRANSACTIONS7")
-//                self.viewModel3.listener_Transactions7.remove()
-//            }
             if self.ordersViewModel.listener_MyOrders != nil {
                 print("REMOVING LISTENER_ORDERS")
                 self.ordersViewModel.listener_MyOrders.remove()
@@ -567,76 +445,6 @@ struct CompanyProfileV2: View {
 }
 
 
-
-
-////MARK: Attempting to create graph here
-//VStack {
-//    VStack(alignment: .center, spacing: 2) {
-//        Text(String(viewModel1.oneRewardsProgram.first?.currentPointsBalance ?? -1))
-//            .font(.system(size: 48))
-//            .fontWeight(.semibold)
-//            .foregroundColor(colorToShow[1])
-//        Text("Current Balance")
-//            .font(.system(size: 16))
-//            .fontWeight(.semibold)
-//            .foregroundColor(colorToShow[1])
-//    }.padding(.horizontal)
-//        .padding(.vertical)
-//        .padding(.vertical)
-//
-//    HStack {
-//        Button {
-//            //navigate to the "understand tiers" page
-//        } label: {
-//            Text("450 to Platinum")
-//                .font(.system(size: 14))
-//                .fontWeight(.semibold)
-//                .foregroundColor(Color("ThemeBright"))
-//        }
-//        Spacer()
-//        Text("--------------------")
-//    }
-//
-//    LineGraph(data: createLast60DaysPointsArray(transactions: viewModel3.last60DaysTransactions, currentBalance: viewModel1.oneRewardsProgram.first?.currentPointsBalance ?? 0))
-//        .frame(height: 200)
-//        .padding(.bottom).padding(.bottom)
-//
-//
-//    HStack (alignment: .center, spacing: 24) {
-//        Button {
-//            isCreateDiscountScreenActive.toggle()
-//        } label: {
-//            HStack {
-//                Spacer()
-//                Text("Redeem")
-//                    .font(.system(size: 16))
-//                    .fontWeight(.semibold)
-//                    .foregroundColor(.white)
-//                Spacer()
-//            }.padding(.vertical, 12)
-//            .background(RoundedRectangle(cornerRadius: 32).foregroundColor(Color("ThemeBright")))
-//        }.fullScreenCover(isPresented: $isCreateDiscountScreenActive, content: {
-//            CreateDiscountScreen(isCreateDiscountScreenActive: $isCreateDiscountScreenActive, companyID: companyID, companyName: companyName, currentPointsBalance: viewModel1.oneRewardsProgram.first?.currentPointsBalance ?? 0).navigationTitle("").navigationBarHidden(true)
-//        })
-//
-//        Button {
-//            //open website
-//        } label: {
-//            HStack {
-//                Spacer()
-//                Link(destination: URL(string: urlToShopifySite)!) {
-//                    Text("Visit site")
-//                        .font(.system(size: 16))
-//                        .fontWeight(.semibold)
-//                        .foregroundColor(.white)
-//                }
-//                Spacer()
-//            }.padding(.vertical, 12)
-//                .background(RoundedRectangle(cornerRadius: 32).foregroundColor(Color("ThemeBright")))
-//        }
-//    }.padding(.horizontal).padding(.horizontal)
-//        .padding(.bottom)
-//}
 
 
 
@@ -757,15 +565,6 @@ extension View {
             )
     }
     
-//    //Binding show variable 2
-//    func halfSheet2<SheetView: View>(showSheet2: Binding<Bool>, @ViewBuilder sheetView2: @escaping () -> SheetView, onEnd2: @escaping ()->())-> some View {
-//
-//        //use .overlay because it will automatically use hte swiftui frame size only
-//        return self
-//            .background(
-//                HalfSheetHelper2(sheetView2: sheetView2(), showSheet2: showSheet2, onEnd2: onEnd2)
-//            )
-//    }
     
 }
 
@@ -824,62 +623,6 @@ struct HalfSheetHelper<SheetView: View>: UIViewControllerRepresentable {
     
 }
 
-////UI KIt integration 2
-//struct HalfSheetHelper2<SheetView: View>: UIViewControllerRepresentable {
-//
-//    var sheetView2: SheetView
-//    @Binding var showSheet2:Bool
-//    var onEnd2: () -> ()
-//
-//
-//    let controller2 = UIViewController()
-//
-//    func makeCoordinator() -> Coordinator2 {
-//        return Coordinator2(parent2: self)
-//    }
-//
-//    func makeUIViewController(context: Context) -> UIViewController {
-//        controller2.view.backgroundColor = .clear
-//
-//        return controller2
-//    }
-//
-//
-//    func updateUIViewController(_ uiViewController: UIViewController, context: Context) {
-//
-//        if showSheet2 {
-//
-//            //isPresenting
-//            let sheetController2 = CustomHostingController2(rootView: sheetView2)
-//            sheetController2.presentationController?.delegate = context.coordinator
-//            uiViewController.present(sheetController2, animated: true)
-//        }
-//        else {
-//            // closing view when showSheet toggled again...
-//            uiViewController.dismiss(animated: true)
-//        }
-//    }
-//
-//    //on Dismiss
-//    class Coordinator2: NSObject, UISheetPresentationControllerDelegate {
-//        var parent2: HalfSheetHelper2
-//
-//        init(parent2: HalfSheetHelper2) {
-//            self.parent2 = parent2
-//        }
-//
-//        func presentationControllerWillDismiss(_ presentationController: UIPresentationController) {
-//            parent2.showSheet2 = false
-//        }
-//
-//        func presentationControllerDidDismiss(_ presentationController: UIPresentationController) {
-//            parent2.showSheet2 = false
-//            parent2.onEnd2()
-//        }
-//    }
-//
-//}
-
 
 
 // Custom UIHostingController for halfSheet...
@@ -902,25 +645,3 @@ class CustomHostingController<Content: View>: UIHostingController<Content> {
         }
     }
 }
-
-
-//// Custom UIHostingController for halfSheet2...
-//class CustomHostingController2<Content: View>: UIHostingController<Content> {
-//
-//    override func viewDidLoad() {
-//
-//        view.backgroundColor = .clear
-//
-//        //setting presentation controller properties...
-//        if let presentationController = presentationController as? UISheetPresentationController{
-//
-//            presentationController.detents = [
-//                .medium(),
-//                .large()
-//            ]
-//
-//            //to show grabber
-//            presentationController.prefersGrabberVisible = true
-//        }
-//    }
-//}

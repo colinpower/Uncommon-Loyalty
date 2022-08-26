@@ -17,6 +17,8 @@ struct ReviewProductCarousel1: View {
     
     @Binding var showingReviewProductScreen: Bool
     
+    @State var showingPositiveReviewScreen: Bool = false
+    
     @State var horizontalOffset : CGFloat = UIScreen.main.bounds.width
     @State var rating : Int = 0
     @State var response1: String = ""
@@ -30,11 +32,12 @@ struct ReviewProductCarousel1: View {
     @State var questionsArray: [String] = [String](repeating: "", count: 3)
     @State var answersArray: [String] = [String](repeating: "", count: 3)
     
+    var itemObject: Items
     
-    var companyID: String
-    var itemID: String
-    var email: String
-    var emailUID: String
+//    var companyID: String
+//    var itemID: String
+//    var email: String
+//    var emailUID: String
     
     var screenWidth:CGFloat = UIScreen.main.bounds.width     //this should be 428 for an iPhone 12 Pro Max
     
@@ -59,7 +62,7 @@ struct ReviewProductCarousel1: View {
                         HStack (alignment: .center) {
                             Spacer()
                             Button {
-                                showingReviewProductScreen.toggle()
+                                showingReviewProductScreen = false
                             } label: {
                                 Image(systemName: "xmark")
                                     .foregroundColor(.white)
@@ -301,7 +304,7 @@ struct ReviewProductCarousel1: View {
                                         
                                         //Post back to the reviews viewmodel
                                         
-                                        reviewsViewModel.addReview(companyID: companyID, email: email, itemID: itemID, reviewRating: rating, questionsArray: questionsArray, responsesArray: answersArray, reviewTitle: answersArray[1], userID: emailUID)
+                                        reviewsViewModel.addReview(companyID: itemObject.companyID, email: itemObject.email, itemID: itemObject.itemID, reviewRating: rating, questionsArray: questionsArray, responsesArray: answersArray, reviewTitle: answersArray[1], userID: itemObject.userID)
                                         
                                         //Dismiss the prompt
                                         
@@ -329,21 +332,22 @@ struct ReviewProductCarousel1: View {
                                             answersArray[2] = (response2)
                                         }
                                         
-                                        
-//                                        withAnimation(.linear(duration: 0.15)) {
-//                                            horizontalOffset = calculateNewHorizontalOffset(currentHorizontalOffset: horizontalOffset, numberOfQuestions: numberOfScreens, screenWidth: screenWidth, moveToTheRight: true)
-//                                        }
                                         hideKeyboard()
                                         print(questionsArray)
                                         print(answersArray)
                                         
                                         //Post back to the reviews viewmodel
                                         
-                                        reviewsViewModel.addReview(companyID: companyID, email: email, itemID: itemID, reviewRating: rating, questionsArray: questionsArray, responsesArray: answersArray, reviewTitle: answersArray[1], userID: emailUID)
+                                        reviewsViewModel.addReview(companyID: itemObject.companyID, email: itemObject.email, itemID: itemObject.itemID, reviewRating: rating, questionsArray: questionsArray, responsesArray: answersArray, reviewTitle: answersArray[1], userID: itemObject.userID)
                                         
-                                        //Dismiss the prompt
+                                        //Trigger the celebration page
                                         DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) {
+                                            
                                             showingReviewProductScreen = false
+                                            showingPositiveReviewScreen = true
+                                            
+                                            //Dismiss the prompt
+                                            
                                         }
                                         
                                         
@@ -386,6 +390,10 @@ struct ReviewProductCarousel1: View {
             }
             .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
             .ignoresSafeArea()
+            .fullScreenCover(isPresented: $showingPositiveReviewScreen, content: {
+                PositiveReview(showingReviewProductScreen: $showingReviewProductScreen)   //, showingPositiveReviewScreen: $showingPositiveReviewScreen)
+            })
+            
         }.onAppear {
             print(String(Int(UIScreen.main.bounds.width)))
             print("screenWidth Variable")
@@ -439,13 +447,13 @@ extension View {
 
 
 
-struct ReviewProductCarousel1_Previews: PreviewProvider {
-    static var previews: some View {
-        Group {
-            ReviewProductCarousel1(showingReviewProductScreen: .constant(true), companyID: "zKL7SQ0jRP8351a0NnHM", itemID: "Z3GBvz1xRYuHl8Tj6Z9j", email: "colinjpower1@gmail.com", emailUID: "mhjEZCv9JGdk0NUZaHMcNrDsH1x2")
-        }
-    }
-}
+//struct ReviewProductCarousel1_Previews: PreviewProvider {
+//    static var previews: some View {
+//        Group {
+//            ReviewProductCarousel1(showingReviewProductScreen: .constant(true), companyID: "zKL7SQ0jRP8351a0NnHM", itemID: "Z3GBvz1xRYuHl8Tj6Z9j", email: "colinjpower1@gmail.com", emailUID: "mhjEZCv9JGdk0NUZaHMcNrDsH1x2")
+//        }
+//    }
+//}
 
 
 #if canImport(UIKit)

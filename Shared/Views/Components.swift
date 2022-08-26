@@ -10,6 +10,102 @@ import Foundation
 import SDWebImageSwiftUI
 import FirebaseStorage
 
+
+//MARK: PAGE HEADER
+struct PageHeader: View {
+    
+    @Binding var isProfileActive:Bool
+    
+    var pageTitle: String
+    
+    var body: some View {
+        HStack(alignment: .center){
+            Text(pageTitle)
+                .font(.system(size: 24))
+                .fontWeight(.semibold)
+                .foregroundColor(Color("Dark1"))
+            Spacer()
+            Button {
+                isProfileActive.toggle()
+            } label: {
+                Image(systemName: "person.crop.circle")
+                    .foregroundColor(Color("Dark1"))
+                    .font(.system(size: 30))
+            }.fullScreenCover(isPresented: $isProfileActive, content: {
+                Profile(isProfileActive: $isProfileActive)
+            })
+        }.padding(.horizontal)
+            .padding(.top, 60)
+    }
+}
+
+
+
+
+
+
+
+
+//MARK: TABVIEW
+struct MyTabView: View {
+    
+    @Binding var selectedTab:Int
+    
+    var body: some View {
+        HStack(alignment: .center) {
+            Spacer()
+            TabViewItem(position: 0, selectedTab: $selectedTab)
+            Spacer()
+            TabViewItem(position: 1, selectedTab: $selectedTab)
+            Spacer()
+            TabViewItem(position: 2, selectedTab: $selectedTab)
+            Spacer()
+            TabViewItem(position: 3, selectedTab: $selectedTab)
+            Spacer()
+        }.padding(.vertical)
+        .padding(.bottom)
+        .background(Color("Background"))
+        .frame(height: 70)
+    }
+    
+}
+
+
+//MARK: TABVIEW
+struct TabViewItem: View {
+    
+    var position: Int
+    @Binding var selectedTab:Int
+    
+    var tabViewItemImageName: String {
+        switch position {
+        case 0:
+            return "dollarsign.circle.fill"
+        case 1:
+            return "house.fill"
+        case 2:
+            return "safari.fill"
+        case 3:
+            return "creditcard.fill"
+        default:
+            return "house.fill"
+        }
+    }
+    
+    var body: some View {
+
+            Button {
+                selectedTab = position
+            } label: {
+                Image(systemName: tabViewItemImageName)
+                    .foregroundColor(selectedTab == position ? .black : .gray)
+                    .font(.system(size: 30))
+            }
+         
+    }
+}
+
+//MARK: SHEET HEADER
 struct SheetHeader: View {
     
     var title: String
@@ -39,12 +135,13 @@ struct SheetHeader: View {
     }
 }
 
-
+//MARK: ALERT ITEM
 struct AlertItem: Identifiable {
   var id = UUID()
   var title: String
   var message: String
 }
+
 
 struct WidgetSolo: View {
     
@@ -222,6 +319,7 @@ struct WideWidgetItem: View {
 }
 
 
+
 //MARK: PROMPT CARD
 //Used on Home, CompanyProfile pages to prompt user to review products or refer them to friends
 struct PromptCard: View {
@@ -239,7 +337,7 @@ struct PromptCard: View {
         VStack(alignment: .leading) {
             
             //MARK: THE IMAGE
-            ZStack {
+            ZStack (alignment: .topLeading) {
 //                if urlForItem != "" {
 //                    WebImage(url: URL(string: urlForItem)!)
 //                        .resizable()
@@ -247,12 +345,18 @@ struct PromptCard: View {
 //                        .cornerRadius(30)
 //                        .frame(height: 250)
 //                } else {
-                    Image("AthleisureJogger")
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .cornerRadius(30)
-                        .frame(height: 150)
+                Image(image)
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .cornerRadius(30)
+                    .frame(height: 150)
 //                }
+                Image(systemName: "circle.fill")
+                    .font(.system(size: 32, weight: .semibold))
+                    .foregroundColor(.white)
+                Image(systemName: "star.circle.fill")
+                    .font(.system(size: 32, weight: .semibold))
+                    .foregroundColor(Color("ThemePrimary"))
             }
             
             Text("Write a review")
@@ -266,7 +370,7 @@ struct PromptCard: View {
             
         }.frame(width: 130, height: 180)
         .padding()
-        .background(RoundedRectangle(cornerRadius: 16).foregroundColor(.white))
+        .background(RoundedRectangle(cornerRadius: 16).foregroundColor(.white).shadow(color: Color.black.opacity(0.2), radius: 10, x: 0, y: 10))
         .padding(.trailing, 8)
             
     }

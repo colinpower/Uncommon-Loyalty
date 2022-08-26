@@ -13,6 +13,10 @@ struct Profile: View {
     
     @Binding var isProfileActive:Bool
     
+    
+    @State var isSendFeedbackActive:Bool = false
+    
+    
     //Share sheet tutorial
     //https://www.youtube.com/watch?v=WZOvroeUuxI&t=119s
     
@@ -93,6 +97,31 @@ struct Profile: View {
                                     .sheet(isPresented: $isShareSheetActive, content: {
                                         ShareSheet(items: ["Hey, download the Uncommon app to manage your rewards points! Check out this link"])
                                     })
+                                
+                                
+                                //MARK: HELP US IMPROVE
+                                WideWidgetHeader(title: "HELP US IMPROVE")
+
+                                    
+    //                                Button("Tap to show detail") {
+    //                                    self.isShowingDetailView = true
+    //                                }
+                                    
+    //                                NavigationLink(destination: SuggestAShopPreview()) {
+    //
+    //                                    WideWidgetItem(image: "lightbulb.circle.fill", size: 40, title: "Suggestions", subtitle: "What should we work on next?")
+    //
+    //                                }.padding(.bottom)
+                                    
+                                    //Send feedback
+                                    Button {
+                                        isSendFeedbackActive.toggle()
+                                    } label: {
+                                        WideWidgetItem(image: "bubble.left.circle.fill", size: 40, title: "Send feedback", subtitle: "We respond super fast!")
+                                    }.fullScreenCover(isPresented: $isSendFeedbackActive) {
+                                        SendFeedback(isSendFeedbackActive: $isSendFeedbackActive)
+                                    }
+
                                     
                                  
 

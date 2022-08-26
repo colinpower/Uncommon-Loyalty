@@ -53,7 +53,7 @@ struct ItemForOrder: View {
                                 } label: {
                                     Text("show Review screen")
                                 }.fullScreenCover(isPresented: $isShowingReviewScreen) {
-                                    ReviewProductCarousel1(showingReviewProductScreen: $isShowingReviewScreen, companyID: companyID, itemID: itemID, email: email, emailUID: viewModel.userID ?? "")
+                                    ReviewProductCarousel1(showingReviewProductScreen: $isShowingReviewScreen, itemObject: item)
                                 }
                                 Spacer()
                             }

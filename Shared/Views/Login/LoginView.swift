@@ -106,6 +106,8 @@ struct LoginView: View {
     @Binding var isShowingCheckEmailView: Bool
     
     
+    
+    
     var body: some View {
         if isShowingCheckEmailView {
             CheckYourEmail(isShowingCheckEmailView: $isShowingCheckEmailView)

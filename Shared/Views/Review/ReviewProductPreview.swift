@@ -107,21 +107,21 @@ struct ReviewProductPreview: View {
                                     Text("2m")
                                 }.padding(.horizontal, 24).padding(.bottom, 16)
                                 
-                                //Button
-                                Button(action: {
-                                   showingReviewProductScreen = true
-                               }) {
-                                   Text("Start Review")
-                                       .foregroundColor(Color.white)
-                                       .font(.body)
-                                       .fontWeight(.semibold)
-                                       .frame(width: geometry.size.width * 0.8, alignment: .center)
-                                       .padding(.vertical, 16)
-                                       .background(RoundedRectangle(cornerRadius: 36)
-                                        .fill(Color.blue))
-                               }.fullScreenCover(isPresented: $showingReviewProductScreen, content: {
-                                   ReviewProductCarousel1(showingReviewProductScreen: $showingReviewProductScreen, companyID: companyID, itemID: itemID, email: email, emailUID: userID)
-                               })
+//                                //Button
+//                                Button(action: {
+//                                   showingReviewProductScreen = true
+//                               }) {
+//                                   Text("Start Review")
+//                                       .foregroundColor(Color.white)
+//                                       .font(.body)
+//                                       .fontWeight(.semibold)
+//                                       .frame(width: geometry.size.width * 0.8, alignment: .center)
+//                                       .padding(.vertical, 16)
+//                                       .background(RoundedRectangle(cornerRadius: 36)
+//                                        .fill(Color.blue))
+//                               }.fullScreenCover(isPresented: $showingReviewProductScreen, content: {
+//                                   ReviewProductCarousel1(showingReviewProductScreen: $showingReviewProductScreen, companyID: companyID, itemID: itemID, email: email, emailUID: userID)
+//                               })
                             }.padding(.bottom, 40)
                         }.padding(.top)
                     }

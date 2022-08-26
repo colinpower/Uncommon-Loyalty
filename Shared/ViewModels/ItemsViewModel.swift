@@ -21,6 +21,7 @@ class ItemsViewModel: ObservableObject, Identifiable {
     
     
     @Published var snapshotOfItem = [Items]()
+    @Published var snapshotOfReviewableItems = [Items]()
     
     var dm = DataManager()
     
@@ -115,6 +116,29 @@ class ItemsViewModel: ObservableObject, Identifiable {
                 
                 self.snapshotOfItem = snapshot.documents.compactMap({ queryDocumentSnapshot -> Items? in
                     print("AT THE TRY STATEMENT FOR ITEMS")
+                    print(try? queryDocumentSnapshot.data(as: Items.self))
+                    return try? queryDocumentSnapshot.data(as: Items.self)
+                })
+            }
+        
+    }
+    
+    func getSnapshotOfReviewableItems(userID: String) {
+        //print("this ONE function was called")
+        
+        db.collection("item")
+            .whereField("userID", isEqualTo: userID)
+            .getDocuments { (snapshot, error) in
+                
+                guard let snapshot = snapshot, error == nil else {
+                    //handle error
+                    print("found error in snapshotOfItem")
+                    return
+                }
+                print("Number of documents: \(snapshot.documents.count)")
+                
+                self.snapshotOfReviewableItems = snapshot.documents.compactMap({ queryDocumentSnapshot -> Items? in
+                    print("AT THE TRY STATEMENT FOR REVIEWABLE ITEMS")
                     print(try? queryDocumentSnapshot.data(as: Items.self))
                     return try? queryDocumentSnapshot.data(as: Items.self)
                 })

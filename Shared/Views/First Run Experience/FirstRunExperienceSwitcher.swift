@@ -18,7 +18,8 @@ struct FirstRunExperienceSwitcher: View {
         if !hasShownFRE {
             FirstRunExperience()
         } else {
-            Home()
+//            Home()
+            EmptyView()
         }
     }
 }
