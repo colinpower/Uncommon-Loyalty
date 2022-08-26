@@ -29,7 +29,7 @@ struct ContentView: View {
     @ObservedObject var viewModel_Users = UsersViewModel()
     
     //Add state var if it needs to be readable and passed across all screens. For example, a live workout in the Liftin' app is accessible anywhere
-    @State var selectedTab:Int = 0
+    @State var selectedTab:Int = 3
     
     //Can I move these variables to the Login view instead?
     @State private var email: String = ""

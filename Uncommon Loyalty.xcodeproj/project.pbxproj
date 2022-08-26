@@ -101,6 +101,7 @@
 		30FF41A128B635F200D70BC5 /* HomeWithPopOutCards.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30FF41A028B635F200D70BC5 /* HomeWithPopOutCards.swift */; };
 		30FF41A328B6886B00D70BC5 /* PositiveReview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30FF41A228B6886B00D70BC5 /* PositiveReview.swift */; };
 		30FF41A528B68DD500D70BC5 /* ChooseYourReward.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30FF41A428B68DD500D70BC5 /* ChooseYourReward.swift */; };
+		30FF41A728B8A62E00D70BC5 /* RewardCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30FF41A628B8A62E00D70BC5 /* RewardCard.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -198,6 +199,7 @@
 		30FF41A028B635F200D70BC5 /* HomeWithPopOutCards.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeWithPopOutCards.swift; sourceTree = "<group>"; };
 		30FF41A228B6886B00D70BC5 /* PositiveReview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PositiveReview.swift; sourceTree = "<group>"; };
 		30FF41A428B68DD500D70BC5 /* ChooseYourReward.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChooseYourReward.swift; sourceTree = "<group>"; };
+		30FF41A628B8A62E00D70BC5 /* RewardCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RewardCard.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -309,6 +311,7 @@
 			isa = PBXGroup;
 			children = (
 				3014FA782796FBF700473CE4 /* RewardsProgram.swift */,
+				30FF41A628B8A62E00D70BC5 /* RewardCard.swift */,
 				3088073B28A563BA003D1B99 /* Companies.swift */,
 				307BCA2027975C27000DDD21 /* DiscountCodes.swift */,
 				307BCA2427975F2E000DDD21 /* Transactions.swift */,
@@ -720,6 +723,7 @@
 				302AB47528B359820086D4CA /* OneOrder.swift in Sources */,
 				3014FA7527965E2F00473CE4 /* CompanyProfile.swift in Sources */,
 				307BCA2327975C8A000DDD21 /* DiscountCodesViewModel.swift in Sources */,
+				30FF41A728B8A62E00D70BC5 /* RewardCard.swift in Sources */,
 				30C8102828878776004B1DA7 /* AddCompanyWidget.swift in Sources */,
 				307BCA2127975C27000DDD21 /* DiscountCodes.swift in Sources */,
 				308B83FC27F768A200BC5211 /* ReviewHistory.swift in Sources */,
