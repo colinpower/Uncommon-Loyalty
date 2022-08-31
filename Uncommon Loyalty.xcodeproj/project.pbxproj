@@ -21,6 +21,7 @@
 		3014FA792796FBF800473CE4 /* RewardsProgram.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3014FA782796FBF700473CE4 /* RewardsProgram.swift */; };
 		3014FA952796FE7000473CE4 /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3014FA942796FE7000473CE4 /* DataManager.swift */; };
 		3014FA972796FF5B00473CE4 /* RewardsProgramViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3014FA962796FF5B00473CE4 /* RewardsProgramViewModel.swift */; };
+		3025C1B328BF312600C2861F /* IntentKnockoff.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3025C1B228BF312600C2861F /* IntentKnockoff.swift */; };
 		302AB46C28B12B130086D4CA /* Items.swift in Sources */ = {isa = PBXBuildFile; fileRef = 302AB46B28B12B130086D4CA /* Items.swift */; };
 		302AB46E28B12BFE0086D4CA /* ItemsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 302AB46D28B12BFE0086D4CA /* ItemsViewModel.swift */; };
 		302AB47328B3597A0086D4CA /* AllOrders.swift in Sources */ = {isa = PBXBuildFile; fileRef = 302AB47228B3597A0086D4CA /* AllOrders.swift */; };
@@ -137,6 +138,7 @@
 		3014FA782796FBF700473CE4 /* RewardsProgram.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RewardsProgram.swift; sourceTree = "<group>"; };
 		3014FA942796FE7000473CE4 /* DataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
 		3014FA962796FF5B00473CE4 /* RewardsProgramViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RewardsProgramViewModel.swift; sourceTree = "<group>"; };
+		3025C1B228BF312600C2861F /* IntentKnockoff.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntentKnockoff.swift; sourceTree = "<group>"; };
 		302AB46B28B12B130086D4CA /* Items.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Items.swift; sourceTree = "<group>"; };
 		302AB46D28B12BFE0086D4CA /* ItemsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemsViewModel.swift; sourceTree = "<group>"; };
 		302AB47228B3597A0086D4CA /* AllOrders.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllOrders.swift; sourceTree = "<group>"; };
@@ -475,6 +477,7 @@
 			isa = PBXGroup;
 			children = (
 				30FF419528B61C0300D70BC5 /* IntentToReview.swift */,
+				3025C1B228BF312600C2861F /* IntentKnockoff.swift */,
 				308B83FB27F768A200BC5211 /* ReviewHistory.swift */,
 				30C8102028877FD1004B1DA7 /* ReviewProductPreview.swift */,
 				30BA64D32889A177002E3FC8 /* ReviewProductCarousel1.swift */,
@@ -745,6 +748,7 @@
 				30DC3E7828A167C900613B4B /* FeaturedView2.swift in Sources */,
 				3014FA792796FBF800473CE4 /* RewardsProgram.swift in Sources */,
 				30FF419628B61C0300D70BC5 /* IntentToReview.swift in Sources */,
+				3025C1B328BF312600C2861F /* IntentKnockoff.swift in Sources */,
 				3088074228A61A6F003D1B99 /* Users.swift in Sources */,
 				30EA87B9281351E200F0CF64 /* Orders.swift in Sources */,
 				3032829328A4CEB60038A053 /* FirstRunExperience.swift in Sources */,

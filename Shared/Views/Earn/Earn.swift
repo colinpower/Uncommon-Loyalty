@@ -32,8 +32,10 @@ struct Earn: View {
                     VStack(alignment: .center, spacing: 0) {
                         
                         //MARK: TOP SECTION
-                        VStack(alignment: .leading, spacing: 16) {
+                        VStack(alignment: .leading) {
+                            
                             Divider().padding(.leading)
+                            
                             HStack {
                                 Text("Here's what's happening, Colin")
                                     .font(.title)
@@ -42,35 +44,19 @@ struct Earn: View {
                                     .multilineTextAlignment(.leading)
                                 Spacer(minLength: UIScreen.main.bounds.width / 3)
                             }.padding(.leading)
-                            .padding(.bottom).padding(.bottom)
+                                .padding(.vertical)
+                            .padding(.bottom)
+                            .padding(.bottom)
+                            
                             Text("Suggested for you")
-                                .font(.system(size: 20, weight: .bold))
+                                .font(.system(size: 22, weight: .bold))
                                 .foregroundColor(.black)
-                                .padding(.bottom, 10)
+                                .padding(.leading)
+                                .padding(.bottom, 5)
+                            
                             Divider()
                                 .padding(.bottom)
                         }
-                        
-                        
-                        
-                        
-                        
-//                        VStack(alignment: .leading, spacing: 0) {
-//                            HStack(spacing: 0) {
-//                                Text("Review purchases and refer your friends to earn rewards.")
-//                                    .font(.system(size: 18, weight: .regular))
-//                                    .foregroundColor(.black)
-//                                    .multilineTextAlignment(.leading)
-//                                Spacer(minLength: 0)
-//                            }
-//                        }.padding(.leading)
-//                        .padding(.vertical).padding(.vertical)
-                        
-                        
-                        //MARK: TOP SECTION SUBSECTION
-                        
-                        
-                        
                         
                         //MARK: REVIEWS SECTION - TITLE AND DESCRIPTION
                         VStack(alignment: .leading, spacing: 8) {
@@ -79,16 +65,16 @@ struct Earn: View {
                                 Image(systemName: "star.square.fill")
                                     .font(.system(size: 28, weight: .semibold))
                                     .foregroundColor(Color("ReviewTeal"))
-                                Text("Suggested reviews")
+                                Text("Review")
                                     .font(.system(size: 28))
                                     .fontWeight(.bold)
                                     .foregroundColor(Color("Dark1"))
                                 Spacer()
-                                Text("See All")
-                                    .font(.system(size: 16))
-                                    .fontWeight(.regular)
-                                    .foregroundColor(.blue)
-                            }
+//                                Text("See All")
+//                                    .font(.system(size: 16))
+//                                    .fontWeight(.regular)
+//                                    .foregroundColor(.blue)
+                            }.padding(.vertical)
                             
                             //Description
 //                            Text("Earn points for reviews and referrals")
@@ -101,19 +87,67 @@ struct Earn: View {
                         
                         //MARK: REVIEWS SECTION - CONTENT
                         VStack(alignment: .center, spacing: 24) {
-                            ForEach(itemsViewModel.snapshotOfReviewableItems.prefix(5)) { item in
+                            ForEach(itemsViewModel.snapshotOfReviewableItems.prefix(3)) { item in
                                                                 
                                 LargeItemReviewWidget(item: item)
 
                             }
+                        }.padding(.vertical)
+                        
+                        Divider().padding(.vertical).padding(.top).padding(.leading)
+                        
+                        //MARK: REFERRALS SECTION - TITLE AND DESCRIPTION
+                        VStack(alignment: .leading, spacing: 8) {
+                            //Title
+                            HStack(alignment: .center) {
+                                Image(systemName: "paperplane.fill")
+                                    .font(.system(size: 28, weight: .semibold))
+                                    .foregroundColor(Color("ReferPurple"))
+                                Text("Refer")
+                                    .font(.system(size: 28))
+                                    .fontWeight(.bold)
+                                    .foregroundColor(Color("Dark1"))
+                                Spacer()
+//                                Text("See All")
+//                                    .font(.system(size: 16))
+//                                    .fontWeight(.regular)
+//                                    .foregroundColor(.blue)
+                            }.padding(.vertical)
+                        }
+                        .padding(.horizontal)
+                        
+                        //MARK: REFERRALS SECTION - CONTENT
+                        VStack(alignment: .center, spacing: 24) {
                             
-                            ForEach(itemsViewModel.snapshotOfReviewableItems.prefix(1)) { item in
+                            ForEach(itemsViewModel.snapshotOfReviewableItems.prefix(3)) { item in
                                 
                                 LargeItemReferWidget(item: item)
                                 
                             }
                                 
                         }.padding(.vertical)
+                        
+                        Divider().padding(.vertical).padding(.top).padding(.leading)
+                        
+                        //MARK: ALL ITEMS SECTION - TITLE AND DESCRIPTION
+                        VStack(alignment: .leading, spacing: 8) {
+                            //Title
+                            HStack(alignment: .center) {
+                                Text("All recent purchases")
+                                    .font(.system(size: 28))
+                                    .fontWeight(.bold)
+                                    .foregroundColor(Color("Dark1"))
+                                Spacer()
+                            }.padding(.vertical)
+                        }
+                        .padding(.horizontal)
+                        
+                        //MARK: ALL ITEMS SECTION - CONTENT
+                        NavigationLink {
+                            ItemsAndOrders()
+                        } label: {
+                            Text("click here")
+                        }
                     }
 
                 }
@@ -138,7 +172,7 @@ struct Earn: View {
                             isProfileActive.toggle()
                         } label: {
                             Image(systemName: "person.circle")
-                                .font(.system(size: 28, weight: .medium))
+                                .font(.system(size: 20, weight: .medium))
                                 .foregroundColor(Color("Dark1"))
                         }.fullScreenCover(isPresented: $isProfileActive) {
                             Profile(isProfileActive: $isProfileActive)
