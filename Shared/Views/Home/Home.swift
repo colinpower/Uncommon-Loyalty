@@ -136,9 +136,27 @@ struct Home: View {
 
                 }
             }
+            .background(.white)
             .edgesIgnoringSafeArea([.horizontal, .bottom])
             .navigationTitle("Accounts")
             //.navigationBarHidden(true)
+            .toolbar {
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    //this is a hack to get a navigationlink inside a toolbarItem
+                    HStack(alignment: .center, spacing: 0) {
+                        Button {
+                            isProfileActive.toggle()
+                        } label: {
+                            Image(systemName: "person.circle")
+                                .font(.system(size: 20, weight: .medium))
+                                .foregroundColor(Color("Dark1"))
+                        }.fullScreenCover(isPresented: $isProfileActive) {
+                            Profile(isProfileActive: $isProfileActive)
+                        }
+                    }
+                }
+            }
+            
             .onAppear {
                 self.rewardsProgramViewModel.listenForMyRewardsPrograms(email: viewModel.email ?? "")
                 
