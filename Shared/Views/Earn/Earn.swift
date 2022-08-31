@@ -26,53 +26,94 @@ struct Earn: View {
         NavigationView {
             
             VStack(alignment: .center, spacing: 0) {
-                //MARK: TITLE
-                //PageHeader(isProfileActive: $isProfileActive, pageTitle: "Earn")
-                Divider().padding(.horizontal)//.padding(.bottom)
+                
                 //MARK: CONTENT
                 ScrollView {
-                    VStack(alignment: .center, spacing: 12) {
+                    VStack(alignment: .center, spacing: 0) {
+                        
+                        //MARK: TOP SECTION
+                        VStack(alignment: .leading, spacing: 16) {
+                            Divider().padding(.leading)
+                            HStack {
+                                Text("Here's what's happening, Colin")
+                                    .font(.title)
+                                    .fontWeight(.bold)
+                                    .foregroundColor(Color("Dark1"))
+                                    .multilineTextAlignment(.leading)
+                                Spacer(minLength: UIScreen.main.bounds.width / 3)
+                            }.padding(.leading)
+                            .padding(.bottom).padding(.bottom)
+                            Text("Suggested for you")
+                                .font(.system(size: 20, weight: .bold))
+                                .foregroundColor(.black)
+                                .padding(.bottom, 10)
+                            Divider()
+                                .padding(.bottom)
+                        }
+                        
+                        
+                        
+                        
+                        
+//                        VStack(alignment: .leading, spacing: 0) {
+//                            HStack(spacing: 0) {
+//                                Text("Review purchases and refer your friends to earn rewards.")
+//                                    .font(.system(size: 18, weight: .regular))
+//                                    .foregroundColor(.black)
+//                                    .multilineTextAlignment(.leading)
+//                                Spacer(minLength: 0)
+//                            }
+//                        }.padding(.leading)
+//                        .padding(.vertical).padding(.vertical)
+                        
+                        
+                        //MARK: TOP SECTION SUBSECTION
+                        
+                        
+                        
                         
                         //MARK: REVIEWS SECTION - TITLE AND DESCRIPTION
                         VStack(alignment: .leading, spacing: 8) {
                             //Title
                             HStack(alignment: .center) {
-                                Text("Latest Rewards")
-                                    .font(.system(size: 24))
+                                Image(systemName: "star.square.fill")
+                                    .font(.system(size: 28, weight: .semibold))
+                                    .foregroundColor(Color("ReviewTeal"))
+                                Text("Suggested reviews")
+                                    .font(.system(size: 28))
                                     .fontWeight(.bold)
                                     .foregroundColor(Color("Dark1"))
                                 Spacer()
-                                Text("See all")
+                                Text("See All")
                                     .font(.system(size: 16))
                                     .fontWeight(.regular)
                                     .foregroundColor(.blue)
                             }
                             
                             //Description
-                            Text("Earn points for reviews and referrals")
-                                .font(.system(size: 16))
-                                .fontWeight(.regular)
-                                .foregroundColor(Color("Gray1"))
-                                .multilineTextAlignment(.leading)
-                        }.padding(.horizontal)
+//                            Text("Earn points for reviews and referrals")
+//                                .font(.system(size: 16))
+//                                .fontWeight(.regular)
+//                                .foregroundColor(Color("Dark1"))
+//                                .multilineTextAlignment(.leading)
+                        }
+                        .padding(.horizontal)
                         
                         //MARK: REVIEWS SECTION - CONTENT
-                        ScrollView (.vertical, showsIndicators: false) {
-                            VStack(alignment: .center, spacing: 24) {
-                                ForEach(itemsViewModel.snapshotOfReviewableItems.prefix(5)) { item in
-                                                                    
-                                    LargeItemReviewWidget(item: item)
+                        VStack(alignment: .center, spacing: 24) {
+                            ForEach(itemsViewModel.snapshotOfReviewableItems.prefix(5)) { item in
+                                                                
+                                LargeItemReviewWidget(item: item)
 
-                                }
+                            }
+                            
+                            ForEach(itemsViewModel.snapshotOfReviewableItems.prefix(1)) { item in
                                 
-                                ForEach(itemsViewModel.snapshotOfReviewableItems.prefix(1)) { item in
-                                    
-                                    LargeItemReferWidget(item: item)
-                                    
-                                }
-                                    
-                            }.padding(.vertical)
-                        }
+                                LargeItemReferWidget(item: item)
+                                
+                            }
+                                
+                        }.padding(.vertical)
                     }
 
                 }
@@ -80,14 +121,38 @@ struct Earn: View {
                 //MARK: TABS
                 MyTabView(selectedTab: $selectedTab)
                 
-            }//.background(.white)
-            .background(Color("Background"))
-            //.edgesIgnoringSafeArea([.bottom])
-            .ignoresSafeArea()                     //Note: need to ignoreSafeArea, set nav title to "", set barHidden to true in order not to break when returning from a navigationViewChild
-            //    .navigationTitle("Earn").font(.title).background(Color(.white))
+            }
+            
+            
+            
+            .background(.white)
+            //.background(Color("Background"))
+            .edgesIgnoringSafeArea([.bottom, .horizontal])
+            //.ignoresSafeArea()                     //Note: need to ignoreSafeArea, set nav title to "", set barHidden to true in order not to break when returning from a navigationViewChild
+            .navigationTitle("Earn").font(.title)
+            .toolbar {
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    //this is a hack to get a navigationlink inside a toolbarItem
+                    HStack(alignment: .center, spacing: 0) {
+                        Button {
+                            isProfileActive.toggle()
+                        } label: {
+                            Image(systemName: "person.circle")
+                                .font(.system(size: 28, weight: .medium))
+                                .foregroundColor(Color("Dark1"))
+                        }.fullScreenCover(isPresented: $isProfileActive) {
+                            Profile(isProfileActive: $isProfileActive)
+                        }
+                    }
+                }
+            }
+            
+            
+            
+            //.background(Color(.white))
             //.navigationBarTitleDisplayMode(.inline)
-            .navigationBarTitle("")
-            .navigationBarHidden(true)
+            //.navigationBarTitle("")
+            //.navigationBarHidden(true)
             .onAppear {
                 self.itemsViewModel.getSnapshotOfReviewableItems(userID: viewModel.userID ?? "")
                 //print(self.itemsViewModel.snapshotOfReviewableItems)
