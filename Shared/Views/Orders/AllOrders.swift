@@ -16,6 +16,8 @@ struct AllOrders: View {
     //Getting the data for this view
     @StateObject var ordersViewModel = OrdersViewModel()
     
+    @State var isProfileActive = false
+    
     
     //Required variables to be passed
     //var userID: String
@@ -34,39 +36,84 @@ struct AllOrders: View {
         NavigationView {
                 
             VStack(alignment: .center, spacing: 0) {
-                HStack {
-                    Text("Orders")
-                        .font(.system(size: 40, weight: .bold))
-                        .foregroundColor(.black)
-                    Spacer()
-                    Image(systemName: "person.crop.circle")
-                        .font(.system(size: 32, weight: .regular))
-                }.padding([.horizontal, .bottom])
-                    .padding(.top, 60)
+//                HStack {
+//                    Text("Orders")
+//                        .font(.system(size: 40, weight: .bold))
+//                        .foregroundColor(.black)
+//                    Spacer()
+//                    Image(systemName: "person.crop.circle")
+//                        .font(.system(size: 32, weight: .regular))
+//                }.padding([.horizontal, .bottom])
+//                    .padding(.top, 60)
                 
                 ScrollView(.vertical, showsIndicators: false) {
+                    VStack(spacing: 0) {
                         
-                    ForEach(ordersViewModel.snapshotOfAllOrders) { order in
+                        //MARK: TOP SECTION
+                        VStack(alignment: .leading) {
+                            
+                            Divider().padding(.leading)
+                            
+                            HStack {
+                                Text("Here's a list of your recent orders. Tap on an item to see more details.")
+                                    .font(.system(size: 18, weight: .regular))
+                                    .foregroundColor(Color("Dark1"))
+                                    .lineSpacing(6)
+                                    .multilineTextAlignment(.leading)
+                            }.padding()
+                            .padding(.bottom)
+                            .padding(.bottom)
+                        }.background(Rectangle().fill(
+                                LinearGradient(gradient: Gradient(colors: [.white, Color("Background")]), startPoint: .top, endPoint: .bottom)
+                            ))
                         
-                        //title
+                        
                         VStack {
-                            //This is the title of the order
-                            AllOrdersSingleOrderTitle()
-                            AllOrdersSingleItemView(order: order)
-                            //This is the set of items in the order
-                            
-                            
-                        }.padding(.bottom)
+                            ForEach(ordersViewModel.snapshotOfAllOrders) { order in
+                                
+                                //title
+                                VStack {
+                                    //This is the title of the order
+                                    AllOrdersSingleOrderTitle()
+                                    AllOrdersSingleItemView(order: order)
+                                    //This is the set of items in the order
+                                    
+                                    
+                                }.padding(.bottom)
+                            }
+                        }.padding(.horizontal)
+                        .background(Color("Background"))
                     }
+                    
                 }
-                    .padding([.top, .horizontal])
-                    .background(Color("Background"))
+
+                    
             
                 MyTabView(selectedTab: $selectedTab)
-            }.background(Color("Background"))
-            .ignoresSafeArea()
-            .navigationTitle("")
-            .navigationBarHidden(true)
+            }.background(.white)
+            .edgesIgnoringSafeArea([.bottom, .horizontal])
+            .navigationTitle("Orders").font(.title)
+            .toolbar {
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    //this is a hack to get a navigationlink inside a toolbarItem
+                    HStack(alignment: .center, spacing: 0) {
+                        Button {
+                            isProfileActive.toggle()
+                        } label: {
+                            Image(systemName: "person.circle")
+                                .font(.system(size: 20, weight: .medium))
+                                .foregroundColor(Color("Dark1"))
+                        }.fullScreenCover(isPresented: $isProfileActive) {
+                            Profile(isProfileActive: $isProfileActive)
+                        }
+                    }
+                }
+            }
+            
+//            .background(Color("Background"))
+//            .ignoresSafeArea()
+//            .navigationTitle("")
+//            .navigationBarHidden(true)
             .onAppear {
                 self.ordersViewModel.snapshotOfAllOrders(userID: viewModel.userID ?? "")
             }
@@ -85,17 +132,17 @@ struct AllOrdersSingleOrderTitle: View {
 
     var body: some View {
 
-        HStack {
+        HStack(alignment: .bottom, spacing: 0) {
             Image("Athleisure LA")
                 .resizable()
                 .scaledToFit()
-                .frame(width: 28, height: 28, alignment: .center)
+                .frame(width: 24, height: 24, alignment: .center)
                 .clipped()
-                .cornerRadius(8)
-                .padding(.trailing, 6)
-            Text("Aug. 6 - Athleisure LA")
-                .font(.system(size: 28))
-                .fontWeight(.semibold)
+                .cornerRadius(6)
+                .padding(.trailing, 10)
+            Text("August 6")
+                .font(.system(size: 20))
+                .fontWeight(.medium)
                 .foregroundColor(Color("Dark1"))
             Spacer()
         }.padding(.bottom, 4)
@@ -193,8 +240,8 @@ struct AllOrdersSingleItemView: View {
                 
             }
         }.background(RoundedRectangle(cornerRadius: 12).foregroundColor(.white))
-        .navigationTitle("")
-        .navigationBarHidden(true)
+//        .navigationTitle("")
+//        .navigationBarHidden(true)
         
         
         

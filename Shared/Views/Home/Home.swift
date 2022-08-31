@@ -58,7 +58,7 @@ struct Home: View {
                     VStack(alignment: .leading) {
                         
                         //"Home" + Profile icon
-                        PageHeader(isProfileActive: $isProfileActive, pageTitle: "Home")
+                        //PageHeader(isProfileActive: $isProfileActive, pageTitle: "Home")
                         
                         
                         //MARK: VStack Section 2 - Scrollview
@@ -108,7 +108,7 @@ struct Home: View {
                                     ForEach(rewardsProgramViewModel.myRewardsPrograms) { RewardsProgram in
                                         
                                         
-                                        NavigationLink(destination: CompanyProfileV2(companyID: RewardsProgram.companyID, companyName: RewardsProgram.companyName, email: RewardsProgram.email, userID: RewardsProgram.userID)) {
+                                        NavigationLink(destination: CompanyProfileV2(companyID: RewardsProgram.companyID, companyName: RewardsProgram.companyName, email: RewardsProgram.email, userID: RewardsProgram.userID, selectedTab: $selectedTab)) {
                                             
                                                 RewardsProgramWidget(image: RewardsProgram.companyName, company: RewardsProgram.companyName, status: RewardsProgram.status, currentPointsBalance: RewardsProgram.currentPointsBalance)
                                         
@@ -136,9 +136,9 @@ struct Home: View {
 
                 }
             }
-            .ignoresSafeArea()
-            .navigationTitle("")
-            .navigationBarHidden(true)
+            .edgesIgnoringSafeArea([.horizontal, .bottom])
+            .navigationTitle("Accounts")
+            //.navigationBarHidden(true)
             .onAppear {
                 self.rewardsProgramViewModel.listenForMyRewardsPrograms(email: viewModel.email ?? "")
                 

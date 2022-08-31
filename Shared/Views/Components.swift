@@ -85,11 +85,11 @@ struct TabViewItem: View {
         case 1:
             return ["calendar", "Orders"]
         case 2:
-            return ["creditcard", "Rewards"]
+            return ["creditcard", "Accounts"]
         case 3:
             return ["safari.fill", "Discover"]
         case 4:
-            return ["giftcard", "Wallet"]
+            return ["giftcard", "Rewards"]
         default:
             return ["house.fill", "Default"]
         }
@@ -103,7 +103,7 @@ struct TabViewItem: View {
                 VStack (alignment: .center, spacing: 3) {
                     Image(systemName: tabViewItemImageName[0])
                         .foregroundColor(selectedTab == position ? Color("ThemePrimary") : .gray)
-                        .font(.system(size: 25, weight: .medium))
+                        .font(.system(size: 25, weight: .regular))
                     Text(tabViewItemImageName[1])
                         .foregroundColor(selectedTab == position ? Color("ThemePrimary") : .gray)
                         .font(.system(size: 10, weight: .medium))

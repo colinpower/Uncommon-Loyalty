@@ -148,6 +148,7 @@ struct ItemForOrder: View {
                 }
             }
         }
+        .ignoresSafeArea(.container, edges: [.horizontal, .bottom])
         .navigationBarTitle(itemsViewModel.snapshotOfItem.first?.itemID ?? "Item", displayMode: .inline)
         .onAppear {
             self.itemsViewModel.getSnapshotOfItem(itemID: itemID)

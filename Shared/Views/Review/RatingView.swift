@@ -15,6 +15,9 @@ struct RatingView: View {
     @Binding var questionsArray: [String]
     @Binding var answersArray: [String]
     
+    @Binding var responses: [String]
+    @Binding var currentQuestion: Int
+    
     @Binding var pointsEarned: Double
     
     var label = ""
@@ -44,8 +47,15 @@ struct RatingView: View {
                         rating = number
                         questionsArray[0] = ("rating")
                         answersArray[0] = (String(rating))
+                        responses[currentQuestion] = String(rating)
+                        
+                        print(currentQuestion)
                         
                         
+                        currentQuestion += 1
+                        
+                        
+                        print(currentQuestion)
                         
                         withAnimation(.linear(duration: 0.15).delay(0.55)) {
                             horizontalOffset -= width

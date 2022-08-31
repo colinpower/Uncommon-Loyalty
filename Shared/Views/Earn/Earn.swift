@@ -19,13 +19,23 @@ struct Earn: View {
     @ObservedObject var itemsViewModel = ItemsViewModel()
     
     //Variables for this view
-    
-    
+    @State var isShowingTempTabView = false
     
     var body: some View {
         NavigationView {
             
             VStack(alignment: .center, spacing: 0) {
+                
+//                Button {
+//                    isShowingTempTabView = true
+//                } label: {
+//                    Text("show temp tabview")
+//                }.fullScreenCover(isPresented: $isShowingTempTabView) {
+//                    TEMPTabview(isShowingTempTabView: $isShowingTempTabView)
+//                }
+                
+//                RecommendedActions()
+//                    .frame(width: 200, height: 200)
                 
                 //MARK: CONTENT
                 ScrollView {
@@ -89,7 +99,7 @@ struct Earn: View {
                         VStack(alignment: .center, spacing: 24) {
                             ForEach(itemsViewModel.snapshotOfReviewableItems.prefix(3)) { item in
                                                                 
-                                LargeItemReviewWidget(item: item)
+                                LargeItemReviewWidget(item: item, selectedTab: $selectedTab)
 
                             }
                         }.padding(.vertical)
@@ -121,7 +131,7 @@ struct Earn: View {
                             
                             ForEach(itemsViewModel.snapshotOfReviewableItems.prefix(3)) { item in
                                 
-                                LargeItemReferWidget(item: item)
+                                LargeItemReferWidget(item: item, selectedTab: $selectedTab)
                                 
                             }
                                 
@@ -198,11 +208,13 @@ struct Earn: View {
         
         var item: Items
         
+        @Binding var selectedTab: Int
+        
         var body: some View {
             
             //Link to the Review Interceptor page
             NavigationLink {
-                IntentToReview(itemObject: item)
+                IntentToReview(itemObject: item, selectedTab: $selectedTab)
             } label: {
 
                 //Stack the following: a white card with the shadow, then the content of the card, then the overlaid "250 POINTS" and the review icon
@@ -318,7 +330,6 @@ struct Earn: View {
                 .padding(.horizontal)
                 
             }
-                .navigationTitle("")
         }
     }
     
@@ -326,11 +337,13 @@ struct Earn: View {
         
         var item: Items
         
+        @Binding var selectedTab: Int
+        
         var body: some View {
             
             //Link to the Review Interceptor page
             NavigationLink {
-                IntentToReview(itemObject: item)
+                IntentToReview(itemObject: item, selectedTab: $selectedTab)
             } label: {
 
                 //Stack the following: a white card with the shadow, then the content of the card, then the overlaid "250 POINTS" and the review icon

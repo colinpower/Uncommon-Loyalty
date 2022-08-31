@@ -19,17 +19,12 @@ struct RewardCard: Identifiable {
 
 var cards: [RewardCard] = [
 
-    RewardCard(name: "colin", cardNumber: "1", cardImage: "AthleisureFounder"),
-    RewardCard(name: "joseph", cardNumber: "2", cardImage: "AthleisureFounder"),
-    RewardCard(name: "power", cardNumber: "3", cardImage: "GoldenRatioCard"),
-    RewardCard(name: "colin", cardNumber: "4", cardImage: "BlueGoldenRatio"),
-    RewardCard(name: "joseph", cardNumber: "5", cardImage: "AthleisureFounder"),
-    RewardCard(name: "power", cardNumber: "6", cardImage: "GoldenRatioCard"),
-    RewardCard(name: "colin", cardNumber: "7", cardImage: "AthleisureFounder"),
-    RewardCard(name: "joseph", cardNumber: "8", cardImage: "AthleisureFounder"),
+    RewardCard(name: "colin", cardNumber: "1", cardImage: "AthleisureLA-Gold-Discount"),
+    RewardCard(name: "joseph", cardNumber: "2", cardImage: "AthleisureLA-Member-Discount"),
+    RewardCard(name: "power", cardNumber: "3", cardImage: "AthleisureLA-Gold-Discount"),
+    RewardCard(name: "colin", cardNumber: "4", cardImage: "AthleisureLA-Platinum-Discount"),
+    RewardCard(name: "colin", cardNumber: "4", cardImage: "AthleisureLA-Platinum-Loyalty"),
     RewardCard(name: "power", cardNumber: "9", cardImage: "GoldenRatioCard"),
-    RewardCard(name: "colin", cardNumber: "10", cardImage: "AthleisureFounder"),
-    RewardCard(name: "joseph", cardNumber: "11", cardImage: "AthleisureFounder"),
-    RewardCard(name: "power", cardNumber: "12", cardImage: "GoldenRatioCard")
-
+    RewardCard(name: "joseph", cardNumber: "5", cardImage: "AthleisureFounder"),
+    RewardCard(name: "power", cardNumber: "6", cardImage: "AthleisureLA-No-Discount")
 ]

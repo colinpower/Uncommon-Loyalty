@@ -17,6 +17,8 @@ struct IntentToReview: View {
     
     var detailsOfReview:[String] = ["3", "30", "200"]
     
+    @Binding var selectedTab: Int
+    
     var body: some View {
         VStack {
             
@@ -31,6 +33,23 @@ struct IntentToReview: View {
                         .fontWeight(.bold)
                         .foregroundColor(Color("Dark1"))
                     Spacer()
+                    HStack(alignment: .center, spacing: 0) {
+                        Image(systemName: "star")
+                            .font(.system(size: 24, weight: .regular))
+                            .foregroundColor(Color("Gray3"))
+                        Image(systemName: "star")
+                            .font(.system(size: 24, weight: .regular))
+                            .foregroundColor(Color("Gray3"))
+                        Image(systemName: "star")
+                            .font(.system(size: 24, weight: .regular))
+                            .foregroundColor(Color("Gray3"))
+                        Image(systemName: "star")
+                            .font(.system(size: 24, weight: .regular))
+                            .foregroundColor(Color("Gray3"))
+                        Image(systemName: "star")
+                            .font(.system(size: 24, weight: .regular))
+                            .foregroundColor(Color("Gray3"))
+                    }.padding(.bottom, 2)
                 }
             }.padding()
             
@@ -46,30 +65,17 @@ struct IntentToReview: View {
                 }
             }
             
-            Text("Athleisure LA - Joggers 2.0")
-                .font(.system(size: 18, weight: .regular))
-                .foregroundColor(Color("Gray1"))
-                .padding(.bottom, 8)
+            VStack(alignment: .center) {
+                Text("Athleisure LA - Joggers 2.0")
+                    .font(.system(size: 18, weight: .regular))
+                    .foregroundColor(Color("Gray1"))
+                    .padding(.bottom, 8)
+                Text("View order")
+                    .font(.system(size: 12, weight: .regular))
+                    .foregroundColor(Color.blue)
+            }.padding(.bottom, 8)
             
-            HStack(alignment: .center, spacing: 0) {
-                Spacer()
-                Image(systemName: "star")
-                    .font(.system(size: 18, weight: .regular))
-                    .foregroundColor(Color("Gray3"))
-                Image(systemName: "star")
-                    .font(.system(size: 18, weight: .regular))
-                    .foregroundColor(Color("Gray3"))
-                Image(systemName: "star")
-                    .font(.system(size: 18, weight: .regular))
-                    .foregroundColor(Color("Gray3"))
-                Image(systemName: "star")
-                    .font(.system(size: 18, weight: .regular))
-                    .foregroundColor(Color("Gray3"))
-                Image(systemName: "star")
-                    .font(.system(size: 18, weight: .regular))
-                    .foregroundColor(Color("Gray3"))
-                Spacer()
-            }
+            
             
             
 //            RoundedRectangle(cornerRadius: 16)
@@ -183,18 +189,22 @@ struct IntentToReview: View {
                }.background(RoundedRectangle(cornerRadius: 36).fill(Color("ReviewTeal")))
                 .padding(.horizontal)
                 .padding(.horizontal)   
-           }
-            
-            Button(action: {
-               //show item details
-           }) {
-               Text("View order")
-                   .foregroundColor(Color("Gray1"))
-                   .font(.system(size: 18))
-                   .fontWeight(.medium)
-                   .padding(.vertical, 8)
            }.padding(.bottom)
-            .padding(.bottom)
+                .padding(.bottom)
+            
+//            Button(action: {
+//               //show item details
+//           }) {
+//               Text("View order")
+//                   .foregroundColor(Color("Gray1"))
+//                   .font(.system(size: 18))
+//                   .fontWeight(.medium)
+//                   .padding(.vertical, 8)
+//           }.padding(.bottom)
+            //Spacer()
+            
+            MyTabView(selectedTab: $selectedTab)
+            
         }
         .ignoresSafeArea(.container, edges: [.horizontal, .bottom])
         .navigationBarTitle("", displayMode: .inline)

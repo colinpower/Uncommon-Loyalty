@@ -53,6 +53,8 @@
 		307BCA2327975C8A000DDD21 /* DiscountCodesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 307BCA2227975C8A000DDD21 /* DiscountCodesViewModel.swift */; };
 		307BCA2527975F2E000DDD21 /* Transactions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 307BCA2427975F2E000DDD21 /* Transactions.swift */; };
 		307BCA2727975F89000DDD21 /* TransactionsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 307BCA2627975F89000DDD21 /* TransactionsViewModel.swift */; };
+		3086622328BF56C900849AF1 /* TEMPTabview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3086622228BF56C900849AF1 /* TEMPTabview.swift */; };
+		3086622528BF869900849AF1 /* RecommendedActions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3086622428BF869900849AF1 /* RecommendedActions.swift */; };
 		3088073C28A563BA003D1B99 /* Companies.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3088073B28A563BA003D1B99 /* Companies.swift */; };
 		3088073E28A56488003D1B99 /* CompaniesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3088073D28A56488003D1B99 /* CompaniesViewModel.swift */; };
 		3088074028A5980D003D1B99 /* TempFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3088073F28A5980D003D1B99 /* TempFile.swift */; };
@@ -168,6 +170,8 @@
 		307BCA2227975C8A000DDD21 /* DiscountCodesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscountCodesViewModel.swift; sourceTree = "<group>"; };
 		307BCA2427975F2E000DDD21 /* Transactions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Transactions.swift; sourceTree = "<group>"; };
 		307BCA2627975F89000DDD21 /* TransactionsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionsViewModel.swift; sourceTree = "<group>"; };
+		3086622228BF56C900849AF1 /* TEMPTabview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TEMPTabview.swift; sourceTree = "<group>"; };
+		3086622428BF869900849AF1 /* RecommendedActions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommendedActions.swift; sourceTree = "<group>"; };
 		3088073B28A563BA003D1B99 /* Companies.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Companies.swift; sourceTree = "<group>"; };
 		3088073D28A56488003D1B99 /* CompaniesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = CompaniesViewModel.swift; path = Shared/CompaniesViewModel.swift; sourceTree = SOURCE_ROOT; };
 		3088073F28A5980D003D1B99 /* TempFile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TempFile.swift; sourceTree = "<group>"; };
@@ -492,6 +496,7 @@
 			isa = PBXGroup;
 			children = (
 				304DC88827F3578200E30DCA /* CompanyProfileV2.swift */,
+				3086622428BF869900849AF1 /* RecommendedActions.swift */,
 				30DC3E6A28A11E4B00613B4B /* History.swift */,
 				30DC3E6C28A121AF00613B4B /* Notifications.swift */,
 			);
@@ -550,6 +555,7 @@
 			isa = PBXGroup;
 			children = (
 				30FF419C28B62F8000D70BC5 /* Earn.swift */,
+				3086622228BF56C900849AF1 /* TEMPTabview.swift */,
 				3053C0A528B9003B00FF3A17 /* ItemsAndOrders.swift */,
 			);
 			path = Earn;
@@ -724,6 +730,7 @@
 				30BA64D82889AF56002E3FC8 /* ReviewOrReferWidget.swift in Sources */,
 				302AB47728B359D00086D4CA /* ItemForOrder.swift in Sources */,
 				3032829928A4F2C60038A053 /* CheckYourEmail.swift in Sources */,
+				3086622528BF869900849AF1 /* RecommendedActions.swift in Sources */,
 				30477A8C2815AF540032E57A /* Feedback.swift in Sources */,
 				30DC3E7128A13D3600613B4B /* FeaturedWidget1.swift in Sources */,
 				307BCA2527975F2E000DDD21 /* Transactions.swift in Sources */,
@@ -742,6 +749,7 @@
 				30C8102828878776004B1DA7 /* AddCompanyWidget.swift in Sources */,
 				307BCA2127975C27000DDD21 /* DiscountCodes.swift in Sources */,
 				308B83FC27F768A200BC5211 /* ReviewHistory.swift in Sources */,
+				3086622328BF56C900849AF1 /* TEMPTabview.swift in Sources */,
 				30FF41A128B635F200D70BC5 /* HomeWithPopOutCards.swift in Sources */,
 				307BCA2727975F89000DDD21 /* TransactionsViewModel.swift in Sources */,
 				308B83F827F44DE800BC5211 /* MemberSale.swift in Sources */,
