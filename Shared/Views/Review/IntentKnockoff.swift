@@ -22,61 +22,70 @@ struct IntentKnockoff: View {
 
             ZStack {
                 Color("ThemeLight")
+                    .frame(height: UIScreen.main.bounds.width/3*2)
                 VStack (alignment: .center, spacing: 0) {
                     Image("redshorts")
                         .resizable()
                         .aspectRatio(contentMode: .fit)
-                        .frame(width: UIScreen.main.bounds.width/3*2, height: UIScreen.main.bounds.height/3)
-                    RoundedRectangle(cornerRadius: 16)
-                        .foregroundColor(.white)
-                        .shadow(color: Color("ThemePrimary").opacity(0.5), radius: 10, x: 0, y: 4)
-                        .overlay {
-                            HStack(alignment: .center, spacing: 0) {
-                                Image("Athleisure LA")
-                                    .resizable()
-                                    .scaledToFill()
-                                    .frame(width: 40, height: 40, alignment: .center)
-                                    .clipped()
-                                    .cornerRadius(10)
-                                    .padding(.trailing)
-                                
-                                VStack(alignment: .leading, spacing: 1) {
-                                    Text("Lululemon")
-                                        .font(.system(size: 18))
-                                        .fontWeight(.semibold)
-                                        .foregroundColor(Color("Dark1"))
-                                    Text("Joggers 2.0")
-                                        .font(.system(size: 16))
-                                        .fontWeight(.regular)
-                                        .foregroundColor(Color("Dark1"))
-                                }
-                                Spacer()
-                                Image(systemName: "info.circle")
-                                    .font(.system(size: 20, weight: .regular))
-                                    //.foregroundColor(.blue)
-                                    .foregroundColor(Color("ThemeAction"))
-                            }
-                            .padding()
-                        }
-                        .frame(maxHeight: CGFloat(72))
-                        .padding(.horizontal)
-                        .padding(.bottom)
+                        .frame(width: UIScreen.main.bounds.width/3*2)
+//                    RoundedRectangle(cornerRadius: 16)
+//                        .foregroundColor(.white)
+//                        .shadow(color: Color("ThemePrimary").opacity(0.5), radius: 10, x: 0, y: 4)
+//                        .overlay {
+//                            HStack(alignment: .center, spacing: 0) {
+//                                Image("Athleisure LA")
+//                                    .resizable()
+//                                    .scaledToFill()
+//                                    .frame(width: 40, height: 40, alignment: .center)
+//                                    .clipped()
+//                                    .cornerRadius(10)
+//                                    .padding(.trailing)
+//
+//                                VStack(alignment: .leading, spacing: 1) {
+//                                    Text("Lululemon")
+//                                        .font(.system(size: 18))
+//                                        .fontWeight(.semibold)
+//                                        .foregroundColor(Color("Dark1"))
+//                                    Text("Joggers 2.0")
+//                                        .font(.system(size: 16))
+//                                        .fontWeight(.regular)
+//                                        .foregroundColor(Color("Dark1"))
+//                                }
+//                                Spacer()
+//                                Image(systemName: "info.circle")
+//                                    .font(.system(size: 20, weight: .regular))
+//                                    //.foregroundColor(.blue)
+//                                    .foregroundColor(Color("ThemeAction"))
+//                            }
+//                            .padding()
+//                        }
+//                        .frame(maxHeight: CGFloat(72))
+//                        .padding(.horizontal)
+//                        .padding(.bottom)
+//                }
                 }
-                
-            }.frame(height: UIScreen.main.bounds.width/3*2+120)
+            }
+            
+            HStack(alignment: .center, spacing: 8) {
+                Spacer()
+                Text("Joggers 2.0")
+                Image(systemName: "circle.fill")
+                    .font(.system(size: 4, weight: .semibold))
+                Text("Athleisure LA")
+            }.foregroundColor(.gray)
+                .padding(.trailing)
 
             HStack {
-                VStack(alignment: .leading, spacing: 8) {
                 Image(systemName: "star.square.fill")
-                    .font(.system(size: 48, weight: .semibold))
+                    .font(.system(size: 32, weight: .semibold))
                     .foregroundColor(Color("ReviewTeal"))
                 Text("Write a review")
-                    .font(.system(size: 36))
+                    .font(.system(size: 28))
                     .fontWeight(.bold)
                     .foregroundColor(Color("Dark1"))
-            }
                 Spacer()
             }.padding()
+                .padding(.top)
             
             
             Spacer()

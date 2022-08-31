@@ -318,6 +318,7 @@ struct Earn: View {
                 .padding(.horizontal)
                 
             }
+                .navigationTitle("")
         }
     }
     
