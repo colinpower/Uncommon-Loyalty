@@ -401,7 +401,6 @@
 		302AB46F28B3592A0086D4CA /* Orders */ = {
 			isa = PBXGroup;
 			children = (
-				3053C0A528B9003B00FF3A17 /* ItemsAndOrders.swift */,
 				302AB47228B3597A0086D4CA /* AllOrders.swift */,
 				302AB47828B3941E0086D4CA /* AllOrdersForCompany.swift */,
 				302AB47428B359820086D4CA /* OneOrder.swift */,
@@ -548,6 +547,7 @@
 			isa = PBXGroup;
 			children = (
 				30FF419C28B62F8000D70BC5 /* Earn.swift */,
+				3053C0A528B9003B00FF3A17 /* ItemsAndOrders.swift */,
 			);
 			path = Earn;
 			sourceTree = "<group>";

@@ -52,18 +52,21 @@ struct MyTabView: View {
     @Binding var selectedTab:Int
     
     var body: some View {
-        HStack(alignment: .center, spacing: UIScreen.main.bounds.width/11) {
+        VStack(spacing: 0) {
+            Divider().frame(height: 0.5).padding(.bottom, 6)
+            HStack(alignment: .bottom) {
+                Spacer()
+                TabViewItem(position: 0, selectedTab: $selectedTab)
+                TabViewItem(position: 1, selectedTab: $selectedTab)
+                TabViewItem(position: 2, selectedTab: $selectedTab)
+                //TabViewItem(position: 3, selectedTab: $selectedTab)
+                TabViewItem(position: 4, selectedTab: $selectedTab)
+                Spacer()
+            }.padding(.horizontal)
             Spacer()
-            TabViewItem(position: 0, selectedTab: $selectedTab)
-            TabViewItem(position: 1, selectedTab: $selectedTab)
-            TabViewItem(position: 2, selectedTab: $selectedTab)
-            TabViewItem(position: 3, selectedTab: $selectedTab)
-            TabViewItem(position: 4, selectedTab: $selectedTab)
-            Spacer()
-        }.padding(.vertical)
-        .padding(.bottom)
+        }.edgesIgnoringSafeArea(.bottom)
+        .frame(height: 80)
         .background(Color("Background"))
-        .frame(height: 70)
     }
     
 }
@@ -75,20 +78,20 @@ struct TabViewItem: View {
     var position: Int
     @Binding var selectedTab:Int
     
-    var tabViewItemImageName: String {
+    var tabViewItemImageName: [String] {
         switch position {
         case 0:
-            return "dollarsign.circle.fill"
+            return ["dollarsign.square", "Earn"]
         case 1:
-            return "bag.fill"
+            return ["calendar", "Orders"]
         case 2:
-            return "house.fill"
+            return ["creditcard", "Rewards"]
         case 3:
-            return "safari.fill"
+            return ["safari.fill", "Discover"]
         case 4:
-            return "creditcard.fill"
+            return ["giftcard", "Wallet"]
         default:
-            return "house.fill"
+            return ["house.fill", "Default"]
         }
     }
     
@@ -97,11 +100,15 @@ struct TabViewItem: View {
             Button {
                 selectedTab = position
             } label: {
-                Image(systemName: tabViewItemImageName)
-                    .foregroundColor(selectedTab == position ? .black : .gray)
-                    .font(.system(size: 30))
-            }
-         
+                VStack (alignment: .center, spacing: 3) {
+                    Image(systemName: tabViewItemImageName[0])
+                        .foregroundColor(selectedTab == position ? Color("ThemePrimary") : .gray)
+                        .font(.system(size: 25, weight: .medium))
+                    Text(tabViewItemImageName[1])
+                        .foregroundColor(selectedTab == position ? Color("ThemePrimary") : .gray)
+                        .font(.system(size: 10, weight: .medium))
+                }
+            }.frame(maxWidth: .infinity)
     }
 }
 

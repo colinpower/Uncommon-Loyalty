@@ -25,10 +25,10 @@ struct Earn: View {
     var body: some View {
         NavigationView {
             
-            VStack {
+            VStack(alignment: .center, spacing: 0) {
                 //MARK: TITLE
-                PageHeader(isProfileActive: $isProfileActive, pageTitle: "Earn")
-                Divider().padding(.horizontal).padding(.bottom)
+                //PageHeader(isProfileActive: $isProfileActive, pageTitle: "Earn")
+                Divider().padding(.horizontal)//.padding(.bottom)
                 //MARK: CONTENT
                 ScrollView {
                     VStack(alignment: .center, spacing: 12) {
@@ -80,9 +80,14 @@ struct Earn: View {
                 //MARK: TABS
                 MyTabView(selectedTab: $selectedTab)
                 
-            }.ignoresSafeArea()                     //Note: need to ignoreSafeArea, set nav title to "", set barHidden to true in order not to break when returning from a navigationViewChild
-                .navigationTitle("")
-                .navigationBarHidden(true)
+            }//.background(.white)
+            .background(Color("Background"))
+            //.edgesIgnoringSafeArea([.bottom])
+            .ignoresSafeArea()                     //Note: need to ignoreSafeArea, set nav title to "", set barHidden to true in order not to break when returning from a navigationViewChild
+            //    .navigationTitle("Earn").font(.title).background(Color(.white))
+            //.navigationBarTitleDisplayMode(.inline)
+            .navigationBarTitle("")
+            .navigationBarHidden(true)
             .onAppear {
                 self.itemsViewModel.getSnapshotOfReviewableItems(userID: viewModel.userID ?? "")
                 //print(self.itemsViewModel.snapshotOfReviewableItems)

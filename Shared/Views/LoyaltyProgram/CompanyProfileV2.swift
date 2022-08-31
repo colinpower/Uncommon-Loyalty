@@ -185,68 +185,80 @@ struct CompanyProfileV2: View {
                                     }.halfSheet(showSheet: $showSheet) {
                                         //my half sheet view
                                         HStack {
-                                            Spacer()
-                                            VStack {
-                                                VStack(alignment: .center, spacing: 4) {
-                                                    Text("$" + String(DiscountCode.dollarAmount) + " Discount")
-                                                        .font(.system(size: 19))
-                                                        .fontWeight(.semibold)
-                                                        .foregroundColor(Color("Dark1"))
-                                                    Text("You can use this discount on any purchase.")
-                                                        .font(.system(size: 17))
-                                                        .fontWeight(.regular)
-                                                        .foregroundColor(Color("Gray1"))
-                                                }.padding(.top, 48)
-                                                
-                                                Spacer()
-                                                Text(DiscountCode.code)
-                                                    .font(.system(size: 60))
-                                                    .fontWeight(.bold)
-                                                    .foregroundColor(Color("ThemePrimary"))
-                                                Spacer()
-
-                                                
-                                                
-                                                Button {
-                                                    UIPasteboard.general.string = DiscountCode.code
-                                                } label: {
-                                                    HStack {
-                                                        Spacer()
-                                                        Text("Copy code")
-                                                            .font(.system(size: 18))
-                                                            .fontWeight(.semibold)
-                                                            .foregroundColor(Color(.white))
-                                                            .padding(.vertical)
-                                                        Spacer()
-                                                    }
-                                                    .background(RoundedRectangle(cornerRadius: 32).foregroundColor(Color("ThemeAction")))
-                                                    .padding(.horizontal)
-                                                    .padding(.horizontal)
-                                                }
-                                                
-                                                Button {
-                                                    
-                                                } label: {
-                                                    Text("How do I use this discount code?")
-                                                        .font(.system(size: 18))
-                                                        .fontWeight(.semibold)
-                                                        .foregroundColor(Color("ThemePrimary"))
-                                                        .padding()
-                                                }
-                                                
-                                                Divider()
-                                                Button {
-                                                    showSheet = false
-                                                } label: {
-                                                    Text("Close sheet")
-                                                        .font(.system(size: 18))
-                                                        .fontWeight(.semibold)
-                                                        .foregroundColor(Color("Dark1"))
-                                                        .padding()
-                                                }.padding(.bottom)
-
-                                            }
-                                            Spacer()
+                                            
+                                            
+                                            TabView {
+                                                TemporaryCardViewFromBottom()
+                                                TemporaryCardViewFromBottom()
+                                                TemporaryCardViewFromBottom()
+                                            }//.frame(height: UIScreen.main.bounds.height/2)
+                                            .tabViewStyle(.page(indexDisplayMode: .always))
+                                            .indexViewStyle(.page(backgroundDisplayMode: .always))
+                                            
+                                            
+                                            
+//                                            Spacer()
+//                                            VStack {
+//                                                VStack(alignment: .center, spacing: 4) {
+//                                                    Text("$" + String(DiscountCode.dollarAmount) + " Discount")
+//                                                        .font(.system(size: 19))
+//                                                        .fontWeight(.semibold)
+//                                                        .foregroundColor(Color("Dark1"))
+//                                                    Text("You can use this discount on any purchase.")
+//                                                        .font(.system(size: 17))
+//                                                        .fontWeight(.regular)
+//                                                        .foregroundColor(Color("Gray1"))
+//                                                }.padding(.top, 48)
+//
+//                                                Spacer()
+//                                                Text(DiscountCode.code)
+//                                                    .font(.system(size: 60))
+//                                                    .fontWeight(.bold)
+//                                                    .foregroundColor(Color("ThemePrimary"))
+//                                                Spacer()
+//
+//
+//
+//                                                Button {
+//                                                    UIPasteboard.general.string = DiscountCode.code
+//                                                } label: {
+//                                                    HStack {
+//                                                        Spacer()
+//                                                        Text("Copy code")
+//                                                            .font(.system(size: 18))
+//                                                            .fontWeight(.semibold)
+//                                                            .foregroundColor(Color(.white))
+//                                                            .padding(.vertical)
+//                                                        Spacer()
+//                                                    }
+//                                                    .background(RoundedRectangle(cornerRadius: 32).foregroundColor(Color("ThemeAction")))
+//                                                    .padding(.horizontal)
+//                                                    .padding(.horizontal)
+//                                                }
+//
+//                                                Button {
+//
+//                                                } label: {
+//                                                    Text("How do I use this discount code?")
+//                                                        .font(.system(size: 18))
+//                                                        .fontWeight(.semibold)
+//                                                        .foregroundColor(Color("ThemePrimary"))
+//                                                        .padding()
+//                                                }
+//
+//                                                Divider()
+//                                                Button {
+//                                                    showSheet = false
+//                                                } label: {
+//                                                    Text("Close sheet")
+//                                                        .font(.system(size: 18))
+//                                                        .fontWeight(.semibold)
+//                                                        .foregroundColor(Color("Dark1"))
+//                                                        .padding()
+//                                                }.padding(.bottom)
+//
+//                                            }
+//                                            Spacer()
                                         }
                                         .edgesIgnoringSafeArea(.all)
                                             .background(Color.white)
@@ -444,6 +456,58 @@ struct CompanyProfileV2: View {
     }
 }
 
+
+
+
+struct TemporaryCardViewFromBottom: View {
+    
+    var body: some View {
+        HStack {
+            Spacer()
+            VStack(alignment: .center, spacing: 0) {
+                Text("ABC Shorts")
+                    .foregroundColor(.black)
+                    .font(.system(size: 18, weight: .semibold))
+                    .padding(.top, 24)
+                    .padding(.bottom, 2)
+                HStack(alignment: .center, spacing: 6) {
+                    Text("Normally $99").strikethrough()
+                        .foregroundColor(.gray)
+                        .font(.system(size: 15, weight: .regular))
+                    Text("$79 after discount")
+                        .foregroundColor(.gray)
+                        .font(.system(size: 15, weight: .regular))
+                }
+                Spacer()
+                Image("redshorts")
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(width: UIScreen.main.bounds.width/4, height: UIScreen.main.bounds.width/4)
+                Spacer()
+                Button {
+                    //copy
+                } label: {
+                    HStack {
+                        Spacer()
+                        Text("View on website").font(.system(size: 16, weight: .semibold)).padding(.vertical)
+                        Spacer()
+                    }.background(RoundedRectangle(cornerRadius: 8).foregroundColor(.white))
+                }.padding(.horizontal).padding(.bottom)
+                
+            }
+                
+                
+            Spacer()
+        }.background(.white)
+        
+        
+        
+        
+    }
+    
+    
+    
+}
 
 
 

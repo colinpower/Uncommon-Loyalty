@@ -33,7 +33,7 @@ struct AllOrders: View {
         
         NavigationView {
                 
-            VStack {
+            VStack(alignment: .center, spacing: 0) {
                 HStack {
                     Text("Orders")
                         .font(.system(size: 40, weight: .bold))
