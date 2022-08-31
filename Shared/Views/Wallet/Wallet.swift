@@ -280,6 +280,8 @@ struct DetailView: View {
                             }.padding(.horizontal)
                             .padding(.bottom, 4)
                             
+                            
+                            
                             TabView {
                                 RecommendedItem
                                 RecommendedItem
