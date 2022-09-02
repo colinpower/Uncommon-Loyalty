@@ -9,160 +9,151 @@ import SwiftUI
 
 struct ItemForOrder: View {
     
+    //Environment
     @EnvironmentObject var viewModel: AppViewModel
     
-    var itemID: String
-    
-    //Required variables to be passed
-//    var userID: String
-//    var email: String
-//    var companyID: String
-//    var itemID: String
-    
-    
-    //Setup variables for Review / Referral
-    @State var isShowingReviewScreen:Bool = false
-    @State var isShowingReferScreen:Bool = false
-    
-    //use this variable to be passed back when the user submits a review but you don't know yet??
-    @State var finishedReviewLocalLie:Bool = false
-    
-    //Listeners
+    //ViewModels
     @StateObject var itemsViewModel = ItemsViewModel()
+    
+    //State
+    @State var selectedTab:Int = 2
+    
+    //Required variables
+    var itemID: String
     
     
     var body: some View {
-        ZStack {
-            Color("Background")
-            ScrollView(.vertical, showsIndicators: false) {
+        List {
+            
+            //MARK: ORDER IMAGE + COMPANY SECTION
+            Section {
                 
-                VStack {
+                //image
+                HStack {
+                    Spacer()
+                    Image("redshorts")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: UIScreen.main.bounds.width * 2/3, height: UIScreen.main.bounds.width * 2/3, alignment: .center)
+                        .clipped()
+                        .cornerRadius(8)
+                    Spacer()
+                }
+            
+                //company -> about us page
+                NavigationLink {
+                    ProfileTEMP()
+                } label: {
+                    HStack {
                     
-                    ForEach(itemsViewModel.snapshotOfItem.prefix(1)) { item in
-                        VStack (alignment: .center) {
-                            
-                            //Large image of item
-                            Image(systemName: "circle.fill")
-                                .font(.system(size: 48))
-                            
-                            //Prompt to write a review
-                            HStack {
-                                Spacer()
-                                //Link to create a review
-                                Button {
-                                    isShowingReviewScreen = true
-                                } label: {
-                                    Text("show Review screen")
-                                }.fullScreenCover(isPresented: $isShowingReviewScreen) {
-                                    ReviewProductCarousel1(showingReviewProductScreen: $isShowingReviewScreen, itemObject: item)
-                                }
-                                Spacer()
-                            }
-                            .padding(.vertical)
-                            .background(RoundedRectangle(cornerRadius: 24).foregroundColor(.white))
-                            .padding()
-                            
-                            //Prompt to refer
-                            HStack {
-                                Spacer()
-                                //Link to refer a friend
-                                Button {
-                                    isShowingReferScreen = true
-                                } label: {
-                                    Text("show Refer screen")
-                                }.fullScreenCover(isPresented: $isShowingReferScreen) {
-                                    ReferAFriend(companyID: item.companyID, companyName: "Athleisure LA TEST", isReferCompanyActive: $isShowingReferScreen)
-                                }
-                                Spacer()
-                            }
-                            .padding(.vertical)
-                            .background(RoundedRectangle(cornerRadius: 24).foregroundColor(.white))
-                            .padding()
-                            
-                            //Details of the item
-                            VStack(alignment: .leading) {
-                                HStack {
-                                    Text(item.title)
-                                    Spacer()
-                                }.padding(.bottom)
-                                
-                                HStack {
-                                    Text("Price")
-                                    Spacer()
-                                    Text(item.price)
-                                }.padding(.bottom)
-                                
-                                HStack {
-                                    Text("Date")
-                                    Spacer()
-                                    Text(String(item.timestamp))
-                                }.padding(.bottom)
-                                
-                                HStack {
-                                    Text("Review")
-                                    Spacer()
-                                    Text(String(item.reviewRating))
-                                }
-                                    
-                                HStack {
-                                    Text("Order Number")
-                                    Spacer()
-                                    Text(item.orderID)
-                                }.padding(.bottom)
-                                        
-                                HStack {
-                                    Text("Ordered on")
-                                    Spacer()
-                                    Text("Aug 06")
-                                }.padding(.bottom)
-                                
-                                HStack {
-                                    Text("Days to return")
-                                    Spacer()
-                                    Text("4 days")
-                                }
-                            }
-                            .padding()
-                            .background(RoundedRectangle(cornerRadius: 24).foregroundColor(.white))
-                            .padding()
+                        Image("Athleisure LA")
+                            .resizable()
+                            .scaledToFill()
+                            .frame(width: 28, height: 28, alignment: .center)
+                            .clipped()
+                            .cornerRadius(7)
+                            .padding(.horizontal, 2)
+                        
+                        Text("Athleisure LA")
+                            .font(.system(size: 16))
+                            .foregroundColor(.black)
+                        Spacer()
                     
+                }
+            }
+            }
+            
+            //MARK: "POINTS EARNED" SECTION
+            Section(header: Text("Points Earned")) {
                     
-                            WideWidgetHeader(title: "MORE INFORMATION")
-                                .padding(.top)
-                            VStack {
-                                
-                                //Item 1: Email
-                                WideWidgetItem(image: "envelope.fill", size: 20, color: Color("Dark1"), title: "Contact").padding(.bottom).padding(.bottom)
-                                
-                                //Item 2: Email
-                                WideWidgetItem(image: "envelope.fill", size: 20, color: Color("Dark1"), title: "Return Policy").padding(.bottom).padding(.bottom)
-                                
-                                //Item 3: Email
-                                WideWidgetItem(image: "envelope.fill", size: 20, color: Color("Dark1"), title: "About Us").padding(.bottom).padding(.bottom)
-                            }
-                            .padding(.bottom)
-                            .background(Color(.white))
+                //for purchase
+                NavigationLink {
+                    ProfileTEMP()
+                } label: {
+                    PointsEarnedSectionRow(image: "heart.circle.fill", imageColor: Color.red, title: "Purchase", points: "800", isEnabled: true)
+                }
+
+                //for review
+                NavigationLink  {
+                    IntentToReview(itemObject: itemsViewModel.snapshotOfItem.first ?? Items(companyID: "", domain: "", email: "", itemID: "", name: "", orderID: "", price: "", quantity: 0, referred: false, reviewID: "", reviewRating: 0, shopifyItemID: 0, status: "", timestamp: 0, title: "", userID: ""), selectedTab: $selectedTab)
+                } label: {
+                    PointsEarnedSectionRow(image: "star.circle.fill", imageColor: Color("ReviewTeal"), title: "Review", points: "200", isEnabled: true)
+                }
+
+                //for referral
+                NavigationLink  {
+                    IntentToReview(itemObject: itemsViewModel.snapshotOfItem.first ?? Items(companyID: "", domain: "", email: "", itemID: "", name: "", orderID: "", price: "", quantity: 0, referred: false, reviewID: "", reviewRating: 0, shopifyItemID: 0, status: "", timestamp: 0, title: "", userID: ""), selectedTab: $selectedTab)
+                } label: {
+                    PointsEarnedSectionRow(image: "paperplane.circle.fill", imageColor: Color("ReferPurple"), title: "Referral", points: "15000", isEnabled: false)
+                }
+                
+                //total
+                HStack {
+                    Text("Total")
+                        .font(.system(size: 16, weight: .medium))
+                        .foregroundColor(.black)
+                    Spacer()
+                    Text("1000")
+                        .font(.system(size: 16, weight: .medium))
+                        .foregroundColor(.black)
+                }
+            }
+                        
+            //MARK: ORDER SECTION
+            Section(header: Text("Order Details")) {
+                
+                //order #
+                OrderSectionRow(title: "Order Number", description: "#2300")
+                
+                //date
+                OrderSectionRow(title: "Date", description: String(itemsViewModel.snapshotOfItem.first?.timestamp ?? 0))
+                
+                //status
+                OrderSectionRow(title: "Status", description: itemsViewModel.snapshotOfItem.first?.status ?? "")
+                
+                //return by
+                NavigationLink {
+                    ProfileTEMP()
+                } label: {
+                    OrderSectionRow(title: "Return by", description: "Timestamp + 30")
+                }
+                
+            }
+            
+            //MARK: ITEM SECTION
+            Section(header: Text("Item Details")) {
+                
+                //price
+                OrderSectionRow(title: "Price", description: itemsViewModel.snapshotOfItem.first?.price ?? "")
+                
+                //sku
+                OrderSectionRow(title: "SKU", description: "Black")
+
+            }
+            
+            //MARK: CONTACT US SECTION
+            Section {
+                Button {
                     
-                        }
+                } label: {
+                    Text("Contact")
+                }
+            }
+            
+            //MARK: VISIT WEBSITE SECTION
+            Section {
+                HStack {
+                    Link(destination: URL(string: "https://athleisure-la.myshopify.com")!) {
+                        Text("Open website")
                     }
                 }
             }
+            
         }
         .ignoresSafeArea(.container, edges: [.horizontal, .bottom])
-        .navigationBarTitle(itemsViewModel.snapshotOfItem.first?.itemID ?? "Item", displayMode: .inline)
+        .navigationBarTitle(itemsViewModel.snapshotOfItem.first?.title ?? "Item", displayMode: .inline)
         .onAppear {
             self.itemsViewModel.getSnapshotOfItem(itemID: itemID)
         }
     }
 }
-
-//struct ItemForOrder_Previews: PreviewProvider {
-//    static var previews: some View {
-//        ItemForOrder(item: Items)
-//    }
-//}
-
-
-
-
-

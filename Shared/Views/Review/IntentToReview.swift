@@ -5,6 +5,11 @@
 //  Created by Colin Power on 8/24/22.
 //
 
+//Notes for future:
+//  - should have 5 stars empty, and tapping them automatically triggers the review prompt
+//  - ...
+
+
 import SwiftUI
 
 struct IntentToReview: View {
@@ -25,49 +30,33 @@ struct IntentToReview: View {
             VStack {
             
             //MARK: "WRITE A REVIEW" AT THE TOP
-            VStack(alignment: .leading, spacing: 10) {
-                Image(systemName: "star.square.fill")
-                    .font(.system(size: 40, weight: .semibold))
-                    .foregroundColor(Color("ReviewTeal"))
+            VStack(alignment: .leading, spacing: 8) {
+                ZStack(alignment: .center) {
+                    Circle()
+                        .frame(width: 38, height: 38)
+                        .foregroundColor(.white)
+                    Image(systemName: "star.square.fill")
+                        .font(.system(size: 40, weight: .semibold))
+                        .foregroundColor(Color("ReviewTeal"))
+                }
                 HStack(alignment: .bottom, spacing: 0) {
                     Text("Review")
-                        .font(.system(size: 36))
-                        .fontWeight(.bold)
+                        .font(.system(size: 36, weight: .bold, design: .rounded))
                         .foregroundColor(Color("Dark1"))
                     Spacer()
-                    
-                    //MARK: STARS (EMPTY)
-                    HStack(alignment: .center, spacing: 0) {
-                        Image(systemName: "star")
-                            .font(.system(size: 24, weight: .regular))
-                            .foregroundColor(Color("Gray3"))
-                        Image(systemName: "star")
-                            .font(.system(size: 24, weight: .regular))
-                            .foregroundColor(Color("Gray3"))
-                        Image(systemName: "star")
-                            .font(.system(size: 24, weight: .regular))
-                            .foregroundColor(Color("Gray3"))
-                        Image(systemName: "star")
-                            .font(.system(size: 24, weight: .regular))
-                            .foregroundColor(Color("Gray3"))
-                        Image(systemName: "star")
-                            .font(.system(size: 24, weight: .regular))
-                            .foregroundColor(Color("Gray3"))
-                    }.padding(.bottom, 2)
                 }
             }.padding()
+            
             
             //MARK: PRODUCT IMAGE
             ZStack {
                 Color(.white)
-                    .frame(height: UIScreen.main.bounds.width/3*2)
-                VStack (alignment: .center, spacing: 0) {
-                    Image("redshorts")
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .frame(width: UIScreen.main.bounds.width/3*2)
-                }
-            }
+                    .frame(width: UIScreen.main.bounds.width/3*2, height: UIScreen.main.bounds.width/3*2)
+                Image("redshorts")
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(width: UIScreen.main.bounds.width/3*2)
+            }.cornerRadius(32)
             
             //MARK: PRODUCT NAME, COMPANY, PRICE
             VStack(alignment: .center) {
@@ -80,7 +69,7 @@ struct IntentToReview: View {
                     .foregroundColor(Color.blue)
             }.padding(.bottom, 8)
             
-            
+                Text(itemObject.email)
             
             
 //            RoundedRectangle(cornerRadius: 16)

@@ -22,6 +22,8 @@
 		3014FA952796FE7000473CE4 /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3014FA942796FE7000473CE4 /* DataManager.swift */; };
 		3014FA972796FF5B00473CE4 /* RewardsProgramViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3014FA962796FF5B00473CE4 /* RewardsProgramViewModel.swift */; };
 		301DBFD028C1C1260072E497 /* ProfileTEMP.swift in Sources */ = {isa = PBXBuildFile; fileRef = 301DBFCF28C1C1260072E497 /* ProfileTEMP.swift */; };
+		301DBFD328C1F9BA0072E497 /* PointsEarnedSectionRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 301DBFD228C1F9BA0072E497 /* PointsEarnedSectionRow.swift */; };
+		301DBFD528C1F9FD0072E497 /* OrderSectionRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 301DBFD428C1F9FD0072E497 /* OrderSectionRow.swift */; };
 		3025C1B328BF312600C2861F /* IntentKnockoff.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3025C1B228BF312600C2861F /* IntentKnockoff.swift */; };
 		302AB46C28B12B130086D4CA /* Items.swift in Sources */ = {isa = PBXBuildFile; fileRef = 302AB46B28B12B130086D4CA /* Items.swift */; };
 		302AB46E28B12BFE0086D4CA /* ItemsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 302AB46D28B12BFE0086D4CA /* ItemsViewModel.swift */; };
@@ -142,6 +144,8 @@
 		3014FA942796FE7000473CE4 /* DataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
 		3014FA962796FF5B00473CE4 /* RewardsProgramViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RewardsProgramViewModel.swift; sourceTree = "<group>"; };
 		301DBFCF28C1C1260072E497 /* ProfileTEMP.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileTEMP.swift; sourceTree = "<group>"; };
+		301DBFD228C1F9BA0072E497 /* PointsEarnedSectionRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PointsEarnedSectionRow.swift; sourceTree = "<group>"; };
+		301DBFD428C1F9FD0072E497 /* OrderSectionRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderSectionRow.swift; sourceTree = "<group>"; };
 		3025C1B228BF312600C2861F /* IntentKnockoff.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntentKnockoff.swift; sourceTree = "<group>"; };
 		302AB46B28B12B130086D4CA /* Items.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Items.swift; sourceTree = "<group>"; };
 		302AB46D28B12BFE0086D4CA /* ItemsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemsViewModel.swift; sourceTree = "<group>"; };
@@ -406,6 +410,15 @@
 			path = Feed;
 			sourceTree = "<group>";
 		};
+		301DBFD128C1F97B0072E497 /* ItemForOrder - Structs */ = {
+			isa = PBXGroup;
+			children = (
+				301DBFD228C1F9BA0072E497 /* PointsEarnedSectionRow.swift */,
+				301DBFD428C1F9FD0072E497 /* OrderSectionRow.swift */,
+			);
+			path = "ItemForOrder - Structs";
+			sourceTree = "<group>";
+		};
 		302AB46F28B3592A0086D4CA /* Orders */ = {
 			isa = PBXGroup;
 			children = (
@@ -413,6 +426,7 @@
 				302AB47828B3941E0086D4CA /* AllOrdersForCompany.swift */,
 				302AB47428B359820086D4CA /* OneOrder.swift */,
 				302AB47628B359D00086D4CA /* ItemForOrder.swift */,
+				301DBFD128C1F97B0072E497 /* ItemForOrder - Structs */,
 			);
 			path = Orders;
 			sourceTree = "<group>";
@@ -754,6 +768,7 @@
 				307BCA2127975C27000DDD21 /* DiscountCodes.swift in Sources */,
 				308B83FC27F768A200BC5211 /* ReviewHistory.swift in Sources */,
 				3086622328BF56C900849AF1 /* TEMPTabview.swift in Sources */,
+				301DBFD528C1F9FD0072E497 /* OrderSectionRow.swift in Sources */,
 				30FF41A128B635F200D70BC5 /* HomeWithPopOutCards.swift in Sources */,
 				307BCA2727975F89000DDD21 /* TransactionsViewModel.swift in Sources */,
 				308B83F827F44DE800BC5211 /* MemberSale.swift in Sources */,
@@ -783,6 +798,7 @@
 				3088074628A678A3003D1B99 /* FirstRunExperienceSwitcher.swift in Sources */,
 				300FF53D289A212100455D44 /* SuggestAShop.swift in Sources */,
 				3014FA3927964E5E00473CE4 /* Uncommon_LoyaltyApp.swift in Sources */,
+				301DBFD328C1F9BA0072E497 /* PointsEarnedSectionRow.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
