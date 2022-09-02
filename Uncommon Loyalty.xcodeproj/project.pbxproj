@@ -28,6 +28,9 @@
 		301DBFDA28C20A0C0072E497 /* IntentToRefer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 301DBFD928C20A0C0072E497 /* IntentToRefer.swift */; };
 		301DBFDC28C218720072E497 /* AboutCompany.swift in Sources */ = {isa = PBXBuildFile; fileRef = 301DBFDB28C218720072E497 /* AboutCompany.swift */; };
 		301DBFDE28C24BC60072E497 /* ReviewProductCarouselTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 301DBFDD28C24BC60072E497 /* ReviewProductCarouselTest.swift */; };
+		301DBFE028C257F90072E497 /* ReviewPageWithTextEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 301DBFDF28C257F90072E497 /* ReviewPageWithTextEntry.swift */; };
+		301DBFE228C25C5D0072E497 /* ReviewPageWithRating.swift in Sources */ = {isa = PBXBuildFile; fileRef = 301DBFE128C25C5D0072E497 /* ReviewPageWithRating.swift */; };
+		301DBFE428C267AE0072E497 /* ReviewPageAllButtons.swift in Sources */ = {isa = PBXBuildFile; fileRef = 301DBFE328C267AE0072E497 /* ReviewPageAllButtons.swift */; };
 		3025C1B328BF312600C2861F /* IntentKnockoff.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3025C1B228BF312600C2861F /* IntentKnockoff.swift */; };
 		302AB46C28B12B130086D4CA /* Items.swift in Sources */ = {isa = PBXBuildFile; fileRef = 302AB46B28B12B130086D4CA /* Items.swift */; };
 		302AB46E28B12BFE0086D4CA /* ItemsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 302AB46D28B12BFE0086D4CA /* ItemsViewModel.swift */; };
@@ -154,6 +157,9 @@
 		301DBFD928C20A0C0072E497 /* IntentToRefer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntentToRefer.swift; sourceTree = "<group>"; };
 		301DBFDB28C218720072E497 /* AboutCompany.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutCompany.swift; sourceTree = "<group>"; };
 		301DBFDD28C24BC60072E497 /* ReviewProductCarouselTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewProductCarouselTest.swift; sourceTree = "<group>"; };
+		301DBFDF28C257F90072E497 /* ReviewPageWithTextEntry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewPageWithTextEntry.swift; sourceTree = "<group>"; };
+		301DBFE128C25C5D0072E497 /* ReviewPageWithRating.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewPageWithRating.swift; sourceTree = "<group>"; };
+		301DBFE328C267AE0072E497 /* ReviewPageAllButtons.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewPageAllButtons.swift; sourceTree = "<group>"; };
 		3025C1B228BF312600C2861F /* IntentKnockoff.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntentKnockoff.swift; sourceTree = "<group>"; };
 		302AB46B28B12B130086D4CA /* Items.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Items.swift; sourceTree = "<group>"; };
 		302AB46D28B12BFE0086D4CA /* ItemsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemsViewModel.swift; sourceTree = "<group>"; };
@@ -520,6 +526,9 @@
 				308B83FB27F768A200BC5211 /* ReviewHistory.swift */,
 				30C8102028877FD1004B1DA7 /* ReviewProductPreview.swift */,
 				30BA64D32889A177002E3FC8 /* ReviewProductCarousel1.swift */,
+				301DBFDF28C257F90072E497 /* ReviewPageWithTextEntry.swift */,
+				301DBFE128C25C5D0072E497 /* ReviewPageWithRating.swift */,
+				301DBFE328C267AE0072E497 /* ReviewPageAllButtons.swift */,
 				301DBFDD28C24BC60072E497 /* ReviewProductCarouselTest.swift */,
 				308B83F527F441A600BC5211 /* RatingView.swift */,
 				30FF41A228B6886B00D70BC5 /* PositiveReview.swift */,
@@ -774,6 +783,7 @@
 				3086622528BF869900849AF1 /* RecommendedActions.swift in Sources */,
 				30477A8C2815AF540032E57A /* Feedback.swift in Sources */,
 				30DC3E7128A13D3600613B4B /* FeaturedWidget1.swift in Sources */,
+				301DBFE228C25C5D0072E497 /* ReviewPageWithRating.swift in Sources */,
 				307BCA2527975F2E000DDD21 /* Transactions.swift in Sources */,
 				300FF53B289A20DC00455D44 /* SuggestAShopPreview.swift in Sources */,
 				3088074028A5980D003D1B99 /* TempFile.swift in Sources */,
@@ -805,10 +815,12 @@
 				3032829328A4CEB60038A053 /* FirstRunExperience.swift in Sources */,
 				30C8102128877FD1004B1DA7 /* ReviewProductPreview.swift in Sources */,
 				30DC3E6B28A11E4B00613B4B /* History.swift in Sources */,
+				301DBFE028C257F90072E497 /* ReviewPageWithTextEntry.swift in Sources */,
 				3014FA7127965D1400473CE4 /* Feed.swift in Sources */,
 				3046EC22279FB3DB00D1CBE7 /* VoteOnProduct.swift in Sources */,
 				3088074428A61BEB003D1B99 /* UsersViewModel.swift in Sources */,
 				303D3FC928A89C4400455A09 /* Reviews.swift in Sources */,
+				301DBFE428C267AE0072E497 /* ReviewPageAllButtons.swift in Sources */,
 				302AB46E28B12BFE0086D4CA /* ItemsViewModel.swift in Sources */,
 				30FF41A328B6886B00D70BC5 /* PositiveReview.swift in Sources */,
 				304DC88927F3578200E30DCA /* CompanyProfileV2.swift in Sources */,

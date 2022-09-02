@@ -11,6 +11,19 @@ import SDWebImageSwiftUI
 import FirebaseStorage
 
 
+//Environment
+
+//ViewModels
+
+//State
+
+//Binding
+
+//Required variables
+
+
+
+
 //MARK: PAGE HEADER
 struct PageHeader: View {
     

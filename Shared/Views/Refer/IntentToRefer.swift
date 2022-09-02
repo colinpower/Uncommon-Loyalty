@@ -15,7 +15,7 @@ struct IntentToRefer: View {
     @ObservedObject var itemsViewModel = ItemsViewModel()
     
     //State - need to create one that triggers the reviews flow
-    @State var showingReviewProductScreen: Bool = false
+    @State var isShowingReviewExperience: Bool = false
     @State var isShowingItemSheet:Bool = false
     
     //Binding
@@ -151,7 +151,7 @@ struct IntentToRefer: View {
         
         
             Button(action: {
-                showingReviewProductScreen = true
+                isShowingReviewExperience = true
             }) {
                HStack {
                    Spacer()
@@ -174,8 +174,8 @@ struct IntentToRefer: View {
         }.background(Color("Background"))
         .ignoresSafeArea(.container, edges: [.horizontal, .bottom])
         .navigationBarTitle("", displayMode: .inline)
-        .fullScreenCover(isPresented: $showingReviewProductScreen, content: {
-            ReviewProductCarousel1(showingReviewProductScreen: $showingReviewProductScreen, itemObject: itemObject)
+        .fullScreenCover(isPresented: $isShowingReviewExperience, content: {
+            ReviewProductCarousel1(isShowingReviewExperience: $isShowingReviewExperience, item: itemObject)
         })
 //       .onAppear {
 //           self.itemsViewModel.getSnapshotOfItem(itemID: itemObject.itemID)
