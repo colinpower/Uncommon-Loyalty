@@ -22,6 +22,8 @@ struct IntentToReview: View {
     var body: some View {
         VStack {
             
+            VStack {
+            
             //MARK: "WRITE A REVIEW" AT THE TOP
             VStack(alignment: .leading, spacing: 10) {
                 Image(systemName: "star.square.fill")
@@ -33,6 +35,8 @@ struct IntentToReview: View {
                         .fontWeight(.bold)
                         .foregroundColor(Color("Dark1"))
                     Spacer()
+                    
+                    //MARK: STARS (EMPTY)
                     HStack(alignment: .center, spacing: 0) {
                         Image(systemName: "star")
                             .font(.system(size: 24, weight: .regular))
@@ -53,7 +57,7 @@ struct IntentToReview: View {
                 }
             }.padding()
             
-            
+            //MARK: PRODUCT IMAGE
             ZStack {
                 Color(.white)
                     .frame(height: UIScreen.main.bounds.width/3*2)
@@ -65,6 +69,7 @@ struct IntentToReview: View {
                 }
             }
             
+            //MARK: PRODUCT NAME, COMPANY, PRICE
             VStack(alignment: .center) {
                 Text("Athleisure LA - Joggers 2.0")
                     .font(.system(size: 18, weight: .regular))
@@ -129,48 +134,33 @@ struct IntentToReview: View {
 //                .padding(.trailing)
 
             
-            
-            
-            
-            Spacer()
-            
-            
-            HStack (alignment: .center) {
-                Spacer()
-                VStack(alignment: .center, spacing: 6) {
-                    Text(String(detailsOfReview[0]))
-                        .font(.system(size: 40))
-                        .fontWeight(.semibold)
-                        .foregroundColor(Color("Dark1"))
+            List {
+                HStack(spacing: 8) {
+                    Image(systemName: "questionmark.square")
+                        .font(.system(size: 16))
+                        .foregroundColor(.black)
                     Text("Questions")
                         .font(.system(size: 16))
-                        .fontWeight(.regular)
-                        .foregroundColor(Color("Gray1"))
-                }.frame(width: UIScreen.main.bounds.width/10*3)
-                Spacer()
-                VStack(alignment: .center, spacing: 6) {
-                    Text(String(detailsOfReview[1]))
-                        .font(.system(size: 40))
-                        .fontWeight(.semibold)
-                        .foregroundColor(Color("Dark1"))
-                    Text("Seconds")
+                        .foregroundColor(.black)
+                    Spacer()
+                    Text("3")
                         .font(.system(size: 16))
-                        .fontWeight(.regular)
-                        .foregroundColor(Color("Gray1"))
-                }.frame(width: UIScreen.main.bounds.width/10*3)
-                Spacer()
-                VStack(alignment: .center, spacing: 6) {
-                    Text(String(detailsOfReview[2]))
-                        .font(.system(size: 40))
-                        .fontWeight(.semibold)
-                        .foregroundColor(Color("Dark1"))
-                    Text("Points")
+                        .foregroundColor(.gray)
+                }
+                HStack(spacing: 8) {
+                    Label {
+                        Text("Questions")
+                    } icon: {
+                        Image(systemName: "questionmark.square")
+                    }
+                    Spacer()
+                    Text("3")
                         .font(.system(size: 16))
-                        .fontWeight(.regular)
-                        .foregroundColor(Color("Gray1"))
-                }.frame(width: UIScreen.main.bounds.width/10*3)
-                Spacer()
-            }.padding(.horizontal).padding(.horizontal)
+                        .foregroundColor(.gray)
+                }
+
+            }
+            
             
             Spacer()
             
@@ -189,20 +179,11 @@ struct IntentToReview: View {
                }.background(RoundedRectangle(cornerRadius: 36).fill(Color("ReviewTeal")))
                 .padding(.horizontal)
                 .padding(.horizontal)   
-           }.padding(.bottom)
+           }
+                .padding(.bottom)
                 .padding(.bottom)
             
-//            Button(action: {
-//               //show item details
-//           }) {
-//               Text("View order")
-//                   .foregroundColor(Color("Gray1"))
-//                   .font(.system(size: 18))
-//                   .fontWeight(.medium)
-//                   .padding(.vertical, 8)
-//           }.padding(.bottom)
-            //Spacer()
-            
+            }.background(Color("Background"))
             MyTabView(selectedTab: $selectedTab)
             
         }

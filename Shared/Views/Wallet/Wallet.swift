@@ -212,6 +212,7 @@ struct DetailView: View {
                                     }
                                 }))
                             .frame(width: UIScreen.main.bounds.width - 40)
+                            //.frame(height: UIScreen.main.bounds.width / 1.6)
                             .clipShape(RoundedRectangle(cornerRadius: 12))
                             .zIndex(10)
                             .padding(.top)
