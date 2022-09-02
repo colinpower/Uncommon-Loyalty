@@ -1,51 +1,44 @@
 //
-//  ReviewProductCarousel1.swift
+//  ReviewProductCarouselTest.swift
 //  Uncommon Loyalty (iOS)
 //
-//  Created by Colin Power on 7/21/22.
+//  Created by Colin Power on 9/2/22.
 //
 
 import SwiftUI
 
-struct ReviewProductCarousel1: View {
+struct ReviewProductCarouselTest: View {
 
+    //Environment
     @EnvironmentObject var viewModel: AppViewModel
 
+    //ViewModels
     @ObservedObject var reviewsViewModel = ReviewsViewModel()
     @ObservedObject var rewardsProgramViewModel = RewardsProgramViewModel()
 
-    
-    @Binding var showingReviewProductScreen: Bool
-    
+    //State
     @State var showingPositiveReviewScreen: Bool = false
-    
     @State var horizontalOffset : CGFloat = UIScreen.main.bounds.width
     @State var rating : Int = 0
     @State var response1: String = ""
     @State var response2: String = ""
-    
     @State private var blinkingOKButton: Bool = false
-    
     @State var pointsEarned: Double = 0
-    
     //@State var numberOfTotalQuestions: Int = 3
     @State var questionsArray: [String] = [String](repeating: "", count: 3)
     @State var answersArray: [String] = [String](repeating: "", count: 3)
-    
-    var itemObject: Items
-    
-//    var companyID: String
-//    var itemID: String
-//    var email: String
-//    var emailUID: String
-    
-    var screenWidth:CGFloat = UIScreen.main.bounds.width     //this should be 428 for an iPhone 12 Pro Max
-    
-    var numberOfScreens:Int = 3
-    
-    
     @State var currentQuestion:Int = 0
     @State var responses: [String] = [String](repeating: "", count: 3)
+    
+    //Binding
+    @Binding var showingReviewProductScreen: Bool
+    
+    //Required variables
+    var itemObject: Items
+    
+    //Defined variables
+    var screenWidth:CGFloat = UIScreen.main.bounds.width     //this should be 428 for an iPhone 12 Pro Max
+    var numberOfScreens:Int = 3
     
     
     
@@ -85,7 +78,6 @@ struct ReviewProductCarousel1: View {
                     }.frame(width: UIScreen.main.bounds.width, height: 240)
 
                         
-                    
                     //MARK: HSTACK for QUESTIONS
                     HStack(spacing: 0) {
 //                        Rectangle().foregroundColor(.red)
@@ -504,11 +496,11 @@ struct ReviewProductCarousel1: View {
     
 }
 
-extension View {
-    func animatingOverlay(for number: Double) -> some View {
-        modifier(AnimatableNumberModifier(number: number))
-    }
-}
+//extension View {
+//    func animatingOverlay(for number: Double) -> some View {
+//        modifier(AnimatableNumberModifier(number: number))
+//    }
+//}
 
 
 
@@ -520,32 +512,32 @@ extension View {
 //    }
 //}
 
-
-#if canImport(UIKit)
-extension View {
-    func hideKeyboard() {
-        UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
-    }
-}
-#endif
-
-
-
-
-struct AnimatableNumberModifier: AnimatableModifier {
-    var number: Double
-    
-    var animatableData: Double {
-        get { number }
-        set { number = newValue }
-    }
-    
-    func body(content: Content) -> some View {
-        content
-            .overlay(
-                Text("\(Int(number))")
-                    .font(.system(size: 72, weight: .bold, design: .rounded))
-                    .foregroundColor(Color("ReviewComplementaryBlue"))
-            )
-    }
-}
+//
+//#if canImport(UIKit)
+//extension View {
+//    func hideKeyboard() {
+//        UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
+//    }
+//}
+//#endif
+//
+//
+//
+//
+//struct AnimatableNumberModifier: AnimatableModifier {
+//    var number: Double
+//
+//    var animatableData: Double {
+//        get { number }
+//        set { number = newValue }
+//    }
+//
+//    func body(content: Content) -> some View {
+//        content
+//            .overlay(
+//                Text("\(Int(number))")
+//                    .font(.system(size: 72, weight: .bold, design: .rounded))
+//                    .foregroundColor(Color("ReviewComplementaryBlue"))
+//            )
+//    }
+//}

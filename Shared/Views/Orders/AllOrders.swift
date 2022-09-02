@@ -204,7 +204,7 @@ struct AllOrdersSingleItemView: View {
         VStack {
             ForEach(order.itemIDs, id: \.self) { itemID in
                 
-                NavigationLink(destination: ItemForOrder(itemID: itemID)) {
+                NavigationLink(destination: Item(itemID: itemID)) {
                     HStack {
                         //image
                         Image("redshorts")

@@ -213,8 +213,9 @@ struct Earn: View {
         var body: some View {
             
             //Link to the Review Interceptor page
+        
             NavigationLink {
-                IntentToReview(itemObject: item, selectedTab: $selectedTab)
+                IntentToReview(selectedTab: $selectedTab, itemObject: item)
             } label: {
 
                 //Stack the following: a white card with the shadow, then the content of the card, then the overlaid "250 POINTS" and the review icon
@@ -343,7 +344,7 @@ struct Earn: View {
             
             //Link to the Review Interceptor page
             NavigationLink {
-                IntentToReview(itemObject: item, selectedTab: $selectedTab)
+                IntentToRefer(selectedTab: $selectedTab, itemObject: item)
             } label: {
 
                 //Stack the following: a white card with the shadow, then the content of the card, then the overlaid "250 POINTS" and the review icon

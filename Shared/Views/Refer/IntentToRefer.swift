@@ -1,23 +1,20 @@
 //
-//  IntentToReview.swift
+//  IntentToRefer.swift
 //  Uncommon Loyalty (iOS)
 //
-//  Created by Colin Power on 8/24/22.
+//  Created by Colin Power on 9/2/22.
 //
-
-//Notes for future:
-//  - should have 5 stars empty, and tapping them automatically triggers the review prompt
-//  - ...
-
 
 import SwiftUI
 
-struct IntentToReview: View {
+struct IntentToRefer: View {
+    
+    //Environment
     
     //ViewModels
     @ObservedObject var itemsViewModel = ItemsViewModel()
     
-    //State
+    //State - need to create one that triggers the reviews flow
     @State var showingReviewProductScreen: Bool = false
     @State var isShowingItemSheet:Bool = false
     
@@ -27,22 +24,23 @@ struct IntentToReview: View {
     //Required variables
     var itemObject:Items
     
+    
     var body: some View {
             
         VStack(spacing: 0) {
         
-            //MARK: HEADER (STAR + "REVIEW" AT THE TOP)
+            //MARK: HEADER (STAR + "REFER" AT THE TOP)
             VStack(alignment: .leading, spacing: 8) {
                 ZStack(alignment: .center) {
                     Circle()
                         .frame(width: 38, height: 38)
                         .foregroundColor(.white)
-                    Image(systemName: "star.circle.fill")
+                    Image(systemName: "paperplane.circle.fill")
                         .font(.system(size: 40, weight: .semibold))
-                        .foregroundColor(Color("ReviewTeal"))
+                        .foregroundColor(Color("ReferPurple"))
                 }
                 HStack(alignment: .bottom, spacing: 0) {
-                    Text("Review")
+                    Text("Refer")
                         .font(.system(size: 36, weight: .bold, design: .rounded))
                         .foregroundColor(Color("Dark1"))
                     Spacer()
@@ -52,7 +50,7 @@ struct IntentToReview: View {
             //MARK: CONTENT
             List {
                 
-                //MARK: EMPTY REVIEW SECTION
+                //MARK: PREVIOUS REVIEW SECTION
                 Section {
                     
                     //empty review
@@ -79,13 +77,13 @@ struct IntentToReview: View {
                                 .padding(.bottom)
                             
                             HStack(alignment: .center) {
-                                Image(systemName: "star")
-                                Image(systemName: "star")
-                                Image(systemName: "star")
-                                Image(systemName: "star")
-                                Image(systemName: "star")
+                                Image(systemName: "star.fill")
+                                Image(systemName: "star.fill")
+                                Image(systemName: "star.fill")
+                                Image(systemName: "star.fill")
+                                Image(systemName: "star.fill")
                             }.font(.system(size: 18))
-                            .foregroundColor(.gray)
+                            .foregroundColor(.yellow)
 
                         }
                     }
@@ -134,18 +132,18 @@ struct IntentToReview: View {
                 
                 
                 //MARK: POINTS, TIME, QUESTIONS
-                Section(header: Text("Review details")) {
-                    
-                    //questions
-                    ReviewDetailsSectionRow(image: "questionmark.circle", title: "Length", description: "3 questions")
-                    
-                    //time
-                    ReviewDetailsSectionRow(image: "clock", title: "Time", description: "30 seconds")
-                    
-                    //points
-                    ReviewDetailsSectionRow(image: "star.circle", title: "Earn", description: "300 points")
-                    
-                }
+//                Section(header: Text("Review details")) {
+//
+//                    //questions
+//                    ReviewDetailsSectionRow(image: "questionmark.circle", title: "Length", description: "3 questions")
+//
+//                    //time
+//                    ReviewDetailsSectionRow(image: "clock", title: "Time", description: "30 seconds")
+//
+//                    //points
+//                    ReviewDetailsSectionRow(image: "star.circle", title: "Earn", description: "300 points")
+//
+//                }
             }
             
 
@@ -185,3 +183,10 @@ struct IntentToReview: View {
         
     }
 }
+
+
+//struct IntentToRefer_Previews: PreviewProvider {
+//    static var previews: some View {
+//        IntentToRefer()
+//    }
+//}

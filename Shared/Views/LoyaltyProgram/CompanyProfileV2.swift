@@ -62,6 +62,7 @@ struct CompanyProfileV2: View {
     @Binding var selectedTab: Int
     
     
+    
     //Listeners - must listen for RewardsProgram, Discounts,
     @ObservedObject var viewModel1 = RewardsProgramViewModel()
     @ObservedObject var viewModel2 = DiscountCodesViewModel()
@@ -105,13 +106,24 @@ struct CompanyProfileV2: View {
             //MARK: LOYALTY CARD
             ZStack {
             
-                RoundedRectangle(cornerRadius: 16).foregroundColor(.clear)
-                    .frame(width: geometry.size.width, height: CGFloat(Int(geometry.size.width) / 8 * 5))
-                    
-                Image("AthleisureLA-Gold-Loyalty")
+                
+                Image("AthleisureLA-Platinum-Loyalty")
                     .resizable()
                     .aspectRatio(contentMode: .fit)
-                    .layoutPriority(-1)
+                    .frame(maxWidth: UIScreen.main.bounds.width, maxHeight: UIScreen.main.bounds.width / 8 * 5)
+                    .layoutPriority(1)
+                    .padding(.horizontal)
+                    .shadow(color: .gray, radius: 10, x: 0, y: 0)
+                
+//                RoundedRectangle(cornerRadius: 16).foregroundColor(.clear)
+//                    .frame(width: geometry.size.width, height: CGFloat(Int(geometry.size.width) / 8 * 5))
+                
+                
+                
+//                Image("AthleisureLA-Gold-Loyalty")
+//                    .resizable()
+//                    .aspectRatio(contentMode: .fit)
+//                    .layoutPriority(-1)
                 
                 HStack {
                     VStack(alignment: .leading) {
@@ -364,7 +376,7 @@ struct CompanyProfileV2: View {
     
                 ForEach(ordersViewModel.snapshotOfOrders.prefix(5)) { Order in
                     
-                    NavigationLink(destination: ItemForOrder(itemID: Order.itemIDs.first ?? "")) {
+                    NavigationLink(destination: Item(itemID: Order.itemIDs.first ?? "")) {
                         MyRecentOrdersItem(item: Order.item_firstItemTitle, timestamp: Order.timestamp, reviewID: Order.orderID, colorToShow: colorToShow[4])
                     }
                 }.padding(.vertical)
@@ -385,19 +397,12 @@ struct CompanyProfileV2: View {
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     //this is a hack to get a navigationlink inside a toolbarItem
-                    HStack(alignment: .center, spacing: 0) {
-                        Button {
-                            isReferACompanyActive.toggle()
-                        } label: {
-                            Image(systemName: "ellipsis.circle")
-                                .font(.system(size: 18))
-                                .foregroundColor(Color("Dark1"))
-                        }.fullScreenCover(isPresented: $isReferACompanyActive) {
-                            ReferAFriend(companyID: companyID, companyName: "alsdkfjsad", isReferCompanyActive: $isReferACompanyActive)
-                        }
-                        
-                        
-                        
+                    NavigationLink {
+                        AboutCompany()
+                    } label: {
+                        Image(systemName: "ellipsis.circle")
+                            .font(.system(size: 18))
+                            .foregroundColor(Color("Dark1"))
                     }
                 }
             }

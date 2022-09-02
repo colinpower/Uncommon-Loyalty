@@ -1,5 +1,5 @@
 //
-//  Order_Item.swift
+//  Item.swift
 //  Uncommon Loyalty (iOS)
 //
 //  Created by Colin Power on 8/22/22.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct ItemForOrder: View {
+struct Item: View {
     
     //Environment
     @EnvironmentObject var viewModel: AppViewModel
@@ -75,14 +75,14 @@ struct ItemForOrder: View {
 
                 //for review
                 NavigationLink  {
-                    IntentToReview(itemObject: itemsViewModel.snapshotOfItem.first ?? Items(companyID: "", domain: "", email: "", itemID: "", name: "", orderID: "", price: "", quantity: 0, referred: false, reviewID: "", reviewRating: 0, shopifyItemID: 0, status: "", timestamp: 0, title: "", userID: ""), selectedTab: $selectedTab)
+                    IntentToReview(selectedTab: $selectedTab, itemObject: itemsViewModel.snapshotOfItem.first ?? Items(companyID: "", domain: "", email: "", itemID: "", name: "", orderID: "", price: "", quantity: 0, referred: false, reviewID: "", reviewRating: 0, shopifyItemID: 0, status: "", timestamp: 0, title: "", userID: ""))
                 } label: {
                     PointsEarnedSectionRow(image: "star.circle.fill", imageColor: Color("ReviewTeal"), title: "Review", points: "200", isEnabled: true)
                 }
 
                 //for referral
                 NavigationLink  {
-                    IntentToReview(itemObject: itemsViewModel.snapshotOfItem.first ?? Items(companyID: "", domain: "", email: "", itemID: "", name: "", orderID: "", price: "", quantity: 0, referred: false, reviewID: "", reviewRating: 0, shopifyItemID: 0, status: "", timestamp: 0, title: "", userID: ""), selectedTab: $selectedTab)
+                    IntentToReview(selectedTab: $selectedTab, itemObject: itemsViewModel.snapshotOfItem.first ?? Items(companyID: "", domain: "", email: "", itemID: "", name: "", orderID: "", price: "", quantity: 0, referred: false, reviewID: "", reviewRating: 0, shopifyItemID: 0, status: "", timestamp: 0, title: "", userID: ""))
                 } label: {
                     PointsEarnedSectionRow(image: "paperplane.circle.fill", imageColor: Color("ReferPurple"), title: "Referral", points: "15000", isEnabled: false)
                 }
