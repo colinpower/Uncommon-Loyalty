@@ -65,7 +65,13 @@ struct ReviewProductCarousel1: View {
         
         VStack(alignment: .leading) {
             HStack {
-                Text(String(Int(runningSumOfEarnedPoints)))
+                
+                Color.clear
+                    .frame(width: screenWidth/2, height: 72)
+                    .animatingOverlay(for: runningSumOfEarnedPoints)
+                
+                
+                //Text(String(Int(runningSumOfEarnedPoints)))
             }.frame(width: screenWidth, height: 100)
                 .background(.red)
             
@@ -647,6 +653,7 @@ func updatePointsForSubmission(answerForThisQuestion: String, arrayOfReviewAnswe
             //SCENARIO: DELETED - this means there was a prior answer, but the new answer is blank
             
             //Calculate the correct amount of points after subtracting the points that the user previously earned
+            
             return runningSumOfEarnedPoints - arrayOfEarnablePointsForEachQuestion[indexOfCurrentReviewPage]
             
             //Then, update the answer

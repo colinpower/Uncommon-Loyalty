@@ -36,7 +36,9 @@ struct ReviewPageNextButton: View {
             print("NEXT TAPPED.... THE CURRENT INDEX IS \(indexOfCurrentReviewPage)")
             
             //add, subtract, or don't change points depending on whether answer added, removed, or updated
-            runningSumOfEarnedPoints = updatePointsForSubmission(answerForThisQuestion: answerForThisQuestion, arrayOfReviewAnswers: arrayOfReviewAnswers, runningSumOfEarnedPoints: runningSumOfEarnedPoints, arrayOfEarnablePointsForEachQuestion: arrayOfEarnablePointsForEachQuestion, indexOfCurrentReviewPage: indexOfCurrentReviewPage)
+            withAnimation {
+                runningSumOfEarnedPoints = updatePointsForSubmission(answerForThisQuestion: answerForThisQuestion, arrayOfReviewAnswers: arrayOfReviewAnswers, runningSumOfEarnedPoints: runningSumOfEarnedPoints, arrayOfEarnablePointsForEachQuestion: arrayOfEarnablePointsForEachQuestion, indexOfCurrentReviewPage: indexOfCurrentReviewPage)
+            }
             
             //update the answer in the results array
             arrayOfReviewAnswers[indexOfCurrentReviewPage] = answerForThisQuestion
@@ -47,7 +49,9 @@ struct ReviewPageNextButton: View {
             }
             
             //go to the next question
-            indexOfCurrentReviewPage += 1
+            withAnimation(.linear(duration: 0.15)) {
+                indexOfCurrentReviewPage += 1
+            }
 
             print(arrayOfReviewAnswers)
             print(indexOfCurrentReviewPage)
@@ -86,7 +90,9 @@ struct ReviewPageBackButton: View {
             print("BACK TAPPED.... THE CURRENT INDEX IS \(indexOfCurrentReviewPage)")
             
             //add, subtract, or don't change points depending on whether answer added, removed, or updated
-            runningSumOfEarnedPoints = updatePointsForSubmission(answerForThisQuestion: answerForThisQuestion, arrayOfReviewAnswers: arrayOfReviewAnswers, runningSumOfEarnedPoints: runningSumOfEarnedPoints, arrayOfEarnablePointsForEachQuestion: arrayOfEarnablePointsForEachQuestion, indexOfCurrentReviewPage: indexOfCurrentReviewPage)
+            withAnimation {
+                runningSumOfEarnedPoints = updatePointsForSubmission(answerForThisQuestion: answerForThisQuestion, arrayOfReviewAnswers: arrayOfReviewAnswers, runningSumOfEarnedPoints: runningSumOfEarnedPoints, arrayOfEarnablePointsForEachQuestion: arrayOfEarnablePointsForEachQuestion, indexOfCurrentReviewPage: indexOfCurrentReviewPage)
+            }
             
             //update the answer in the results array
             arrayOfReviewAnswers[indexOfCurrentReviewPage] = answerForThisQuestion
@@ -97,7 +103,9 @@ struct ReviewPageBackButton: View {
             }
             
             //go to the prior question
-            indexOfCurrentReviewPage -= 1
+            withAnimation(.linear(duration: 0.15)) {
+                indexOfCurrentReviewPage -= 1
+            }
 
             print(arrayOfReviewAnswers)
             print(indexOfCurrentReviewPage)

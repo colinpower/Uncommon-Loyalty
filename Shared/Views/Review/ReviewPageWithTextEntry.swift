@@ -46,7 +46,9 @@ struct ReviewPageWithTextEntry: View {
                 .onSubmit {
                     
                     //add, subtract, or don't change points depending on whether answer added, removed, or updated
-                    runningSumOfEarnedPoints = updatePointsForSubmission(answerForThisQuestion: answerForThisQuestion, arrayOfReviewAnswers: arrayOfReviewAnswers, runningSumOfEarnedPoints: runningSumOfEarnedPoints, arrayOfEarnablePointsForEachQuestion: arrayOfEarnablePointsForEachQuestion, indexOfCurrentReviewPage: indexOfCurrentReviewPage)
+                    withAnimation {
+                        runningSumOfEarnedPoints = updatePointsForSubmission(answerForThisQuestion: answerForThisQuestion, arrayOfReviewAnswers: arrayOfReviewAnswers, runningSumOfEarnedPoints: runningSumOfEarnedPoints, arrayOfEarnablePointsForEachQuestion: arrayOfEarnablePointsForEachQuestion, indexOfCurrentReviewPage: indexOfCurrentReviewPage)
+                    }
                     
                     //update the answer in the results array
                     arrayOfReviewAnswers[indexOfCurrentReviewPage] = answerForThisQuestion
@@ -58,7 +60,9 @@ struct ReviewPageWithTextEntry: View {
                     
                     
                     //go to the next question
-                    indexOfCurrentReviewPage += 1
+                    withAnimation(.linear(duration: 0.15)) {
+                        indexOfCurrentReviewPage += 1
+                    }
 
                     print(arrayOfReviewAnswers)
                     print(indexOfCurrentReviewPage)
