@@ -8,69 +8,82 @@
 import SwiftUI
 
 struct RatingView: View {
+    
+    //State variables
+    @State var wasRatingTapped:Bool = false
+    
+    //Binding
     @Binding var rating: Int
-    var width: CGFloat
-    @Binding var horizontalOffset: CGFloat
+    @Binding var answerForThisQuestion:String
+    @Binding var arrayOfReviewAnswers:[String]
+    @Binding var runningSumOfEarnedPoints:Double
+    @Binding var overallRatingForReview:Int
+    @Binding var indexOfCurrentReviewPage:Int
+    @Binding var arrayOfReviewQuestions: [String]
+    @Binding var arrayOfReviewQuestionTypes:[String]
     
-    @Binding var questionsArray: [String]
-    @Binding var answersArray: [String]
+    //Required variables
+    var arrayOfEarnablePointsForEachQuestion: [Double]
+    var screenWidth:CGFloat
     
-    @Binding var responses: [String]
-    @Binding var currentQuestion: Int
-    
-    @Binding var pointsEarned: Double
-    
+    //Required variables for the rating specifically
     var label = ""
     var maximumRating = 5
     var offImage: Image?
     var onImage = Image(systemName: "star.fill")
-    
     var offColor = Color.gray.opacity(0.3)
     var onColor = Color.yellow
     
-    @State var wasRatingTapped:Bool = false
     
     var body: some View {
         HStack {
             ForEach(1..<maximumRating + 1, id: \.self) { number in
                 returnImage(for: number)
-                    .font(.title)
+                    .font(.system(size: 36))
                     .foregroundColor(number > rating ? offColor : onColor)
                     .opacity(wasRatingTapped ? 0 : 1)
                     .onTapGesture {
-                        if rating == 0 {        //i.e. it's the first time the user has seen this page
-                            withAnimation {
-                                pointsEarned = pointsEarned + 100
-                            }
-                        }
-
+                        
+                        //set the new rating
                         rating = number
-                        questionsArray[0] = ("rating")
-                        answersArray[0] = (String(rating))
-                        responses[currentQuestion] = String(rating)
                         
-                        print(currentQuestion)
+                        //set the overall rating
+                        overallRatingForReview = rating
                         
+                        //convert "rating" as INT into "answerForThisQuestion" as STRING
+                        answerForThisQuestion = String(rating)
                         
-                        currentQuestion += 1
-                        
-                        
-                        print(currentQuestion)
-                        
-                        withAnimation(.linear(duration: 0.15).delay(0.55)) {
-                            horizontalOffset -= width
+                        //add, subtract, or don't change points depending on whether answer added, removed, or updated
+                        withAnimation {
+                            runningSumOfEarnedPoints = updatePointsForSubmission(answerForThisQuestion: answerForThisQuestion, arrayOfReviewAnswers: arrayOfReviewAnswers, runningSumOfEarnedPoints: runningSumOfEarnedPoints, arrayOfEarnablePointsForEachQuestion: arrayOfEarnablePointsForEachQuestion, indexOfCurrentReviewPage: indexOfCurrentReviewPage)
                         }
+                        
+                        //update the answer in the results array
+                        arrayOfReviewAnswers[indexOfCurrentReviewPage] = answerForThisQuestion
+                        
+                        //flash the rating stars rapidly
                         withAnimation(.easeInOut(duration: 0.1).repeatCount(3, autoreverses: true)) {
                             wasRatingTapped.toggle()
                         }
+                        
+                        //reset the flashing
                         DispatchQueue.main.asyncAfter(deadline: .now() + 0.35) {
                             wasRatingTapped = false
                         }
+                        
+                        //zoom to the next question
+                        withAnimation(.linear(duration: 0.15).delay(0.55)) {
+                            indexOfCurrentReviewPage += 1
+                        }
+                        
+                        //reset the text for the answer for the next question
+                        answerForThisQuestion = arrayOfReviewAnswers[indexOfCurrentReviewPage]
                         
                         
                     }
             }
         }
+        .ignoresSafeArea()
     }
     
     func returnImage(for number: Int) -> Image {

@@ -32,21 +32,38 @@ struct IntentToReview: View {
         VStack(spacing: 0) {
         
             //MARK: HEADER (STAR + "REVIEW" AT THE TOP)
-            VStack(alignment: .leading, spacing: 8) {
-                ZStack(alignment: .center) {
-                    Circle()
-                        .frame(width: 38, height: 38)
-                        .foregroundColor(.white)
-                    Image(systemName: "star.circle.fill")
-                        .font(.system(size: 40, weight: .semibold))
-                        .foregroundColor(Color("ReviewTeal"))
+            HStack(alignment: .bottom) {
+                VStack(alignment: .leading, spacing: 8) {
+                    ZStack(alignment: .center) {
+                        Circle()
+                            .frame(width: 38, height: 38)
+                            .foregroundColor(.white)
+                        Image(systemName: "star.square.fill")
+                            .font(.system(size: 40, weight: .semibold))
+                            .foregroundColor(Color("ReviewTeal"))
+                    }
+                    HStack(alignment: .bottom, spacing: 0) {
+                        Text("Review")
+                            .font(.system(size: 36, weight: .bold))
+                            .foregroundColor(Color("Dark1"))
+                        Spacer()
+                    }
                 }
-                HStack(alignment: .bottom, spacing: 0) {
-                    Text("Review")
-                        .font(.system(size: 36, weight: .bold, design: .rounded))
-                        .foregroundColor(Color("Dark1"))
-                    Spacer()
-                }
+                
+                Spacer()
+//
+//                //ghost outline of points available
+//                VStack(alignment: .center) {
+//                    Text("+300")
+//                        .font(.system(size: 24, weight: .bold, design: .rounded))
+//                        .foregroundColor(Color("ReviewTeal").opacity(0.3))
+//                    Text("Points")
+//                        .font(.system(size: 16, weight: .bold, design: .rounded))
+//                        .foregroundColor(Color("ReviewTeal").opacity(0.3))
+//                }.padding(.all, 4)
+//                .background(Rectangle().fill(.ultraThinMaterial))
+//                .mask(RoundedRectangle(cornerRadius: 8, style: .continuous))
+            
             }.padding([.horizontal, .top])
         
             //MARK: CONTENT
@@ -79,13 +96,13 @@ struct IntentToReview: View {
                                 .padding(.bottom)
                             
                             HStack(alignment: .center) {
-                                Image(systemName: "star")
-                                Image(systemName: "star")
-                                Image(systemName: "star")
-                                Image(systemName: "star")
-                                Image(systemName: "star")
+                                Image(systemName: "star.fill")
+                                Image(systemName: "star.fill")
+                                Image(systemName: "star.fill")
+                                Image(systemName: "star.fill")
+                                Image(systemName: "star.fill")
                             }.font(.system(size: 18))
-                            .foregroundColor(.gray)
+                            .foregroundColor(Color.gray.opacity(0.3))
 
                         }
                     }

@@ -38,11 +38,22 @@ struct ReviewPageWithTextEntry: View {
     
     var body: some View {
         
-        VStack {
+        VStack(alignment: .leading, spacing: 0) {
             Text(arrayOfReviewQuestions[indexOfCurrentReviewPage])
+                .font(.system(size: 24, weight: .bold))
+                .multilineTextAlignment(.leading)
+                .foregroundColor(Color("Dark1"))
+                .padding(.top, 60)
+                .padding(.bottom, 20)
+                .padding(.horizontal)
+                .frame(height: 140, alignment: .leading)
+            
+            
             TextField("Write here...", text: $answerForThisQuestion)
                 .textFieldStyle(RoundedBorderTextFieldStyle())
-                .padding(.bottom, 24)
+                .padding(.vertical, 20)
+                .padding(.horizontal)
+                .frame(height: 80, alignment: .center)
                 .onSubmit {
                     
                     //add, subtract, or don't change points depending on whether answer added, removed, or updated
@@ -65,21 +76,65 @@ struct ReviewPageWithTextEntry: View {
                     }
 
                     print(arrayOfReviewAnswers)
-                    print(indexOfCurrentReviewPage)
                     
                     //reset the text for the answer for the next question
                     answerForThisQuestion = arrayOfReviewAnswers[indexOfCurrentReviewPage]
                 }
             
-            //Don't show the NEXT button on the final page
-            if ((indexOfCurrentReviewPage + 1) != arrayOfReviewQuestionTypes.filter({ $0 != "" }).count) {
-                ReviewPageNextButton(answerForThisQuestion: $answerForThisQuestion, arrayOfReviewAnswers: $arrayOfReviewAnswers, runningSumOfEarnedPoints: $runningSumOfEarnedPoints, overallRatingForReview: $overallRatingForReview, indexOfCurrentReviewPage: $indexOfCurrentReviewPage, arrayOfReviewQuestionTypes: $arrayOfReviewQuestionTypes, arrayOfEarnablePointsForEachQuestion: arrayOfEarnablePointsForEachQuestion, screenWidth: screenWidth)
-            }
             
-            //Don't show the Back button on the first page
-            if indexOfCurrentReviewPage != 0 {
-                ReviewPageBackButton(answerForThisQuestion: $answerForThisQuestion, arrayOfReviewAnswers: $arrayOfReviewAnswers, runningSumOfEarnedPoints: $runningSumOfEarnedPoints, overallRatingForReview: $overallRatingForReview, indexOfCurrentReviewPage: $indexOfCurrentReviewPage, arrayOfReviewQuestionTypes: $arrayOfReviewQuestionTypes, arrayOfEarnablePointsForEachQuestion: arrayOfEarnablePointsForEachQuestion, screenWidth: screenWidth)
+            HStack(alignment: .center) {
+                
+                //MARK: BACK BUTTON
+                //Don't show the Back button on the first page
+                if indexOfCurrentReviewPage != 0 {
+                    
+                    //Don't show the Back button on the first page
+                    ReviewPageBackButton(answerForThisQuestion: $answerForThisQuestion, arrayOfReviewAnswers: $arrayOfReviewAnswers, runningSumOfEarnedPoints: $runningSumOfEarnedPoints, overallRatingForReview: $overallRatingForReview, indexOfCurrentReviewPage: $indexOfCurrentReviewPage, arrayOfReviewQuestionTypes: $arrayOfReviewQuestionTypes, arrayOfEarnablePointsForEachQuestion: arrayOfEarnablePointsForEachQuestion, screenWidth: screenWidth)
+                    
+                } else {
+                    
+                    Rectangle().foregroundColor(.clear).frame(width: 48, height: 48)
+                    
+                }
+                
+                Spacer()
+                
+                //MARK: NEXT BUTTON
+                //Don't show the NEXT button on the final page
+                if ((indexOfCurrentReviewPage + 1) != arrayOfReviewQuestionTypes.filter({ $0 != "" }).count) {
+                    
+                    ReviewPageNextButton(answerForThisQuestion: $answerForThisQuestion, arrayOfReviewAnswers: $arrayOfReviewAnswers, runningSumOfEarnedPoints: $runningSumOfEarnedPoints, overallRatingForReview: $overallRatingForReview, indexOfCurrentReviewPage: $indexOfCurrentReviewPage, arrayOfReviewQuestionTypes: $arrayOfReviewQuestionTypes, arrayOfEarnablePointsForEachQuestion: arrayOfEarnablePointsForEachQuestion, screenWidth: screenWidth)
+                    
+                } else {
+                    
+                    //need to change this to the "SEE PREVIEW" button
+                    ReviewPageNextButton(answerForThisQuestion: $answerForThisQuestion, arrayOfReviewAnswers: $arrayOfReviewAnswers, runningSumOfEarnedPoints: $runningSumOfEarnedPoints, overallRatingForReview: $overallRatingForReview, indexOfCurrentReviewPage: $indexOfCurrentReviewPage, arrayOfReviewQuestionTypes: $arrayOfReviewQuestionTypes, arrayOfEarnablePointsForEachQuestion: arrayOfEarnablePointsForEachQuestion, screenWidth: screenWidth)
+                    
+                }
             }
+            .padding(.top, 20)
+            .padding(.horizontal)
+            .frame(height: 70, alignment: .center)
+            
+            Spacer()
+            
+            
+            
+            
+            
+            
+//            //Don't show the NEXT button on the final page
+//            if ((indexOfCurrentReviewPage + 1) != arrayOfReviewQuestionTypes.filter({ $0 != "" }).count) {
+//                ReviewPageNextButton(answerForThisQuestion: $answerForThisQuestion, arrayOfReviewAnswers: $arrayOfReviewAnswers, runningSumOfEarnedPoints: $runningSumOfEarnedPoints, overallRatingForReview: $overallRatingForReview, indexOfCurrentReviewPage: $indexOfCurrentReviewPage, arrayOfReviewQuestionTypes: $arrayOfReviewQuestionTypes, arrayOfEarnablePointsForEachQuestion: arrayOfEarnablePointsForEachQuestion, screenWidth: screenWidth)
+//            }
+            
+//            else {
+//                
+//                ReviewPageButton(answerForThisQuestion: $answerForThisQuestion, arrayOfReviewAnswers: $arrayOfReviewAnswers, runningSumOfEarnedPoints: $runningSumOfEarnedPoints, overallRatingForReview: $overallRatingForReview, indexOfCurrentReviewPage: $indexOfCurrentReviewPage, arrayOfReviewQuestionTypes: $arrayOfReviewQuestionTypes, arrayOfEarnablePointsForEachQuestion: arrayOfEarnablePointsForEachQuestion, screenWidth: screenWidth)
+//
+//            }
+            
+            //
             
 //            ReviewPageNextButton(runningSumOfEarnedPoints: $runningSumOfEarnedPoints, resultingArray: $resultingArray, currentQuestion: $currentQuestion, textEntryText: textEntryText, screenWidth: screenWidth, index: index)
             
@@ -98,7 +153,8 @@ struct ReviewPageWithTextEntry: View {
 //                Text("Back")
 //            }
         
-        }.frame(width: screenWidth, height: 300).background(.yellow)
+        }.ignoresSafeArea()
+            .frame(width: screenWidth, height: UIScreen.main.bounds.height-260)
             .onAppear {
                 print("We're on page \(indexOfCurrentReviewPage)")
                 //print(reviewQuestionForThisPage)

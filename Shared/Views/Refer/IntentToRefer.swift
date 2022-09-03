@@ -15,7 +15,7 @@ struct IntentToRefer: View {
     @ObservedObject var itemsViewModel = ItemsViewModel()
     
     //State - need to create one that triggers the reviews flow
-    @State var isShowingReviewExperience: Bool = false
+    @State var isShowingReferExperience: Bool = false
     @State var isShowingItemSheet:Bool = false
     
     //Binding
@@ -31,14 +31,9 @@ struct IntentToRefer: View {
         
             //MARK: HEADER (STAR + "REFER" AT THE TOP)
             VStack(alignment: .leading, spacing: 8) {
-                ZStack(alignment: .center) {
-                    Circle()
-                        .frame(width: 38, height: 38)
-                        .foregroundColor(.white)
-                    Image(systemName: "paperplane.circle.fill")
-                        .font(.system(size: 40, weight: .semibold))
-                        .foregroundColor(Color("ReferPurple"))
-                }
+                Image(systemName: "paperplane.fill")
+                    .font(.system(size: 40, weight: .semibold))
+                    .foregroundColor(Color("ReferPurple"))
                 HStack(alignment: .bottom, spacing: 0) {
                     Text("Refer")
                         .font(.system(size: 36, weight: .bold, design: .rounded))
@@ -51,9 +46,9 @@ struct IntentToRefer: View {
             List {
                 
                 //MARK: PREVIOUS REVIEW SECTION
-                Section {
+                Section(header: Text("Your 5 star review")) {
                     
-                    //empty review
+                    //preview of review
                     HStack(alignment: .center) {
                         
                         //image
@@ -66,12 +61,12 @@ struct IntentToRefer: View {
                         
                         //empty review
                         VStack(alignment: .leading, spacing: 0) {
-                            Text(itemObject.title)
-                                .font(.system(size: 18, weight: .semibold))
+                            Text("Joggers 2.0")
+                                .font(.system(size: 14, weight: .medium))
                                 .foregroundColor(.black)
                                 .padding(.bottom, 4)
                             
-                            Text("SKU, PRICE")
+                            Text("Absolutely amazing! I can't wait to get another pair")
                                 .font(.system(size: 16))
                                 .foregroundColor(.black)
                                 .padding(.bottom)
@@ -83,85 +78,98 @@ struct IntentToRefer: View {
                                 Image(systemName: "star.fill")
                                 Image(systemName: "star.fill")
                             }.font(.system(size: 18))
-                            .foregroundColor(.yellow)
+                            .foregroundColor(Color.yellow)
 
                         }
                     }
-                    
-                    //order details
-                    Button {
-                        isShowingItemSheet.toggle()
-                    } label: {
-                        Text("Order details")
-                            .foregroundColor(.black)
+                    HStack {
+                        Text("Colin P.")
                             .font(.system(size: 16, weight: .medium))
-                    }.sheet(isPresented: $isShowingItemSheet) {
-                        isShowingItemSheet = false
-                    } content: {
-                        Item(itemID: itemObject.itemID)
+                            .foregroundColor(Color("Dark1"))
+                        Spacer()
+                        Label {
+                            Text("Verified Buyer")
+                                .font(.system(size: 16, weight: .medium))
+                                .foregroundColor(.green)
+                        } icon: {
+                            Image(systemName: "checkmark.seal.fill")
+                                .font(.system(size: 16, weight: .semibold))
+                                .foregroundColor(.green)
+                        }.foregroundColor(.green)
                     }
                     
                 }
                 
-                
-                //MARK: VIEW COMPANY SECTION
-                Section {
-                    //company -> about us page
-                    NavigationLink {
-                        ProfileTEMP()
-                    } label: {
-                        HStack {
-
-                            Image("Athleisure LA")
-                                .resizable()
-                                .scaledToFill()
-                                .frame(width: 28, height: 28, alignment: .center)
-                                .clipped()
-                                .cornerRadius(7)
-                                .padding(.horizontal, 2)
-
-                            Text("Athleisure LA")
-                                .font(.system(size: 16))
-                                .foregroundColor(.black)
-                            Spacer()
-
-                        }
-
-                    }
-                }
-                
-                
-                //MARK: POINTS, TIME, QUESTIONS
-//                Section(header: Text("Review details")) {
-//
-//                    //questions
-//                    ReviewDetailsSectionRow(image: "questionmark.circle", title: "Length", description: "3 questions")
-//
-//                    //time
-//                    ReviewDetailsSectionRow(image: "clock", title: "Time", description: "30 seconds")
-//
-//                    //points
-//                    ReviewDetailsSectionRow(image: "star.circle", title: "Earn", description: "300 points")
-//
-//                }
-            }
+            }.frame(height: 250)
             
+            
+//                Section {
+//                    //order details
+//                    Button {
+//                        isShowingItemSheet.toggle()
+//                    } label: {
+//                        Text("Order details")
+//                            .foregroundColor(.black)
+//                            .font(.system(size: 16, weight: .medium))
+//                    }.sheet(isPresented: $isShowingItemSheet) {
+//                        isShowingItemSheet = false
+//                    } content: {
+//                        Item(itemID: itemObject.itemID)
+//                    }
+//                }
+                                
+                //MARK: VIEW COMPANY SECTION
+//                Section {
+//                    //company -> about us page
+//                    NavigationLink {
+//                        ProfileTEMP()
+//                    } label: {
+//                        HStack {
+//
+//                            Image("Athleisure LA")
+//                                .resizable()
+//                                .scaledToFill()
+//                                .frame(width: 28, height: 28, alignment: .center)
+//                                .clipped()
+//                                .cornerRadius(7)
+//                                .padding(.horizontal, 2)
+//
+//                            Text("Athleisure LA")
+//                                .font(.system(size: 16))
+//                                .foregroundColor(.black)
+//                            Spacer()
+//
+//                        }
+//
+//                    }
+//                }
+            
+            VStack(alignment: .leading) {
+                Text("Thanks for your awesome review!")
+                Divider()
+                    .padding(.bottom)
+                
+                Text("Know any friends who haven't shopped with Athleisure before?")
+                    .padding(.bottom)
+                
+                Text("Give them 20% off, and earn 5000 points when they make their purchase!")
+            }
 
             Spacer()
         
         
             Button(action: {
-                isShowingReviewExperience = true
+                isShowingReferExperience = true
             }) {
                HStack {
                    Spacer()
-                   Text("Let's go")
+                   Text("Let's make someone happy!")
                        .foregroundColor(Color.white)
                        .font(.system(size: 18))
                        .fontWeight(.semibold)
                        .padding(.vertical, 16)
                    Spacer()
-               }.background(RoundedRectangle(cornerRadius: 36).fill(Color("ReviewTeal")))
+               }.background(RoundedRectangle(cornerRadius: 36).fill(Color("ReferPurple")))
                 .padding(.horizontal)
                 .padding(.horizontal)
             }
@@ -174,8 +182,8 @@ struct IntentToRefer: View {
         }.background(Color("Background"))
         .ignoresSafeArea(.container, edges: [.horizontal, .bottom])
         .navigationBarTitle("", displayMode: .inline)
-        .fullScreenCover(isPresented: $isShowingReviewExperience, content: {
-            ReviewProductCarousel1(isShowingReviewExperience: $isShowingReviewExperience, item: itemObject)
+        .sheet(isPresented: $isShowingReferExperience, content: {
+            ReferProductPage1(isShowingReferExperience: $isShowingReferExperience, item: itemObject)
         })
 //       .onAppear {
 //           self.itemsViewModel.getSnapshotOfItem(itemID: itemObject.itemID)

@@ -102,6 +102,14 @@ struct Home: View {
                                     })
                                 }
                                 
+                                NavigationLink {
+                                    Messages()
+                                } label: {
+                                    Text("Go to messages to see a video")
+                                }
+
+                                
+                                
                                 //Body
                                 VStack {
                                     
