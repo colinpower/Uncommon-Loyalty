@@ -48,7 +48,9 @@ struct ContactsViewRow: View {
             Spacer()
             
             Button {
+                
                 selectedContact = [contactID, firstName, lastName, phone]
+            
                 
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.25) {
                     isShowingContactsList.toggle()

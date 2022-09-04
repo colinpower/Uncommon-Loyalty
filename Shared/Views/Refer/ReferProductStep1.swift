@@ -183,8 +183,10 @@ struct ReferProductStep1: View {
                                 .padding(.horizontal)
                                 
                                 .onSubmit {
+                                    withAnimation(.easeIn(duration: 2).delay(1)) {
+                                        selectedContact[1] = nameForRecipientEnteredManually
+                                    }
                                     
-                                    selectedContact[1] = nameForRecipientEnteredManually
                                     //check if the code is valid
                                     
                                 }

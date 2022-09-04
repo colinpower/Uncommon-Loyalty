@@ -108,11 +108,11 @@ struct Home: View {
                                     Text("Go to messages to see a video")
                                 }
 
-                                NavigationLink {
-                                    ReferralCard()
-                                } label: {
-                                    Text("Go to Glass card to see content")
-                                }
+//                                NavigationLink {
+//                                    ReferralCard()
+//                                } label: {
+//                                    Text("Go to Glass card to see content")
+//                                }
                                 
                                 //Body
                                 VStack {
