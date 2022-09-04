@@ -109,7 +109,7 @@ struct Home: View {
                                 }
 
                                 NavigationLink {
-                                    WalletGlassCard()
+                                    ReferralCard()
                                 } label: {
                                     Text("Go to Glass card to see content")
                                 }

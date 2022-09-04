@@ -35,7 +35,7 @@ final class ContactsViewModel: ObservableObject {
             switch result {
             case .success(let fetchedContacts):
                 DispatchQueue.main.async {
-                    self.contacts = fetchedContacts.sorted(by: { $0.lastName < $1.lastName })
+                    self.contacts = fetchedContacts.sorted(by: { $0.firstName < $1.firstName })
                 }
             case .failure(let error):
                 self.permissionsError = .fetchError(error)

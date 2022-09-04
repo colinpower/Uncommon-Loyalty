@@ -182,8 +182,8 @@ struct IntentToRefer: View {
         }.background(Color("Background"))
         .ignoresSafeArea(.container, edges: [.horizontal, .bottom])
         .navigationBarTitle("", displayMode: .inline)
-        .sheet(isPresented: $isShowingReferExperience, content: {
-            ReferProductPage1(isShowingReferExperience: $isShowingReferExperience, item: itemObject)
+        .fullScreenCover(isPresented: $isShowingReferExperience, content: {
+            ReferProductCarousel(isShowingReferExperience: $isShowingReferExperience, item: itemObject)
         })
 //       .onAppear {
 //           self.itemsViewModel.getSnapshotOfItem(itemID: itemObject.itemID)

@@ -76,13 +76,13 @@ struct Earn: View {
                         }
                         
                         
-                        Button {
-                            isShowingContactsList.toggle()
-                        } label: {
-                            Text("SHOW CONTACTS")
-                        }.sheet(isPresented: $isShowingContactsList) {
-                            ContactsView()
-                        }
+//                        Button {
+//                            isShowingContactsList.toggle()
+//                        } label: {
+//                            Text("SHOW CONTACTS")
+//                        }.sheet(isPresented: $isShowingContactsList) {
+//                            ContactsView()
+//                        }
                         
                         //MARK: REVIEWS SECTION - TITLE AND DESCRIPTION
                         VStack(alignment: .leading, spacing: 8) {

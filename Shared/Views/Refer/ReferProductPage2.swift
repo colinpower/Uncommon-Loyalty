@@ -12,6 +12,9 @@ import MobileCoreServices
 
 struct ReferProductPage2: View {
     
+
+    @State var selectedContact:[String] = ["", "", "", ""]  // ID, first name, last name, phone number
+    
     
     @State var chosenCodeCreationMethod:Int = 0
     
@@ -68,13 +71,13 @@ struct ReferProductPage2: View {
                 isShowingContactsList.toggle()
             } label: {
                 Text("SHOW CONTACTS")
-            }.fullScreenCover(isPresented: $isShowingContactsList) {
-                ContactsView()
+            }
+            .sheet(isPresented: $isShowingContactsList) {
+                isShowingContactsList = false
+            } content: {
+                ContactsView(isShowingContactsList: $isShowingContactsList, selectedContact: $selectedContact)
             }
 
-            
-            
-            
             Text("Create your discount code!!!").padding(.bottom)
             
             HStack(spacing: 48) {
@@ -134,13 +137,7 @@ struct ReferProductPage2: View {
                 
             }
             
-            
             Spacer()
-            
-            
-            
-            
-            
             
             NavigationLink {
                 ReferProductPage3(userSuggestedCode: $userSuggestedCode, cardWidth: cardWidth)
@@ -159,11 +156,6 @@ struct ReferProductPage2: View {
             }
             .padding(.bottom)
             .padding(.bottom)
-            
-            
-            
-            
-            
             
             
             
