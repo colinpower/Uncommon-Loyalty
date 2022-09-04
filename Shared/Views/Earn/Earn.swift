@@ -21,6 +21,10 @@ struct Earn: View {
     //Variables for this view
     @State var isShowingTempTabView = false
     
+    
+    @State var isShowingContactsList:Bool = false
+    
+    
     var body: some View {
         NavigationView {
             
@@ -46,6 +50,9 @@ struct Earn: View {
                             
                             Divider().padding(.leading)
                             
+                            
+                            
+                            
                             HStack {
                                 Text("Here's what's happening, Colin")
                                     .font(.title)
@@ -66,6 +73,15 @@ struct Earn: View {
                             
                             Divider()
                                 .padding(.bottom)
+                        }
+                        
+                        
+                        Button {
+                            isShowingContactsList.toggle()
+                        } label: {
+                            Text("SHOW CONTACTS")
+                        }.sheet(isPresented: $isShowingContactsList) {
+                            ContactsView()
                         }
                         
                         //MARK: REVIEWS SECTION - TITLE AND DESCRIPTION

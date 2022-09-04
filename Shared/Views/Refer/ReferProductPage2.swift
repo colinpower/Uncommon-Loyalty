@@ -5,7 +5,10 @@
 //  Created by Colin Power on 9/2/22.
 //
 
+import Foundation
 import SwiftUI
+import UIKit
+import MobileCoreServices
 
 struct ReferProductPage2: View {
     
@@ -17,6 +20,9 @@ struct ReferProductPage2: View {
     @State var isShowingContactsList:Bool = false
     
     var cardWidth:CGFloat = UIScreen.main.bounds.width - 40
+    
+    
+    
     
     var body: some View {
         VStack(alignment: .leading) {
@@ -62,9 +68,10 @@ struct ReferProductPage2: View {
                 isShowingContactsList.toggle()
             } label: {
                 Text("SHOW CONTACTS")
-            }.sheet(isPresented: $isShowingContactsList) {
+            }.fullScreenCover(isPresented: $isShowingContactsList) {
                 ContactsView()
             }
+
             
             
             
@@ -130,6 +137,11 @@ struct ReferProductPage2: View {
             
             Spacer()
             
+            
+            
+            
+            
+            
             NavigationLink {
                 ReferProductPage3(userSuggestedCode: $userSuggestedCode, cardWidth: cardWidth)
             } label: {
@@ -164,3 +176,8 @@ struct ReferProductPage2_Previews: PreviewProvider {
         ReferProductPage2()
     }
 }
+
+
+
+
+

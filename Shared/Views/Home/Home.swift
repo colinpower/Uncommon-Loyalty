@@ -108,7 +108,11 @@ struct Home: View {
                                     Text("Go to messages to see a video")
                                 }
 
-                                
+                                NavigationLink {
+                                    WalletGlassCard()
+                                } label: {
+                                    Text("Go to Glass card to see content")
+                                }
                                 
                                 //Body
                                 VStack {

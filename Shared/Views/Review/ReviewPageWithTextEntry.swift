@@ -51,6 +51,8 @@ struct ReviewPageWithTextEntry: View {
             
             TextField("Write here...", text: $answerForThisQuestion)
                 .textFieldStyle(RoundedBorderTextFieldStyle())
+                .keyboardType(.alphabet)
+                .disableAutocorrection(true)
                 .padding(.vertical, 20)
                 .padding(.horizontal)
                 .frame(height: 80, alignment: .center)
@@ -80,6 +82,7 @@ struct ReviewPageWithTextEntry: View {
                     //reset the text for the answer for the next question
                     answerForThisQuestion = arrayOfReviewAnswers[indexOfCurrentReviewPage]
                 }
+                .submitLabel(.next)
             
             
             HStack(alignment: .center) {

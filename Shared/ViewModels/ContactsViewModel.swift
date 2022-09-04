@@ -12,8 +12,7 @@ import Contacts
 
 final class ContactsViewModel: ObservableObject {
     
-    @Published
-    var contacts: [Contact] = []
+    @Published var contacts: [Contact] = []
     
     @Published
     var permissionsError: PermissionsError? = .none
@@ -45,7 +44,8 @@ final class ContactsViewModel: ObservableObject {
         
         
     }
-    private func permissions() {
+    func permissions() {
+    //private func permissions() {
         switch CNContactStore.authorizationStatus(for: .contacts) {
         case .authorized:
             getContacts()
