@@ -74,6 +74,8 @@ struct AddLoyaltyProgramCarousel: View {
                         AddLoyaltyProgramStep1(indexOfCurrentAddLoyaltyProgramPage: $indexOfCurrentAddLoyaltyProgramPage, screenWidth: screenWidth, totalHeaderHeight: totalHeaderHeight)
                         AddLoyaltyProgramStep2(indexOfCurrentAddLoyaltyProgramPage: $indexOfCurrentAddLoyaltyProgramPage, screenWidth: screenWidth, totalHeaderHeight: totalHeaderHeight)
                         AddLoyaltyProgramStep3(indexOfCurrentAddLoyaltyProgramPage: $indexOfCurrentAddLoyaltyProgramPage, screenWidth: screenWidth, totalHeaderHeight: totalHeaderHeight)
+                        AddLoyaltyProgramStep4(indexOfCurrentAddLoyaltyProgramPage: $indexOfCurrentAddLoyaltyProgramPage, screenWidth: screenWidth, totalHeaderHeight: totalHeaderHeight)
+                        AddLoyaltyProgramStep5(indexOfCurrentAddLoyaltyProgramPage: $indexOfCurrentAddLoyaltyProgramPage, screenWidth: screenWidth, totalHeaderHeight: totalHeaderHeight, isAddLoyaltyProgramCarouselActive: $isAddLoyaltyProgramCarouselActive)
                         
                     } , alignment: .leading)
                 .frame(maxWidth: .infinity, maxHeight: UIScreen.main.bounds.height - 104)
