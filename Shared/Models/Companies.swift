@@ -15,6 +15,7 @@ struct Companies: Identifiable, Codable {
     var categoryShortDescription: String
     var companyID: String
     var companyName: String
+    var image: String
     var joiningBonus: Int
     var joiningBonusType: String
     var pointsForGold: Int
@@ -32,6 +33,7 @@ struct Companies: Identifiable, Codable {
         case categoryShortDescription
         case companyID
         case companyName
+        case image
         case joiningBonus
         case joiningBonusType
         case pointsForGold

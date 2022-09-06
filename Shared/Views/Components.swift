@@ -341,7 +341,7 @@ struct WideWidgetItem: View {
             }
             Spacer()
             Image(systemName: "chevron.right")
-                .foregroundColor(Color("Gray3"))
+                .foregroundColor(Color("Gray1"))
                 .font(Font.system(size: 15, weight: .semibold))
         }
     }
@@ -408,53 +408,7 @@ struct PromptCard: View {
 
 
 
-//MARK: ORDER HISTORY ITEM
-//This struct formats the discount codes that are available
-struct MyRecentOrdersItem: View {
-    
-    var item: String
-    var timestamp: Int
-    var reviewID: String
-    var colorToShow: Color
-    
-    var body: some View {
-        
-        HStack {
-            Image(systemName: "bag.circle.fill")
-                .foregroundColor(colorToShow)
-                .font(.system(size: 32))
-            HStack(alignment: .center) {
-                
-                VStack(alignment: .leading, spacing: 3) {
-                    Text(item)
-                        .font(.system(size: 16))
-                        .fontWeight(.semibold)
-                        .foregroundColor(Color("Dark1"))
-                    Text(convertTimestampToString(timestamp: timestamp))
-                        .font(Font.system(size: 15, weight: .semibold))
-                        .foregroundColor(Color("Gray1"))
-                }
-                Spacer()
-                if reviewID == "fill in later" {
-                    Text("Add Review")
-                        .font(.system(size: 14))
-                        .fontWeight(.semibold)
-                        .foregroundColor(colorToShow)
-                } else {
-                    HStack {
-                        Image(systemName: "checkmark")
-                            .foregroundColor(Color("Dark1"))
-                            .font(.system(size: 14))
-                        Text("Reviewed")
-                            .font(.system(size: 14))
-                            .fontWeight(.regular)
-                            .foregroundColor(Color("Dark1"))
-                    }
-                }
-            }
-        }.padding(.vertical)
-    }
-}
+
 
 
 //MARK: QUICK ACTIONS ITEM

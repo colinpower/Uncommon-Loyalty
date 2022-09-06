@@ -195,7 +195,7 @@ struct Earn: View {
             //Link to the Review Interceptor page
         
             NavigationLink {
-                IntentToReview(selectedTab: $selectedTab, itemObject: item)
+                IntentToReview(itemObject: item)
             } label: {
 
                 //Stack the following: a white card with the shadow, then the content of the card, then the overlaid "250 POINTS" and the review icon

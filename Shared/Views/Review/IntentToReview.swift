@@ -21,8 +21,6 @@ struct IntentToReview: View {
     @State var isShowingReviewExperience: Bool = false
     @State var isShowingItemSheet:Bool = false
     
-    //Binding
-    @Binding var selectedTab: Int
     
     //Required variables
     var itemObject:Items
@@ -187,8 +185,6 @@ struct IntentToReview: View {
                 .padding(.bottom)
                 .padding(.bottom)
             
-            
-            MyTabView(selectedTab: $selectedTab)
             
         }.background(Color("Background"))
         .ignoresSafeArea(.container, edges: [.horizontal, .bottom])

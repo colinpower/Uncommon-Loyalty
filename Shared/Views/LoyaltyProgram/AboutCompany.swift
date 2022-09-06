@@ -8,8 +8,11 @@
 import SwiftUI
 
 struct AboutCompany: View {
+    
+    
+    
     var body: some View {
-        VStack(spacing: 0) {
+        VStack(alignment: .center, spacing: 0) {
             
 //            ZStack(alignment: .top) {
 //                Image("BlueGoldenRatio")
@@ -24,57 +27,104 @@ struct AboutCompany: View {
 //            }.padding(.horizontal)
 //                .shadow(color: .gray, radius: 10, x: 0, y: 0)
             
-            Image("BlueGoldenRatio")
-                .resizable()
-                .aspectRatio(contentMode: .fit)
-                .frame(maxWidth: UIScreen.main.bounds.width, maxHeight: UIScreen.main.bounds.width / 1.6)
-                .layoutPriority(-1)
-                .padding(.horizontal)
-                .shadow(color: .gray, radius: 10, x: 0, y: 0)
-            
-            
-            
-            
-            
-            
-            //.frame(maxWidth: UIScreen.main.bounds.width, maxHeight: UIScreen.main.bounds.width / 1.6)
+            ZStack(alignment: .top) {
+                Image("BlueGoldenRatio")
+                    .resizable()
+                    .aspectRatio(contentMode: .fill)
+                    .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.width / 1.6)
                 
+                VStack(alignment: .leading, spacing: 0) {
+                    
+                    Spacer()
+                    
+                    HStack(alignment: .bottom, spacing: 0) {
+                        Image("Athleisure LA")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 40, height: 40)
+                            .cornerRadius(8)
+                            .padding(.trailing)
+                        Text("Athleisure LA")
+                            .font(.system(size: 32, weight: .bold))
+                            .foregroundColor(.white)
+                        Spacer()
+                    }.padding([.leading, .bottom])
+                }.frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.width / 1.6)
+                    .layoutPriority(-1)
+            
+            }.frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.width / 1.6)
+                .padding(.bottom)
             
             
-//            ZStack(alignment: .bottomLeading) {
-//                Color.white
-//                LinearGradient(gradient: Gradient(colors: [.clear, .black.opacity(0.4)]), startPoint: .top, endPoint: .bottom)
-//                    .mask(Image("AthleisureFounder")
-//                        .resizable()
-//                        .scaledToFit()
-//                        ).frame(width: UIScreen.main.bounds.width).cornerRadius(15)
+            //MARK: BUTTONS
+            HStack(spacing: 12) {
+                Button {
+                    //copy
+                } label: {
+                    HStack {
+                        Spacer()
+                        Text("Contact").font(.system(size: 18, weight: .semibold)).foregroundColor(.black).padding(.vertical)
+                        Spacer()
+                    }
+                    .frame(maxWidth: UIScreen.main.bounds.width / 2)
+                    .background(RoundedRectangle(cornerRadius: 12).foregroundColor(.white))
+                }
                 
-//                Image("AthleisureFounder")
-//                    .resizable()
-//                    .scaledToFit()
-//                    .frame(width: UIScreen.main.bounds.width)
-//                    .overlay {
-//                        LinearGradient(colors: <#T##[Color]#>, startPoint: <#T##UnitPoint#>, endPoint: <#T##UnitPoint#>)
-//                    }
-//                HStack(alignment: .bottom) {
-//                    ZStack(alignment: .center) {
-//                        Rectangle().foregroundColor(.white)
-//                        Image("Athleisure LA")
-//                            .resizable()
-//                            .scaledToFit()
-//                    }.frame(width: 60, height: 60)
-//                    .cornerRadius(16)
-//                    .padding(.trailing)
-//
-//                    Text("Athleisure LA")
-//                        .font(.system(size: 32, weight: .bold))
-//                        .foregroundColor(Color.white)
-//
-//                    Spacer()
-//
-//                }.padding()
-//                .background(.ultraThinMaterial)
-//            }
+                Link(destination: URL(string: "https://www.google.com")!) {
+                    HStack {
+                        Spacer()
+                        Text("Visit website").font(.system(size: 18, weight: .semibold)).foregroundColor(.black).padding(.vertical)
+                        Spacer()
+                    }
+                    .frame(maxWidth: UIScreen.main.bounds.width / 2)
+                    .background(RoundedRectangle(cornerRadius: 12).foregroundColor(.white))
+                }
+                
+            }.padding(.horizontal)
+                .padding(.bottom)
+            
+            //MARK: CONTENT
+            List {
+                
+                //MARK: POINTS, TIME, QUESTIONS
+                Section(header: Text("Return policy")) {
+                    
+                    HStack {
+
+                        Text("Return window")
+                            .font(.system(size: 16))
+                            .foregroundColor(.black)
+                            
+                        Spacer()
+                        
+                        Text("30 days")
+                            .font(.system(size: 16))
+                            .foregroundColor(.gray)
+                        
+
+                    }
+                    
+                    NavigationLink {
+                        //
+                    } label: {
+                        HStack {
+
+                            Text("Full return policy")
+                                .font(.system(size: 16))
+                                .foregroundColor(.black)
+
+                            Spacer()
+                        }
+
+                    }
+                    
+                }
+            }
+            
+            
+            
+         
+            
             
             Spacer()
             
@@ -83,6 +133,7 @@ struct AboutCompany: View {
             
             
         }.ignoresSafeArea()
+            .background(Color("Background"))
         
         
         

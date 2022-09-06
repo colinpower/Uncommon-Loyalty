@@ -31,14 +31,14 @@ struct PollAllOptionsSelected: View {
                 ForEach(0..<arrayOfTitlesForEachOption.count) { index in
                     
                     if userChoseOption == index {
-                        PollOptionSelected(numberOfVotes: animatedArray[index], totalNumberOfVotes: arrayOfNumberOfResponsesForEachOption.reduce(0, +), title: arrayOfTitlesForEachOption[index], userSelectedThisOption: true)
+                        PollOptionSelected(numberOfVotes: animatedArray[index], totalNumberOfVotes: arrayOfNumberOfResponsesForEachOption.reduce(0, +), title: arrayOfTitlesForEachOption[index], userSelectedThisOption: true, index: index)
                     } else {
-                        PollOptionSelected(numberOfVotes: animatedArray[index], totalNumberOfVotes: arrayOfNumberOfResponsesForEachOption.reduce(0, +), title: arrayOfTitlesForEachOption[index], userSelectedThisOption: false)
+                        PollOptionSelected(numberOfVotes: animatedArray[index], totalNumberOfVotes: arrayOfNumberOfResponsesForEachOption.reduce(0, +), title: arrayOfTitlesForEachOption[index], userSelectedThisOption: false, index: index)
                     }
                     
                 }
             
-            }.frame(height: CGFloat(arrayOfTitlesForEachOption.count * (40 + 12) - 12))   //each option will be 40 in height, then 12 spacing between [Num of options] - 1
+            }.frame(height: CGFloat(arrayOfTitlesForEachOption.count * (30 + 12) - 12))   //each option will be 40 in height, then 12 spacing between [Num of options] - 1
             
         }.onAppear {
                 

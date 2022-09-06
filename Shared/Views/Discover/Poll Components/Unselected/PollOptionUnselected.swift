@@ -15,6 +15,18 @@ struct PollOptionUnselected: View {
     var title:String
     var index:Int
     
+    var icon:String {
+        switch index {
+        case 0:
+            return "01.circle"
+        case 1:
+            return "02.circle"
+        case 2:
+            return "03.circle"
+        default:
+            return "01.circle"
+        }
+    }
     
     var body: some View {
         HStack(alignment: .center, spacing: 12) {
@@ -25,16 +37,16 @@ struct PollOptionUnselected: View {
                 
                 
             } label : {
-                Image(systemName: "circle")
-                    .resizable()
-                    .scaledToFit()
-                    .frame(width: 40, height: 40)
-                    .foregroundColor(.blue)
+                Image(systemName: icon)
+                    .font(.system(size: 30))
+                    .frame(width: 30, height: 30)
+                    .foregroundColor(.black)
             }
             Text(title)
-                .font(.system(size: 24, weight: .bold))
+                .font(.system(size: 20, weight: .regular))
+                .padding(.vertical, 2)
             Spacer()
-        }.frame(height: 40)
+        }.frame(height: 30)
     }
 }
 

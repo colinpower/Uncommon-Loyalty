@@ -24,6 +24,6 @@ struct PollAllOptionsUnselected: View {
                 PollOptionUnselected(userChoseOption: $userChoseOption, arrayOfNumberOfResponsesForEachOption: $arrayOfNumberOfResponsesForEachOption, title: arrayOfTitlesForEachOption[index], index: index)
                 
             }
-        }.frame(height: 144)
+        }.frame(height: 114)
     }
 }

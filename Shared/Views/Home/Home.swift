@@ -131,17 +131,15 @@ struct Home: View {
                                 
                                 ForEach(companiesViewModel.allCompanies) { company in
                                     
-                                    if array.contains(company.companyID) {
-                                        Text("already used")
-                                            .foregroundColor(.black)
-                                            .font(.title)
-                                    } else {
-                                        Text(String(company.companyName))
-                                            .foregroundColor(.black)
-                                            .font(.title)
+                                    //Check if the loyalty program isn't already in use
+                                    if !array.contains(company.companyID) {
+                                        
+                                        // do nothing
+                                        
+                                        //MARK: MUST UPDATE FOR IS LAST ITEM IN LIST!!!
+                                        RecommendedLoyaltyProgramWidget(image: company.image, company: company.companyName, shortDescription: company.categoryShortDescription, joiningBonus: company.joiningBonus, joiningBonusType: company.joiningBonusType, isLastItemInList: false, numOfRecentOrders: 4)
                                         
                                     }
-    
                                 }
 
                             }
@@ -159,7 +157,7 @@ struct Home: View {
                         //MARK: NEW SECTION CARD
                         VStack(alignment: .leading, spacing: 0) {
                                 
-                            //MARK: ACTIVE SECTION CONTENT
+                            //MARK: NEW SECTION CONTENT
                             VStack(alignment: .leading, spacing: 0) {
                                 
                                 //Header for section
@@ -178,42 +176,13 @@ struct Home: View {
                                 
                                 ForEach(companiesViewModel.allCompanies) { company in
                                     
-                                    if array.contains(company.companyID) {
-                                        Text("already used")
-                                            .foregroundColor(.black)
-                                            .font(.title)
-                                    } else {
-                                        Text(String(company.companyName))
-                                            .foregroundColor(.black)
-                                            .font(.title)
+                                    if !array.contains(company.companyID) {
+                                        
+                                        //MARK: MUST UPDATE FOR IS LAST ITEM IN LIST!!!
+                                        NewLoyaltyProgramWidget(image: company.image, company: company.companyName, shortDescription: company.categoryShortDescription, joiningBonus: company.joiningBonus, joiningBonusType: company.joiningBonusType, isLastItemInList: false, isAlreadyJoined: false, numOfRecentOrders: 4)
                                         
                                     }
                                 }
-                                
-                                
-                                
-                                
-//                                //ForEach...
-//                                ActiveLoyaltyProgramWidget(image: "Athleisure LA", company: "Athleisure LA", status: "Silver", currentPointsBalance: 300)
-//                                
-//                                Divider()
-//                                    .padding(.leading, 72)
-//                                    .padding(.vertical, 10)
-//                                
-//                                ActiveLoyaltyProgramWidget(image: "Athleisure LA", company: "Athleisure LA", status: "Silver", currentPointsBalance: 60000)
-//                                
-//                                Divider()
-//                                    .padding(.leading, 72)
-//                                    .padding(.vertical, 10)
-//                                
-//                                ActiveLoyaltyProgramWidget(image: "Athleisure LA", company: "Athleisure LA", status: "Silver", currentPointsBalance: 3700)
-//                                
-//                                Divider()
-//                                    .padding(.leading, 72)
-//                                    .padding(.vertical, 10)
-//                                
-//                                ActiveLoyaltyProgramWidget(image: "Athleisure LA", company: "Athleisure LA", status: "Silver", currentPointsBalance: 12)
-//                                
                             }
                             
                         }
@@ -246,45 +215,22 @@ struct Home: View {
                                 ForEach(companiesViewModel.allCompanies) { company in
                                     
                                     if array.contains(company.companyID) {
-                                        Text("SHOW VIEW BUTTON")
-                                            .foregroundColor(.black)
-                                            .font(.title)
-                                    } else {
-                                        Text("SHOW JOIN BUTTON")
-                                            .foregroundColor(.black)
-                                            .font(.title)
                                         
+                                        AllLoyaltyProgramsWidget(image: company.image, company: company.companyName, shortDescription: company.categoryShortDescription, joiningBonus: company.joiningBonus, joiningBonusType: company.joiningBonusType, isLastItemInList: false, isAlreadyJoined: true, numOfRecentOrders: 4)
+                                    } else {
+                                        AllLoyaltyProgramsWidget(image: company.image, company: company.companyName, shortDescription: company.categoryShortDescription, joiningBonus: company.joiningBonus, joiningBonusType: company.joiningBonusType, isLastItemInList: false, isAlreadyJoined: false, numOfRecentOrders: 4)
                                     }
                                 }
                                 
-                                
-//                                //ForEach...
-//                                ActiveLoyaltyProgramWidget(image: "Athleisure LA", company: "Athleisure LA", status: "Silver", currentPointsBalance: 300)
-//
-//                                Divider()
-//                                    .padding(.leading, 72)
-//                                    .padding(.vertical, 10)
-//
-//                                ActiveLoyaltyProgramWidget(image: "Athleisure LA", company: "Athleisure LA", status: "Silver", currentPointsBalance: 60000)
-//
-//                                Divider()
-//                                    .padding(.leading, 72)
-//                                    .padding(.vertical, 10)
-//
-//                                ActiveLoyaltyProgramWidget(image: "Athleisure LA", company: "Athleisure LA", status: "Silver", currentPointsBalance: 3700)
-//
-//                                Divider()
-//                                    .padding(.leading, 72)
-//                                    .padding(.vertical, 10)
-//
-//                                ActiveLoyaltyProgramWidget(image: "Athleisure LA", company: "Athleisure LA", status: "Silver", currentPointsBalance: 12)
-//
+
                             }
                             .padding(.horizontal)
                             
                         }
                         .padding(.bottom)
                         .background(.white)
+                        .padding(.top)
+                        .padding(.top)
                         
                         
                         

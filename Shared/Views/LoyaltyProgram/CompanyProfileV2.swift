@@ -12,6 +12,15 @@ import SwiftUI
 //https://www.youtube.com/watch?v=PYpTto3iQXU&t=446s
 
 
+
+//Necessary hack to show multiple sheets on one page
+enum ActiveLoyaltySheet {
+    case redeemPoints, viewAllDiscounts
+    var id: Int {
+        hashValue
+    }
+}
+
 struct CompanyProfileV2: View {
     
     
@@ -27,6 +36,9 @@ struct CompanyProfileV2: View {
     
 //    var status: String
     var urlToShopifySite: String = "https://athleisure-la.myshopify.com"
+    
+    @State private var activeLoyaltySheet: ActiveLoyaltySheet? = nil
+    //@State var isFullScreenSheet = true
     
     @State var isCreateDiscountScreenActive: Bool = false
     @State var isRedeemScreenActive: Bool = false
@@ -91,309 +103,192 @@ struct CompanyProfileV2: View {
     @State var rewards: Double = 0
         
     
-    var body: some View {
-                       
 
-        GeometryReader { geometry in
-            
+    
+    var body: some View {
+        
+        VStack(alignment: .center, spacing: 0) {
             //MARK: CONTENT
             ScrollView(.vertical, showsIndicators: false) {
-        
-        VStack(alignment: .leading) {
-            
-            Spacer(minLength: 104)
-            
-            //MARK: LOYALTY CARD
-            ZStack {
-            
                 
-                Image("AthleisureLA-Platinum-Loyalty")
-                    .resizable()
-                    .aspectRatio(contentMode: .fit)
-                    .frame(maxWidth: UIScreen.main.bounds.width, maxHeight: UIScreen.main.bounds.width / 8 * 5)
-                    .layoutPriority(1)
-                    .padding(.horizontal)
-                    .shadow(color: .gray, radius: 10, x: 0, y: 0)
-                
-//                RoundedRectangle(cornerRadius: 16).foregroundColor(.clear)
-//                    .frame(width: geometry.size.width, height: CGFloat(Int(geometry.size.width) / 8 * 5))
-                
-                
-                
-//                Image("AthleisureLA-Gold-Loyalty")
-//                    .resizable()
-//                    .aspectRatio(contentMode: .fit)
-//                    .layoutPriority(-1)
-                
-                HStack {
-                    VStack(alignment: .leading) {
-                        Spacer()
-                        Text("Since August 2022")
-                            .font(.system(size: 20, weight: .medium))
-                            .foregroundColor(Color("Gold1"))
-                            .padding(.bottom, 20)
-                    }
-                    Spacer()
-                }.padding(.leading, 20)
-            }.padding(.bottom)
-            
-            
-            //MARK: QUICK ACTIONS
-            HStack(alignment: .top, spacing: 8) {
-                VStack(alignment: .leading) {
+                VStack(alignment: .center) {
                     
-                    //MARK: CURRENT BALANCE -> HISTORY
-                    NavigationLink(destination: History(userID: userID, companyID: companyID, isHistoryActive: $isHistoryActive)) {
-                        
-                        HStack(alignment: .center, spacing: 0) {
-                            VStack(alignment: .leading, spacing: 0) {
-                                Text("Points Balance")
-                                    .font(.system(size: 15))
-                                    .fontWeight(.regular)
-                                    .foregroundColor(Color("Dark1"))
-                                    .padding(.top, 6)
-                                Text("3000")
-                                    .font(.system(size: 32, weight: .bold, design: .rounded))
-                                    .foregroundColor(Color("Dark1"))
-                                    .padding(.vertical, 3)
-                                Text("820 Pending")
-                                    .font(.system(size: 15))
-                                    .fontWeight(.regular)
-                                    .foregroundColor(Color("Gray1"))
-                                    .padding(.bottom, 6)
-                            }.padding(.leading, 16)
-                            Spacer()
-                        }.background(RoundedRectangle(cornerRadius: 8).foregroundColor(.white))
-                    }
+                    //MARK: LOYALTY CARD
+                    CardForLoyaltyProgram(cardColor: Color("Gold1"), textColor: Color.white, companyImage: "Athleisure LA", companyName: "Athleisure LA", currentDiscountAmount: "$20", currentDiscountCode: "COLIN123", userFirstName: "Colin", userLastName: "Power", userCurrentTier: "Gold", discountCardDescription: "Personal Card")
+                        .frame(alignment: .center)
+                        .padding(.bottom)
                     
-                    //MARK: ACTIVE DISCOUNTS -> DISCOUNTS HALF SHEET
-                    Button {
-                        showSheet = true
-                    } label: {
-                        HStack(alignment: .center, spacing: 0) {
-                            VStack(alignment: .leading, spacing: 0) {
-                                Text("Available Discounts")
-                                    .font(.system(size: 15))
-                                    .fontWeight(.regular)
-                                    .foregroundColor(Color("Dark1"))
-                                    .padding(.top, 6)
-                                Text(String(viewModel2.myDiscountCodes.count) + " available")
-                                    .font(.system(size: 22))
-                                    .fontWeight(.bold)
-                                    .foregroundColor(Color("Dark1"))
-                                    .padding(.vertical, 10)
-                            }.padding(.leading, 16)
-                            Spacer()
-                        }.background(RoundedRectangle(cornerRadius: 8).foregroundColor(.white))
-                    }
-                    .halfSheet(showSheet: $showSheet) {
-                        //my half sheet view
-                        HStack {
+                    
+                    
+                    //MARK: QUICK ACTIONS
+                    HStack(alignment: .top, spacing: 8) {
+                        VStack(alignment: .leading) {
                             
-                            if (viewModel2.myDiscountCodes.isEmpty) {
-                                // if no discount codes, show the empty state
-                                TabView {
-                                    ZStack {
-                            
-                                        RoundedRectangle(cornerRadius: 16).foregroundColor(.clear)
-                                            .frame(width: geometry.size.width, height: CGFloat(Int(geometry.size.width) / 8 * 5))
-                                            
-                                        Image("AthleisureLA-No-Discount")
-                                            .resizable()
-                                            .aspectRatio(contentMode: .fit)
-                                            .layoutPriority(-2)
-                                        
-                                    }.padding(.bottom)
-                                }.tabViewStyle(.page(indexDisplayMode: .always))
-                                    .indexViewStyle(.page(backgroundDisplayMode: .interactive))
+                            //MARK: CURRENT BALANCE -> HISTORY
+                            NavigationLink(destination: History(userID: userID, companyID: companyID, isHistoryActive: $isHistoryActive)) {
                                 
-                            } else {
-                                TabView {
-                                    ForEach(viewModel2.myDiscountCodes.prefix(5)) { discountcode in
-                                        VStack {
-                                            ZStack(alignment: .top) {
-                                        
-                                                RoundedRectangle(cornerRadius: 16).foregroundColor(.clear)
-                                                    .frame(width: geometry.size.width, height: CGFloat(Int(geometry.size.width) / 8 * 5))
-                                                    
-                                                Image("AthleisureLA-Gold-Discount")
-                                                    .resizable()
-                                                    .aspectRatio(contentMode: .fit)
-                                                    .layoutPriority(-2)
-                                                
-                                                VStack {
-                                                    Spacer()
-                                                    Text("CASEY777")
-                                                        .font(.system(size: 60))
-                                                        .kerning(1.1)
-                                                        .fontWeight(.bold)
-                                                        .foregroundColor(Color("Gold1"))
-                                                    Spacer()
-                                                }.layoutPriority(-2)
-                                                
-                                                HStack {
-                                                    Spacer()
-                                                    Text("$10")
-                                                        .font(.system(size: 40))
-                                                        .kerning(1.1)
-                                                        .fontWeight(.bold)
-                                                        .foregroundColor(Color("Gold1"))
-                                                }.padding(.trailing, 20)
-                                                    .padding(.top, 16)
-                                                .layoutPriority(-2)
-                                                
-                                            }.padding(.bottom)
-                                            
-                                            //MARK: BUTTONS
-                                            HStack(spacing: 12) {
-                                                Button {
-                                                    //copy
-                                                } label: {
-                                                    HStack {
-                                                        Spacer()
-                                                        Text("Copy code").font(.system(size: 18, weight: .semibold)).foregroundColor(.black).padding(.vertical)
-                                                        Spacer()
-                                                    }.background(RoundedRectangle(cornerRadius: 12).foregroundColor(Color("Background")))
-                                                }
-                                                
-                                                Button {
-                                                    //copy
-                                                } label: {
-                                                    HStack {
-                                                        Spacer()
-                                                        Text("Visit website").font(.system(size: 18, weight: .semibold)).foregroundColor(.black).padding(.vertical)
-                                                        Spacer()
-                                                    }.background(RoundedRectangle(cornerRadius: 12).foregroundColor(Color("Background")))
-                                                }
-                                                
-                                            }.padding(.horizontal)
-                                            .padding(.bottom)
-                                            
-                                        }
-                                        
-                                    }
-                                }//.frame(height: UIScreen.main.bounds.height/2)
-                                .tabViewStyle(.page(indexDisplayMode: .always))
-                                .indexViewStyle(.page(backgroundDisplayMode: .always))
+                                HStack(alignment: .center, spacing: 0) {
+                                    VStack(alignment: .leading, spacing: 0) {
+                                        Text("Points Balance")
+                                            .font(.system(size: 15))
+                                            .fontWeight(.regular)
+                                            .foregroundColor(Color("Dark1"))
+                                            .padding(.top, 6)
+                                        Text("3000")
+                                            .font(.system(size: 32, weight: .bold, design: .rounded))
+                                            .foregroundColor(Color("Dark1"))
+                                            .padding(.vertical, 3)
+                                        Text("820 Pending")
+                                            .font(.system(size: 15))
+                                            .fontWeight(.regular)
+                                            .foregroundColor(Color("Gray1"))
+                                            .padding(.bottom, 6)
+                                    }.padding(.leading, 16)
+                                    Spacer()
+                                }.background(RoundedRectangle(cornerRadius: 8).foregroundColor(.white))
                             }
                             
+                            //MARK: ACTIVE DISCOUNTS -> DISCOUNTS HALF SHEET
+                            Button {
+                                showSheet = true
+                                //isFullScreenSheet = false
+                                activeLoyaltySheet = .viewAllDiscounts
+                            } label: {
+                                HStack(alignment: .center, spacing: 0) {
+                                    VStack(alignment: .leading, spacing: 0) {
+                                        Text("Available Discounts")
+                                            .font(.system(size: 15))
+                                            .fontWeight(.regular)
+                                            .foregroundColor(Color("Dark1"))
+                                            .padding(.top, 6)
+                                        Text(String(viewModel2.myDiscountCodes.count) + " available")
+                                            .font(.system(size: 22))
+                                            .fontWeight(.bold)
+                                            .foregroundColor(Color("Dark1"))
+                                            .padding(.vertical, 10)
+                                    }.padding(.leading, 16)
+                                    Spacer()
+                                }.background(RoundedRectangle(cornerRadius: 8).foregroundColor(.white))
+                            }
                         }
-                            .edgesIgnoringSafeArea(.all)
-                            .background(Color.white)
-                    } onEnd : {
-                        print("Dismissed")
-                    }
-                }
-                
-                //MARK: REDEEM -> REDEEM FULL SCREEN
-                Button {
-                    isCreateDiscountScreenActive.toggle()
-                } label: {
-                    
-                    VStack(alignment: .leading, spacing: 0) {
-                        HStack(alignment: .center, spacing: 0) {
-                            VStack(alignment: .leading, spacing: 0) {
-                                Text("Redeem Points")
-                                    .font(.system(size: 15))
-                                    .fontWeight(.regular)
-                                    .foregroundColor(Color("Dark1"))
-                                    .padding(.top, 6)
-                                    .padding(.bottom, 4)
-                                Text("You have $30 available right now.")
-                                    .font(.system(size: 14))
-                                    .fontWeight(.medium)
-                                    .foregroundColor(Color("Gray1"))
-                                    .multilineTextAlignment(.leading)
-                            }.padding(.leading, 16)
-                            Spacer()
-                        }
-                        Spacer()
-                            
-                        HStack {
-                            Spacer()
-                            Text("Redeem")
-                                .font(.system(size: 16))
-                                .fontWeight(.semibold)
-                                .foregroundColor(.white)
-                                .padding(.vertical, 12)
-                            Spacer()
-                        }.background(
-                            Capsule()
-                                .strokeBorder(Color.black,lineWidth: 0.3)
-                                .background(Color("ThemePrimary"))
-                                .clipped()
-                        )
-                        .clipShape(Capsule())
-                        .padding()
                         
-                    }.background(RoundedRectangle(cornerRadius: 8).foregroundColor(.white))
+                        //MARK: REDEEM -> REDEEM FULL SCREEN
+                        Button {
+                            showSheet = true
+                            //isFullScreenSheet = true
+                            activeLoyaltySheet = .redeemPoints
+                        } label: {
+                            
+                            VStack(alignment: .leading, spacing: 0) {
+                                HStack(alignment: .center, spacing: 0) {
+                                    VStack(alignment: .leading, spacing: 0) {
+                                        Text("Redeem Points")
+                                            .font(.system(size: 15))
+                                            .fontWeight(.regular)
+                                            .foregroundColor(Color("Dark1"))
+                                            .padding(.top, 6)
+                                            .padding(.bottom, 4)
+                                        Text("You have $30 available right now.")
+                                            .font(.system(size: 14))
+                                            .fontWeight(.medium)
+                                            .foregroundColor(Color("Gray1"))
+                                            .multilineTextAlignment(.leading)
+                                    }.padding(.leading, 16)
+                                    Spacer()
+                                }
+                                Spacer()
+                                    
+                                HStack {
+                                    Spacer()
+                                    Text("Redeem")
+                                        .font(.system(size: 16))
+                                        .fontWeight(.semibold)
+                                        .foregroundColor(.white)
+                                        .padding(.vertical, 12)
+                                    Spacer()
+                                }.background(
+                                    Capsule()
+                                        .strokeBorder(Color.black,lineWidth: 0.3)
+                                        .background(Color("ThemePrimary"))
+                                        .clipped()
+                                )
+                                .clipShape(Capsule())
+                                .padding()
+                                
+                            }.background(RoundedRectangle(cornerRadius: 8).foregroundColor(.white))
 
-                }.fullScreenCover(isPresented: $isCreateDiscountScreenActive, content: {
-                    CreateDiscountScreen(isCreateDiscountScreenActive: $isCreateDiscountScreenActive, companyID: companyID, companyName: companyName, currentPointsBalance: viewModel1.oneRewardsProgram.first?.currentPointsBalance ?? 0).navigationTitle("").navigationBarHidden(true)
-                })
+                        }
+//
+//                        .fullScreenCover(isPresented: $isCreateDiscountScreenActive, content: {
+//                            CreateDiscountScreen(isCreateDiscountScreenActive: $isCreateDiscountScreenActive, companyID: companyID, companyName: companyName, currentPointsBalance: viewModel1.oneRewardsProgram.first?.currentPointsBalance ?? 0).navigationTitle("").navigationBarHidden(true)
+//                        })
+                            
+                    }.padding(.horizontal)
+                    .frame(width: UIScreen.main.bounds.width, height: 170)
                     
-            }.frame(height: 170)
-            
-            
+                    
 
-            
-            //MARK: Recommended Actions v2 (IF ANY)
-            //Handle empty state
-            if viewModel_Items.myReviewableItemsForCompany.isEmpty {
-                Text("No recommended actions")
-            }
-            //Show the recommended actions
-            else {
-                RecommendedActions(reviewableItems: viewModel_Items.myReviewableItemsForCompany)
-                    .frame(width: geometry.size.width, height: 200)
-            }
-                
-            
-            
-            
-            //MARK: Recent Orders
-            VStack(alignment: .leading) {
-                
-                HStack {
-                    Text("Recent Orders")
-                        .font(.system(size: 21))
-                        .fontWeight(.bold)
-                        .foregroundColor(Color("Dark1"))
-                    Spacer()
-                    Button {
-                        isShowingAllOrdersForCompany = true
-                    } label: {
-                        Text("See All")
-                            .font(.system(size: 14))
-                            .fontWeight(.medium)
-                            .foregroundColor(.blue)
-                    }.fullScreenCover(isPresented: $isShowingAllOrdersForCompany) {
-                        AllOrdersForCompany(userID: userID, companyID: companyID, isShowingAllOrdersForCompany: $isShowingAllOrdersForCompany)
+                    
+                    //MARK: Recommended Actions v2 (IF ANY)
+                    //Handle empty state
+                    if viewModel_Items.myReviewableItemsForCompany.isEmpty {
+                        Text("No recommended actions")
                     }
+                    //Show the recommended actions
+                    else {
+                        RecommendedActions(reviewableItems: viewModel_Items.myReviewableItemsForCompany)
+                            .padding(.horizontal)
+                            .frame(width: UIScreen.main.bounds.width, height: 180)
+                    }
+                    
+                    //MARK: Recent Orders
+                    VStack(alignment: .leading, spacing: 0) {
+                        
+                        HStack {
+                            Text("Recent Orders")
+                                .font(.system(size: 24))
+                                .fontWeight(.bold)
+                                .foregroundColor(Color("Dark1"))
+                            Spacer()
+                        }.padding(.horizontal)
+                            .padding(.bottom, 4)
+
+                        //For each recent order, show an item
+                        VStack(alignment: .center, spacing: 0) {
+                            ForEach(ordersViewModel.snapshotOfOrders.prefix(7)) { Order in
+                                
+                                NavigationLink(destination: Item(itemID: Order.itemIDs.first ?? "")) {
+                                    RecentOrdersWidget(item: Order.item_firstItemTitle, timestamp: Order.timestamp, reviewID: Order.orderID, colorToShow: colorToShow[4])
+                                    
+                                }
+                            }
+                            Button {
+                                isShowingAllOrdersForCompany = true
+                            } label: {
+                                Text("See All")
+                                    .font(.system(size: 18))
+                                    .fontWeight(.medium)
+                                    .foregroundColor(Color("ThemePrimary"))
+                                    .padding(.vertical, 11)
+                                    .frame(width: UIScreen.main.bounds.width, height: 40, alignment: .center)
+                            }.fullScreenCover(isPresented: $isShowingAllOrdersForCompany) {
+                                AllOrdersForCompany(userID: userID, companyID: companyID, isShowingAllOrdersForCompany: $isShowingAllOrdersForCompany)
+                            }
+                        }
+                        .background(RoundedRectangle(cornerRadius: 20).foregroundColor(.white))
+                         
+                    }.padding(.horizontal)
+                        .padding(.bottom)
                 }
-
-                //For each recent order, show an item
+            }
+            
+            //MARK: TABS
+            MyTabView(selectedTab: $selectedTab)
     
-                ForEach(ordersViewModel.snapshotOfOrders.prefix(5)) { Order in
-                    
-                    NavigationLink(destination: Item(itemID: Order.itemIDs.first ?? "")) {
-                        MyRecentOrdersItem(item: Order.item_firstItemTitle, timestamp: Order.timestamp, reviewID: Order.orderID, colorToShow: colorToShow[4])
-                    }
-                }.padding(.vertical)
-                    .background(RoundedRectangle(cornerRadius: 8).foregroundColor(.white))
-                
-            }.padding(.bottom)
-            
-            
         }
-    }
-        
-        }.padding(.horizontal)
-
-
-        .ignoresSafeArea()
         .background(Color("Background"))
-        .navigationBarTitle("", displayMode: .inline)
+        .edgesIgnoringSafeArea([.bottom, .horizontal])
+        .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     //this is a hack to get a navigationlink inside a toolbarItem
@@ -406,6 +301,98 @@ struct CompanyProfileV2: View {
                     }
                 }
             }
+        .halfSheet(showSheet: $showSheet) {
+            
+            if self.activeLoyaltySheet == .viewAllDiscounts {
+            
+                //my half sheet view
+                HStack {
+                    
+                    if (viewModel2.myDiscountCodes.isEmpty) {
+                        // if no discount codes, show the empty state
+                        TabView {
+                            
+                            
+                            CardForLoyaltyProgram(cardColor: Color("Gold1"), textColor: Color.white, companyImage: "Athleisure LA", companyName: "Athleisure LA", currentDiscountAmount: "0", currentDiscountCode: "NONE AVAILABLE", userFirstName: "Colin", userLastName: "Power", userCurrentTier: "Gold", discountCardDescription: "Default Card")
+                                .frame(alignment: .center)
+                            
+                            
+    //                                    ZStack {
+    //
+    //                                        RoundedRectangle(cornerRadius: 16).foregroundColor(.clear)
+    //                                            .frame(width: geometry.size.width, height: CGFloat(Int(geometry.size.width) / 8 * 5))
+    //
+    //                                        Image("AthleisureLA-No-Discount")
+    //                                            .resizable()
+    //                                            .aspectRatio(contentMode: .fit)
+    //                                            .layoutPriority(-2)
+    //
+    //                                    }.padding(.bottom)
+                        }.tabViewStyle(.page(indexDisplayMode: .always))
+                            .indexViewStyle(.page(backgroundDisplayMode: .interactive))
+                        
+                    } else {
+                        TabView {
+                            ForEach(viewModel2.myDiscountCodes.prefix(5)) { discountcode in
+                                VStack {
+
+                                    //MARK: BUTTONS
+
+                                    CardForLoyaltyProgram(cardColor: Color("Gold1"), textColor: Color.white, companyImage: "Athleisure LA", companyName: "Athleisure LA", currentDiscountAmount: "$20", currentDiscountCode: "COLIN123", userFirstName: "Colin", userLastName: "Power", userCurrentTier: "Gold", discountCardDescription: "Default Card")
+                                        .frame(alignment: .center)
+                                    
+                                    
+                                    HStack(spacing: 12) {
+                                        Button {
+                                            //copy
+                                        } label: {
+                                            HStack {
+                                                Spacer()
+                                                Text("Copy code").font(.system(size: 18, weight: .semibold)).foregroundColor(.black).padding(.vertical)
+                                                Spacer()
+                                            }.background(RoundedRectangle(cornerRadius: 12).foregroundColor(Color("Background")))
+                                        }
+                                        
+                                        Button {
+                                            //copy
+                                        } label: {
+                                            HStack {
+                                                Spacer()
+                                                Text("Visit website").font(.system(size: 18, weight: .semibold)).foregroundColor(.black).padding(.vertical)
+                                                Spacer()
+                                            }.background(RoundedRectangle(cornerRadius: 12).foregroundColor(Color("Background")))
+                                        }
+                                        
+                                    }.padding(.horizontal)
+                                    .padding(.bottom)
+                                    
+                                }
+                                
+                            }
+                        }//.frame(height: UIScreen.main.bounds.height/2)
+                        .tabViewStyle(.page(indexDisplayMode: .always))
+                        .indexViewStyle(.page(backgroundDisplayMode: .always))
+                    }
+                    
+                }
+                .edgesIgnoringSafeArea([.all])
+                    .background(Color.white)
+            } else if self.activeLoyaltySheet == .redeemPoints {
+                HStack {
+                    Spacer()
+                    CreateDiscountScreen(showSheet: $showSheet, companyID: companyID, companyName: companyName, currentPointsBalance: viewModel1.oneRewardsProgram.first?.currentPointsBalance ?? 0)
+                    Spacer()
+                }
+                .edgesIgnoringSafeArea([.all])
+                    .background(Color.white)
+            }
+            
+        } onEnd : {
+            activeLoyaltySheet = nil
+            showSheet = false
+            print("Dismissed")
+        }
+    
         .onAppear {
             self.viewModel1.listenForOneRewardsProgram(email: "colinjpower1@gmail.com", companyID: companyID)
             self.viewModel2.listenForMyDiscountCodes(email: "colinjpower1@gmail.com", companyID: companyID)
@@ -639,6 +626,8 @@ struct HalfSheetHelper<SheetView: View>: UIViewControllerRepresentable {
     
     var sheetView: SheetView
     @Binding var showSheet:Bool
+    //var isFullScreenSheet:Bool
+    
     var onEnd: () -> ()
     
     
@@ -658,10 +647,18 @@ struct HalfSheetHelper<SheetView: View>: UIViewControllerRepresentable {
         
         if showSheet {
             
-            //isPresenting
-            let sheetController = CustomHostingController(rootView: sheetView)
-            sheetController.presentationController?.delegate = context.coordinator
-            uiViewController.present(sheetController, animated: true)
+            //if isFullScreenSheet {
+                //isPresenting
+//                let sheetController = CustomHostingController2(rootView: sheetView)
+//                sheetController.presentationController?.delegate = context.coordinator
+//                uiViewController.present(sheetController, animated: true)
+            //} else {
+                //isPresenting
+                let sheetController = CustomHostingController(rootView: sheetView)
+                sheetController.presentationController?.delegate = context.coordinator
+                uiViewController.present(sheetController, animated: true)
+            //}
+            
         }
         else {
             // closing view when showSheet toggled again...
@@ -711,3 +708,26 @@ class CustomHostingController<Content: View>: UIHostingController<Content> {
         }
     }
 }
+
+
+//// Custom UIHostingController for halfSheet...
+//class CustomHostingController2<Content: View>: UIHostingController<Content> {
+//    
+//    override func viewDidLoad() {
+//        
+//        view.backgroundColor = .clear
+//        
+//        //setting presentation controller properties...
+//        if let presentationController2 = presentationController as? UISheetPresentationController{
+//            
+//            presentationController2.detents = [
+//                .large()
+//            ]
+//            
+//            //to show grabber
+//            presentationController2.prefersGrabberVisible = false
+//        }
+//    }
+//}
+
+

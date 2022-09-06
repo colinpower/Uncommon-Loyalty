@@ -15,29 +15,71 @@ struct CreateDiscountScreen: View {
     
     @EnvironmentObject var viewModel: AppViewModel
     
-    @ObservedObject var viewModel1 = RewardsProgramViewModel()
-    @ObservedObject var viewModel2 = DiscountCodesViewModel()
+    var rewardsProgramViewModelVar = RewardsProgramViewModel()
+    var discountCodesViewModelVar = DiscountCodesViewModel()
     
     
     @State var rewardsUsed: Double = 0
     
-    @Binding var isCreateDiscountScreenActive: Bool
+    //@Binding var isCreateDiscountScreenActive: Bool
+    
+    @Binding var showSheet:Bool
     
     var companyID: String
     var companyName: String
     var currentPointsBalance: Int
     
-    
+    @State var userSelectedPersonalCard:Bool = true
     
     
     var body: some View {
         VStack (alignment: .center) {
             
             //MARK: Header
-            SheetHeader(title: "Redeem", isActive: $isCreateDiscountScreenActive)
-            Spacer()
+            //MARK: HEADER (104 height)
+            VStack(alignment: .center, spacing: 0) {
+                
+                //The top bar
+                HStack(alignment: .center) {
+                    
+                    Label {
+                        Text("Redeem Points")
+                            .font(.system(size: 23, weight: .semibold))
+                            .foregroundColor(Color("Dark1"))
+                    } icon: {
+                        Image(systemName: "dollarsign.square.fill")
+                            .font(.system(size: 24, weight: .semibold))
+                            .foregroundColor(Color("Gold1"))
+                    }
+                    
+                    Spacer()
+                    
+                }.padding(.horizontal)
+                .padding(.top, 32)
+                .padding(.bottom, 20)
+                .frame(maxWidth: UIScreen.main.bounds.width, maxHeight: 76)
+            }
             
-            //MARK: Description
+            
+            //MARK: LOYALTY CARD SWITCHER
+            if userSelectedPersonalCard {
+                //Default card
+                CardForLoyaltyProgram(cardColor: Color("Gold1"), textColor: Color.white, companyImage: "Athleisure LA", companyName: "Athleisure LA", currentDiscountAmount: "$" + String(Int(rewardsUsed/10)), currentDiscountCode: "COLIN123", userFirstName: "Colin", userLastName: "Power", userCurrentTier: "Gold", discountCardDescription: "Personal Card")
+                    .frame(alignment: .center)
+                    .padding(.bottom)
+            } else {
+                //New card
+                CardForLoyaltyProgram(cardColor: Color.black, textColor: Color.white, companyImage: "Athleisure LA", companyName: "Athleisure LA", currentDiscountAmount: "$" + String(Int(rewardsUsed/10)), currentDiscountCode: "COLIN123", userFirstName: "Colin", userLastName: "Power", userCurrentTier: "Gold", discountCardDescription: "New Card")
+                    .frame(alignment: .center)
+                    .padding(.bottom)
+            }
+            
+            Button {
+                userSelectedPersonalCard.toggle()
+            } label: {
+                Text("Use personal card?")
+            }
+            
             VStack(alignment: .center) {
                 Text("Convert Points")
                     .font(.headline)
@@ -88,9 +130,9 @@ struct CreateDiscountScreen: View {
             
             //MARK: Convert Points Button
             Button {   
-                viewModel2.addCode(companyID: companyID, companyName: companyName, dollars: Int(rewardsUsed)/10, domain: "athleisure-la.myshopify.com", email: viewModel.email!, firstNameID: "COLIN1", pointsSpent: Int(rewardsUsed), usageLimit: 1, userID: viewModel.userID!)
-                viewModel1.updateLoyaltyPointsForReason(userID: viewModel.userID!, companyID: companyID, changeInPoints: Int(rewardsUsed) * -1, reason: "CreatedDiscount")
-                isCreateDiscountScreenActive.toggle()
+                discountCodesViewModelVar.addCode(companyID: companyID, companyName: companyName, dollars: Int(rewardsUsed)/10, domain: "athleisure-la.myshopify.com", email: viewModel.email!, firstNameID: "COLIN1", pointsSpent: Int(rewardsUsed), usageLimit: 1, userID: viewModel.userID!)
+                rewardsProgramViewModelVar.updateLoyaltyPointsForReason(userID: viewModel.userID!, companyID: companyID, changeInPoints: Int(rewardsUsed) * -1, reason: "CreatedDiscount")
+                showSheet = false
             } label: {
                 HStack {
                     Spacer()
@@ -106,13 +148,8 @@ struct CreateDiscountScreen: View {
             }
                 .disabled(rewardsUsed==0)
             
-        }.navigationTitle("").navigationBarHidden(true)
-            .ignoresSafeArea().padding(.horizontal).padding(.bottom)
-    }
-}
-
-struct CreateDiscountScreen_Previews: PreviewProvider {
-    static var previews: some View {
-        CreateDiscountScreen(isCreateDiscountScreenActive: .constant(true), companyID: "zKL7SQ0jRP8351a0NnHM", companyName: "Athleisure LA", currentPointsBalance: 100)
+        }
+            .ignoresSafeArea()
+            .background(Color("Background"))
     }
 }

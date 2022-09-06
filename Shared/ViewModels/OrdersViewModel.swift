@@ -21,6 +21,8 @@ class OrdersViewModel: ObservableObject, Identifiable {
     @Published var snapshotOfOrders = [Orders]()
     @Published var snapshotOfOrder = [Orders]()
     
+    @Published var snapshotOfOrdersByEmailForNewUser = [Orders]()
+    
     var dm = DataManager()
     
     var listenerForAllOrders: ListenerRegistration!

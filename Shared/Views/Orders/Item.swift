@@ -42,7 +42,7 @@ struct Item: View {
             
                 //company -> about us page
                 NavigationLink {
-                    ProfileTEMP()
+                    AboutCompany() //MARK: NEED TO PASS IN THE ACTUAL COMPANY ID!!
                 } label: {
                     HStack {
                     
@@ -75,7 +75,7 @@ struct Item: View {
 
                 //for review
                 NavigationLink  {
-                    IntentToReview(selectedTab: $selectedTab, itemObject: itemsViewModel.snapshotOfItem.first ?? Items(companyID: "", domain: "", email: "", itemID: "", name: "", orderID: "", price: "", quantity: 0, referred: false, reviewID: "", reviewRating: 0, shopifyItemID: 0, status: "", timestamp: 0, title: "", userID: ""))
+                    IntentToReview(itemObject: itemsViewModel.snapshotOfItem.first ?? Items(companyID: "", domain: "", email: "", itemID: "", name: "", orderID: "", price: "", quantity: 0, referred: false, reviewID: "", reviewRating: 0, shopifyItemID: 0, status: "", timestamp: 0, title: "", userID: ""))
                 } label: {
                     PointsEarnedSectionRow(image: "star.circle.fill", imageColor: Color("ReviewTeal"), title: "Review", points: "200", isEnabled: true)
                 }

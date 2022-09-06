@@ -15,20 +15,64 @@ struct PollTabView: View {
     var body: some View {
         
         TabView {
-            Text(arrayOfTitlesForEachOption[0]).background(.red)
-            Text(arrayOfTitlesForEachOption[1]).background(.red)
-            Text(arrayOfTitlesForEachOption[2]).background(.red)
+            
+            ForEach(0..<arrayOfTitlesForEachOption.count) { index in
                 
-
-        }.frame(height: UIScreen.main.bounds.height/2)
-        .tabViewStyle(.page(indexDisplayMode: .never))
+                PollImageView(title: arrayOfTitlesForEachOption[index], image: arrayOfImagesForEachOption[index], index: index)
+                    .padding(.horizontal, UIScreen.main.bounds.width / 3)
+            }
+        }.frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height/3+30, alignment: .center)
+        .tabViewStyle(.page(indexDisplayMode: .always))
         .indexViewStyle(.page(backgroundDisplayMode: .always))
         
     }
 }
-//
-//struct PollTabView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        PollTabView()
-//    }
-//}
+
+
+
+struct PollImageView: View {
+    
+    var title:String
+    var image:String
+    var index:Int
+        
+    var icon:String {
+        switch index {
+        case 0:
+            return "01.circle"
+        case 1:
+            return "02.circle"
+        case 2:
+            return "03.circle"
+        default:
+            return "01.circle"
+        }
+    }
+    
+    
+    var body: some View {
+        VStack(alignment: .center) {
+            Spacer()
+            ZStack(alignment: .top) {
+                RoundedRectangle(cornerRadius: 20)
+                    .foregroundColor(.white)
+                    .frame(width: UIScreen.main.bounds.height/3 - 30, height: UIScreen.main.bounds.height/3 - 30)
+                    .shadow(color: .black.opacity(0.4), radius: 15, x: 0, y: 0)
+                    
+                Image("redshorts")
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: UIScreen.main.bounds.height/3 - 30, height: UIScreen.main.bounds.height/3 - 30)
+                
+                HStack {
+                    Image(systemName: icon)
+                        .font(.system(size: 32, weight: .regular))
+                        .foregroundColor(.black)
+                    Spacer()
+                }.padding(.top).padding(.leading)
+            }
+            Spacer()
+        }.padding(.all, 15)
+        .frame(width: UIScreen.main.bounds.height/3, height: UIScreen.main.bounds.height/3)
+    }
+}
