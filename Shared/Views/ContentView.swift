@@ -43,18 +43,16 @@ struct ContentView: View {
                 
                 switch selectedTab {
                 case 0:
-                    Earn(selectedTab: $selectedTab)
-                case 1:
-                    AllOrders(selectedTab: $selectedTab)
-                    //ItemsAndOrders(selectedTab: $selectedTab)
-                    //Home(selectedTab: $selectedTab)
-                case 2:
                     Home(selectedTab: $selectedTab)
+                    
+                case 1:
+                    Earn(selectedTab: $selectedTab)
+                    //AllOrders(selectedTab: $selectedTab)
+                case 2:
+                    Discover(selectedTab: $selectedTab)
                     //Home(selectedTab: $selectedTab)
                 case 3:
-                    Discover(selectedTab: $selectedTab)
-                case 4:
-                    Wallet(selectedTab: $selectedTab)
+                    Profile(selectedTab: $selectedTab)
                 default:
                     Home(selectedTab: $selectedTab)
                 }

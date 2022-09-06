@@ -19,7 +19,6 @@ struct Discover: View {
         
         NavigationView {
             VStack {
-                PageHeader(isProfileActive: $isProfileActive, pageTitle: "Discover")
                 
                 WideWidgetHeader(title: "HELP US IMPROVE")
                     
@@ -32,7 +31,13 @@ struct Discover: View {
                 
                 Spacer()
                 MyTabView(selectedTab: $selectedTab)
-            }.ignoresSafeArea()
+            }
+            .background(.white)
+            .edgesIgnoringSafeArea([.bottom, .horizontal])
+            .navigationTitle("Discover").font(.title)
+            .onAppear {
+                // stuff goes here
+            }
 
         }
     }

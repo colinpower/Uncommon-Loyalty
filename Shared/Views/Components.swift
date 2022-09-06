@@ -24,33 +24,33 @@ import FirebaseStorage
 
 
 
-//MARK: PAGE HEADER
-struct PageHeader: View {
-    
-    @Binding var isProfileActive:Bool
-    
-    var pageTitle: String
-    
-    var body: some View {
-        HStack(alignment: .center){
-            Text(pageTitle)
-                .font(.system(size: 24))
-                .fontWeight(.semibold)
-                .foregroundColor(Color("Dark1"))
-            Spacer()
-            Button {
-                isProfileActive.toggle()
-            } label: {
-                Image(systemName: "person.crop.circle")
-                    .foregroundColor(Color("Dark1"))
-                    .font(.system(size: 30))
-            }.fullScreenCover(isPresented: $isProfileActive, content: {
-                Profile(isProfileActive: $isProfileActive)
-            })
-        }.padding(.horizontal)
-            .padding(.top, 60)
-    }
-}
+////MARK: PAGE HEADER
+//struct PageHeader: View {
+//    
+//    @Binding var isProfileActive:Bool
+//    
+//    var pageTitle: String
+//    
+//    var body: some View {
+//        HStack(alignment: .center){
+//            Text(pageTitle)
+//                .font(.system(size: 24))
+//                .fontWeight(.semibold)
+//                .foregroundColor(Color("Dark1"))
+//            Spacer()
+//            Button {
+//                isProfileActive.toggle()
+//            } label: {
+//                Image(systemName: "person.crop.circle")
+//                    .foregroundColor(Color("Dark1"))
+//                    .font(.system(size: 30))
+//            }.fullScreenCover(isPresented: $isProfileActive, content: {
+//                Profile(isProfileActive: $isProfileActive)
+//            })
+//        }.padding(.horizontal)
+//            .padding(.top, 60)
+//    }
+//}
 
 
 
@@ -73,7 +73,7 @@ struct MyTabView: View {
                 TabViewItem(position: 1, selectedTab: $selectedTab)
                 TabViewItem(position: 2, selectedTab: $selectedTab)
                 //TabViewItem(position: 3, selectedTab: $selectedTab)
-                TabViewItem(position: 4, selectedTab: $selectedTab)
+                TabViewItem(position: 3, selectedTab: $selectedTab)
                 Spacer()
             }.padding(.horizontal)
             Spacer()
@@ -94,17 +94,15 @@ struct TabViewItem: View {
     var tabViewItemImageName: [String] {
         switch position {
         case 0:
-            return ["dollarsign.square", "Earn"]
-        case 1:
-            return ["calendar", "Orders"]
-        case 2:
             return ["creditcard", "Accounts"]
+        case 1:
+            return ["dollarsign.square", "Earn"]
+        case 2:
+            return ["globe", "Discover"]
         case 3:
-            return ["safari.fill", "Discover"]
-        case 4:
-            return ["giftcard", "Rewards"]
+            return ["person", "Profile"]
         default:
-            return ["house.fill", "Default"]
+            return ["creditcard", "Default"]
         }
     }
     
@@ -113,15 +111,26 @@ struct TabViewItem: View {
             Button {
                 selectedTab = position
             } label: {
-                VStack (alignment: .center, spacing: 3) {
-                    Image(systemName: tabViewItemImageName[0])
-                        .foregroundColor(selectedTab == position ? Color("ThemePrimary") : .gray)
-                        .font(.system(size: 25, weight: .regular))
-                    Text(tabViewItemImageName[1])
-                        .foregroundColor(selectedTab == position ? Color("ThemePrimary") : .gray)
-                        .font(.system(size: 10, weight: .medium))
+                VStack (alignment: .center) {
+                    if position == 0 {
+                        Image(systemName: tabViewItemImageName[0])
+                            .foregroundColor(selectedTab == position ? Color("ThemePrimary") : .gray)
+                            .font(.system(size: 26, weight: .regular))
+                        Spacer()
+                        Text(tabViewItemImageName[1])
+                            .foregroundColor(selectedTab == position ? Color("ThemePrimary") : .gray)
+                            .font(.system(size: 10, weight: .medium))
+                    } else {
+                        Image(systemName: tabViewItemImageName[0])
+                            .foregroundColor(selectedTab == position ? Color("ThemePrimary") : .gray)
+                            .font(.system(size: 25, weight: .regular))
+                        Spacer()
+                        Text(tabViewItemImageName[1])
+                            .foregroundColor(selectedTab == position ? Color("ThemePrimary") : .gray)
+                            .font(.system(size: 10, weight: .medium))
+                    }
                 }
-            }.frame(maxWidth: .infinity)
+            }.frame(maxWidth: .infinity, maxHeight: 38)
     }
 }
 

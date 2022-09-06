@@ -183,22 +183,6 @@ struct Earn: View {
             .edgesIgnoringSafeArea([.bottom, .horizontal])
             //.ignoresSafeArea()                     //Note: need to ignoreSafeArea, set nav title to "", set barHidden to true in order not to break when returning from a navigationViewChild
             .navigationTitle("Earn").font(.title)
-            .toolbar {
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    //this is a hack to get a navigationlink inside a toolbarItem
-                    HStack(alignment: .center, spacing: 0) {
-                        Button {
-                            isProfileActive.toggle()
-                        } label: {
-                            Image(systemName: "person.circle")
-                                .font(.system(size: 20, weight: .medium))
-                                .foregroundColor(Color("Dark1"))
-                        }.fullScreenCover(isPresented: $isProfileActive) {
-                            Profile(isProfileActive: $isProfileActive)
-                        }
-                    }
-                }
-            }
             
             
             

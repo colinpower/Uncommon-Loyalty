@@ -16,7 +16,7 @@ struct AllOrders: View {
     //Getting the data for this view
     @StateObject var ordersViewModel = OrdersViewModel()
     
-    @State var isProfileActive = false
+    //@State var isProfileActive = false
     
     
     //Required variables to be passed
@@ -92,23 +92,7 @@ struct AllOrders: View {
                 MyTabView(selectedTab: $selectedTab)
             }.background(.white)
             .edgesIgnoringSafeArea([.bottom, .horizontal])
-            .navigationTitle("Orders").font(.title)
-            .toolbar {
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    //this is a hack to get a navigationlink inside a toolbarItem
-                    HStack(alignment: .center, spacing: 0) {
-                        Button {
-                            isProfileActive.toggle()
-                        } label: {
-                            Image(systemName: "person.circle")
-                                .font(.system(size: 20, weight: .medium))
-                                .foregroundColor(Color("Dark1"))
-                        }.fullScreenCover(isPresented: $isProfileActive) {
-                            Profile(isProfileActive: $isProfileActive)
-                        }
-                    }
-                }
-            }
+            //.navigationTitle("Orders").font(.title)
             
 //            .background(Color("Background"))
 //            .ignoresSafeArea()

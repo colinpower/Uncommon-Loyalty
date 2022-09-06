@@ -11,12 +11,13 @@ struct Wallet: View {
     
     //Variables needed for every base view
     @Binding var selectedTab:Int
-    @State var isProfileActive:Bool = false
+    //@State var isProfileActive:Bool = false
     
     
     //MARK: Setup properties to be passed to detail view
     @State var currentCard: RewardCard?
     @State var showDetailCard: Bool = false
+    
     @Namespace var animation
     
     
@@ -29,8 +30,6 @@ struct Wallet: View {
             }
         } else {
             VStack(alignment: .center, spacing: 0) {
-                    PageHeader(isProfileActive: $isProfileActive, pageTitle: "Wallet")
-                        .padding(.bottom)
 //                    Text("Wallet")
 //                        .font(.largeTitle)
 //                        .fontWeight(.semibold)
