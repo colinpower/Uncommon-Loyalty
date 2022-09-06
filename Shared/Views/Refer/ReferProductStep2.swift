@@ -33,6 +33,8 @@ struct ReferProductStep2: View {
     //Binding
     @Binding var indexOfCurrentReferPage:Int
     
+    @Binding var selectedContact:[String]
+    
     //Required variables
     
     var item: Items
@@ -51,7 +53,7 @@ struct ReferProductStep2: View {
         VStack(alignment: .leading, spacing: 0) {
         
             //MARK: PROMPT (80)
-            Text(promptForStep2)
+            Text(promptForStep2 + selectedContact[1])
                 .font(.system(size: 24, weight: .bold))
                 .multilineTextAlignment(.leading)
                 .foregroundColor(Color("Dark1"))
@@ -70,7 +72,7 @@ struct ReferProductStep2: View {
                             Button {
                                 selectedDiscountCreationMethod = .custom
                             } label: {
-                                Text("Get a custom code")
+                                Text("Make a custom code")
                                     .font(.system(size: 20, weight: .medium))
                                     .foregroundColor(.white)
                                     .padding(.vertical, 20)
@@ -84,7 +86,7 @@ struct ReferProductStep2: View {
                                 userAcceptedCode = "SDF1443"
                                 selectedDiscountCreationMethod = .random
                             } label: {
-                                Text("Random code")
+                                Text("Go Random")
                                     .font(.system(size: 16, weight: .medium))
                                     .foregroundColor(Color("Dark1"))
                                     .padding(.vertical, 20)
@@ -164,11 +166,10 @@ struct ReferProductStep2: View {
                         HStack(alignment: .center, spacing: 0) {
                             
                             //The Icon for the submission form
-                            Image(systemName: "magnifyingglass")
-                                .foregroundColor(Color("Dark1"))
-                                .font(.system(size: 18, weight: .semibold))
-                                .padding(.leading, 16)
-                            TextField("Search for a custom code...", text: $userSuggestedCode)
+//                            Image(systemName: "magnifyingglass")
+//                                .foregroundColor(Color("Dark1"))
+//                                .font(.system(size: 18, weight: .semibold))
+                            TextField("Like... \(selectedContact[1])-U-NEED-THIS", text: $userSuggestedCode)
                                 .textFieldStyle(DefaultTextFieldStyle())
                                 .keyboardType(.alphabet)
                                 .disableAutocorrection(true)
@@ -188,12 +189,26 @@ struct ReferProductStep2: View {
                                 .submitLabel(.search)
                             
                             Button {
+                                //check if the code is valid
+                                DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+                                    userAcceptedCode = userSuggestedCode
+                                }
+                            } label: {
+                                //The Icon for the submission form
+                                Image(systemName: "arrow.right.square.fill")
+                                    .foregroundColor(Color("ReferPurple"))
+                                    .font(.system(size: 18, weight: .semibold))
+                                    .padding(.horizontal)
+                            }
+                            
+                            
+                            Button {
                                 userAcceptedCode = ""
                                 userSuggestedCode = ""
                                 selectedDiscountCreationMethod = .reset
 
                             } label: {
-                                Image(systemName: "arrow.uturn.left")
+                                Image(systemName: "xmark")
                                     .foregroundColor(Color("Dark1"))
                                     .font(.system(size: 18, weight: .semibold))
                             }

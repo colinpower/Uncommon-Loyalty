@@ -50,13 +50,24 @@ struct ReferProductStep1: View {
         VStack(alignment: .leading, spacing: 0) {
             
             //MARK: PROMPT (80)
-            Text(promptForStep1)
-                .font(.system(size: 24, weight: .bold))
-                .multilineTextAlignment(.leading)
-                .foregroundColor(Color("Dark1"))
-                .padding(.top, 30)
-                .padding(.horizontal)
-                .frame(height: 54, alignment: .leading)
+            
+            if selectedContact[1] == "" {
+                Text(promptForStep1)
+                    .font(.system(size: 24, weight: .bold))
+                    .multilineTextAlignment(.leading)
+                    .foregroundColor(Color("Dark1"))
+                    .padding(.top, 30)
+                    .padding(.horizontal)
+                    .frame(height: 54, alignment: .leading)
+            } else {
+                Text("It's a good day to be " + selectedContact[1] + "...")
+                    .font(.system(size: 24, weight: .bold))
+                    .multilineTextAlignment(.leading)
+                    .foregroundColor(Color("Dark1"))
+                    .padding(.top, 30)
+                    .padding(.horizontal)
+                    .frame(height: 54, alignment: .leading)
+            }
             
             
             

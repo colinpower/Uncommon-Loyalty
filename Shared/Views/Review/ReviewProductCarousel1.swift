@@ -33,6 +33,21 @@ struct ReviewProductCarousel1: View {
     
     var item: Items       //Should rename this to just "item" so it's cleaner
     
+    var pointsPerQuestion:Int {
+        switch indexOfCurrentReviewPage {
+        case 0:
+            return 50
+        case 1:
+            return 75
+        case 2:
+            return 125
+        default:
+            return 0
+        }
+    }
+    
+    
+    
     //Required variables
     var screenWidth:CGFloat = UIScreen.main.bounds.width     //this should be 428 for an iPhone 12 Pro Max
     
@@ -49,9 +64,14 @@ struct ReviewProductCarousel1: View {
                 HStack(alignment: .center) {
                     
                     Label {
-                        Text("Question \(indexOfCurrentReviewPage+1)")
-                            .font(.system(size: 23, weight: .semibold))
-                            .foregroundColor(Color("Dark1"))
+                        HStack(alignment: .center, spacing: 12) {
+                            Text("Question \(indexOfCurrentReviewPage+1)")
+                                .font(.system(size: 23, weight: .semibold))
+                                .foregroundColor(Color("Dark1"))
+                            Text("(+" + String(pointsPerQuestion) + ")")
+                                .font(.system(size: 23, weight: .bold, design: .rounded))
+                                .foregroundColor(Color("ReviewTeal"))
+                        }
                     } icon: {
                         ZStack(alignment: .center) {
                             Circle()

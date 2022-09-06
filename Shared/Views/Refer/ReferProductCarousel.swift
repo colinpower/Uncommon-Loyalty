@@ -35,7 +35,7 @@ struct ReferProductCarousel: View {
     var totalHeaderHeight:CGFloat = CGFloat(104) + CGFloat(UIScreen.main.bounds.width / 1.6)
     var item: Items
     
-    var arrayOfReferralPrompts: [String] = ["Who's it for?", "Add a discount code", "Select a color", "Ta-da! Send it"]   //eventually will just pull from the viewmodel for this
+    var arrayOfReferralPrompts: [String] = ["Who's getting this discount?!", "Make a discount code for ", "Brighten it up! Select a color", "Ta-da! Send it"]   //eventually will just pull from the viewmodel for this
     
     
     
@@ -100,9 +100,9 @@ struct ReferProductCarousel: View {
                     
                     ReferProductStep1(indexOfCurrentReferPage: $indexOfCurrentReferPage, isShowingContactsList: $isShowingContactsList, selectedContact: $selectedContact, item: item, promptForStep1: arrayOfReferralPrompts[0], screenWidth: screenWidth, totalHeaderHeight: totalHeaderHeight)
                     
-                    ReferProductStep2(userAcceptedCode: $userAcceptedCode, indexOfCurrentReferPage: $indexOfCurrentReferPage, item: item, promptForStep2: arrayOfReferralPrompts[1], screenWidth: screenWidth, totalHeaderHeight: totalHeaderHeight)
+                    ReferProductStep2(userAcceptedCode: $userAcceptedCode, indexOfCurrentReferPage: $indexOfCurrentReferPage, selectedContact: $selectedContact, item: item, promptForStep2: arrayOfReferralPrompts[1], screenWidth: screenWidth, totalHeaderHeight: totalHeaderHeight)
                     
-                    ReferProductStep3(userSelectedColor: $userSelectedColor, indexOfCurrentReferPage: $indexOfCurrentReferPage, item: item, promptForStep3: arrayOfReferralPrompts[2], screenWidth: screenWidth, totalHeaderHeight: totalHeaderHeight)
+                    ReferProductStep3(userSelectedColor: $userSelectedColor, indexOfCurrentReferPage: $indexOfCurrentReferPage, selectedContact: $selectedContact, item: item, promptForStep3: arrayOfReferralPrompts[2], screenWidth: screenWidth, totalHeaderHeight: totalHeaderHeight)
                     
                     ReferProductStep4(userSelectedColor: $userSelectedColor, selectedContact: $selectedContact, indexOfCurrentReferPage: $indexOfCurrentReferPage, userAcceptedCode: $userAcceptedCode, isShowingReferExperience: $isShowingReferExperience, item: item, promptForStep4: arrayOfReferralPrompts[3], screenWidth: screenWidth, totalHeaderHeight: totalHeaderHeight, imageString: $imageString)
                     

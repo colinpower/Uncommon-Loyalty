@@ -145,6 +145,10 @@ struct IntentToRefer: View {
 //                }
             
             VStack(alignment: .leading) {
+                
+                Text("NOTE TO SELF::: HAVE A PAGE 0 where it explains that you're going to be creating a discount code")
+                
+                
                 Text("Thanks for your awesome review!")
                 Divider()
                     .padding(.bottom)

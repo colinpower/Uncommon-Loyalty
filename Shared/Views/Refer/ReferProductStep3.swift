@@ -22,6 +22,8 @@ struct ReferProductStep3: View {
     
     @Binding var indexOfCurrentReferPage:Int
     
+    @Binding var selectedContact:[String]
+    
     //Required variables
     
     var item: Items
@@ -40,7 +42,8 @@ struct ReferProductStep3: View {
         VStack(alignment: .leading, spacing: 0) {
             
             //MARK: PROMPT (80)
-            Text(promptForStep3)
+            //Text(promptForStep3)
+            Text("What's \(selectedContact[1])'s favorite color?")
                 .font(.system(size: 24, weight: .bold))
                 .multilineTextAlignment(.leading)
                 .foregroundColor(Color("Dark1"))
