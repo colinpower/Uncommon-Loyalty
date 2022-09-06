@@ -9,8 +9,8 @@ import SwiftUI
 
 struct FirstRunExperience: View {
     
-    @AppStorage("hasShownFRE")
-    var hasShownFRE: Bool = false
+//    @AppStorage("hasShownFRE")
+//    var hasShownFRE: Bool = false
     
     @State var horizontalOffset : CGFloat = 0
     
@@ -34,7 +34,7 @@ struct FirstRunExperience: View {
     @State private var showNext1 = false
     @State private var showFinish = false
     
-
+    @Binding var shouldShowFirstRunExperience:Bool
 
     let cursorColor = Color(#colorLiteral(red: 0, green: 0.368627451, blue: 1, alpha: 1))
 
@@ -283,7 +283,11 @@ struct FirstRunExperience: View {
                         
                         //MARK: Continue button
                             Button {
-                                hasShownFRE = true
+                                
+                                @AppStorage("shouldShowFirstRunExperience") var shouldShowFirstRunExperience:Bool = false
+                                shouldShowFirstRunExperience = false
+                                
+                                //post back to the user's account
                             } label: {
                                 HStack {
                                     Spacer()
@@ -306,8 +310,6 @@ struct FirstRunExperience: View {
 
                 }.frame(width: geometry.size.width*2)
                 
-
-
             }
             .ignoresSafeArea()
             
@@ -332,6 +334,12 @@ struct FirstRunExperience: View {
                     showNext1.toggle()
                 }
             }
+            .onDisappear {
+                
+                @AppStorage("shouldShowFirstRunExperience") var shouldShowFirstRunExperience:Bool = false
+                shouldShowFirstRunExperience = false
+                
+            }
         }
     }
 }
@@ -339,11 +347,11 @@ struct FirstRunExperience: View {
 
 
 
-struct FirstRunExperience_Previews: PreviewProvider {
-    static var previews: some View {
-        FirstRunExperience()
-    }
-}
+//struct FirstRunExperience_Previews: PreviewProvider {
+//    static var previews: some View {
+//        FirstRunExperience(showFirstRunExperience: .constant(true))
+//    }
+//}
 
 
 

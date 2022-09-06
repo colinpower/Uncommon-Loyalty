@@ -15,6 +15,10 @@ import FirebaseAuth
 
 struct Home: View {
     
+    
+    @AppStorage("shouldShowFirstRunExperience")
+    private var shouldShowFirstRunExperience: Bool = true
+    
     @EnvironmentObject var viewModel: AppViewModel
     
     //Listeners for updates
@@ -33,7 +37,7 @@ struct Home: View {
     @State var isShowingAllOrders:Bool = false
     
     //Remove this one
-    @State var showFirstRunExperience:Bool = true
+    
     
     
     
@@ -41,6 +45,9 @@ struct Home: View {
     
     @Binding var selectedTab:Int
 
+    
+    //@State var showFirstRunExperience:Bool
+    
     
     var body: some View {
         
@@ -177,6 +184,8 @@ struct Home: View {
                 print("CURRENT USER IS")
                 print(viewModel.email ?? "")
                 
+                //showFirstRunExperience = true
+                
             }
             .onDisappear {
                 print("DISAPPEAR")
@@ -190,12 +199,14 @@ struct Home: View {
                 }
                 
             }
+        }.sheet(isPresented: $shouldShowFirstRunExperience) {
+            FirstRunExperience(shouldShowFirstRunExperience: $shouldShowFirstRunExperience)
         }
     }
 }
 
-struct Home_Previews: PreviewProvider {
-    static var previews: some View {
-        Home(selectedTab: .constant(1))
-    }
-}
+//struct Home_Previews: PreviewProvider {
+//    static var previews: some View {
+//        Home(selectedTab: .constant(1), showFirstRunExperience: .constant(false))
+//    }
+//}

@@ -48,6 +48,7 @@ struct Uncommon_LoyaltyApp: App {
         WindowGroup {
             ContentView()
                 .environmentObject(viewModel)
+                .preferredColorScheme(.light)
             
 
         }

@@ -9,17 +9,32 @@ import SwiftUI
 
 struct TempFile: View {
     
+    @Binding var showTempFile:Bool
     
     var body: some View {
         
-        Text("hello world")
-//        VStack {
-//            Button {
-//                selectedRP = nil
-//            } label: {
-//                Text("dismiss")
-//            }
-//        }
+        
+        VStack {
+            
+            
+            Text("hello world")
+            
+            Button {
+                showTempFile = false
+            } label: {
+                Text("disappear this view")
+            }
+            
+            
+        }.onAppear {
+            print("TempFile appeared")
+        }
+        .onDisappear {
+            
+            print("TempFile disappeared")
+            showTempFile = false
+        }
+        
     }
 }
 

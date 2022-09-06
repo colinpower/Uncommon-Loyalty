@@ -25,6 +25,7 @@ struct Earn: View {
     @State var isShowingContactsList:Bool = false
     
     
+    
     var body: some View {
         NavigationView {
             
@@ -75,14 +76,6 @@ struct Earn: View {
                                 .padding(.bottom)
                         }
                         
-                        
-//                        Button {
-//                            isShowingContactsList.toggle()
-//                        } label: {
-//                            Text("SHOW CONTACTS")
-//                        }.sheet(isPresented: $isShowingContactsList) {
-//                            ContactsView()
-//                        }
                         
                         //MARK: REVIEWS SECTION - TITLE AND DESCRIPTION
                         VStack(alignment: .leading, spacing: 8) {
