@@ -40,23 +40,15 @@ struct Earn: View {
                             
                             Divider().padding(.leading)
                             
-                            
-                            
-                            
-                            HStack {
-                                Text("Here's what's happening, Colin")
-                                    .font(.title)
-                                    .fontWeight(.bold)
-                                    .foregroundColor(Color("Dark1"))
-                                    .multilineTextAlignment(.leading)
-                                Spacer(minLength: UIScreen.main.bounds.width / 3)
-                            }.padding(.leading)
-                                .padding(.vertical)
-                            .padding(.bottom)
-                            .padding(.bottom)
+                            Text("Earn rewards by writing reviews, recommending your favorites, and more!")
+                                .font(.system(size: 18, weight: .medium))
+                                .foregroundColor(Color("Dark1"))
+                                .multilineTextAlignment(.leading)
+                                .padding()
+                                .padding(.bottom)
                             
                             Text("Suggested for you")
-                                .font(.system(size: 22, weight: .bold))
+                                .font(.system(size: 22, weight: .semibold))
                                 .foregroundColor(.black)
                                 .padding(.leading)
                                 .padding(.bottom, 5)

@@ -39,7 +39,7 @@ struct RecommendedLoyaltyProgramWidget: View {
                 Text(company)
                     .foregroundColor(Color("Dark1"))
                     .font(.system(size: 16, weight: .medium))
-                Text(shortDescription)
+                Text(String(numOfRecentOrders) + " recent orders")
                     .font(.system(size: 14, weight: .regular))
                     .foregroundColor(Color("Gray1"))
             }
@@ -52,8 +52,8 @@ struct RecommendedLoyaltyProgramWidget: View {
             //MARK: CURRENT POINTS
             VStack(alignment: .trailing, spacing: 0) {
                 
-                Text("Get " + String(joiningBonus) + String(joiningBonusType == "PERCENT" ? "%" : " Points"))
-                    .font(.system(size: 18))
+                Text("Join")
+                    .font(.system(size: 16))
                     .fontWeight(.semibold)
                     .foregroundColor(Color("ThemeAction"))
                     .frame(width: 72)
@@ -63,7 +63,7 @@ struct RecommendedLoyaltyProgramWidget: View {
                     .padding(.top, 13)
                     .padding(.bottom, 3)
                 
-                Text("Available points")
+                Text("Get 20% Off")
                     .font(.system(size: 10))
                     .fontWeight(.regular)
                     .foregroundColor(Color("Gray1"))
@@ -75,16 +75,6 @@ struct RecommendedLoyaltyProgramWidget: View {
                 .foregroundColor(Color("Gray3"))
                 .font(Font.system(size: 15, weight: .semibold))
         }
-            
-            Divider()
-                .padding(.leading)
-                .padding(.leading, 62)
-                .padding(.vertical, 10)
-            
-            Text(String(numOfRecentOrders) + " recent orders")
-                .foregroundColor(Color("Dark2"))
-                .font(Font.system(size: 15, weight: .medium))
-            
             
             if !isLastItemInList {
                 Divider()

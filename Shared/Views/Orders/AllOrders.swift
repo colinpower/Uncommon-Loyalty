@@ -29,71 +29,52 @@ struct AllOrders: View {
     
     
     var body: some View {
-        
-        
-        
-        
-        NavigationView {
                 
-            VStack(alignment: .center, spacing: 0) {
-//                HStack {
-//                    Text("Orders")
-//                        .font(.system(size: 40, weight: .bold))
-//                        .foregroundColor(.black)
-//                    Spacer()
-//                    Image(systemName: "person.crop.circle")
-//                        .font(.system(size: 32, weight: .regular))
-//                }.padding([.horizontal, .bottom])
-//                    .padding(.top, 60)
-                
-                ScrollView(.vertical, showsIndicators: false) {
-                    VStack(spacing: 0) {
+        VStack(alignment: .center, spacing: 0) {
+            
+            ScrollView(.vertical, showsIndicators: false) {
+                VStack(spacing: 0) {
+                    
+                    //MARK: TOP SECTION
+                    VStack(alignment: .leading) {
                         
-                        //MARK: TOP SECTION
-                        VStack(alignment: .leading) {
-                            
-                            Divider().padding(.leading)
-                            
-                            HStack {
-                                Text("Here's a list of your recent orders. Tap on an item to see more details.")
-                                    .font(.system(size: 18, weight: .regular))
-                                    .foregroundColor(Color("Dark1"))
-                                    .lineSpacing(6)
-                                    .multilineTextAlignment(.leading)
-                            }.padding()
-                            .padding(.bottom)
-                            .padding(.bottom)
-                        }.background(Rectangle().fill(
-                                LinearGradient(gradient: Gradient(colors: [.white, Color("Background")]), startPoint: .top, endPoint: .bottom)
-                            ))
+                        Divider().padding(.leading)
                         
+                        HStack {
+                            Text("Here's a list of your recent orders. Tap on an item to see more details.")
+                                .font(.system(size: 18, weight: .regular))
+                                .foregroundColor(Color("Dark1"))
+                                .lineSpacing(6)
+                                .multilineTextAlignment(.leading)
+                        }.padding()
+                        .padding(.bottom)
                         
-                        VStack {
-                            ForEach(ordersViewModel.snapshotOfAllOrders) { order in
-                                
-                                //title
-                                VStack {
-                                    //This is the title of the order
-                                    AllOrdersSingleOrderTitle()
-                                    AllOrdersSingleItemView(order: order)
-                                    //This is the set of items in the order
-                                    
-                                    
-                                }.padding(.bottom)
-                            }
-                        }.padding(.horizontal)
-                        .background(Color("Background"))
+                        Divider().padding(.leading).padding(.bottom)
+                        
                     }
                     
-                }
-
                     
-            
-                MyTabView(selectedTab: $selectedTab)
-            }.background(.white)
+                    VStack {
+                        ForEach(ordersViewModel.snapshotOfAllOrders) { order in
+                            
+                            //title
+                            VStack {
+                                //This is the title of the order
+                                AllOrdersSingleOrderTitle()
+                                AllOrdersSingleItemView(order: order)
+                                //This is the set of items in the order
+                                
+                                
+                            }.padding(.bottom)
+                        }
+                    }.padding(.horizontal)
+                }
+                
+            }
+        }.background(Color("Background"))
             .edgesIgnoringSafeArea([.bottom, .horizontal])
-            //.navigationTitle("Orders").font(.title)
-            
+            .navigationTitle("Orders")
+            .navigationBarTitleDisplayMode(.inline)
 //            .background(Color("Background"))
 //            .ignoresSafeArea()
 //            .navigationTitle("")
@@ -101,7 +82,6 @@ struct AllOrders: View {
             .onAppear {
                 self.ordersViewModel.snapshotOfAllOrders(userID: viewModel.userID ?? "")
             }
-        }//.ignoresSafeArea()
     }
 }
 

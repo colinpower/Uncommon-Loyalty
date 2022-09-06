@@ -71,6 +71,11 @@
 		306E83A028C74B8A00232A4A /* AllLoyaltyProgramsWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 306E839F28C74B8A00232A4A /* AllLoyaltyProgramsWidget.swift */; };
 		306E83A228C7540300232A4A /* CardForLoyaltyProgram.swift in Sources */ = {isa = PBXBuildFile; fileRef = 306E83A128C7540300232A4A /* CardForLoyaltyProgram.swift */; };
 		306E83A428C778C200232A4A /* RecentOrdersWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 306E83A328C778C200232A4A /* RecentOrdersWidget.swift */; };
+		306E83A728C7BF2900232A4A /* AddLoyaltyProgramPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 306E83A628C7BF2900232A4A /* AddLoyaltyProgramPreview.swift */; };
+		306E83A928C7BF4E00232A4A /* AddLoyaltyProgramCarousel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 306E83A828C7BF4E00232A4A /* AddLoyaltyProgramCarousel.swift */; };
+		306E83AD28C7C21600232A4A /* AddLoyaltyProgramPopularItemsTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 306E83AC28C7C21600232A4A /* AddLoyaltyProgramPopularItemsTabView.swift */; };
+		306E83AF28C7CAD200232A4A /* AddLoyaltyProgramStep1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 306E83AE28C7CAD200232A4A /* AddLoyaltyProgramStep1.swift */; };
+		306E83B128C7CAEB00232A4A /* AddLoyaltyProgramStep2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 306E83B028C7CAEB00232A4A /* AddLoyaltyProgramStep2.swift */; };
 		307BCA2127975C27000DDD21 /* DiscountCodes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 307BCA2027975C27000DDD21 /* DiscountCodes.swift */; };
 		307BCA2327975C8A000DDD21 /* DiscountCodesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 307BCA2227975C8A000DDD21 /* DiscountCodesViewModel.swift */; };
 		307BCA2527975F2E000DDD21 /* Transactions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 307BCA2427975F2E000DDD21 /* Transactions.swift */; };
@@ -224,6 +229,11 @@
 		306E839F28C74B8A00232A4A /* AllLoyaltyProgramsWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllLoyaltyProgramsWidget.swift; sourceTree = "<group>"; };
 		306E83A128C7540300232A4A /* CardForLoyaltyProgram.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardForLoyaltyProgram.swift; sourceTree = "<group>"; };
 		306E83A328C778C200232A4A /* RecentOrdersWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecentOrdersWidget.swift; sourceTree = "<group>"; };
+		306E83A628C7BF2900232A4A /* AddLoyaltyProgramPreview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddLoyaltyProgramPreview.swift; sourceTree = "<group>"; };
+		306E83A828C7BF4E00232A4A /* AddLoyaltyProgramCarousel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddLoyaltyProgramCarousel.swift; sourceTree = "<group>"; };
+		306E83AC28C7C21600232A4A /* AddLoyaltyProgramPopularItemsTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddLoyaltyProgramPopularItemsTabView.swift; sourceTree = "<group>"; };
+		306E83AE28C7CAD200232A4A /* AddLoyaltyProgramStep1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddLoyaltyProgramStep1.swift; sourceTree = "<group>"; };
+		306E83B028C7CAEB00232A4A /* AddLoyaltyProgramStep2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddLoyaltyProgramStep2.swift; sourceTree = "<group>"; };
 		307BCA2027975C27000DDD21 /* DiscountCodes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscountCodes.swift; sourceTree = "<group>"; };
 		307BCA2227975C8A000DDD21 /* DiscountCodesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscountCodesViewModel.swift; sourceTree = "<group>"; };
 		307BCA2427975F2E000DDD21 /* Transactions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Transactions.swift; sourceTree = "<group>"; };
@@ -500,7 +510,7 @@
 				30DC3E7428A1674200613B4B /* Featured */,
 				30BA64D72889AF56002E3FC8 /* ReviewOrReferWidget.swift */,
 				30C8101D28877BEF004B1DA7 /* Discount */,
-				30C810292887877D004B1DA7 /* AddCompany */,
+				30C810292887877D004B1DA7 /* AddLoyaltyProgram */,
 				300FF539289A20B300455D44 /* SuggestAShop */,
 				300FF53E289A2D1600455D44 /* SendFeedback */,
 				308B83F727F44DE800BC5211 /* MemberSale.swift */,
@@ -606,6 +616,25 @@
 			path = "LoyaltyProgram Components";
 			sourceTree = "<group>";
 		};
+		306E83AA28C7C14D00232A4A /* Not used */ = {
+			isa = PBXGroup;
+			children = (
+				3088073F28A5980D003D1B99 /* TempFile.swift */,
+				30C81025288786F2004B1DA7 /* AddCompany.swift */,
+				30C8102728878776004B1DA7 /* AddCompanyWidget.swift */,
+				30C81023288786EB004B1DA7 /* AddCompanyPreview.swift */,
+			);
+			path = "Not used";
+			sourceTree = "<group>";
+		};
+		306E83AB28C7C1FA00232A4A /* AddLoyaltyProgram Carousel Components */ = {
+			isa = PBXGroup;
+			children = (
+				306E83AC28C7C21600232A4A /* AddLoyaltyProgramPopularItemsTabView.swift */,
+			);
+			path = "AddLoyaltyProgram Carousel Components";
+			sourceTree = "<group>";
+		};
 		30C8101D28877BEF004B1DA7 /* Discount */ = {
 			isa = PBXGroup;
 			children = (
@@ -665,15 +694,17 @@
 			path = LoyaltyProgram;
 			sourceTree = "<group>";
 		};
-		30C810292887877D004B1DA7 /* AddCompany */ = {
+		30C810292887877D004B1DA7 /* AddLoyaltyProgram */ = {
 			isa = PBXGroup;
 			children = (
-				30C81023288786EB004B1DA7 /* AddCompanyPreview.swift */,
-				30C8102728878776004B1DA7 /* AddCompanyWidget.swift */,
-				30C81025288786F2004B1DA7 /* AddCompany.swift */,
-				3088073F28A5980D003D1B99 /* TempFile.swift */,
+				306E83A628C7BF2900232A4A /* AddLoyaltyProgramPreview.swift */,
+				306E83A828C7BF4E00232A4A /* AddLoyaltyProgramCarousel.swift */,
+				306E83AE28C7CAD200232A4A /* AddLoyaltyProgramStep1.swift */,
+				306E83B028C7CAEB00232A4A /* AddLoyaltyProgramStep2.swift */,
+				306E83AB28C7C1FA00232A4A /* AddLoyaltyProgram Carousel Components */,
+				306E83AA28C7C14D00232A4A /* Not used */,
 			);
-			path = AddCompany;
+			path = AddLoyaltyProgram;
 			sourceTree = "<group>";
 		};
 		30D6D7D328C4877D00576C2A /* Contacts */ = {
@@ -940,6 +971,7 @@
 				301DBFE228C25C5D0072E497 /* ReviewPageWithRating.swift in Sources */,
 				306E83A428C778C200232A4A /* RecentOrdersWidget.swift in Sources */,
 				307BCA2527975F2E000DDD21 /* Transactions.swift in Sources */,
+				306E83A928C7BF4E00232A4A /* AddLoyaltyProgramCarousel.swift in Sources */,
 				300FF53B289A20DC00455D44 /* SuggestAShopPreview.swift in Sources */,
 				3088074028A5980D003D1B99 /* TempFile.swift in Sources */,
 				3046EC20279FB34F00D1CBE7 /* SaleWidget.swift in Sources */,
@@ -962,9 +994,11 @@
 				30050A6728C7032800BD7874 /* PollOptionUnselected.swift in Sources */,
 				301DBFD528C1F9FD0072E497 /* OrderSectionRow.swift in Sources */,
 				30FF41A128B635F200D70BC5 /* HomeWithPopOutCards.swift in Sources */,
+				306E83AF28C7CAD200232A4A /* AddLoyaltyProgramStep1.swift in Sources */,
 				307BCA2727975F89000DDD21 /* TransactionsViewModel.swift in Sources */,
 				30D6D7D528C4880300576C2A /* ContactsViewRow.swift in Sources */,
 				306E839C28C7455400232A4A /* RecommendedLoyaltyProgramWidget.swift in Sources */,
+				306E83AD28C7C21600232A4A /* AddLoyaltyProgramPopularItemsTabView.swift in Sources */,
 				308B83F827F44DE800BC5211 /* MemberSale.swift in Sources */,
 				30DC3E7828A167C900613B4B /* FeaturedView2.swift in Sources */,
 				3014FA792796FBF800473CE4 /* RewardsProgram.swift in Sources */,
@@ -991,6 +1025,7 @@
 				304DC88927F3578200E30DCA /* CompanyProfileV2.swift in Sources */,
 				30D6D7DD28C4B06600576C2A /* ReferProductStep1.swift in Sources */,
 				30DC3E7328A1407B00613B4B /* FeaturedView1.swift in Sources */,
+				306E83B128C7CAEB00232A4A /* AddLoyaltyProgramStep2.swift in Sources */,
 				30E67CAE27E4D35600D9B96F /* ReviewWidget.swift in Sources */,
 				3014FA6F27965CFC00473CE4 /* Home.swift in Sources */,
 				306E83A228C7540300232A4A /* CardForLoyaltyProgram.swift in Sources */,
@@ -1000,6 +1035,7 @@
 				30050A6D28C7062500BD7874 /* PollAllOptionsSelected.swift in Sources */,
 				3014FA972796FF5B00473CE4 /* RewardsProgramViewModel.swift in Sources */,
 				3088074628A678A3003D1B99 /* FirstRunExperienceSwitcher.swift in Sources */,
+				306E83A728C7BF2900232A4A /* AddLoyaltyProgramPreview.swift in Sources */,
 				300FF53D289A212100455D44 /* SuggestAShop.swift in Sources */,
 				3014FA3927964E5E00473CE4 /* Uncommon_LoyaltyApp.swift in Sources */,
 				301DBFD328C1F9BA0072E497 /* PointsEarnedSectionRow.swift in Sources */,

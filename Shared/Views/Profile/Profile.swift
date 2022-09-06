@@ -73,7 +73,7 @@ struct Profile: View {
                         WidgetSolo(image: "plus.circle.fill", size: 40, firstLine: "Invite friends", secondLine: "Get 500 points", secondLineColor:Color("ThemeBright") , isActive: $isShareSheetActive)
                             .sheet(isPresented: $isShareSheetActive, content: {
                                 
-                                ShareSheet(items: ["Hey, I created a discount code for you!",  UIImage(imageLiteralResourceName: "Athleisure LA")])
+                                ShareSheet(items: ["Hey, join me on the Uncommon app!"]) //,  UIImage(imageLiteralResourceName: "Athleisure LA")])
                                 
     //                                        ShareSheet(items: ["Hey, download the Uncommon app to manage your rewards points! Check out this link"])
                             })

@@ -30,59 +30,52 @@ struct Wallet: View {
             }
         } else {
             VStack(alignment: .center, spacing: 0) {
-//                    Text("Wallet")
-//                        .font(.largeTitle)
-//                        .fontWeight(.semibold)
-//                        .padding(.top, 80)
-                        //.frame(maxWidth: .infinity, alignment: .center)
-                
-                    //GeometryReader { proxy in
-                        ScrollView(.vertical, showsIndicators: false) {
-                            VStack(alignment: .center, spacing: 0) {
-                            
-                                //let cardWidth = proxy.size.width
-                            
-                                //MARK: CARDS
-                                ForEach(cards) { rewardcard1 in
-                                    Group {
-                                        //RewardCardView(rewardcard: rewardcard1)
-                                        Image(rewardcard1.cardImage)
-                                            .resizable()
-                                            .aspectRatio(contentMode: .fit)
-                                            .matchedGeometryEffect(id: rewardcard1.id, in: animation)
-                                            .clipShape(RoundedRectangle(cornerRadius: 12))
-                                            .overlay(
-                                                RoundedRectangle(cornerRadius: 16)
-                                                    .stroke(Color(.gray), lineWidth: 0.2)
-                                            )
-                                    }
-                                        .onTapGesture {
-                                            //cardWidth = proxy.size.width
-                                            withAnimation (
-                                                .easeInOut(duration: 0.35)) {
-                                                    currentCard = rewardcard1
-                                                    showDetailCard = true
-                                            }
-                                            
-                                            //print(cardWidth)
-                                        }
-                                        //.frame(height: 270)
-                                        .frame(width: UIScreen.main.bounds.width - 40)
-                                        .offset(y: -CGFloat(getIndex(RewardCard: rewardcard1) * 170))
-                                }
-                            }.coordinateSpace(name: "SCROLL")
-                            //.offset(y: 30)
-                        }
-                //}.padding(.horizontal)
+
+                ScrollView(.vertical, showsIndicators: false) {
+                    VStack(alignment: .center, spacing: 0) {
                     
-                    MyTabView(selectedTab: $selectedTab)
+                        //let cardWidth = proxy.size.width
+                    
+                        //MARK: CARDS
+                        ForEach(cards) { rewardcard1 in
+                            Group {
+                                //RewardCardView(rewardcard: rewardcard1)
+                                Image(rewardcard1.cardImage)
+                                    .resizable()
+                                    .aspectRatio(contentMode: .fit)
+                                    .matchedGeometryEffect(id: rewardcard1.id, in: animation)
+                                    .clipShape(RoundedRectangle(cornerRadius: 12))
+                                    .overlay(
+                                        RoundedRectangle(cornerRadius: 16)
+                                            .stroke(Color(.gray), lineWidth: 0.2)
+                                    )
+                            }
+                                .onTapGesture {
+                                    //cardWidth = proxy.size.width
+                                    withAnimation (
+                                        .easeInOut(duration: 0.35)) {
+                                            currentCard = rewardcard1
+                                            showDetailCard = true
+                                    }
+                                    
+                                    //print(cardWidth)
+                                }
+                                //.frame(height: 270)
+                                .frame(width: UIScreen.main.bounds.width - 40)
+                                .offset(y: -CGFloat(getIndex(RewardCard: rewardcard1) * 170))
+                        }
+                    }.coordinateSpace(name: "SCROLL")
+                    //.offset(y: 30)
+                }
+
+                MyTabView(selectedTab: $selectedTab)
                 
-            }.ignoresSafeArea()
+            }
+            .background(Color("Background"))
+            .edgesIgnoringSafeArea([.bottom, .horizontal])
+            .navigationTitle("My Discounts")
+            .navigationBarTitleDisplayMode(.inline)
         }
-//        }
-//        .ignoresSafeArea()
-//        .navigationTitle("")
-//        .navigationBarHidden(true)
     }
     
 //    //MARK: Card View

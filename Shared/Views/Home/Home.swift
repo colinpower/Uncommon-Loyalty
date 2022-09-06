@@ -71,7 +71,7 @@ struct Home: View {
                                     .kerning(1.1)
                                     .padding(.bottom, 6)
                                 Text("Your loyalty programs")
-                                    .font(.system(size: 28, weight: .bold))
+                                    .font(.system(size: 25, weight: .bold))
                                     .foregroundColor(Color("Dark1"))
                                     .padding(.bottom)
                                     .padding(.bottom)
@@ -117,7 +117,7 @@ struct Home: View {
                                 
                                 //Header for section
                                 Text("Quick Add")
-                                    .font(.system(size: 28, weight: .bold))
+                                    .font(.system(size: 25, weight: .bold))
                                     .foregroundColor(Color("Dark1"))
                                     .padding(.bottom, 10)
                                 
@@ -134,11 +134,12 @@ struct Home: View {
                                     //Check if the loyalty program isn't already in use
                                     if !array.contains(company.companyID) {
                                         
-                                        // do nothing
-                                        
                                         //MARK: MUST UPDATE FOR IS LAST ITEM IN LIST!!!
-                                        RecommendedLoyaltyProgramWidget(image: company.image, company: company.companyName, shortDescription: company.categoryShortDescription, joiningBonus: company.joiningBonus, joiningBonusType: company.joiningBonusType, isLastItemInList: false, numOfRecentOrders: 4)
-                                        
+                                        NavigationLink {
+                                            AddLoyaltyProgramPreview(company: company)
+                                        } label: {
+                                            RecommendedLoyaltyProgramWidget(image: company.image, company: company.companyName, shortDescription: company.categoryShortDescription, joiningBonus: company.joiningBonus, joiningBonusType: company.joiningBonusType, isLastItemInList: false, numOfRecentOrders: 4)
+                                        }
                                     }
                                 }
 
@@ -161,13 +162,13 @@ struct Home: View {
                             VStack(alignment: .leading, spacing: 0) {
                                 
                                 //Header for section
-                                Text("New".uppercased())
+                                Text("New!".uppercased())
                                     .font(.system(size: 14, weight: .bold))
                                     .foregroundColor(.blue)
                                     .kerning(1.1)
                                     .padding(.bottom, 8)
-                                Text("Check out the latest!")
-                                    .font(.system(size: 28, weight: .bold))
+                                Text("The newest companies on Uncommon")
+                                    .font(.system(size: 25, weight: .bold))
                                     .foregroundColor(Color("Dark1"))
                                     .padding(.bottom)
                                     .padding(.bottom)
