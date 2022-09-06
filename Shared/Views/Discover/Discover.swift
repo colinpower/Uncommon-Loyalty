@@ -14,6 +14,8 @@ struct Discover: View {
     
     @State var isShowingDetailView = false
     
+    @State var tempItemID:String = "123tempITEMID"
+    
     
     var body: some View {
         
@@ -28,6 +30,15 @@ struct Discover: View {
                 
                 
                 Text("alsdkfjasf")
+                
+                NavigationLink {
+                    Poll(tempItemID: $tempItemID, selectedTab: $selectedTab)
+                } label: {
+                    Text("see this poll!")
+                }
+
+                
+                
                 
                 Spacer()
                 MyTabView(selectedTab: $selectedTab)

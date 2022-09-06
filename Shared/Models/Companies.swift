@@ -12,6 +12,7 @@ import FirebaseFirestoreSwift
 struct Companies: Identifiable, Codable {
     //means that whenever we map from a doc into a Order struct, it'll read the document and map it into this thing
     @DocumentID var id: String? = UUID().uuidString
+    var categoryShortDescription: String
     var companyID: String
     var companyName: String
     var joiningBonus: Int
@@ -28,6 +29,7 @@ struct Companies: Identifiable, Codable {
 
     //use CodingKeys to convert from names in Firebase to SwiftUI names
     enum CodingKeys: String, CodingKey {
+        case categoryShortDescription
         case companyID
         case companyName
         case joiningBonus

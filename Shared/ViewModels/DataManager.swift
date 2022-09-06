@@ -30,7 +30,9 @@ class DataManager: ObservableObject {
             var myRewardsProgramsArray = [RewardsProgram]()
 
             myRewardsProgramsArray = documents.compactMap { (queryDocumentSnapshot) -> RewardsProgram? in
-                //print(try? queryDocumentSnapshot.data(as: RewardsProgram.self))
+                
+                print("here's my rewards programs info...")
+                print(try? queryDocumentSnapshot.data(as: RewardsProgram.self))
                 return try? queryDocumentSnapshot.data(as: RewardsProgram.self)
                 //return try? queryDocumentSnapshot.data(as: Ticket.self)
             }
@@ -329,7 +331,26 @@ class DataManager: ObservableObject {
     
     
     
-    
+    func getAllCompanies( onSuccess: @escaping([Companies]) -> Void, listener: @escaping(_ listenerHandle: ListenerRegistration) -> Void) {
+        //print("this ONE function was called")
+        let listenerRegistration = db.collection("companies")
+            .addSnapshotListener { (querySnapshot, error) in
+            guard let documents = querySnapshot?.documents else {
+                print("No documents")
+                return
+            }
+            var allCompaniesArray = [Companies]()
+
+                allCompaniesArray = documents.compactMap { (queryDocumentSnapshot) -> Companies? in
+                    print("THIS IS THE COMPANIES")
+                print(try? queryDocumentSnapshot.data(as: Companies.self))
+                return try? queryDocumentSnapshot.data(as: Companies.self)
+                //return try? queryDocumentSnapshot.data(as: Ticket.self)
+            }
+            onSuccess(allCompaniesArray)
+        }
+        listener(listenerRegistration) //escaping listener
+    }
     
     
     

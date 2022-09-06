@@ -13,15 +13,38 @@ import Combine
 class CompaniesViewModel: ObservableObject, Identifiable {
     //What arrays or data do we want to be accessible from here? Should be everything we need as it relates to RewardsPrograms
     
+    @Published var allCompanies = [Companies]()
     @Published var myCompanies = [Companies]()
     @Published var oneCompany = [Companies]()
     
     var dm = DataManager()
     
+    var listener_allCompanies: ListenerRegistration!
     var listener_myCompanies: ListenerRegistration!
     var listener_oneCompany: ListenerRegistration!
         
     private var db = Firestore.firestore()
+    
+    
+    
+    
+    
+    func listenForAllCompanies() {
+        self.allCompanies = [Companies]()
+
+        self.dm.getAllCompanies( onSuccess: { (companies) in
+            //if (self.newTickets.isEmpty) {
+            self.allCompanies = companies
+            print("this is the companies")
+            print(self.allCompanies)
+        }, listener: { (listener) in
+            self.listener_allCompanies = listener
+        })
+    }
+    
+    
+    
+    
     
     func listenForMyCompanies() {
         self.myCompanies = [Companies]()

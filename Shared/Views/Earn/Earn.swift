@@ -31,17 +31,6 @@ struct Earn: View {
             
             VStack(alignment: .center, spacing: 0) {
                 
-//                Button {
-//                    isShowingTempTabView = true
-//                } label: {
-//                    Text("show temp tabview")
-//                }.fullScreenCover(isPresented: $isShowingTempTabView) {
-//                    TEMPTabview(isShowingTempTabView: $isShowingTempTabView)
-//                }
-                
-//                RecommendedActions()
-//                    .frame(width: 200, height: 200)
-                
                 //MARK: CONTENT
                 ScrollView {
                     VStack(alignment: .center, spacing: 0) {
@@ -179,14 +168,12 @@ struct Earn: View {
             
             
             .background(.white)
-            //.background(Color("Background"))
             .edgesIgnoringSafeArea([.bottom, .horizontal])
-            //.ignoresSafeArea()                     //Note: need to ignoreSafeArea, set nav title to "", set barHidden to true in order not to break when returning from a navigationViewChild
-            .navigationTitle("Earn").font(.title)
+            .navigationTitle("Earn")
             
+            //.ignoresSafeArea()
+            //Note: need to ignoreSafeArea, set nav title to "", set barHidden to true in order not to break when returning from a navigationViewChild
             
-            
-            //.background(Color(.white))
             //.navigationBarTitleDisplayMode(.inline)
             //.navigationBarTitle("")
             //.navigationBarHidden(true)

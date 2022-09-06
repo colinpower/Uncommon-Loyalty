@@ -23,6 +23,9 @@ struct Home: View {
     
     //Listeners for updates
     @ObservedObject var rewardsProgramViewModel = RewardsProgramViewModel()
+    @ObservedObject var companiesViewModel = CompaniesViewModel()
+    
+    
     @ObservedObject var reviewsViewModel = ReviewsViewModel()
     @ObservedObject var itemsViewModel = ItemsViewModel()
     
@@ -33,16 +36,9 @@ struct Home: View {
     @State var isAddCompanyPreviewActive:Bool = false               //might not need this one? Can create a dif @State var on the AddCompany screen
     @State var isProfileActive:Bool = false
     
-    
     @State var isShowingAllOrders:Bool = false
     
     //Remove this one
-    
-    
-    
-    
-    
-    
     @Binding var selectedTab:Int
 
     
@@ -52,118 +48,279 @@ struct Home: View {
     var body: some View {
         
         NavigationView{
-            
-            GeometryReader { geometry in
                 
-                ZStack(alignment: .top) {
+            //MARK: Content (ZStack Layer 2)
+            VStack(alignment: .leading, spacing: 0) {
+                
+                //MARK: VStack Section 2 - Scrollview
+                ScrollView(.vertical, showsIndicators: false) {
                     
-                    
-                    //MARK: Background (ZStack Layer 1)
-                    Color("Background")
-                    
-                    //MARK: Content (ZStack Layer 2)
-                    VStack(alignment: .leading) {
+                    //MARK: ALL SECTIONS OF CONTENT (E.G. "YOUR LOYALTY PROGAMS" / "DISCOVER" / "NEW" ...)
+                    VStack(alignment: .leading, spacing: 16) {
                         
-                        //"Home" + Profile icon
-                        //PageHeader(isProfileActive: $isProfileActive, pageTitle: "Home")
-                        
-                        
-                        //MARK: VStack Section 2 - Scrollview
-                        ScrollView(.vertical, showsIndicators: false) {
+                        //MARK: ACTIVE SECTION CARD
+                        VStack(alignment: .leading, spacing: 0) {
                             
-                            
-                            //MARK: Loyalty Programs
-                            VStack(alignment: .leading) {
+                            //MARK: ACTIVE SECTION CONTENT
+                            VStack(alignment: .leading, spacing: 0) {
                                 
-                                //Title
-                                HStack {
-                                    Text("My Loyalty Programs")
-                                        .font(.system(size: 20))
-                                        .fontWeight(.semibold)
-                                        .foregroundColor(Color("Dark1"))
-                                    Spacer()
-                                    Button {
-                                        isAddCompanyPreviewActive.toggle()
-
-                                    } label: {
-                                        
-                                        if rewardsProgramViewModel.myRewardsPrograms.first == nil {
-                                            Text("Add")
-                                                .font(.system(size: 16))
-                                                .fontWeight(.semibold)
-                                                .foregroundColor(Color.white)
-                                                .padding(.vertical, 6)
-                                                .padding(.horizontal, 12)
-                                                .background(RoundedRectangle(cornerRadius: 19).foregroundColor(Color("ThemePrimary")))
-                                        } else {
-                                            Text("Add")
-                                                .font(.system(size: 16))
-                                                .fontWeight(.semibold)
-                                                .foregroundColor(Color("ThemeLight"))
-                                                .padding(.vertical, 6)
-                                                .padding(.horizontal, 12)
-                                                .background(RoundedRectangle(cornerRadius: 19).foregroundColor(Color("ThemeAction")))
-                                        }
-                                    }.fullScreenCover(isPresented: $isAddCompanyPreviewActive, content: {
-                                        AddCompanyPreview(isAddCompanyPreviewActive: $isAddCompanyPreviewActive)
-                                    })
-                                }
+                                //Header for section
+                                Text("Active".uppercased())
+                                    .font(.system(size: 14, weight: .bold))
+                                    .foregroundColor(.green)
+                                    .kerning(1.1)
+                                    .padding(.bottom, 6)
+                                Text("Your loyalty programs")
+                                    .font(.system(size: 28, weight: .bold))
+                                    .foregroundColor(Color("Dark1"))
+                                    .padding(.bottom)
+                                    .padding(.bottom)
                                 
-                                NavigationLink {
-                                    Messages()
-                                } label: {
-                                    Text("Go to messages to see a video")
-                                }
-
-//                                NavigationLink {
-//                                    ReferralCard()
-//                                } label: {
-//                                    Text("Go to Glass card to see content")
-//                                }
-                                
-                                //Body
-                                VStack {
+                                //ForEach...
+                                ForEach(rewardsProgramViewModel.myRewardsPrograms) { rewardsProgramVar in
                                     
-                                    ForEach(rewardsProgramViewModel.myRewardsPrograms) { RewardsProgram in
+                                    NavigationLink(destination: CompanyProfileV2(companyID: rewardsProgramVar.companyID, companyName: rewardsProgramVar.companyName, email: rewardsProgramVar.email, userID: rewardsProgramVar.userID, selectedTab: $selectedTab)) {
                                         
-                                        
-                                        NavigationLink(destination: CompanyProfileV2(companyID: RewardsProgram.companyID, companyName: RewardsProgram.companyName, email: RewardsProgram.email, userID: RewardsProgram.userID, selectedTab: $selectedTab)) {
-                                            
-                                                RewardsProgramWidget(image: RewardsProgram.companyName, company: RewardsProgram.companyName, status: RewardsProgram.status, currentPointsBalance: RewardsProgram.currentPointsBalance)
-                                        
+                                        if rewardsProgramVar.companyID == rewardsProgramViewModel.myRewardsPrograms.last?.companyID {
+                                            ActiveLoyaltyProgramWidget(image: rewardsProgramVar.companyName, company: rewardsProgramVar.companyName, status: rewardsProgramVar.status, currentPointsBalance: rewardsProgramVar.currentPointsBalance, isLastItemInList: true)
+                                        } else {
+                                            ActiveLoyaltyProgramWidget(image: rewardsProgramVar.companyName, company: rewardsProgramVar.companyName, status: rewardsProgramVar.status, currentPointsBalance: rewardsProgramVar.currentPointsBalance, isLastItemInList: false)
                                         }
+                                        
                                     }
                                 }
-
-                            }.padding().padding(.vertical)
-                                .background(RoundedRectangle(cornerRadius: 16).foregroundColor(.white)).padding(.horizontal).padding(.bottom)
-
-                            
-                        
-                            
-                
-                            
-                            
-                            
+                            }
                             
                         }
-                    }
-                    VStack {
-                        Spacer()
-                        MyTabView(selectedTab: $selectedTab)
-                    }
+                        .padding().padding(.bottom)
+                        .background(RoundedRectangle(cornerRadius: 16)
+                            .foregroundColor(.white)
+                            .shadow(color: .black.opacity(0.3), radius: 15, x: 0, y: 7)
+                        )
+                        .padding(.horizontal)
+                        
+                        //MARK: RECOMMENDED DIVIDER
+                        Divider()
+                            .padding(.top)
+                            
+                        Text("Recommended For You")
+                            .font(.system(size: 28, weight: .bold))
+                            .foregroundColor(Color("Dark1"))
+                            .padding(.leading)
+                            .padding(.bottom, 8)
+                        
+                        //MARK: RECOMMENDED SECTION CARD
+                        VStack(alignment: .leading, spacing: 0) {
+                                
+                            //MARK: ACTIVE SECTION CONTENT
+                            VStack(alignment: .leading, spacing: 0) {
+                                
+                                //Header for section
+                                Text("Quick Add")
+                                    .font(.system(size: 28, weight: .bold))
+                                    .foregroundColor(Color("Dark1"))
+                                    .padding(.bottom, 10)
+                                
+                                Text("You've shopped these stores before")
+                                    .font(.system(size: 18, weight: .regular))
+                                    .foregroundColor(Color("Dark1"))
+                                    .padding(.bottom)
+                                    .padding(.bottom)
+                                
+                                let array = rewardsProgramViewModel.myRewardsPrograms.map { $0.companyID }
+                                
+                                ForEach(companiesViewModel.allCompanies) { company in
+                                    
+                                    if array.contains(company.companyID) {
+                                        Text("already used")
+                                            .foregroundColor(.black)
+                                            .font(.title)
+                                    } else {
+                                        Text(String(company.companyName))
+                                            .foregroundColor(.black)
+                                            .font(.title)
+                                        
+                                    }
+    
+                                }
 
+                            }
+                            
+                        }
+                        .padding().padding(.bottom)
+                        .background(RoundedRectangle(cornerRadius: 16)
+                            .foregroundColor(.white)
+                            .shadow(color: .black.opacity(0.3), radius: 15, x: 0, y: 7)
+                        )
+                        .padding(.horizontal)
+                        
+                        
+                        
+                        //MARK: NEW SECTION CARD
+                        VStack(alignment: .leading, spacing: 0) {
+                                
+                            //MARK: ACTIVE SECTION CONTENT
+                            VStack(alignment: .leading, spacing: 0) {
+                                
+                                //Header for section
+                                Text("New".uppercased())
+                                    .font(.system(size: 14, weight: .bold))
+                                    .foregroundColor(.blue)
+                                    .kerning(1.1)
+                                    .padding(.bottom, 8)
+                                Text("Check out the latest!")
+                                    .font(.system(size: 28, weight: .bold))
+                                    .foregroundColor(Color("Dark1"))
+                                    .padding(.bottom)
+                                    .padding(.bottom)
+                                
+                                let array = rewardsProgramViewModel.myRewardsPrograms.map { $0.companyID }
+                                
+                                ForEach(companiesViewModel.allCompanies) { company in
+                                    
+                                    if array.contains(company.companyID) {
+                                        Text("already used")
+                                            .foregroundColor(.black)
+                                            .font(.title)
+                                    } else {
+                                        Text(String(company.companyName))
+                                            .foregroundColor(.black)
+                                            .font(.title)
+                                        
+                                    }
+                                }
+                                
+                                
+                                
+                                
+//                                //ForEach...
+//                                ActiveLoyaltyProgramWidget(image: "Athleisure LA", company: "Athleisure LA", status: "Silver", currentPointsBalance: 300)
+//                                
+//                                Divider()
+//                                    .padding(.leading, 72)
+//                                    .padding(.vertical, 10)
+//                                
+//                                ActiveLoyaltyProgramWidget(image: "Athleisure LA", company: "Athleisure LA", status: "Silver", currentPointsBalance: 60000)
+//                                
+//                                Divider()
+//                                    .padding(.leading, 72)
+//                                    .padding(.vertical, 10)
+//                                
+//                                ActiveLoyaltyProgramWidget(image: "Athleisure LA", company: "Athleisure LA", status: "Silver", currentPointsBalance: 3700)
+//                                
+//                                Divider()
+//                                    .padding(.leading, 72)
+//                                    .padding(.vertical, 10)
+//                                
+//                                ActiveLoyaltyProgramWidget(image: "Athleisure LA", company: "Athleisure LA", status: "Silver", currentPointsBalance: 12)
+//                                
+                            }
+                            
+                        }
+                        .padding().padding(.bottom)
+                        .background(RoundedRectangle(cornerRadius: 16)
+                            .foregroundColor(.white)
+                            .shadow(color: .black.opacity(0.3), radius: 15, x: 0, y: 7)
+                        )
+                        .padding(.horizontal)
+                        
+                        //MARK: ALL SECTION
+                        VStack(alignment: .leading, spacing: 0) {
+                            Divider()
+                                
+                            //MARK: ACTIVE SECTION CONTENT
+                            VStack(alignment: .leading, spacing: 0) {
+                                
+                                
+                                
+                                Text("All Programs")
+                                    .font(.system(size: 28, weight: .bold))
+                                    .foregroundColor(Color("Dark1"))
+                                    .padding(.top)
+                                    .padding(.bottom)
+                                    .padding(.bottom)
+                                
+                                
+                                let array = rewardsProgramViewModel.myRewardsPrograms.map { $0.companyID }
+                                
+                                ForEach(companiesViewModel.allCompanies) { company in
+                                    
+                                    if array.contains(company.companyID) {
+                                        Text("SHOW VIEW BUTTON")
+                                            .foregroundColor(.black)
+                                            .font(.title)
+                                    } else {
+                                        Text("SHOW JOIN BUTTON")
+                                            .foregroundColor(.black)
+                                            .font(.title)
+                                        
+                                    }
+                                }
+                                
+                                
+//                                //ForEach...
+//                                ActiveLoyaltyProgramWidget(image: "Athleisure LA", company: "Athleisure LA", status: "Silver", currentPointsBalance: 300)
+//
+//                                Divider()
+//                                    .padding(.leading, 72)
+//                                    .padding(.vertical, 10)
+//
+//                                ActiveLoyaltyProgramWidget(image: "Athleisure LA", company: "Athleisure LA", status: "Silver", currentPointsBalance: 60000)
+//
+//                                Divider()
+//                                    .padding(.leading, 72)
+//                                    .padding(.vertical, 10)
+//
+//                                ActiveLoyaltyProgramWidget(image: "Athleisure LA", company: "Athleisure LA", status: "Silver", currentPointsBalance: 3700)
+//
+//                                Divider()
+//                                    .padding(.leading, 72)
+//                                    .padding(.vertical, 10)
+//
+//                                ActiveLoyaltyProgramWidget(image: "Athleisure LA", company: "Athleisure LA", status: "Silver", currentPointsBalance: 12)
+//
+                            }
+                            .padding(.horizontal)
+                            
+                        }
+                        .padding(.bottom)
+                        .background(.white)
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+//                        NavigationLink {
+//                            Messages()
+//                        } label: {
+//                            Text("Go to messages to see a video")
+//                        }
+
+
+                    }.padding(.top)
+                        
+                    
+                    //.background(RoundedRectangle(cornerRadius: 16).foregroundColor(.white)).padding(.horizontal).padding(.bottom)
+                
                 }
+                //MARK: TABS
+                MyTabView(selectedTab: $selectedTab)
+                
             }
-            .background(.white)
+            .background(Color("Background"))
             .edgesIgnoringSafeArea([.horizontal, .bottom])
-            .navigationTitle("Accounts")
+            .navigationTitle("Accounts").foregroundColor(.white)
             //.navigationBarHidden(true)
             
             .onAppear {
                 self.rewardsProgramViewModel.listenForMyRewardsPrograms(email: viewModel.email ?? "")
                 
-                self.ordersViewModel.listenForAllOrders(userID: viewModel.userID ?? "")
+                self.companiesViewModel.listenForAllCompanies()
+                //self.ordersViewModel.listenForAllOrders(userID: viewModel.userID ?? "")
                 //self.ordersViewModel.snapshotOfAllOrders(userID: viewModel.userID ?? "")
                 print("CURRENT USER IS")
                 print(viewModel.email ?? "")
@@ -177,11 +334,6 @@ struct Home: View {
                     print("REMOVING LISTENER")
                     self.rewardsProgramViewModel.listener1.remove()
                 }
-                if self.ordersViewModel.listenerForAllOrders != nil {
-                    print("REMOVING LISTENER FOR ALL ORDERS")
-                    self.ordersViewModel.listenerForAllOrders.remove()
-                }
-                
             }
         }.sheet(isPresented: $shouldShowFirstRunExperience) {
             FirstRunExperience(shouldShowFirstRunExperience: $shouldShowFirstRunExperience)

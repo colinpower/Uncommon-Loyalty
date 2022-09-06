@@ -7,6 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		30050A6328C6F99400BD7874 /* Poll.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30050A6228C6F99400BD7874 /* Poll.swift */; };
+		30050A6528C6F9CE00BD7874 /* PollTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30050A6428C6F9CE00BD7874 /* PollTabView.swift */; };
+		30050A6728C7032800BD7874 /* PollOptionUnselected.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30050A6628C7032800BD7874 /* PollOptionUnselected.swift */; };
+		30050A6928C7035200BD7874 /* PollAllOptionsUnselected.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30050A6828C7035200BD7874 /* PollAllOptionsUnselected.swift */; };
+		30050A6D28C7062500BD7874 /* PollAllOptionsSelected.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30050A6C28C7062500BD7874 /* PollAllOptionsSelected.swift */; };
+		30050A6F28C7064700BD7874 /* PollOptionSelected.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30050A6E28C7064700BD7874 /* PollOptionSelected.swift */; };
+		30050A7228C7286200BD7874 /* ActiveLoyaltyProgramWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30050A7128C7286200BD7874 /* ActiveLoyaltyProgramWidget.swift */; };
 		300FF53B289A20DC00455D44 /* SuggestAShopPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 300FF53A289A20DC00455D44 /* SuggestAShopPreview.swift */; };
 		300FF53D289A212100455D44 /* SuggestAShop.swift in Sources */ = {isa = PBXBuildFile; fileRef = 300FF53C289A212100455D44 /* SuggestAShop.swift */; };
 		300FF540289A2D2500455D44 /* SendFeedback.swift in Sources */ = {isa = PBXBuildFile; fileRef = 300FF53F289A2D2500455D44 /* SendFeedback.swift */; };
@@ -145,6 +152,13 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		30050A6228C6F99400BD7874 /* Poll.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Poll.swift; sourceTree = "<group>"; };
+		30050A6428C6F9CE00BD7874 /* PollTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PollTabView.swift; sourceTree = "<group>"; };
+		30050A6628C7032800BD7874 /* PollOptionUnselected.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PollOptionUnselected.swift; sourceTree = "<group>"; };
+		30050A6828C7035200BD7874 /* PollAllOptionsUnselected.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PollAllOptionsUnselected.swift; sourceTree = "<group>"; };
+		30050A6C28C7062500BD7874 /* PollAllOptionsSelected.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PollAllOptionsSelected.swift; sourceTree = "<group>"; };
+		30050A6E28C7064700BD7874 /* PollOptionSelected.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PollOptionSelected.swift; sourceTree = "<group>"; };
+		30050A7128C7286200BD7874 /* ActiveLoyaltyProgramWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActiveLoyaltyProgramWidget.swift; sourceTree = "<group>"; };
 		300FF53A289A20DC00455D44 /* SuggestAShopPreview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SuggestAShopPreview.swift; sourceTree = "<group>"; };
 		300FF53C289A212100455D44 /* SuggestAShop.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SuggestAShop.swift; sourceTree = "<group>"; };
 		300FF53F289A2D2500455D44 /* SendFeedback.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SendFeedback.swift; sourceTree = "<group>"; };
@@ -288,6 +302,43 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		30050A6128C6F97E00BD7874 /* Poll Components */ = {
+			isa = PBXGroup;
+			children = (
+				30050A6228C6F99400BD7874 /* Poll.swift */,
+				30050A6428C6F9CE00BD7874 /* PollTabView.swift */,
+				30050A6A28C705FB00BD7874 /* Unselected */,
+				30050A6B28C7060600BD7874 /* Selected */,
+			);
+			path = "Poll Components";
+			sourceTree = "<group>";
+		};
+		30050A6A28C705FB00BD7874 /* Unselected */ = {
+			isa = PBXGroup;
+			children = (
+				30050A6828C7035200BD7874 /* PollAllOptionsUnselected.swift */,
+				30050A6628C7032800BD7874 /* PollOptionUnselected.swift */,
+			);
+			path = Unselected;
+			sourceTree = "<group>";
+		};
+		30050A6B28C7060600BD7874 /* Selected */ = {
+			isa = PBXGroup;
+			children = (
+				30050A6C28C7062500BD7874 /* PollAllOptionsSelected.swift */,
+				30050A6E28C7064700BD7874 /* PollOptionSelected.swift */,
+			);
+			path = Selected;
+			sourceTree = "<group>";
+		};
+		30050A7028C7285100BD7874 /* Home Components */ = {
+			isa = PBXGroup;
+			children = (
+				30050A7128C7286200BD7874 /* ActiveLoyaltyProgramWidget.swift */,
+			);
+			path = "Home Components";
+			sourceTree = "<group>";
+		};
 		300FF539289A20B300455D44 /* SuggestAShop */ = {
 			isa = PBXGroup;
 			children = (
@@ -431,6 +482,7 @@
 			isa = PBXGroup;
 			children = (
 				3014FA6E27965CFC00473CE4 /* Home.swift */,
+				30050A7028C7285100BD7874 /* Home Components */,
 				30FF41A028B635F200D70BC5 /* HomeWithPopOutCards.swift */,
 				30DC3E7428A1674200613B4B /* Featured */,
 				30BA64D72889AF56002E3FC8 /* ReviewOrReferWidget.swift */,
@@ -660,6 +712,7 @@
 			isa = PBXGroup;
 			children = (
 				30FF419E28B62FFD00D70BC5 /* Discover.swift */,
+				30050A6128C6F97E00BD7874 /* Poll Components */,
 			);
 			path = Discover;
 			sourceTree = "<group>";
@@ -842,9 +895,11 @@
 				30D6D7D928C4A86400576C2A /* ReferralCard.swift in Sources */,
 				302AB47928B3941E0086D4CA /* AllOrdersForCompany.swift in Sources */,
 				302AB46C28B12B130086D4CA /* Items.swift in Sources */,
+				30050A6528C6F9CE00BD7874 /* PollTabView.swift in Sources */,
 				30EA87B5281342DE00F0CF64 /* HelperFunctions.swift in Sources */,
 				308B83F627F441A600BC5211 /* RatingView.swift in Sources */,
 				301DBFDC28C218720072E497 /* AboutCompany.swift in Sources */,
+				30050A6328C6F99400BD7874 /* Poll.swift in Sources */,
 				301DBFDE28C24BC60072E497 /* ReviewProductCarouselTest.swift in Sources */,
 				30C81026288786F2004B1DA7 /* AddCompany.swift in Sources */,
 				30BA64D82889AF56002E3FC8 /* ReviewOrReferWidget.swift in Sources */,
@@ -863,6 +918,7 @@
 				300FF53B289A20DC00455D44 /* SuggestAShopPreview.swift in Sources */,
 				3088074028A5980D003D1B99 /* TempFile.swift in Sources */,
 				3046EC20279FB34F00D1CBE7 /* SaleWidget.swift in Sources */,
+				30050A7228C7286200BD7874 /* ActiveLoyaltyProgramWidget.swift in Sources */,
 				302AB47328B3597A0086D4CA /* AllOrders.swift in Sources */,
 				30D6D7E328C4FAB000576C2A /* ReferProductStep3.swift in Sources */,
 				30E67CB227E4DE4C00D9B96F /* VoteWidget.swift in Sources */,
@@ -878,6 +934,7 @@
 				30E0C76028C32C2F001754C6 /* ReferProductPage3.swift in Sources */,
 				307BCA2127975C27000DDD21 /* DiscountCodes.swift in Sources */,
 				308B83FC27F768A200BC5211 /* ReviewHistory.swift in Sources */,
+				30050A6728C7032800BD7874 /* PollOptionUnselected.swift in Sources */,
 				301DBFD528C1F9FD0072E497 /* OrderSectionRow.swift in Sources */,
 				30FF41A128B635F200D70BC5 /* HomeWithPopOutCards.swift in Sources */,
 				307BCA2727975F89000DDD21 /* TransactionsViewModel.swift in Sources */,
@@ -890,6 +947,7 @@
 				301DBFD728C204950072E497 /* ReviewDetailsSectionRow.swift in Sources */,
 				3088074228A61A6F003D1B99 /* Users.swift in Sources */,
 				30EA87B9281351E200F0CF64 /* Orders.swift in Sources */,
+				30050A6F28C7064700BD7874 /* PollOptionSelected.swift in Sources */,
 				3032829328A4CEB60038A053 /* FirstRunExperience.swift in Sources */,
 				30C8102128877FD1004B1DA7 /* ReviewProductPreview.swift in Sources */,
 				30DC3E6B28A11E4B00613B4B /* History.swift in Sources */,
@@ -901,6 +959,7 @@
 				301DBFE428C267AE0072E497 /* ReviewPageAllButtons.swift in Sources */,
 				302AB46E28B12BFE0086D4CA /* ItemsViewModel.swift in Sources */,
 				30E0C76428C3360C001754C6 /* ContactsViewModel.swift in Sources */,
+				30050A6928C7035200BD7874 /* PollAllOptionsUnselected.swift in Sources */,
 				30FF41A328B6886B00D70BC5 /* PositiveReview.swift in Sources */,
 				304DC88927F3578200E30DCA /* CompanyProfileV2.swift in Sources */,
 				30D6D7DD28C4B06600576C2A /* ReferProductStep1.swift in Sources */,
@@ -910,6 +969,7 @@
 				30DC3E6D28A121AF00613B4B /* Notifications.swift in Sources */,
 				3014FA952796FE7000473CE4 /* DataManager.swift in Sources */,
 				30BA64D42889A177002E3FC8 /* ReviewProductCarousel1.swift in Sources */,
+				30050A6D28C7062500BD7874 /* PollAllOptionsSelected.swift in Sources */,
 				3014FA972796FF5B00473CE4 /* RewardsProgramViewModel.swift in Sources */,
 				3088074628A678A3003D1B99 /* FirstRunExperienceSwitcher.swift in Sources */,
 				300FF53D289A212100455D44 /* SuggestAShop.swift in Sources */,
