@@ -66,6 +66,8 @@
 		3053C0A628B9003B00FF3A17 /* ItemsAndOrders.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3053C0A528B9003B00FF3A17 /* ItemsAndOrders.swift */; };
 		30546E2427FBBF7E00173D9D /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30546E2327FBBF7E00173D9D /* LoginView.swift */; };
 		30546E2827FBD06400173D9D /* Profile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30546E2727FBD06400173D9D /* Profile.swift */; };
+		305894A228CA56C9004571E9 /* TestObjectModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 305894A128CA56C9004571E9 /* TestObjectModel.swift */; };
+		305894A428CA5788004571E9 /* TestObjectViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 305894A328CA5788004571E9 /* TestObjectViewModel.swift */; };
 		306E839C28C7455400232A4A /* RecommendedLoyaltyProgramWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 306E839B28C7455400232A4A /* RecommendedLoyaltyProgramWidget.swift */; };
 		306E839E28C7493F00232A4A /* NewLoyaltyProgramWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 306E839D28C7493F00232A4A /* NewLoyaltyProgramWidget.swift */; };
 		306E83A028C74B8A00232A4A /* AllLoyaltyProgramsWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 306E839F28C74B8A00232A4A /* AllLoyaltyProgramsWidget.swift */; };
@@ -227,6 +229,8 @@
 		30546E2327FBBF7E00173D9D /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		30546E2727FBD06400173D9D /* Profile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Profile.swift; sourceTree = "<group>"; };
 		30546E2A27FBEEDC00173D9D /* Uncommon-Loyalty--iOS--Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Uncommon-Loyalty--iOS--Info.plist"; sourceTree = "<group>"; };
+		305894A128CA56C9004571E9 /* TestObjectModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestObjectModel.swift; sourceTree = "<group>"; };
+		305894A328CA5788004571E9 /* TestObjectViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestObjectViewModel.swift; sourceTree = "<group>"; };
 		306E839B28C7455400232A4A /* RecommendedLoyaltyProgramWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommendedLoyaltyProgramWidget.swift; sourceTree = "<group>"; };
 		306E839D28C7493F00232A4A /* NewLoyaltyProgramWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewLoyaltyProgramWidget.swift; sourceTree = "<group>"; };
 		306E839F28C74B8A00232A4A /* AllLoyaltyProgramsWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllLoyaltyProgramsWidget.swift; sourceTree = "<group>"; };
@@ -462,6 +466,7 @@
 				303D3FC828A89C4400455A09 /* Reviews.swift */,
 				3046EC25279FB43500D1CBE7 /* PostInFeed.swift */,
 				302AB46B28B12B130086D4CA /* Items.swift */,
+				305894A128CA56C9004571E9 /* TestObjectModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -479,6 +484,7 @@
 				302AB46D28B12BFE0086D4CA /* ItemsViewModel.swift */,
 				3088074328A61BEB003D1B99 /* UsersViewModel.swift */,
 				30E0C76328C3360C001754C6 /* ContactsViewModel.swift */,
+				305894A328CA5788004571E9 /* TestObjectViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -996,6 +1002,7 @@
 				302AB47528B359820086D4CA /* OneOrder.swift in Sources */,
 				3014FA7527965E2F00473CE4 /* CompanyProfile.swift in Sources */,
 				30D6D7E128C4C67B00576C2A /* ReferProductStep2.swift in Sources */,
+				305894A428CA5788004571E9 /* TestObjectViewModel.swift in Sources */,
 				307BCA2327975C8A000DDD21 /* DiscountCodesViewModel.swift in Sources */,
 				30FF41A728B8A62E00D70BC5 /* RewardCard.swift in Sources */,
 				30C8102828878776004B1DA7 /* AddCompanyWidget.swift in Sources */,
@@ -1003,6 +1010,7 @@
 				307BCA2127975C27000DDD21 /* DiscountCodes.swift in Sources */,
 				308B83FC27F768A200BC5211 /* ReviewHistory.swift in Sources */,
 				30050A6728C7032800BD7874 /* PollOptionUnselected.swift in Sources */,
+				305894A228CA56C9004571E9 /* TestObjectModel.swift in Sources */,
 				301DBFD528C1F9FD0072E497 /* OrderSectionRow.swift in Sources */,
 				30FF41A128B635F200D70BC5 /* HomeWithPopOutCards.swift in Sources */,
 				306E83AF28C7CAD200232A4A /* AddLoyaltyProgramStep1.swift in Sources */,

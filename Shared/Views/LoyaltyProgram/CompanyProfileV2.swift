@@ -114,7 +114,7 @@ struct CompanyProfileV2: View {
                 VStack(alignment: .center) {
                     
                     //MARK: LOYALTY CARD
-                    CardForLoyaltyProgram(cardColor: Color("Gold1"), textColor: Color.white, companyImage: "Athleisure LA", companyName: "Athleisure LA", currentDiscountAmount: "$20", currentDiscountCode: "COLIN123", userFirstName: "Colin", userLastName: "Power", userCurrentTier: "Gold", discountCardDescription: "Personal Card")
+                    CardForLoyaltyProgram(cardColor: Color("CardTeal"), textColor: Color.white, companyImage: "Athleisure LA", companyName: "Athleisure LA", currentDiscountAmount: "$20", currentDiscountCode: "COLIN123", userFirstName: "Colin", userLastName: "Power", userCurrentTier: "Gold", discountCardDescription: "Personal Card")
                         .frame(alignment: .center)
                         .padding(.bottom)
                     
@@ -699,8 +699,8 @@ class CustomHostingController<Content: View>: UIHostingController<Content> {
         if let presentationController = presentationController as? UISheetPresentationController{
             
             presentationController.detents = [
-                .medium(),
-                .large()
+                .medium() //,
+                //.large()
             ]
             
             //to show grabber

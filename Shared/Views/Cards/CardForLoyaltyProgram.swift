@@ -11,6 +11,7 @@ struct CardForLoyaltyProgram: View {
     
     var cardColor:Color
     var textColor:Color
+    
     var companyImage:String
     var companyName:String
     
@@ -23,6 +24,11 @@ struct CardForLoyaltyProgram: View {
     var userCurrentTier:String
     
     var discountCardDescription:String   //e.g. "Default Card"
+    
+    
+//    var cardColor:String = "Background" //"Gold1"
+//    var textColor:String = "white" //"GoldInlaid"
+    
     
     
     
@@ -40,57 +46,61 @@ struct CardForLoyaltyProgram: View {
                     
                     VStack(alignment: .center, spacing: 0) {
                         HStack(alignment: .center, spacing: 0) {
-                            Image(companyImage)
-                                .resizable()
-                                .scaledToFit()
-                                .frame(width: 40, height: 40, alignment: .leading)
-                                .clipShape(RoundedRectangle(cornerRadius: 8))
-                                .padding(.trailing, 6)
-                            Text(companyName)
-                                .font(.system(size: 24))
-                                .fontWeight(.medium)
-                                .foregroundColor(textColor)
-                                .padding(.vertical, 8)
+                            VStack(alignment: .center, spacing: 0) {
+                                //Image(companyImage)
+                                Image("AthleisureLA-Icon-Teal")
+                                    .resizable()
+                                    .scaledToFit()
+                                    .frame(width: 60, height: 30, alignment: .leading)
+                                    .padding(.bottom, 2)
+                                Text(companyName)
+                                    .font(.system(size: 12))
+                                    .fontWeight(.medium)
+                                    .font(.system(size: 14, weight: .medium))
+                                    .innerShadow(cardColor, radius: 1, opacity: 0.5, offsetx: 0.9, offsety: 0.9, inlaidColor: textColor)
+                                    .fixedSize()
+                            }
+                            .frame(height: 44)
+                            
                             Spacer()
+                            
                             Text(currentDiscountAmount)
-                                .font(.system(size: 40, weight: .bold, design: .rounded))
-                                .foregroundColor(textColor)
-                        }
-                        .frame(height: 40)
-                        .padding([.top, .horizontal])
+                                .font(.system(size: 44, weight: .bold, design: .rounded))
+                                .innerShadow(cardColor, radius: 1.5, opacity: 0.5, offsetx: 1, offsety: 1, inlaidColor: textColor)
+                                .fixedSize()
+                        }.padding([.top, .horizontal])
                         
                         Spacer()
                         
-                        HStack {
+                        VStack(alignment: .center, spacing: 0) {
                             
                             Text(currentDiscountCode)
-                                .font(.system(size: 60, weight: .bold, design: .rounded))
-                                .foregroundColor(textColor)
+                                .font(.system(size: 44, weight: .bold))
+                                .innerShadow(cardColor, radius: 1.5, opacity: 0.5, offsetx: 1, offsety: 1, inlaidColor: textColor)
+                                .fixedSize()
+                                //.foregroundColor(textColor)
+                            Text("PERSONAL DISCOUNT CODE")
+                                .font(.system(size: 14, weight: .medium))
+                                .innerShadow(cardColor, radius: 1, opacity: 0.5, offsetx: 0.9, offsety: 0.9, inlaidColor: textColor)
+                                .fixedSize()
                             
-                        }.frame(width: geometry.size.width, height: 60, alignment: .center)
+                            
+                        }.frame(width: geometry.size.width, height: 70, alignment: .center)
                         
                         Spacer()
                         
                         HStack(alignment: .bottom, spacing: 0) {
                             
                             VStack(alignment: .leading, spacing: 0) {
-                                Text(userFirstName.uppercased())
-                                    .font(.system(size: 16))
-                                    .fontWeight(.medium)
-                                    .foregroundColor(.gray)
-                                    .padding(.bottom, 8)
+                                Text(userFirstName + " Power")
+                                    .font(.system(size: 20, weight: .medium))
+                                    .innerShadow(cardColor, radius: 1.2, opacity: 0.5, offsetx: 1, offsety: 1, inlaidColor: textColor)
+                                    .fixedSize()
                                 
-                                Text(userCurrentTier.uppercased() + " since 2022")
-                                    .font(.system(size: 14))
-                                    .fontWeight(.regular)
-                                    .foregroundColor(.gray)
+                                
                             }.frame(height: 38)
                             
                             Spacer()
-                            
-                            Text(discountCardDescription.uppercased())
-                                .font(.system(size: 14, weight: .regular))
-                                .foregroundColor(.gray)
                         }
                         .frame(height: 38)
                         .padding([.bottom, .horizontal])
@@ -104,3 +114,25 @@ struct CardForLoyaltyProgram: View {
     }
 }
 
+private extension Text {
+    
+    func innerShadow<V: View>(_ background: V, radius: CGFloat = 1, opacity: Double = 0.5, offsetx: Double, offsety: Double, inlaidColor: Color) -> some View {
+        
+        self
+            .foregroundColor(.clear)
+            .overlay(background.mask(self))
+            .overlay(
+                ZStack {
+//                    self.foregroundColor(Color(white: 1 - opacity))
+                    self.foregroundColor(Color(white: 1 - opacity))
+                    //self.foregroundColor(Color("GoldInlaidText")).blur(radius: 3).offset(x:1.5,y:1.5)
+                    self.foregroundColor(inlaidColor).blur(radius: radius).offset(x:offsetx, y:offsety)
+                    
+//                    self.foregroundColor(Color("GoldShadow").opacity(0.5))
+//                    self.foregroundColor(Color("GoldShadow")).blur(radius: 2) //.offset(x:0.3,y:0.3)
+                }
+                    .mask(self)
+                    .blendMode(.multiply)
+            )
+    }
+}

@@ -26,6 +26,9 @@ struct Home: View {
     @ObservedObject var companiesViewModel = CompaniesViewModel()
     
     
+    @ObservedObject var testObjectViewModel = TestObjectViewModel()
+    
+    
     @ObservedObject var reviewsViewModel = ReviewsViewModel()
     @ObservedObject var itemsViewModel = ItemsViewModel()
     
@@ -63,6 +66,34 @@ struct Home: View {
                             
                             //MARK: ACTIVE SECTION CONTENT
                             VStack(alignment: .leading, spacing: 0) {
+                                
+                                ForEach(testObjectViewModel.snapshotOfTestObject) { testObject in
+                                    VStack {
+                                        Text(String(testObject.pointsPerDollarSpent))
+                                            .font(.system(size: 14, weight: .bold))
+                                            .foregroundColor(.green)
+                                        Text(String(testObject.pointsPerLevel.gold))
+                                            .font(.system(size: 14, weight: .bold))
+                                            .foregroundColor(.green)
+                                        Text(String(testObject.pointsPerLevel.silver))
+                                            .font(.system(size: 14, weight: .bold))
+                                            .foregroundColor(.green)
+                                        Text(String(testObject.pointsPerLevel.subLevelsArray.gold))
+                                            .font(.system(size: 14, weight: .bold))
+                                            .foregroundColor(.green)
+                                        
+                                    }
+                                }
+                                
+                                Button {
+                                    testObjectViewModel.addSnapshotOfItem(pointsPerDollarSpent: 500, pointsPerLevel: LevelsArray(gold: 5, silver: 10, platinum: 50, subLevelsArray: SubLevelsArray(gold: 100)))
+                                } label : {
+                                    Text("push button to post back to Firebase")
+                                        .font(.system(size: 14, weight: .bold))
+                                        .foregroundColor(.green)
+                                }
+                                
+                                
                                 
                                 //Header for section
                                 Text("Active".uppercased())
@@ -108,6 +139,11 @@ struct Home: View {
                             .foregroundColor(Color("Dark1"))
                             .padding(.leading)
                             .padding(.bottom, 8)
+                        
+            
+                        
+                        
+                        
                         
                         //MARK: RECOMMENDED SECTION CARD
                         VStack(alignment: .leading, spacing: 0) {
@@ -267,6 +303,9 @@ struct Home: View {
                 self.rewardsProgramViewModel.listenForMyRewardsPrograms(email: viewModel.email ?? "")
                 
                 self.companiesViewModel.listenForAllCompanies()
+                
+                self.testObjectViewModel.getSnapshotOfItem()
+                
                 //self.ordersViewModel.listenForAllOrders(userID: viewModel.userID ?? "")
                 //self.ordersViewModel.snapshotOfAllOrders(userID: viewModel.userID ?? "")
                 print("CURRENT USER IS")
@@ -293,3 +332,15 @@ struct Home: View {
 //        Home(selectedTab: .constant(1), showFirstRunExperience: .constant(false))
 //    }
 //}
+
+
+
+
+extension Color {
+    init(hex: Int, opacity: Double = 1.0) {
+        let red = Double((hex & 0xff0000) >> 16) / 255.0
+        let green = Double((hex & 0xff00) >> 8) / 255.0
+        let blue = Double((hex & 0xff) >> 0) / 255.0
+        self.init(.sRGB, red: red, green: green, blue: blue, opacity: opacity)
+    }
+}
