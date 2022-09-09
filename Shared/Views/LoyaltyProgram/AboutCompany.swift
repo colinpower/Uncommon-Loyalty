@@ -9,23 +9,10 @@ import SwiftUI
 
 struct AboutCompany: View {
     
-    
+    var company: Companies?
     
     var body: some View {
         VStack(alignment: .center, spacing: 0) {
-            
-//            ZStack(alignment: .top) {
-//                Image("BlueGoldenRatio")
-//                    .resizable()
-//                    .aspectRatio(contentMode: .fit)
-//                    .frame(maxWidth: UIScreen.main.bounds.width, maxHeight: UIScreen.main.bounds.width / 1.6)
-//                    .layoutPriority(-1)
-//                Rectangle()
-//                    .foregroundColor(.clear)
-//                    .background(LinearGradient(gradient: Gradient(colors: [.clear, .red.opacity(0.4)]), startPoint: .top, endPoint: .bottom))
-//                    .frame(maxWidth: UIScreen.main.bounds.width, maxHeight: UIScreen.main.bounds.width / 1.6)
-//            }.padding(.horizontal)
-//                .shadow(color: .gray, radius: 10, x: 0, y: 0)
             
             ZStack(alignment: .top) {
                 Image("BlueGoldenRatio")
@@ -119,6 +106,43 @@ struct AboutCompany: View {
                     }
                     
                 }
+                
+                //MARK: REFERRALS
+                Section(header: Text("Referrals")) {
+                    
+                    HStack {
+                        Text("Refer ")
+                            .font(.system(size: 16))
+                            .foregroundColor(.black)
+                            
+                        Spacer()
+                        
+                        Text("30 days")
+                            .font(.system(size: 16))
+                            .foregroundColor(.gray)
+                        
+
+                    }
+                    
+                    NavigationLink {
+                        //
+                    } label: {
+                        HStack {
+
+                            Text("Full return policy")
+                                .font(.system(size: 16))
+                                .foregroundColor(.black)
+
+                            Spacer()
+                        }
+
+                    }
+                    
+                }
+                
+                
+                
+                
             }
             
             

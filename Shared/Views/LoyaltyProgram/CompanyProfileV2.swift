@@ -77,7 +77,7 @@ struct CompanyProfileV2: View {
     
     //Listeners - must listen for RewardsProgram, Discounts,
     @ObservedObject var viewModel1 = RewardsProgramViewModel()
-    @ObservedObject var viewModel2 = DiscountCodesViewModel()
+    @ObservedObject var discountCodesViewModel = DiscountCodesViewModel()
     @ObservedObject var viewModel3 = TransactionsViewModel()
     //@ObservedObject var ordersViewModel = OrdersViewModel()
     @ObservedObject var viewModel_Items = ItemsViewModel()
@@ -118,7 +118,74 @@ struct CompanyProfileV2: View {
                         .frame(alignment: .center)
                         .padding(.bottom)
                     
-                    
+                    //MARK: QUICK DASHBOARD
+//
+//                    HStack {
+//
+//                        //Discounts Available
+//                        VStack(alignment: .center, spacing: 2) {
+//                            let num = discountCodesViewModel.myDiscountCodes.prefix(9).count
+//                            Image(systemName: "0" + String(num) + ".circle.fill")
+//                                .font(.system(size: 60, weight: .medium))
+//                                .foregroundColor(.black)
+//
+//                            Text("Discounts")
+//                                .font(.system(size: 12, weight: .medium))
+//                                .foregroundColor(.black)
+//                        }.frame(width:70, height: 68)
+//
+//                        Spacer()
+//
+//                        //Reviews Created
+//                        VStack(alignment: .center, spacing: 4) {
+//                            let num = discountCodesViewModel.myDiscountCodes.prefix(9).count
+//                            Image(systemName: "0" + String(num) + ".circle.fill")
+//                                .font(.system(size: 60, weight: .medium))
+//                                .foregroundColor(Color("ReviewTeal"))
+//
+//                            Text("Reviews")
+//                                .font(.system(size: 14, weight: .regular))
+//                                .foregroundColor(.black)
+//                        }.frame(width:UIScreen.main.bounds.width / 6)
+//
+//                        Spacer()
+//
+//                        //Referrals Generated
+//                        VStack(alignment: .center, spacing: 4) {
+//                            let num = discountCodesViewModel.myDiscountCodes.prefix(9).count
+//                            Image(systemName: "0" + String(num) + ".circle.fill")
+//                                .font(.system(size: 60, weight: .medium))
+//                                .foregroundColor(Color("ReferPurple"))
+//
+//                            Text("Referrals")
+//                                .font(.system(size: 14, weight: .regular))
+//                                .foregroundColor(.black)
+//                        }.frame(width:UIScreen.main.bounds.width / 6)
+//
+//                        Spacer()
+//
+//                        //Status
+//                        VStack(alignment: .center, spacing: 4) {
+//                            ZStack(alignment: .center) {
+//                                Circle()
+//                                    .stroke(lineWidth: 4)
+//                                    .opacity(0.2)
+//                                    .foregroundColor(Color.purple)
+//
+//                                Circle()
+//                                    .trim(from: 0.0 + 0.6, to: 1.0)
+//                                    .stroke(style: StrokeStyle(lineWidth: 4.0, lineCap: .round, lineJoin: .round))
+//                                    .foregroundColor(Color.purple)
+//                            }.frame(width: 60, height: 60)
+//
+//                            Text("Referrals")
+//                                .font(.system(size: 14, weight: .regular))
+//                                .foregroundColor(.black)
+//                        }.frame(width:UIScreen.main.bounds.width / 6)
+//
+//
+//                    }.padding(.horizontal)
+//
                     
                     //MARK: QUICK ACTIONS
                     HStack(alignment: .top, spacing: 8) {
@@ -161,7 +228,7 @@ struct CompanyProfileV2: View {
                                             .fontWeight(.regular)
                                             .foregroundColor(Color("Dark1"))
                                             .padding(.top, 6)
-                                        Text(String(viewModel2.myDiscountCodes.count) + " available")
+                                        Text(String(discountCodesViewModel.myDiscountCodes.count) + " available")
                                             .font(.system(size: 22))
                                             .fontWeight(.bold)
                                             .foregroundColor(Color("Dark1"))
@@ -182,17 +249,20 @@ struct CompanyProfileV2: View {
                             VStack(alignment: .leading, spacing: 0) {
                                 HStack(alignment: .center, spacing: 0) {
                                     VStack(alignment: .leading, spacing: 0) {
-                                        Text("Redeem Points")
+                                        
+                                        let currentPointsBalanceVar = viewModel1.oneRewardsProgram.first?.currentPointsBalance ?? 0
+                                        
+                                        Text("Points Balance")
                                             .font(.system(size: 15))
-                                            .fontWeight(.regular)
+                                            .fontWeight(.medium)
                                             .foregroundColor(Color("Dark1"))
                                             .padding(.top, 6)
                                             .padding(.bottom, 4)
-                                        Text("You have $30 available right now.")
-                                            .font(.system(size: 14))
-                                            .fontWeight(.medium)
-                                            .foregroundColor(Color("Gray1"))
-                                            .multilineTextAlignment(.leading)
+                                        Text(String(currentPointsBalanceVar))
+                                            .font(.system(size: 36, weight: .bold, design: .rounded))
+                                            .foregroundColor(Color("Dark1"))
+                                            .padding(.vertical, 3)
+                                        
                                     }.padding(.leading, 16)
                                     Spacer()
                                 }
@@ -292,12 +362,23 @@ struct CompanyProfileV2: View {
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     //this is a hack to get a navigationlink inside a toolbarItem
-                    NavigationLink {
-                        AboutCompany()
-                    } label: {
-                        Image(systemName: "ellipsis.circle")
-                            .font(.system(size: 18))
-                            .foregroundColor(Color("Dark1"))
+                    HStack {
+                        
+                        NavigationLink {
+                            AboutCompany()
+                        } label: {
+                            Image(systemName: "chart.line.uptrend.xyaxis")
+                                .font(.system(size: 18, weight: .medium))
+                                .foregroundColor(Color("Dark1"))
+                        }
+                        
+                        NavigationLink {
+                            AboutCompany()
+                        } label: {
+                            Image(systemName: "ellipsis.circle")
+                                .font(.system(size: 18, weight: .medium))
+                                .foregroundColor(Color("Dark1"))
+                        }
                     }
                 }
             }
@@ -308,7 +389,7 @@ struct CompanyProfileV2: View {
                 //my half sheet view
                 HStack {
                     
-                    if (viewModel2.myDiscountCodes.isEmpty) {
+                    if (discountCodesViewModel.myDiscountCodes.isEmpty) {
                         // if no discount codes, show the empty state
                         TabView {
                             
@@ -333,7 +414,7 @@ struct CompanyProfileV2: View {
                         
                     } else {
                         TabView {
-                            ForEach(viewModel2.myDiscountCodes.prefix(5)) { discountcode in
+                            ForEach(discountCodesViewModel.myDiscountCodes.prefix(5)) { discountcode in
                                 VStack {
 
                                     //MARK: BUTTONS
@@ -376,15 +457,16 @@ struct CompanyProfileV2: View {
                     
                 }
                 .edgesIgnoringSafeArea([.all])
-                    .background(Color.white)
+                .background(RoundedRectangle(cornerRadius: 32).fill(Color.white))
             } else if self.activeLoyaltySheet == .redeemPoints {
-                HStack {
+                HStack(alignment: .bottom) {
                     Spacer()
-                    CreateDiscountScreen(showSheet: $showSheet, companyID: companyID, companyName: companyName, currentPointsBalance: viewModel1.oneRewardsProgram.first?.currentPointsBalance ?? 0)
+                    CreateDiscountScreen(showSheet: $showSheet, email: email, userID: userID, companyID: companyID, companyName: companyName, currentPointsBalance: viewModel1.oneRewardsProgram.first?.currentPointsBalance ?? 0)
                     Spacer()
                 }
                 .edgesIgnoringSafeArea([.all])
-                    .background(Color.white)
+                .background(RoundedRectangle(cornerRadius: 32).fill(.white))
+                .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height / 2)
             }
             
         } onEnd : {
@@ -395,7 +477,7 @@ struct CompanyProfileV2: View {
     
         .onAppear {
             self.viewModel1.listenForOneRewardsProgram(email: "colinjpower1@gmail.com", companyID: companyID)
-            self.viewModel2.listenForMyDiscountCodes(email: "colinjpower1@gmail.com", companyID: companyID)
+            self.discountCodesViewModel.listenForMyDiscountCodes(email: "colinjpower1@gmail.com", companyID: companyID)
             self.viewModel3.listenForMyTransactions(email: "colinjpower1@gmail.com", companyID: companyID)
             self.viewModel_Items.listenForMyReviewableItemsForCompany(email: email, companyID: companyID)
             
@@ -408,9 +490,9 @@ struct CompanyProfileV2: View {
                 print("REMOVING LISTENER 2")
                 self.viewModel1.listener2.remove()
             }
-            if self.viewModel2.listener_DiscountCodes != nil {
+            if self.discountCodesViewModel.listener_DiscountCodes != nil {
                 print("REMOVING LISTENER_DISCOUNTCODES")
-                self.viewModel2.listener_DiscountCodes.remove()
+                self.discountCodesViewModel.listener_DiscountCodes.remove()
             }
             if self.viewModel3.listener_Transactions != nil {
                 print("REMOVING LISTENER_TRANSACTIONS")

@@ -68,6 +68,7 @@
 		30546E2827FBD06400173D9D /* Profile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30546E2727FBD06400173D9D /* Profile.swift */; };
 		305894A228CA56C9004571E9 /* TestObjectModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 305894A128CA56C9004571E9 /* TestObjectModel.swift */; };
 		305894A428CA5788004571E9 /* TestObjectViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 305894A328CA5788004571E9 /* TestObjectViewModel.swift */; };
+		305894A928CA9752004571E9 /* TabViewForReferralsYouveReceived.swift in Sources */ = {isa = PBXBuildFile; fileRef = 305894A828CA9752004571E9 /* TabViewForReferralsYouveReceived.swift */; };
 		306E839C28C7455400232A4A /* RecommendedLoyaltyProgramWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 306E839B28C7455400232A4A /* RecommendedLoyaltyProgramWidget.swift */; };
 		306E839E28C7493F00232A4A /* NewLoyaltyProgramWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 306E839D28C7493F00232A4A /* NewLoyaltyProgramWidget.swift */; };
 		306E83A028C74B8A00232A4A /* AllLoyaltyProgramsWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 306E839F28C74B8A00232A4A /* AllLoyaltyProgramsWidget.swift */; };
@@ -231,6 +232,7 @@
 		30546E2A27FBEEDC00173D9D /* Uncommon-Loyalty--iOS--Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Uncommon-Loyalty--iOS--Info.plist"; sourceTree = "<group>"; };
 		305894A128CA56C9004571E9 /* TestObjectModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestObjectModel.swift; sourceTree = "<group>"; };
 		305894A328CA5788004571E9 /* TestObjectViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestObjectViewModel.swift; sourceTree = "<group>"; };
+		305894A828CA9752004571E9 /* TabViewForReferralsYouveReceived.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabViewForReferralsYouveReceived.swift; sourceTree = "<group>"; };
 		306E839B28C7455400232A4A /* RecommendedLoyaltyProgramWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommendedLoyaltyProgramWidget.swift; sourceTree = "<group>"; };
 		306E839D28C7493F00232A4A /* NewLoyaltyProgramWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewLoyaltyProgramWidget.swift; sourceTree = "<group>"; };
 		306E839F28C74B8A00232A4A /* AllLoyaltyProgramsWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllLoyaltyProgramsWidget.swift; sourceTree = "<group>"; };
@@ -365,6 +367,7 @@
 			isa = PBXGroup;
 			children = (
 				30050A7128C7286200BD7874 /* ActiveLoyaltyProgramWidget.swift */,
+				305894A828CA9752004571E9 /* TabViewForReferralsYouveReceived.swift */,
 				306E839B28C7455400232A4A /* RecommendedLoyaltyProgramWidget.swift */,
 				306E839D28C7493F00232A4A /* NewLoyaltyProgramWidget.swift */,
 				306E839F28C74B8A00232A4A /* AllLoyaltyProgramsWidget.swift */,
@@ -1039,6 +1042,7 @@
 				303D3FC928A89C4400455A09 /* Reviews.swift in Sources */,
 				301DBFE428C267AE0072E497 /* ReviewPageAllButtons.swift in Sources */,
 				302AB46E28B12BFE0086D4CA /* ItemsViewModel.swift in Sources */,
+				305894A928CA9752004571E9 /* TabViewForReferralsYouveReceived.swift in Sources */,
 				30E0C76428C3360C001754C6 /* ContactsViewModel.swift in Sources */,
 				30050A6928C7035200BD7874 /* PollAllOptionsUnselected.swift in Sources */,
 				30FF41A328B6886B00D70BC5 /* PositiveReview.swift in Sources */,

@@ -9,6 +9,8 @@ import SwiftUI
 
 struct CardForLoyaltyProgram: View {
     
+    var discountCode:DiscountCodes?
+    
     var cardColor:Color
     var textColor:Color
     

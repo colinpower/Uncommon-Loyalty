@@ -9,6 +9,17 @@ import Foundation
 import FirebaseFirestore
 import FirebaseFirestoreSwift
 
+
+
+
+//Button {
+//    testObjectViewModel.addSnapshotOfItem(pointsPerDollarSpent: 500, pointsPerLevel: LevelsArray(gold: 5, silver: 10, platinum: 50, subLevelsArray: SubLevelsArray(gold: 100)))
+//} label : {
+//    Text("push button to post back to Firebase")
+//        .font(.system(size: 14, weight: .bold))
+//        .foregroundColor(.green)
+//}
+
 struct TestObjectModel: Identifiable, Codable {
     //means that whenever we map from a doc into a Order struct, it'll read the document and map it into this thing
     @DocumentID var id: String? = UUID().uuidString
