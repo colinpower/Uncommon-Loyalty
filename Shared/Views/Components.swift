@@ -96,7 +96,7 @@ struct TabViewItem: View {
         case 0:
             return ["creditcard", "Accounts"]
         case 1:
-            return ["dollarsign.square", "Earn"]
+            return ["person.3", "Influence"]
         case 2:
             return ["globe", "Discover"]
         case 3:
