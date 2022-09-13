@@ -33,29 +33,70 @@ struct Earn: View {
                 
                 //MARK: CONTENT
                 ScrollView {
+                    
                     VStack(alignment: .center, spacing: 0) {
                         
-                        //MARK: TOP SECTION
+                        
+                        //MARK: CURRENT REVIEWS & REFERRALS
+                        HStack(alignment: .center, spacing: 20) {
+                            
+                            NavigationLink {
+                                //destination
+                            } label: {
+                                //label
+                                ReviewStatsWidget(title: "Your Reviews", amount: "10")
+                                    .frame(width: UIScreen.main.bounds.width * 3 / 7, height: 116)
+                                    .background(RoundedRectangle(cornerRadius: 11).foregroundColor(.white).shadow(radius: CGFloat(11)))
+                            }
+
+                            
+                            NavigationLink {
+                                //destination
+                            } label: {
+                                //label
+                                ReferralStatsWidget(title: "Your Referrals", amount: "3", subtitle: "4 In Progress")
+                                    .frame(width: UIScreen.main.bounds.width * 3 / 7, height: 116)
+                                    .background(RoundedRectangle(cornerRadius: 11).foregroundColor(.white).shadow(radius: CGFloat(11)))
+                            }
+
+                            
+                        }.padding()
+                        .frame(width: UIScreen.main.bounds.width, height: 150, alignment: .center)
+                        
+                        
+                        //MARK: MOST POPULAR REFERRALS HEADER
                         VStack(alignment: .leading) {
                             
-                            Divider().padding(.leading)
-                            
-                            Text("Earn rewards by writing reviews, recommending your favorites, and more!")
-                                .font(.system(size: 18, weight: .medium))
-                                .foregroundColor(Color("Dark1"))
-                                .multilineTextAlignment(.leading)
-                                .padding()
-                                .padding(.bottom)
-                            
-                            Text("Suggested for you")
-                                .font(.system(size: 22, weight: .semibold))
+                            Text("Where you're most influential")
+                                .font(.system(size: 25, weight: .semibold))
                                 .foregroundColor(.black)
                                 .padding(.leading)
                                 .padding(.bottom, 5)
                             
-                            Divider()
-                                .padding(.bottom)
+                            Divider().padding(.leading)
+                        }.padding(.top).padding(.top)
+                        
+                        
+                        //MARK: MOST POPULAR REFERRALS SECTION
+                        ScrollView (.horizontal, showsIndicators: false) {
+                            HStack(alignment: .center, spacing: 20) {
+                                
+                                ForEach(itemsViewModel.snapshotOfReviewableItems.prefix(3)) { item in
+                                    
+                                    TopReferralsWidget(item: item)
+                                        .frame(width: UIScreen.main.bounds.width / 2, height: UIScreen.main.bounds.width / 2)
+                                        .background(RoundedRectangle(cornerRadius: 11).foregroundColor(.white).shadow(radius: CGFloat(11)))
+                                    
+                                }
+                                
+                            }.offset(x: 20)
+                            .padding(.vertical)
+                            .padding(.vertical)
+                            .padding(.trailing, 40)
                         }
+                        
+                        
+                        
                         
                         //MARK: REFERRALS SECTION - TITLE AND DESCRIPTION
                         VStack(alignment: .leading, spacing: 8) {
@@ -144,12 +185,12 @@ struct Earn: View {
                         }
                         .padding(.horizontal)
                         
-                        //MARK: ALL ITEMS SECTION - CONTENT
-                        NavigationLink {
-                            ItemsAndOrders()
-                        } label: {
-                            Text("click here")
-                        }
+//                        //MARK: ALL ITEMS SECTION - CONTENT
+//                        NavigationLink {
+//                            ItemsAndOrders()
+//                        } label: {
+//                            Text("click here")
+//                        }
                     }
 
                 }
@@ -161,9 +202,9 @@ struct Earn: View {
             
             
             
-            .background(.white)
+            .background(Color("Background"))
             .edgesIgnoringSafeArea([.bottom, .horizontal])
-            .navigationTitle("My Influence")
+            .navigationTitle("Influence")
             
             //.ignoresSafeArea()
             //Note: need to ignoreSafeArea, set nav title to "", set barHidden to true in order not to break when returning from a navigationViewChild
@@ -177,6 +218,8 @@ struct Earn: View {
             }
         }
     }
+    
+
     
     struct LargeItemReviewWidget: View {
         
@@ -318,7 +361,7 @@ struct Earn: View {
             
             //Link to the Review Interceptor page
             NavigationLink {
-                IntentToRefer(selectedTab: $selectedTab, itemObject: item)
+                IntentToRefer(itemObject: item)
             } label: {
 
                 //Stack the following: a white card with the shadow, then the content of the card, then the overlaid "250 POINTS" and the review icon
@@ -452,8 +495,107 @@ struct Earn: View {
 }
     
 
-struct Earn_Previews: PreviewProvider {
-    static var previews: some View {
-        Earn(selectedTab: .constant(0))
+struct ReviewStatsWidget: View {
+    
+    var title:String
+    var amount:String
+    
+    
+    var body: some View {
+        VStack(alignment: .leading, spacing: 0) {
+            Text(title)
+                .font(.system(size: 16, weight: .medium))
+                .foregroundColor(Color("Dark1"))
+                .padding(.bottom, 10)
+                .padding(.top, 16)
+                .padding(.leading)
+            
+            HStack(spacing: 0) {
+                Spacer()
+                Text(amount)
+                    .font(.system(size: 40, weight: .bold, design: .rounded))
+                    .foregroundColor(amount == "0" ? Color("Gray1") : Color("ReviewTeal"))
+                    .padding(.bottom, 24)
+                    .padding(.bottom, 10)
+                Spacer()
+            }
+        }.frame(height: 116)
     }
 }
+
+struct ReferralStatsWidget: View {
+    
+    var title:String
+    var amount:String
+    var subtitle:String
+    
+    
+    var body: some View {
+        VStack(alignment: .leading, spacing: 0) {
+            Text(title)
+                .font(.system(size: 16, weight: .medium))
+                .foregroundColor(Color("Dark1"))
+                .padding(.bottom, 10)
+                .padding(.top, 16)
+                .padding(.leading)
+            
+            HStack(spacing: 0) {
+                Spacer()
+                VStack(alignment: .center, spacing: 0) {
+                    Text(amount)
+                        .font(.system(size: 40, weight: .bold, design: .rounded))
+                        .foregroundColor(amount == "0" ? Color("Gray1") : Color("ReferPurple"))
+                        .padding(.bottom, 6)
+                    
+                    Text(subtitle)
+                        .font(.system(size: 12, weight: .regular))
+                        .foregroundColor(subtitle.prefix(1) == "0" ? Color(.white) : Color("Gray1"))
+                        .padding(.bottom, 16)
+                }
+                Spacer()
+            }
+        }.frame(height: 116)
+    }
+}
+
+struct TopReferralsWidget: View {
+    
+    var item: Items
+    
+    var body: some View {
+        
+        //Link to the Review Interceptor page
+        NavigationLink {
+            IntentToRefer(itemObject: item)
+            
+        } label: {
+
+            HStack {
+                Spacer()
+                VStack(alignment: .center, spacing: 0) {
+                    Image("redshorts")
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .frame(width: UIScreen.main.bounds.width / 6, height: UIScreen.main.bounds.width / 6)
+                        .padding(.vertical, 20)
+                    Text(item.title)
+                        .font(.system(size: 14, weight: .semibold))
+                        .foregroundColor(Color("Dark1"))
+                        .padding(.bottom, 8)
+                    Text(item.companyID)
+                        .font(.system(size: 12, weight: .regular))
+                        .foregroundColor(Color("Gray1"))
+                        .padding(.bottom, 20)
+                    Text("3 Referrals")
+                        .font(.system(size: 12, weight: .regular))
+                        .foregroundColor(Color("ReferPurple"))
+                        .padding(.bottom, 20)
+                }
+                Spacer()
+            }
+            
+        }
+    }
+}
+
+

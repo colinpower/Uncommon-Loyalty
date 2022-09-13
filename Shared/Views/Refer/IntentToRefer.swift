@@ -17,9 +17,7 @@ struct IntentToRefer: View {
     //State - need to create one that triggers the reviews flow
     @State var isShowingReferExperience: Bool = false
     @State var isShowingItemSheet:Bool = false
-    
-    //Binding
-    @Binding var selectedTab: Int
+     
     
     //Required variables
     var itemObject:Items
@@ -183,7 +181,6 @@ struct IntentToRefer: View {
                 .padding(.bottom)
             
             
-            MyTabView(selectedTab: $selectedTab)
             
         }.background(Color("Background"))
         .ignoresSafeArea(.container, edges: [.horizontal, .bottom])
