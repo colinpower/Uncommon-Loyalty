@@ -17,6 +17,8 @@ class RewardsProgramViewModel: ObservableObject, Identifiable {
     @Published var myRewardsPrograms = [RewardsProgram]()
     @Published var oneRewardsProgram = [RewardsProgram]()
     
+    @Published var snapshotOfMyRewardsPrograms = [RewardsProgram]()
+    
     var dm = DataManager()
     
     var listener1: ListenerRegistration!
@@ -28,16 +30,44 @@ class RewardsProgramViewModel: ObservableObject, Identifiable {
     // MARK: Queries for the HOME views
     //Get all tickets that I am able to answer
     
-    func listenForMyRewardsPrograms(email: String) {
+    func listenForMyRewardsPrograms(userID: String) {
         self.myRewardsPrograms = [RewardsProgram]()
         
-        self.dm.getMyRewardsPrograms(email: email, onSuccess: { (RewardsPrograms) in
+        self.dm.getMyRewardsPrograms(userID: userID, onSuccess: { (RewardsPrograms) in
             //if (self.newTickets.isEmpty) {
                 self.myRewardsPrograms = RewardsPrograms
         }, listener: { (listener1) in
             self.listener1 = listener1
         })
     }
+    
+    func getSnapshotOfMyRewardsPrograms(userID: String) {
+    
+        //var ordersSnapshot = [Orders]()
+    
+        db.collection("loyaltyprograms")
+            .whereField("userID", isEqualTo: userID)
+            .order(by: "companyName", descending: false)
+            .getDocuments { (snapshot, error) in
+    
+                guard let snapshot = snapshot, error == nil else {
+                    //handle error
+                    print("found error in snapshotOfMyLoyaltyPrograms")
+                    return
+                }
+                print("Number of documents: \(snapshot.documents.count)")
+    
+                self.snapshotOfMyRewardsPrograms = snapshot.documents.compactMap({ queryDocumentSnapshot -> RewardsProgram? in
+                    print("AT THE TRY STATEMENT for snapshotOfMyRewardsPrograms")
+                    print(try? queryDocumentSnapshot.data(as: RewardsProgram.self) as Any)
+                    return try? queryDocumentSnapshot.data(as: RewardsProgram.self)
+                })
+            }
+    
+    }
+    
+    
+    
     
     func listenForOneRewardsProgram(email: String, companyID: String) {
         self.oneRewardsProgram = [RewardsProgram]()

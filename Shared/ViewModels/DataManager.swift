@@ -17,10 +17,10 @@ class DataManager: ObservableObject {
     //MARK: Queries for the HOME view
         //how to do the listener stuff
         //https://stackoverflow.com/questions/63088521/firebase-and-swiftui-listening-for-real-time-update-strange-behave-weird
-    func getMyRewardsPrograms(email: String, onSuccess: @escaping([RewardsProgram]) -> Void, listener: @escaping(_ listenerHandle: ListenerRegistration) -> Void) {
+    func getMyRewardsPrograms(userID: String, onSuccess: @escaping([RewardsProgram]) -> Void, listener: @escaping(_ listenerHandle: ListenerRegistration) -> Void) {
         print("this function was called")
         let listenerRegistration1 = db.collection("loyaltyprograms")
-            .whereField("email", isEqualTo: email)
+            .whereField("userID", isEqualTo: userID)
             .order(by: "companyName", descending: false)
             .addSnapshotListener { (querySnapshot, error) in
             guard let documents = querySnapshot?.documents else {

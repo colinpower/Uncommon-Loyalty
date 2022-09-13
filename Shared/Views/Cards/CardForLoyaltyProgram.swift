@@ -14,7 +14,7 @@ struct CardForLoyaltyProgram: View {
     var cardColor:Color
     var textColor:Color
     
-    var companyImage:String
+    var companyImage:String = "AthleisureLA-Icon-Teal"
     var companyName:String
     
     var currentDiscountAmount:String
@@ -50,7 +50,7 @@ struct CardForLoyaltyProgram: View {
                         HStack(alignment: .center, spacing: 0) {
                             VStack(alignment: .center, spacing: 0) {
                                 //Image(companyImage)
-                                Image("AthleisureLA-Icon-Teal")
+                                Image(companyImage)
                                     .resizable()
                                     .scaledToFit()
                                     .frame(width: 60, height: 30, alignment: .leading)

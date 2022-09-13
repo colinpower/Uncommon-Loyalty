@@ -146,17 +146,19 @@ struct IntentToRefer: View {
             
             VStack(alignment: .leading) {
                 
-                Text("NOTE TO SELF::: HAVE A PAGE 0 where it explains that you're going to be creating a discount code")
+                //Text("NOTE TO SELF::: HAVE A PAGE 0 where it explains that you're going to be creating a discount code")
                 
                 
-                Text("Thanks for your awesome review!")
+//                Text("Thanks for your awesome review!")
                 Divider()
                     .padding(.bottom)
                 
-                Text("Know any friends who haven't shopped with Athleisure before?")
-                    .padding(.bottom)
+//                Text("Know any friends who haven't shopped with Athleisure before?")
+//                    .padding(.bottom)
                 
-                Text("Give them 20% off, and earn 5000 points when they make their purchase!")
+                Text("Give a friend 20% off, and earn 20K points when they make their purchase!")
+                    .foregroundColor(Color("Dark1"))
+                    .font(.system(size: 20, weight: .bold, design: .rounded))
             }
 
             Spacer()
@@ -167,7 +169,7 @@ struct IntentToRefer: View {
             }) {
                HStack {
                    Spacer()
-                   Text("Let's make someone happy!")
+                   Text("Refer a friend!")
                        .foregroundColor(Color.white)
                        .font(.system(size: 18))
                        .fontWeight(.semibold)

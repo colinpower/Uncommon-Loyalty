@@ -71,9 +71,9 @@ struct AddLoyaltyProgramCarousel: View {
                 Color.clear.overlay(
                     HStack(spacing: 0) {
                         
-                        AddLoyaltyProgramStep1(indexOfCurrentAddLoyaltyProgramPage: $indexOfCurrentAddLoyaltyProgramPage, screenWidth: screenWidth, totalHeaderHeight: totalHeaderHeight)
+//                        AddLoyaltyProgramStep1(indexOfCurrentAddLoyaltyProgramPage: $indexOfCurrentAddLoyaltyProgramPage, screenWidth: screenWidth, totalHeaderHeight: totalHeaderHeight)
                         AddLoyaltyProgramStep2(indexOfCurrentAddLoyaltyProgramPage: $indexOfCurrentAddLoyaltyProgramPage, screenWidth: screenWidth, totalHeaderHeight: totalHeaderHeight)
-                        AddLoyaltyProgramStep3(indexOfCurrentAddLoyaltyProgramPage: $indexOfCurrentAddLoyaltyProgramPage, screenWidth: screenWidth, totalHeaderHeight: totalHeaderHeight)
+//                        AddLoyaltyProgramStep3(indexOfCurrentAddLoyaltyProgramPage: $indexOfCurrentAddLoyaltyProgramPage, screenWidth: screenWidth, totalHeaderHeight: totalHeaderHeight)
                         AddLoyaltyProgramStep4(indexOfCurrentAddLoyaltyProgramPage: $indexOfCurrentAddLoyaltyProgramPage, screenWidth: screenWidth, totalHeaderHeight: totalHeaderHeight)
                         AddLoyaltyProgramStep5(indexOfCurrentAddLoyaltyProgramPage: $indexOfCurrentAddLoyaltyProgramPage, screenWidth: screenWidth, totalHeaderHeight: totalHeaderHeight, isAddLoyaltyProgramCarouselActive: $isAddLoyaltyProgramCarouselActive)
                         

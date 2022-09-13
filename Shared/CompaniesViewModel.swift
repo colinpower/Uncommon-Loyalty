@@ -17,6 +17,10 @@ class CompaniesViewModel: ObservableObject, Identifiable {
     @Published var myCompanies = [Companies]()
     @Published var oneCompany = [Companies]()
     
+    
+    @Published var snapshotOfAllCompanies = [Companies]()
+    
+    
     var dm = DataManager()
     
     var listener_allCompanies: ListenerRegistration!
@@ -41,6 +45,29 @@ class CompaniesViewModel: ObservableObject, Identifiable {
             self.listener_allCompanies = listener
         })
     }
+    
+    func getSnapshotOfAllCompanies() {
+    
+        db.collection("companies")
+            .order(by: "companyName", descending: false)
+            .getDocuments { (snapshot, error) in
+    
+                guard let snapshot = snapshot, error == nil else {
+                    //handle error
+                    print("found error in snapshotOfAllCompanies")
+                    return
+                }
+                print("Number of documents: \(snapshot.documents.count)")
+    
+                self.snapshotOfAllCompanies = snapshot.documents.compactMap({ queryDocumentSnapshot -> Companies? in
+                    print("AT THE TRY STATEMENT for snapshotOfAllCompanies")
+                    print(try? queryDocumentSnapshot.data(as: Companies.self) as Any)
+                    return try? queryDocumentSnapshot.data(as: Companies.self)
+                })
+            }
+    
+    }
+    
     
     
     

@@ -57,6 +57,38 @@ struct Earn: View {
                                 .padding(.bottom)
                         }
                         
+                        //MARK: REFERRALS SECTION - TITLE AND DESCRIPTION
+                        VStack(alignment: .leading, spacing: 8) {
+                            //Title
+                            HStack(alignment: .center) {
+                                Image(systemName: "paperplane.fill")
+                                    .font(.system(size: 28, weight: .semibold))
+                                    .foregroundColor(Color("ReferPurple"))
+                                Text("Refer")
+                                    .font(.system(size: 28))
+                                    .fontWeight(.bold)
+                                    .foregroundColor(Color("Dark1"))
+                                Spacer()
+//                                Text("See All")
+//                                    .font(.system(size: 16))
+//                                    .fontWeight(.regular)
+//                                    .foregroundColor(.blue)
+                            }.padding(.vertical)
+                        }
+                        .padding(.horizontal)
+                        
+                        //MARK: REFERRALS SECTION - CONTENT
+                        VStack(alignment: .center, spacing: 24) {
+                            
+                            ForEach(itemsViewModel.snapshotOfReviewableItems.prefix(3)) { item in
+                                
+                                LargeItemReferWidget(item: item, selectedTab: $selectedTab)
+                                
+                            }
+                                
+                        }.padding(.vertical)
+                        
+                        Divider().padding(.vertical).padding(.top).padding(.leading)
                         
                         //MARK: REVIEWS SECTION - TITLE AND DESCRIPTION
                         VStack(alignment: .leading, spacing: 8) {
@@ -94,38 +126,8 @@ struct Earn: View {
                             }
                         }.padding(.vertical)
                         
-                        Divider().padding(.vertical).padding(.top).padding(.leading)
                         
-                        //MARK: REFERRALS SECTION - TITLE AND DESCRIPTION
-                        VStack(alignment: .leading, spacing: 8) {
-                            //Title
-                            HStack(alignment: .center) {
-                                Image(systemName: "paperplane.fill")
-                                    .font(.system(size: 28, weight: .semibold))
-                                    .foregroundColor(Color("ReferPurple"))
-                                Text("Refer")
-                                    .font(.system(size: 28))
-                                    .fontWeight(.bold)
-                                    .foregroundColor(Color("Dark1"))
-                                Spacer()
-//                                Text("See All")
-//                                    .font(.system(size: 16))
-//                                    .fontWeight(.regular)
-//                                    .foregroundColor(.blue)
-                            }.padding(.vertical)
-                        }
-                        .padding(.horizontal)
                         
-                        //MARK: REFERRALS SECTION - CONTENT
-                        VStack(alignment: .center, spacing: 24) {
-                            
-                            ForEach(itemsViewModel.snapshotOfReviewableItems.prefix(3)) { item in
-                                
-                                LargeItemReferWidget(item: item, selectedTab: $selectedTab)
-                                
-                            }
-                                
-                        }.padding(.vertical)
                         
                         Divider().padding(.vertical).padding(.top).padding(.leading)
                         
@@ -161,7 +163,7 @@ struct Earn: View {
             
             .background(.white)
             .edgesIgnoringSafeArea([.bottom, .horizontal])
-            .navigationTitle("Earn")
+            .navigationTitle("My Influence")
             
             //.ignoresSafeArea()
             //Note: need to ignoreSafeArea, set nav title to "", set barHidden to true in order not to break when returning from a navigationViewChild

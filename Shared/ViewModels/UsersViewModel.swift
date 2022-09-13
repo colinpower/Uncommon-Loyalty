@@ -15,6 +15,8 @@ class UsersViewModel: ObservableObject, Identifiable {
     
     @Published var oneUser = [Users]()
     
+    @Published var snapshotOfOneUser = [Users]()
+    
     var dm = DataManager()
     
     var listener_oneUser: ListenerRegistration!
@@ -36,23 +38,28 @@ class UsersViewModel: ObservableObject, Identifiable {
     }
 }
     
-//    func createUser(email: String, userID: String) {
-//        db.collection("users")
-//            .addDocument(data: [
-//                "birthday": "",
-//                "email": email,
-//                "firstName": "",
-//                "lastName": "",
-//                "newUpdate": "",
-//                "timestampJoined": Int(round(Date().timeIntervalSince1970)),
-//                "userID": userID
-//            ]) { err in
-//                    if let err = err {
-//                        print("Error updating document: \(err)")
-//                    } else {
-//                        print("hasSeenFRE set to True")
-//                    }
-//
-//                }
-//    }
+//func snapshotOfOrder(orderID: String) {
+//    //print("this ONE function was called")
+//    
+//    //var ordersSnapshot = [Orders]()
+//    
+//    db.collection("user")
+//        .whereField("orderID", isEqualTo: orderID)
+//        .getDocuments { (snapshot, error) in
+//            
+//            guard let snapshot = snapshot, error == nil else {
+//                //handle error
+//                print("found error in snapshotOfOrder")
+//                return
+//            }
+//            print("Number of documents: \(snapshot.documents.count ?? -1)")
+//            
+//            self.snapshotOfOrder = snapshot.documents.compactMap({ queryDocumentSnapshot -> Orders? in
+//                print("AT THE TRY STATEMENT")
+//                print(try? queryDocumentSnapshot.data(as: Orders.self))
+//                return try? queryDocumentSnapshot.data(as: Orders.self)
+//            })
+//        }
+//    
+//}
 

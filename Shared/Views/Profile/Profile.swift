@@ -11,6 +11,8 @@ struct Profile: View {
     
     @EnvironmentObject var viewModel: AppViewModel
     
+    @ObservedObject var discountCodesViewModel = DiscountCodesViewModel()
+    
     
     @State var isSendFeedbackActive:Bool = false
     
@@ -68,6 +70,25 @@ struct Profile: View {
                         .background(RoundedRectangle(cornerRadius: 8).foregroundColor(.white))
                             .padding()
 
+                        
+                        //MARK: REFERRALS RECEIVED
+                        
+                        HStack {
+                            Text("Referrals You've Received")
+                                .font(.system(size: 25, weight: .bold))
+                                .foregroundColor(Color("Dark1"))
+                                .padding()
+                            Spacer()
+                        }
+                        
+                        //MARK: REFERRALS YOU'VE RECEIVED CARD
+                        TabViewForReferralsYouveReceived(discountCodes: discountCodesViewModel.myDiscountCodes)
+                            .padding(.bottom)
+                            .padding(.bottom)
+                        
+                        
+                        //, isReferralCardSelected: $isReferralCardSelected, referralCardSelected: $referralCardSelected, home_Animation: home_Animation)
+                            
 
                         //MARK: Invite friends
                         WidgetSolo(image: "plus.circle.fill", size: 40, firstLine: "Invite friends", secondLine: "Get 500 points", secondLineColor:Color("ThemeBright") , isActive: $isShareSheetActive)
@@ -146,6 +167,8 @@ struct Profile: View {
             .edgesIgnoringSafeArea([.bottom, .horizontal])
             .navigationTitle("Profile").font(.title)
             .onAppear {
+                
+                self.discountCodesViewModel.listenForMyDiscountCodes(email: "colinjpower1@gmail.com", companyID: "zKL7SQ0jRP8351a0NnHM")
                 // stuff goes here
             }
         }

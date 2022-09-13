@@ -13,16 +13,24 @@ import SwiftUI
 struct AddLoyaltyProgramPreview: View {
     
     @StateObject var viewModel_companies = CompaniesViewModel()
+    
+    @ObservedObject var rewardsProgramViewModel = RewardsProgramViewModel()
 
     @State var isAddLoyaltyProgramCarouselActive : Bool = false
     
     var company: Companies
     
+    var userID: String
+    
+    var email: String
     
     var body: some View {
-        VStack(alignment: .center, spacing: 0) {
+        VStack(alignment: .leading, spacing: 0) {
+            
+            let array = rewardsProgramViewModel.myRewardsPrograms.map {$0.companyID}
             
             
+            //MARK: HEADER OF PAGE
             ZStack(alignment: .top) {
                 Image("BlueGoldenRatio")
                     .resizable()
@@ -49,41 +57,100 @@ struct AddLoyaltyProgramPreview: View {
                     .layoutPriority(-1)
             
             }.frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.width / 1.6)
-                .padding(.bottom)
-                .padding(.bottom)
             
             //MARK: ABOUT US SECTION
-            VStack(spacing: 0) {
-                HStack {
-                    Text("About Us")
-                        .foregroundColor(Color("Dark1"))
-                        .font(.system(size: 20, weight: .bold))
-                    Spacer()
-                }.padding(.bottom)
-                
-                HStack {
-                    Text("We make very high quality products for all your athletic needs")
-                        .multilineTextAlignment(.leading)
-                        .foregroundColor(Color("Dark1"))
-                        .font(.system(size: 16, weight: .medium))
-                }.frame(width: UIScreen.main.bounds.width)
-            }
-                .padding(.horizontal)
-                .padding(.bottom, 30)
-            
-            //MARK: MOST POPULAR SECTION
             VStack(alignment: .leading, spacing: 0) {
-                
-                Text("We're known for these products")
-                    .multilineTextAlignment(.leading)
+                Text("About Us")
                     .foregroundColor(Color("Dark1"))
                     .font(.system(size: 20, weight: .bold))
-                    .padding(.horizontal)
-            
-                AddLoyaltyProgramPopularItemsTabView()
-                    .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.width * 3 / 4)
+                    .padding(.bottom, 8)
+                Text("We make very high quality products for all your athletic needs")
+                    .multilineTextAlignment(.leading)
+                    .foregroundColor(Color("Dark1"))
+                    .font(.system(size: 16, weight: .medium))
             }
-            .padding(.bottom, 60)
+            .padding()
+            .padding(.vertical)
+            
+            //MARK: MOST POPULAR SECTION
+
+            VStack(alignment: .leading, spacing: 0) {
+                Text("Athleisure Rewards")
+                    .foregroundColor(Color("Dark1"))
+                    .font(.system(size: 20, weight: .bold))
+                    .padding(.bottom, 8)
+            }.padding()
+            
+            
+            List {
+
+                //MARK: POINTS, TIME, QUESTIONS
+                Section(header: Text("Rewards for influence")) {
+
+                    HStack {
+
+                        Text("Referrals")
+                            .font(.system(size: 16))
+                            .foregroundColor(.black)
+
+                        Spacer()
+
+                        Text("20K points")
+                            .font(.system(size: 16, weight: .medium))
+                            .foregroundColor(Color("ReferPurple"))
+
+
+                    }
+                }
+
+                //MARK: REFERRALS
+                Section(header: Text("Other rewards")) {
+
+                    HStack {
+                        Text("Reviews")
+                            .font(.system(size: 16))
+                            .foregroundColor(.black)
+
+                        Spacer()
+
+                        Text("250 points")
+                            .font(.system(size: 16))
+                            .foregroundColor(.gray)
+
+
+                    }
+                    
+                    HStack {
+                        Text("For each dollar spent")
+                            .font(.system(size: 16))
+                            .foregroundColor(.black)
+
+                        Spacer()
+
+                        Text("10 points")
+                            .font(.system(size: 16))
+                            .foregroundColor(.gray)
+
+
+                    }
+                }
+            }
+
+            
+            
+//            VStack(alignment: .leading, spacing: 0) {
+//
+//                Text("We're known for these products")
+//                    .multilineTextAlignment(.leading)
+//                    .foregroundColor(Color("Dark1"))
+//                    .font(.system(size: 20, weight: .bold))
+//                    .padding(.horizontal)
+//                    .padding(.bottom)
+//
+//                AddLoyaltyProgramPopularItemsTabView()
+//                    .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.width * 3 / 4)
+//            }
+//            .padding(.bottom, 40)
             
             
             
@@ -96,23 +163,24 @@ struct AddLoyaltyProgramPreview: View {
             }) {
                HStack {
                    Spacer()
-                   Text("Join & get 20%!")
+                   Text(array.contains(company.companyID) ? "Joined" : "Join \(company.companyName) Rewards")
                        .foregroundColor(Color.white)
                        .font(.system(size: 18))
                        .fontWeight(.semibold)
                        .padding(.vertical, 16)
                    Spacer()
-               }.background(RoundedRectangle(cornerRadius: 36).fill(Color("ReferPurple")))
+               }.clipShape(Capsule())
+                    .background(Capsule().foregroundColor(array.contains(company.companyID) ? Color.green : Color("ReferPurple")))
                 .padding(.horizontal)
                 .padding(.horizontal)
                 .padding(.bottom, 60)
-            }.fullScreenCover(isPresented: $isAddLoyaltyProgramCarouselActive) {
+            }.sheet(isPresented: $isAddLoyaltyProgramCarouselActive) {
                 //on dismiss....
                 
             } content: {
-                AddLoyaltyProgramCarousel(isAddLoyaltyProgramCarouselActive: $isAddLoyaltyProgramCarouselActive)
-            }
-            
+                JoinLoyaltyProgram1(company: company, isAddLoyaltyProgramCarouselActive: $isAddLoyaltyProgramCarouselActive, userID: userID, email: email)
+                //AddLoyaltyProgramCarousel(isAddLoyaltyProgramCarouselActive: $isAddLoyaltyProgramCarouselActive)
+            }.disabled(array.contains(company.companyID))
         }
         .ignoresSafeArea()
         .background(Color("Background"))
@@ -120,10 +188,7 @@ struct AddLoyaltyProgramPreview: View {
         .navigationBarTitleDisplayMode(.inline)
         .onAppear {
             self.viewModel_companies.listenForMyCompanies()
-            //print("CURRENT USER IS")
-            //print(Auth.auth().currentUser?.email ?? "")
-            print("REAPPEAR")
-            print(self.viewModel_companies.myCompanies)
+            self.rewardsProgramViewModel.listenForMyRewardsPrograms(userID: userID)
         }
         .onDisappear {
             print("DISAPPEAR")

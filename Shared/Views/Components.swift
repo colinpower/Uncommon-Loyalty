@@ -66,7 +66,7 @@ struct MyTabView: View {
     
     var body: some View {
         VStack(spacing: 0) {
-            Divider().frame(height: 0.5).padding(.bottom, 6)
+            Divider().frame(height: 0.5).padding(.bottom, 10)
             HStack(alignment: .bottom) {
                 Spacer()
                 TabViewItem(position: 0, selectedTab: $selectedTab)
@@ -94,11 +94,11 @@ struct TabViewItem: View {
     var tabViewItemImageName: [String] {
         switch position {
         case 0:
-            return ["creditcard", "Accounts"]
+            return ["giftcard", "Rewards"]
         case 1:
             return ["person.3", "Influence"]
         case 2:
-            return ["globe", "Discover"]
+            return ["circle.dashed", "Inner Circle"]
         case 3:
             return ["person", "Profile"]
         default:
@@ -130,9 +130,19 @@ struct TabViewItem: View {
                             .font(.system(size: 10, weight: .medium))
                     }
                 }
-            }.frame(maxWidth: .infinity, maxHeight: 38)
+            }.frame(maxWidth: .infinity, maxHeight: 36)
     }
 }
+
+extension Color {
+    init(hex: Int, opacity: Double = 1.0) {
+        let red = Double((hex & 0xff0000) >> 16) / 255.0
+        let green = Double((hex & 0xff00) >> 8) / 255.0
+        let blue = Double((hex & 0xff) >> 0) / 255.0
+        self.init(.sRGB, red: red, green: green, blue: blue, opacity: opacity)
+    }
+}
+
 
 //MARK: SHEET HEADER
 struct SheetHeader: View {
