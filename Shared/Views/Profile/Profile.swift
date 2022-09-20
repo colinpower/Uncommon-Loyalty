@@ -70,26 +70,6 @@ struct Profile: View {
                         .background(RoundedRectangle(cornerRadius: 8).foregroundColor(.white))
                             .padding()
 
-                        
-                        //MARK: REFERRALS RECEIVED
-                        
-                        HStack {
-                            Text("Referrals You've Received")
-                                .font(.system(size: 25, weight: .bold))
-                                .foregroundColor(Color("Dark1"))
-                                .padding()
-                            Spacer()
-                        }
-                        
-                        //MARK: REFERRALS YOU'VE RECEIVED CARD
-                        TabViewForReferralsYouveReceived(discountCodes: discountCodesViewModel.myDiscountCodes)
-                            .padding(.bottom)
-                            .padding(.bottom)
-                        
-                        
-                        //, isReferralCardSelected: $isReferralCardSelected, referralCardSelected: $referralCardSelected, home_Animation: home_Animation)
-                            
-
                         //MARK: Invite friends
                         WidgetSolo(image: "plus.circle.fill", size: 40, firstLine: "Invite friends", secondLine: "Get 500 points", secondLineColor:Color("ThemeBright") , isActive: $isShareSheetActive)
                             .sheet(isPresented: $isShareSheetActive, content: {
