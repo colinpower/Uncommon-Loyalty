@@ -1,5 +1,5 @@
 //
-//  Earn.swift
+//  Influence.swift
 //  Uncommon Loyalty (iOS)
 //
 //  Created by Colin Power on 8/24/22.
@@ -8,7 +8,7 @@
 import SwiftUI
 
 
-struct Earn: View {
+struct Influence: View {
     
     //Required for any tab
     @ObservedObject var viewModel = AppViewModel()

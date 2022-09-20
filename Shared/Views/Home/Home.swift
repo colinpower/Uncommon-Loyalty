@@ -19,6 +19,9 @@ struct Home: View {
     
     @AppStorage("shouldShowFirstRunExperience")
     private var shouldShowFirstRunExperience: Bool = true
+
+    //@State var shouldShowFirstRunExperience: Bool = true
+    
     
     //Read data from Firebase
     @StateObject var rewardsProgramViewModel = RewardsProgramViewModel()
@@ -70,10 +73,14 @@ struct Home: View {
                 self.rewardsProgramViewModel.getSnapshotOfMyRewardsPrograms(userID: Auth.auth().currentUser?.uid ?? "")
                 self.companiesViewModel.getSnapshotOfAllCompanies()
             }
+            .fullScreenCover(isPresented: $shouldShowFirstRunExperience, content: {
+                FirstRunExperience(shouldShowFirstRunExperience: $shouldShowFirstRunExperience)
+            })
             
-        }.sheet(isPresented: $shouldShowFirstRunExperience) {
-            FirstRunExperience(shouldShowFirstRunExperience: $shouldShowFirstRunExperience)
         }
+//        .(isPresented: $shouldShowFirstRunExperience) {
+//            FirstRunExperience(shouldShowFirstRunExperience: $shouldShowFirstRunExperience)
+//        }
     }
     
     

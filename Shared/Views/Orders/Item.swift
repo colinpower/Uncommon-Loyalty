@@ -46,36 +46,65 @@ struct Item: View {
                 }
             
                 //company -> about us page
-                NavigationLink {
-                    AboutCompany() //MARK: NEED TO PASS IN THE ACTUAL COMPANY ID!!
-                } label: {
-                    HStack {
-                    
-                        Image("Athleisure LA")
-                            .resizable()
-                            .scaledToFill()
-                            .frame(width: 28, height: 28, alignment: .center)
-                            .clipped()
-                            .cornerRadius(7)
-                            .padding(.horizontal, 2)
-                        
+                HStack (alignment: .center) {
+                                       
+                    //MARK: COMPANY ICON
+                    Image("Athleisure LA")
+                        .resizable()
+                        .scaledToFill()
+                        .frame(width: 40, height: 40, alignment: .center)
+                        .clipped()
+                        .cornerRadius(8)
+                        .padding(.trailing, 6)
+                        .padding(.bottom, 5)
+                
+                    //MARK: COMPANY NAME AND STATUS
+                    VStack(alignment: .leading, spacing: 6) {
                         Text("Athleisure LA")
-                            .font(.system(size: 16))
-                            .foregroundColor(.black)
-                        Spacer()
+                            .foregroundColor(Color("Dark1"))
+                            .font(.system(size: 16, weight: .medium))
+                        Text("Joggers 2.0")
+                            .font(.system(size: 14, weight: .regular))
+                            .foregroundColor(Color("Gray1"))
+                    }
+                
+                    Spacer()
+                
+                    //MARK: RATING
                     
-                }
+                    if itemID != "" {
+                        HStack(alignment: .center) {
+                            Image(systemName: "star.fill")
+                            Image(systemName: "star.fill")
+                            Image(systemName: "star.fill")
+                            Image(systemName: "star.fill")
+                            Image(systemName: "star.fill")
+                        }.font(.system(size: 12, weight: .regular))
+                        .foregroundColor(Color.yellow)
+                        .frame(height: 20)
+                    } else {
+                        HStack(alignment: .center) {
+                            Image(systemName: "star.fill")
+                            Image(systemName: "star.fill")
+                            Image(systemName: "star.fill")
+                            Image(systemName: "star.fill")
+                            Image(systemName: "star.fill")
+                        }.font(.system(size: 12, weight: .regular))
+                        .foregroundColor(Color.yellow)
+                        .frame(height: 20)
+                    }
+                    
             }
             }
             
             //MARK: "POINTS EARNED" SECTION
-            Section(header: Text("Points Earned")) {
+            Section(header: Text("Points Earned: 1000")) {
                     
                 //for purchase
                 NavigationLink {
                     ProfileTEMP()
                 } label: {
-                    PointsEarnedSectionRow(image: "heart.circle.fill", imageColor: Color.red, title: "Purchase", points: "800", isEnabled: true)
+                    PointsEarnedSectionRow(image: "dollarsign.circle", imageColor: Color.green, title: "Purchase - Pending", subtitle: "10 points per dollar", points: "800", isEnabled: true)
                 }
 
                 //for review
@@ -89,26 +118,16 @@ struct Item: View {
                     
                     
                 } label: {
-                    PointsEarnedSectionRow(image: "star.circle.fill", imageColor: Color("ReviewTeal"), title: "Review", points: "200", isEnabled: true)
+                    PointsEarnedSectionRow(image: "star.circle.fill", imageColor: Color("ReviewTeal"), title: "Review", subtitle: "Up to 250 points", points: "200", isEnabled: true)
                 }
 
                 //for referral
                 NavigationLink  {
                     IntentToRefer(itemObject: itemsViewModel.snapshotOfItem.first ?? Items(companyID: "", domain: "", email: "", itemID: "", name: "", orderID: "", price: "", quantity: 0, referred: false, reviewID: "", reviewRating: 0, shopifyItemID: 0, status: "", timestamp: 0, title: "", userID: ""))
                 } label: {
-                    PointsEarnedSectionRow(image: "paperplane.circle.fill", imageColor: Color("ReferPurple"), title: "Referral", points: "15000", isEnabled: false)
+                    PointsEarnedSectionRow(image: "paperplane.circle.fill", imageColor: Color("ReferPurple"), title: "Referral", subtitle: "15K points per referral", points: "15000", isEnabled: false)
                 }
                 
-                //total
-                HStack {
-                    Text("Total")
-                        .font(.system(size: 16, weight: .medium))
-                        .foregroundColor(.black)
-                    Spacer()
-                    Text("1000")
-                        .font(.system(size: 16, weight: .medium))
-                        .foregroundColor(.black)
-                }
             }
                         
             //MARK: ORDER SECTION
@@ -169,6 +188,39 @@ struct Item: View {
                 self.itemsViewModel.getSnapshotOfItem(itemID: itemID!)
             }
             
+        }
+    }
+}
+
+
+struct PointsEarnedSectionRow: View {
+    
+    var image:String
+    var imageColor:Color
+    var title:String
+    var subtitle:String
+    var points:String
+    var isEnabled:Bool
+    
+    
+    var body: some View {
+        
+        HStack {
+            Image(systemName: image)
+                .font(.system(size: 40))
+                .foregroundColor(isEnabled ? imageColor : .gray)
+            VStack(alignment: .leading, spacing: 0) {
+                Text(title)
+                    .font(.system(size: 16))
+                    .foregroundColor(isEnabled ? .black : .gray)
+                Text(subtitle)
+                    .font(.system(size: 12))
+                    .foregroundColor(isEnabled ? .black : .gray)
+            }
+            Spacer()
+            Text(points)
+                .font(.system(size: 16))
+                .foregroundColor(isEnabled ? .black : .gray)
         }
     }
 }

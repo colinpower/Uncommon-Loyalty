@@ -46,7 +46,7 @@ struct ContentView: View {
                     Home(selectedTab: $selectedTab)
                     
                 case 1:
-                    Earn(selectedTab: $selectedTab)
+                    Influence(selectedTab: $selectedTab)
                     //AllOrders(selectedTab: $selectedTab)
                 case 2:
                     Discover(selectedTab: $selectedTab)

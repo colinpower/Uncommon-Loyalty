@@ -153,7 +153,7 @@
 		30EA87B9281351E200F0CF64 /* Orders.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30EA87B8281351E200F0CF64 /* Orders.swift */; };
 		30FF419628B61C0300D70BC5 /* IntentToReview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30FF419528B61C0300D70BC5 /* IntentToReview.swift */; };
 		30FF419928B6264000D70BC5 /* Wallet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30FF419828B6264000D70BC5 /* Wallet.swift */; };
-		30FF419D28B62F8000D70BC5 /* Earn.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30FF419C28B62F8000D70BC5 /* Earn.swift */; };
+		30FF419D28B62F8000D70BC5 /* Influence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30FF419C28B62F8000D70BC5 /* Influence.swift */; };
 		30FF419F28B62FFD00D70BC5 /* Discover.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30FF419E28B62FFD00D70BC5 /* Discover.swift */; };
 		30FF41A128B635F200D70BC5 /* HomeWithPopOutCards.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30FF41A028B635F200D70BC5 /* HomeWithPopOutCards.swift */; };
 		30FF41A328B6886B00D70BC5 /* PositiveReview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30FF41A228B6886B00D70BC5 /* PositiveReview.swift */; };
@@ -308,7 +308,7 @@
 		30EA87B8281351E200F0CF64 /* Orders.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Orders.swift; sourceTree = "<group>"; };
 		30FF419528B61C0300D70BC5 /* IntentToReview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntentToReview.swift; sourceTree = "<group>"; };
 		30FF419828B6264000D70BC5 /* Wallet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Wallet.swift; sourceTree = "<group>"; };
-		30FF419C28B62F8000D70BC5 /* Earn.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Earn.swift; sourceTree = "<group>"; };
+		30FF419C28B62F8000D70BC5 /* Influence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Influence.swift; sourceTree = "<group>"; };
 		30FF419E28B62FFD00D70BC5 /* Discover.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Discover.swift; sourceTree = "<group>"; };
 		30FF41A028B635F200D70BC5 /* HomeWithPopOutCards.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeWithPopOutCards.swift; sourceTree = "<group>"; };
 		30FF41A228B6886B00D70BC5 /* PositiveReview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PositiveReview.swift; sourceTree = "<group>"; };
@@ -509,7 +509,7 @@
 				30D6D7D728C4A84E00576C2A /* Cards */,
 				30D6D7D328C4877D00576C2A /* Contacts */,
 				30FF419A28B62F5700D70BC5 /* Discover */,
-				30FF419B28B62F7000D70BC5 /* Earn */,
+				30FF419B28B62F7000D70BC5 /* Influence */,
 				303D3FC728A89A2100455A09 /* First Run Experience */,
 				3014FA922796FE1F00473CE4 /* Home */,
 				303D3FC628A898DD00455A09 /* Login */,
@@ -801,13 +801,13 @@
 			path = Discover;
 			sourceTree = "<group>";
 		};
-		30FF419B28B62F7000D70BC5 /* Earn */ = {
+		30FF419B28B62F7000D70BC5 /* Influence */ = {
 			isa = PBXGroup;
 			children = (
-				30FF419C28B62F8000D70BC5 /* Earn.swift */,
+				30FF419C28B62F8000D70BC5 /* Influence.swift */,
 				3053C0A528B9003B00FF3A17 /* ItemsAndOrders.swift */,
 			);
-			path = Earn;
+			path = Influence;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -956,7 +956,7 @@
 				301DBFDA28C20A0C0072E497 /* IntentToRefer.swift in Sources */,
 				301DBFD028C1C1260072E497 /* ProfileTEMP.swift in Sources */,
 				301DBFE628C2B04C0072E497 /* ReviewPagePreview.swift in Sources */,
-				30FF419D28B62F8000D70BC5 /* Earn.swift in Sources */,
+				30FF419D28B62F8000D70BC5 /* Influence.swift in Sources */,
 				3088073E28A56488003D1B99 /* CompaniesViewModel.swift in Sources */,
 				30546E2827FBD06400173D9D /* Profile.swift in Sources */,
 				30FF41A528B68DD500D70BC5 /* ChooseYourReward.swift in Sources */,
