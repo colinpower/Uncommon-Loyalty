@@ -25,6 +25,11 @@ struct Earn: View {
     @State var isShowingContactsList:Bool = false
     
     
+    let columns: [GridItem] = [
+        GridItem(.fixed(UIScreen.main.bounds.width / 2), spacing: 0, alignment: nil),
+        GridItem(.fixed(UIScreen.main.bounds.width / 2), spacing: 0, alignment: nil)
+    ]
+    
     
     var body: some View {
         NavigationView {
@@ -64,127 +69,196 @@ struct Earn: View {
                         .frame(width: UIScreen.main.bounds.width, height: 150, alignment: .center)
                         
                         
-                        //MARK: MOST POPULAR REFERRALS HEADER
+                        //MARK: MOST POPULAR REFERRALS
                         VStack(alignment: .leading) {
                             
+                            //header
                             Text("Where you're most influential")
                                 .font(.system(size: 25, weight: .semibold))
                                 .foregroundColor(.black)
                                 .padding(.leading)
                                 .padding(.bottom, 5)
                             
+                            //divider
                             Divider().padding(.leading)
+                            
+                            //content
+                            ScrollView (.horizontal, showsIndicators: false) {
+                                HStack(alignment: .center, spacing: 20) {
+                                    
+                                    ForEach(itemsViewModel.snapshotOfReviewableItems.prefix(3)) { item in
+                                        
+                                        TopReferralsWidget(item: item)
+                                            .frame(width: UIScreen.main.bounds.width / 2, height: UIScreen.main.bounds.width / 2)
+                                            .background(RoundedRectangle(cornerRadius: 11).foregroundColor(.white).shadow(radius: CGFloat(11)))
+                                        
+                                    }
+                                    
+                                }.offset(x: 20)
+                                .padding(.vertical)
+                                .padding(.vertical)
+                                .padding(.trailing, 40)
+                            }
+                            
                         }.padding(.top).padding(.top)
                         
                         
-                        //MARK: MOST POPULAR REFERRALS SECTION
-                        ScrollView (.horizontal, showsIndicators: false) {
-                            HStack(alignment: .center, spacing: 20) {
-                                
-                                ForEach(itemsViewModel.snapshotOfReviewableItems.prefix(3)) { item in
+                        //MARK: MORE PRODUCTS YOU BELIEVE IN (5 STAR REVIEWS -> READY FOR REFERRAL)
+                        VStack(alignment: .leading) {
+                            
+                            //header
+                            Text("More products you believe in")
+                                .font(.system(size: 25, weight: .semibold))
+                                .foregroundColor(.black)
+                                .padding(.leading)
+                                .padding(.bottom, 5)
+                            
+                            //divider
+                            Divider().padding(.leading)
+                            
+                            //content
+                            ScrollView (.horizontal, showsIndicators: false) {
+                                HStack(alignment: .center, spacing: 20) {
                                     
-                                    TopReferralsWidget(item: item)
-                                        .frame(width: UIScreen.main.bounds.width / 2, height: UIScreen.main.bounds.width / 2)
-                                        .background(RoundedRectangle(cornerRadius: 11).foregroundColor(.white).shadow(radius: CGFloat(11)))
+                                    ForEach(itemsViewModel.snapshotOfReviewableItems.prefix(3)) { item in
+                                        
+                                        FiveStarReviewsWidget(item: item)
+                                            .frame(width: UIScreen.main.bounds.width / 2, height: UIScreen.main.bounds.width / 2 + 32, alignment: .top)
+                                            .background(RoundedRectangle(cornerRadius: 11).foregroundColor(.white).shadow(radius: CGFloat(11)))
+                                        
+                                    }
+                                    
+                                }.offset(x: 20)
+                                .padding(.vertical)
+                                .padding(.vertical)
+                                .padding(.trailing, 40)
+                            }
+                            
+                        }.padding(.top).padding(.top)
+                        
+                        
+                        //MARK: YOUR RECENT PURCHASES
+                        VStack(alignment: .leading) {
+                            
+                            //header
+                            Text("Your recent purchases")
+                                .font(.system(size: 25, weight: .semibold))
+                                .foregroundColor(.black)
+                                .padding(.leading)
+                                .padding(.bottom, 5)
+                            
+                            
+                            //content
+                            LazyVGrid(columns: columns, spacing: 0) {
+                                
+                                ForEach(itemsViewModel.snapshotOfReviewableItems.prefix(10)) { item in
+                                    
+                                    LazyVGridWidget(item: item)
+                                        .frame(width: UIScreen.main.bounds.width / 2, height: UIScreen.main.bounds.width / 2 + 32)
+                                        .background(.white)
+                                        .clipShape(Rectangle())
+                                        .overlay(
+                                            Rectangle()
+                                                .stroke(Color("Gray3"), lineWidth: 0.5)
+                                        )
                                     
                                 }
                                 
-                            }.offset(x: 20)
-                            .padding(.vertical)
-                            .padding(.vertical)
-                            .padding(.trailing, 40)
-                        }
-                        
-                        
-                        
-                        
-                        //MARK: REFERRALS SECTION - TITLE AND DESCRIPTION
-                        VStack(alignment: .leading, spacing: 8) {
-                            //Title
-                            HStack(alignment: .center) {
-                                Image(systemName: "paperplane.fill")
-                                    .font(.system(size: 28, weight: .semibold))
-                                    .foregroundColor(Color("ReferPurple"))
-                                Text("Refer")
-                                    .font(.system(size: 28))
-                                    .fontWeight(.bold)
-                                    .foregroundColor(Color("Dark1"))
-                                Spacer()
-//                                Text("See All")
-//                                    .font(.system(size: 16))
-//                                    .fontWeight(.regular)
-//                                    .foregroundColor(.blue)
-                            }.padding(.vertical)
-                        }
-                        .padding(.horizontal)
-                        
-                        //MARK: REFERRALS SECTION - CONTENT
-                        VStack(alignment: .center, spacing: 24) {
-                            
-                            ForEach(itemsViewModel.snapshotOfReviewableItems.prefix(3)) { item in
-                                
-                                LargeItemReferWidget(item: item, selectedTab: $selectedTab)
-                                
                             }
-                                
-                        }.padding(.vertical)
-                        
-                        Divider().padding(.vertical).padding(.top).padding(.leading)
-                        
-                        //MARK: REVIEWS SECTION - TITLE AND DESCRIPTION
-                        VStack(alignment: .leading, spacing: 8) {
-                            //Title
-                            HStack(alignment: .center) {
-                                Image(systemName: "star.square.fill")
-                                    .font(.system(size: 28, weight: .semibold))
-                                    .foregroundColor(Color("ReviewTeal"))
-                                Text("Review")
-                                    .font(.system(size: 28))
-                                    .fontWeight(.bold)
-                                    .foregroundColor(Color("Dark1"))
-                                Spacer()
-//                                Text("See All")
-//                                    .font(.system(size: 16))
-//                                    .fontWeight(.regular)
-//                                    .foregroundColor(.blue)
-                            }.padding(.vertical)
                             
-                            //Description
-//                            Text("Earn points for reviews and referrals")
-//                                .font(.system(size: 16))
-//                                .fontWeight(.regular)
-//                                .foregroundColor(Color("Dark1"))
-//                                .multilineTextAlignment(.leading)
-                        }
-                        .padding(.horizontal)
-                        
-                        //MARK: REVIEWS SECTION - CONTENT
-                        VStack(alignment: .center, spacing: 24) {
-                            ForEach(itemsViewModel.snapshotOfReviewableItems.prefix(3)) { item in
-                                                                
-                                LargeItemReviewWidget(item: item, selectedTab: $selectedTab)
-
-                            }
-                        }.padding(.vertical)
+                        }.padding(.top).padding(.top)
                         
                         
                         
                         
-                        Divider().padding(.vertical).padding(.top).padding(.leading)
+//
+//                        //MARK: REFERRALS SECTION - TITLE AND DESCRIPTION
+//                        VStack(alignment: .leading, spacing: 8) {
+//                            //Title
+//                            HStack(alignment: .center) {
+//                                Image(systemName: "paperplane.fill")
+//                                    .font(.system(size: 28, weight: .semibold))
+//                                    .foregroundColor(Color("ReferPurple"))
+//                                Text("Refer")
+//                                    .font(.system(size: 28))
+//                                    .fontWeight(.bold)
+//                                    .foregroundColor(Color("Dark1"))
+//                                Spacer()
+////                                Text("See All")
+////                                    .font(.system(size: 16))
+////                                    .fontWeight(.regular)
+////                                    .foregroundColor(.blue)
+//                            }.padding(.vertical)
+//                        }
+//                        .padding(.horizontal)
+//
+//                        //MARK: REFERRALS SECTION - CONTENT
+//                        VStack(alignment: .center, spacing: 24) {
+//
+//                            ForEach(itemsViewModel.snapshotOfReviewableItems.prefix(3)) { item in
+//
+//                                LargeItemReferWidget(item: item, selectedTab: $selectedTab)
+//
+//                            }
+//
+//                        }.padding(.vertical)
+//
+//                        Divider().padding(.vertical).padding(.top).padding(.leading)
+//
+//                        //MARK: REVIEWS SECTION - TITLE AND DESCRIPTION
+//                        VStack(alignment: .leading, spacing: 8) {
+//                            //Title
+//                            HStack(alignment: .center) {
+//                                Image(systemName: "star.square.fill")
+//                                    .font(.system(size: 28, weight: .semibold))
+//                                    .foregroundColor(Color("ReviewTeal"))
+//                                Text("Review")
+//                                    .font(.system(size: 28))
+//                                    .fontWeight(.bold)
+//                                    .foregroundColor(Color("Dark1"))
+//                                Spacer()
+////                                Text("See All")
+////                                    .font(.system(size: 16))
+////                                    .fontWeight(.regular)
+////                                    .foregroundColor(.blue)
+//                            }.padding(.vertical)
+//
+//                            //Description
+////                            Text("Earn points for reviews and referrals")
+////                                .font(.system(size: 16))
+////                                .fontWeight(.regular)
+////                                .foregroundColor(Color("Dark1"))
+////                                .multilineTextAlignment(.leading)
+//                        }
+//                        .padding(.horizontal)
+//
+//                        //MARK: REVIEWS SECTION - CONTENT
+//                        VStack(alignment: .center, spacing: 24) {
+//                            ForEach(itemsViewModel.snapshotOfReviewableItems.prefix(3)) { item in
+//
+//                                LargeItemReviewWidget(item: item, selectedTab: $selectedTab)
+//
+//                            }
+//                        }.padding(.vertical)
+//
+//
+//
                         
-                        //MARK: ALL ITEMS SECTION - TITLE AND DESCRIPTION
-                        VStack(alignment: .leading, spacing: 8) {
-                            //Title
-                            HStack(alignment: .center) {
-                                Text("All recent purchases")
-                                    .font(.system(size: 28))
-                                    .fontWeight(.bold)
-                                    .foregroundColor(Color("Dark1"))
-                                Spacer()
-                            }.padding(.vertical)
-                        }
-                        .padding(.horizontal)
-                        
+//                        Divider().padding(.vertical).padding(.top).padding(.leading)
+//
+//                        //MARK: ALL ITEMS SECTION - TITLE AND DESCRIPTION
+//                        VStack(alignment: .leading, spacing: 8) {
+//                            //Title
+//                            HStack(alignment: .center) {
+//                                Text("All recent purchases")
+//                                    .font(.system(size: 28))
+//                                    .fontWeight(.bold)
+//                                    .foregroundColor(Color("Dark1"))
+//                                Spacer()
+//                            }.padding(.vertical)
+//                        }
+//                        .padding(.horizontal)
+//
 //                        //MARK: ALL ITEMS SECTION - CONTENT
 //                        NavigationLink {
 //                            ItemsAndOrders()
@@ -503,18 +577,31 @@ struct ReviewStatsWidget: View {
     
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
-            Text(title)
-                .font(.system(size: 16, weight: .medium))
-                .foregroundColor(Color("Dark1"))
-                .padding(.bottom, 10)
-                .padding(.top, 16)
-                .padding(.leading)
+            
+            HStack(alignment: .center, spacing: 4) {
+
+                Text(title)
+                    .font(.system(size: 16, weight: .medium))
+                    .foregroundColor(Color("Dark1"))
+                
+                Spacer()
+                
+                Image(systemName: "star.fill")
+                    .font(.system(size: 14, weight: .regular))
+                    .foregroundColor(Color("ReviewTeal"))
+                    .padding(.bottom, 1)
+                
+            }
+            .padding(.bottom, 10)
+            .padding(.top, 16)
+            .padding(.horizontal)
+
             
             HStack(spacing: 0) {
                 Spacer()
                 Text(amount)
                     .font(.system(size: 40, weight: .bold, design: .rounded))
-                    .foregroundColor(amount == "0" ? Color("Gray1") : Color("ReviewTeal"))
+                    .foregroundColor(amount == "0" ? Color("Gray1") : Color("Dark1"))
                     .padding(.bottom, 24)
                     .padding(.bottom, 10)
                 Spacer()
@@ -532,19 +619,36 @@ struct ReferralStatsWidget: View {
     
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
-            Text(title)
-                .font(.system(size: 16, weight: .medium))
-                .foregroundColor(Color("Dark1"))
-                .padding(.bottom, 10)
-                .padding(.top, 16)
-                .padding(.leading)
+            
+            HStack(alignment: .center, spacing: 4) {
+                
+                Text(title)
+                    .font(.system(size: 16, weight: .medium))
+                    .foregroundColor(Color("Dark1"))
+                
+                Spacer()
+                
+                Image(systemName: "paperplane.fill")
+                    .font(.system(size: 14, weight: .regular))
+                    .foregroundColor(Color("ReferPurple"))
+                    .padding(.bottom, 1)
+                
+            }
+            .padding(.bottom, 10)
+            .padding(.top, 16)
+            .padding(.horizontal)
+            
+            
+            
+            
+                
             
             HStack(spacing: 0) {
                 Spacer()
                 VStack(alignment: .center, spacing: 0) {
                     Text(amount)
                         .font(.system(size: 40, weight: .bold, design: .rounded))
-                        .foregroundColor(amount == "0" ? Color("Gray1") : Color("ReferPurple"))
+                        .foregroundColor(amount == "0" ? Color("Gray1") : Color("Dark1"))
                         .padding(.bottom, 6)
                     
                     Text(subtitle)
@@ -566,7 +670,7 @@ struct TopReferralsWidget: View {
         
         //Link to the Review Interceptor page
         NavigationLink {
-            IntentToRefer(itemObject: item)
+            Item(item: item)
             
         } label: {
 
@@ -587,6 +691,143 @@ struct TopReferralsWidget: View {
                         .foregroundColor(Color("Gray1"))
                         .padding(.bottom, 20)
                     Text("3 Referrals")
+                        .font(.system(size: 12, weight: .regular))
+                        .foregroundColor(Color("ReferPurple"))
+                        .padding(.bottom, 20)
+                }
+                Spacer()
+            }
+            
+        }
+    }
+}
+
+struct FiveStarReviewsWidget: View {
+    
+    var item: Items
+    
+    var body: some View {
+        
+        //Link to the Review Interceptor page
+        NavigationLink {
+            Item(itemID: item.itemID)
+            
+        } label: {
+            ZStack(alignment: .top) {
+                
+                //the content of the widget
+                HStack {
+                    Spacer()
+                    VStack(alignment: .center, spacing: 0) {
+                        Image("redshorts")
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: UIScreen.main.bounds.width / 6, height: UIScreen.main.bounds.width / 6)
+                            .padding(.top, 20)
+                            .padding(.vertical, 20)
+                        Text(item.title)
+                            .font(.system(size: 14, weight: .semibold))
+                            .foregroundColor(Color("Dark1"))
+                            .padding(.bottom, 8)
+                        Text(item.companyID)
+                            .font(.system(size: 12, weight: .regular))
+                            .foregroundColor(Color("Gray1"))
+                            .padding(.bottom, 20)
+                        HStack(alignment: .center) {
+                            Spacer()
+                            Image(systemName: "star.fill")
+                            Image(systemName: "star.fill")
+                            Image(systemName: "star.fill")
+                            Image(systemName: "star.fill")
+                            Image(systemName: "star.fill")
+                            Spacer()
+                        }.font(.system(size: 12, weight: .regular))
+                            .foregroundColor(Color.yellow)
+                            .frame(height: 12)
+                            .padding(.bottom, 20)
+                        Text("0 Referrals")
+                            .font(.system(size: 12, weight: .regular))
+                            .foregroundColor(Color("ReferPurple"))
+                            .padding(.bottom, 20)
+                    }
+                    Spacer()
+                }.frame(height: UIScreen.main.bounds.width / 6 + 166)
+                
+                //the overlaid callout showing bonus points
+                VStack(alignment: .center, spacing: 0) {
+                    HStack(alignment: .top, spacing: 0) {
+                        Text("+20,000")
+                            .font(.system(size: 12, weight: .semibold, design: .rounded))
+                            .padding(.vertical, 5)
+                            .padding(.horizontal, 14)
+                            .foregroundColor(.white)
+                            .background(RoundedCornersShape(corners: [.topLeft, .bottomRight], radius: 11)
+                                .foregroundColor(Color("ReferPurple")))
+                        
+                        Spacer()
+                    }
+                    Spacer()
+                }.frame(height: UIScreen.main.bounds.width / 6 + 166)
+            }
+            .frame(height: UIScreen.main.bounds.width / 6 + 166)
+        }
+    }
+    
+    struct RoundedCornersShape: Shape {
+        let corners: UIRectCorner
+        let radius: CGFloat
+        
+        func path(in rect: CGRect) -> Path {
+            let path = UIBezierPath(roundedRect: rect,
+                                    byRoundingCorners: corners,
+                                    cornerRadii: CGSize(width: radius, height: radius))
+            return Path(path.cgPath)
+        }
+    }
+    
+}
+
+struct LazyVGridWidget: View {
+    
+    var item: Items
+    
+    var body: some View {
+        
+        //Link to the Review Interceptor page
+        NavigationLink {
+            Item(itemID: item.itemID)
+            
+        } label: {
+
+            HStack(spacing: 0) {
+                Spacer()
+                VStack(alignment: .center, spacing: 0) {
+                    Image("redshorts")
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .frame(width: UIScreen.main.bounds.width / 6, height: UIScreen.main.bounds.width / 6)
+                        .padding(.vertical, 20)
+                    Text(item.title)
+                        .font(.system(size: 14, weight: .semibold))
+                        .foregroundColor(Color("Dark1"))
+                        .padding(.bottom, 8)
+                    Text(item.companyID)
+                        .font(.system(size: 12, weight: .regular))
+                        .foregroundColor(Color("Gray1"))
+                        .padding(.bottom, 20)
+                    HStack(alignment: .center) {
+                        Spacer()
+                        Image(systemName: "star")
+                        Image(systemName: "star")
+                        Image(systemName: "star")
+                        Image(systemName: "star")
+                        Image(systemName: "star")
+                        Spacer()
+                    }.font(.system(size: 12, weight: .regular))
+                        .foregroundColor(Color("ReviewTeal"))
+                        .frame(height: 12)
+                        .padding(.bottom, 20)
+                    Text("0 Referrals")
                         .font(.system(size: 12, weight: .regular))
                         .foregroundColor(Color("ReferPurple"))
                         .padding(.bottom, 20)

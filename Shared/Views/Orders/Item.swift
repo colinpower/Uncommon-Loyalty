@@ -19,10 +19,15 @@ struct Item: View {
     @State var selectedTab:Int = 2
     
     //Required variables
-    var itemID: String
+    var itemID:String? = ""
+    
+    var item: Items?
     
     
     var body: some View {
+        
+        
+        
         List {
             
             //MARK: ORDER IMAGE + COMPANY SECTION
@@ -75,7 +80,14 @@ struct Item: View {
 
                 //for review
                 NavigationLink  {
-                    IntentToReview(itemObject: itemsViewModel.snapshotOfItem.first ?? Items(companyID: "", domain: "", email: "", itemID: "", name: "", orderID: "", price: "", quantity: 0, referred: false, reviewID: "", reviewRating: 0, shopifyItemID: 0, status: "", timestamp: 0, title: "", userID: ""))
+                    
+                    if itemID != "" {
+                        IntentToReview(itemObject: itemsViewModel.snapshotOfItem.first ?? Items(companyID: "", domain: "", email: "", itemID: "", name: "", orderID: "", price: "", quantity: 0, referred: false, reviewID: "", reviewRating: 0, shopifyItemID: 0, status: "", timestamp: 0, title: "", userID: ""))
+                    } else {
+                        IntentToReview(itemObject: item!)
+                    }
+                    
+                    
                 } label: {
                     PointsEarnedSectionRow(image: "star.circle.fill", imageColor: Color("ReviewTeal"), title: "Review", points: "200", isEnabled: true)
                 }
@@ -153,7 +165,10 @@ struct Item: View {
         .ignoresSafeArea(.container, edges: [.horizontal, .bottom])
         .navigationBarTitle(itemsViewModel.snapshotOfItem.first?.title ?? "Item", displayMode: .inline)
         .onAppear {
-            self.itemsViewModel.getSnapshotOfItem(itemID: itemID)
+            if itemID != "" {
+                self.itemsViewModel.getSnapshotOfItem(itemID: itemID!)
+            }
+            
         }
     }
 }
