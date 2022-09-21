@@ -66,6 +66,12 @@
 		3053C0A628B9003B00FF3A17 /* ItemsAndOrders.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3053C0A528B9003B00FF3A17 /* ItemsAndOrders.swift */; };
 		30546E2427FBBF7E00173D9D /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30546E2327FBBF7E00173D9D /* LoginView.swift */; };
 		30546E2827FBD06400173D9D /* Profile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30546E2727FBD06400173D9D /* Profile.swift */; };
+		3056C82F28DAC69D00AC8686 /* ReferProduct1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3056C82E28DAC69D00AC8686 /* ReferProduct1.swift */; };
+		3056C83128DACAB800AC8686 /* ReferProduct2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3056C83028DACAB800AC8686 /* ReferProduct2.swift */; };
+		3056C83328DAD04F00AC8686 /* ReferProduct3.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3056C83228DAD04F00AC8686 /* ReferProduct3.swift */; };
+		3056C83528DAD46E00AC8686 /* ReferProduct4.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3056C83428DAD46E00AC8686 /* ReferProduct4.swift */; };
+		3056C83728DADCBA00AC8686 /* ReferProduct5.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3056C83628DADCBA00AC8686 /* ReferProduct5.swift */; };
+		3056C83928DAE71700AC8686 /* CombinedCardForReferral.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3056C83828DAE71700AC8686 /* CombinedCardForReferral.swift */; };
 		305894A228CA56C9004571E9 /* TestObjectModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 305894A128CA56C9004571E9 /* TestObjectModel.swift */; };
 		305894A428CA5788004571E9 /* TestObjectViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 305894A328CA5788004571E9 /* TestObjectViewModel.swift */; };
 		305894A928CA9752004571E9 /* TabViewForReferralsYouveReceived.swift in Sources */ = {isa = PBXBuildFile; fileRef = 305894A828CA9752004571E9 /* TabViewForReferralsYouveReceived.swift */; };
@@ -234,6 +240,12 @@
 		30546E2327FBBF7E00173D9D /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		30546E2727FBD06400173D9D /* Profile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Profile.swift; sourceTree = "<group>"; };
 		30546E2A27FBEEDC00173D9D /* Uncommon-Loyalty--iOS--Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Uncommon-Loyalty--iOS--Info.plist"; sourceTree = "<group>"; };
+		3056C82E28DAC69D00AC8686 /* ReferProduct1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReferProduct1.swift; sourceTree = "<group>"; };
+		3056C83028DACAB800AC8686 /* ReferProduct2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReferProduct2.swift; sourceTree = "<group>"; };
+		3056C83228DAD04F00AC8686 /* ReferProduct3.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReferProduct3.swift; sourceTree = "<group>"; };
+		3056C83428DAD46E00AC8686 /* ReferProduct4.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReferProduct4.swift; sourceTree = "<group>"; };
+		3056C83628DADCBA00AC8686 /* ReferProduct5.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReferProduct5.swift; sourceTree = "<group>"; };
+		3056C83828DAE71700AC8686 /* CombinedCardForReferral.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CombinedCardForReferral.swift; sourceTree = "<group>"; };
 		305894A128CA56C9004571E9 /* TestObjectModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestObjectModel.swift; sourceTree = "<group>"; };
 		305894A328CA5788004571E9 /* TestObjectViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestObjectViewModel.swift; sourceTree = "<group>"; };
 		305894A828CA9752004571E9 /* TabViewForReferralsYouveReceived.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabViewForReferralsYouveReceived.swift; sourceTree = "<group>"; };
@@ -630,6 +642,19 @@
 			path = Profile;
 			sourceTree = "<group>";
 		};
+		3056C82D28DAC46E00AC8686 /* AddLoyaltyProgramOLD */ = {
+			isa = PBXGroup;
+			children = (
+				306E83A828C7BF4E00232A4A /* AddLoyaltyProgramCarousel.swift */,
+				306E83AE28C7CAD200232A4A /* AddLoyaltyProgramStep1.swift */,
+				306E83B028C7CAEB00232A4A /* AddLoyaltyProgramStep2.swift */,
+				306E83B228C7DAE700232A4A /* AddLoyaltyProgramStep3.swift */,
+				306E83B428C7DAF000232A4A /* AddLoyaltyProgramStep4.swift */,
+				306E83B628C7DAFA00232A4A /* AddLoyaltyProgramStep5.swift */,
+			);
+			path = AddLoyaltyProgramOLD;
+			sourceTree = "<group>";
+		};
 		306E83A528C778C700232A4A /* LoyaltyProgram Components */ = {
 			isa = PBXGroup;
 			children = (
@@ -643,6 +668,7 @@
 			isa = PBXGroup;
 			children = (
 				3088073F28A5980D003D1B99 /* TempFile.swift */,
+				3056C82D28DAC46E00AC8686 /* AddLoyaltyProgramOLD */,
 				30C81025288786F2004B1DA7 /* AddCompany.swift */,
 				30C8102728878776004B1DA7 /* AddCompanyWidget.swift */,
 				30C81023288786EB004B1DA7 /* AddCompanyPreview.swift */,
@@ -670,13 +696,18 @@
 		30C8101E28877BFB004B1DA7 /* Refer */ = {
 			isa = PBXGroup;
 			children = (
-				304DC88A27F4259200E30DCA /* ReferAFriend.swift */,
 				301DBFD928C20A0C0072E497 /* IntentToRefer.swift */,
 				30D6D7DA28C4A9D000576C2A /* ReferProductCarousel.swift */,
+				3056C82E28DAC69D00AC8686 /* ReferProduct1.swift */,
+				3056C83028DACAB800AC8686 /* ReferProduct2.swift */,
+				3056C83228DAD04F00AC8686 /* ReferProduct3.swift */,
+				3056C83428DAD46E00AC8686 /* ReferProduct4.swift */,
+				3056C83628DADCBA00AC8686 /* ReferProduct5.swift */,
 				30D6D7DC28C4B06600576C2A /* ReferProductStep1.swift */,
 				30D6D7E028C4C67B00576C2A /* ReferProductStep2.swift */,
 				30D6D7E228C4FAB000576C2A /* ReferProductStep3.swift */,
 				30D6D7E428C5031400576C2A /* ReferProductStep4.swift */,
+				304DC88A27F4259200E30DCA /* ReferAFriend.swift */,
 				30D6D7DE28C4C08B00576C2A /* ReferCarouselButtons.swift */,
 				30E0C75928C3104B001754C6 /* ReferProductPage1.swift */,
 				30E0C75B28C3146E001754C6 /* ReferProductPage2.swift */,
@@ -725,12 +756,6 @@
 				309A65F028D084B8006B571D /* JoinLoyaltyProgram2.swift */,
 				309A65F228D086B6006B571D /* JoinLoyaltyProgram3.swift */,
 				309A65F428D08BC1006B571D /* JoinLoyaltyProgram4.swift */,
-				306E83A828C7BF4E00232A4A /* AddLoyaltyProgramCarousel.swift */,
-				306E83AE28C7CAD200232A4A /* AddLoyaltyProgramStep1.swift */,
-				306E83B028C7CAEB00232A4A /* AddLoyaltyProgramStep2.swift */,
-				306E83B228C7DAE700232A4A /* AddLoyaltyProgramStep3.swift */,
-				306E83B428C7DAF000232A4A /* AddLoyaltyProgramStep4.swift */,
-				306E83B628C7DAFA00232A4A /* AddLoyaltyProgramStep5.swift */,
 				306E83AB28C7C1FA00232A4A /* AddLoyaltyProgram Carousel Components */,
 				306E83AA28C7C14D00232A4A /* Not used */,
 			);
@@ -759,6 +784,7 @@
 			children = (
 				30D6D7D828C4A86400576C2A /* ReferralCard.swift */,
 				306E83A128C7540300232A4A /* CardForLoyaltyProgram.swift */,
+				3056C83828DAE71700AC8686 /* CombinedCardForReferral.swift */,
 			);
 			path = Cards;
 			sourceTree = "<group>";
@@ -965,6 +991,7 @@
 				300FF540289A2D2500455D44 /* SendFeedback.swift in Sources */,
 				30546E2427FBBF7E00173D9D /* LoginView.swift in Sources */,
 				30E67CB427E50DF300D9B96F /* Messages.swift in Sources */,
+				3056C83128DACAB800AC8686 /* ReferProduct2.swift in Sources */,
 				306E83A028C74B8A00232A4A /* AllLoyaltyProgramsWidget.swift in Sources */,
 				30DC3E7628A1675700613B4B /* FeaturedWidget2.swift in Sources */,
 				302DE17427B207C80041A981 /* CreateDiscountScreen.swift in Sources */,
@@ -990,10 +1017,12 @@
 				301DBFDE28C24BC60072E497 /* ReviewProductCarouselTest.swift in Sources */,
 				30C81026288786F2004B1DA7 /* AddCompany.swift in Sources */,
 				306E83B328C7DAE700232A4A /* AddLoyaltyProgramStep3.swift in Sources */,
+				3056C82F28DAC69D00AC8686 /* ReferProduct1.swift in Sources */,
 				30BA64D82889AF56002E3FC8 /* ReviewOrReferWidget.swift in Sources */,
 				30D6D7DF28C4C08B00576C2A /* ReferCarouselButtons.swift in Sources */,
 				30E0C75C28C3146E001754C6 /* ReferProductPage2.swift in Sources */,
 				30E0C75A28C3104B001754C6 /* ReferProductPage1.swift in Sources */,
+				3056C83528DAD46E00AC8686 /* ReferProduct4.swift in Sources */,
 				302AB47728B359D00086D4CA /* Item.swift in Sources */,
 				3032829928A4F2C60038A053 /* CheckYourEmail.swift in Sources */,
 				3086622528BF869900849AF1 /* RecommendedActions.swift in Sources */,
@@ -1006,6 +1035,7 @@
 				307BCA2527975F2E000DDD21 /* Transactions.swift in Sources */,
 				306E83A928C7BF4E00232A4A /* AddLoyaltyProgramCarousel.swift in Sources */,
 				300FF53B289A20DC00455D44 /* SuggestAShopPreview.swift in Sources */,
+				3056C83328DAD04F00AC8686 /* ReferProduct3.swift in Sources */,
 				3088074028A5980D003D1B99 /* TempFile.swift in Sources */,
 				3046EC20279FB34F00D1CBE7 /* SaleWidget.swift in Sources */,
 				30050A7228C7286200BD7874 /* ActiveLoyaltyProgramWidget.swift in Sources */,
@@ -1042,6 +1072,7 @@
 				30FF419628B61C0300D70BC5 /* IntentToReview.swift in Sources */,
 				30D6D7E528C5031400576C2A /* ReferProductStep4.swift in Sources */,
 				301DBFD728C204950072E497 /* ReviewDetailsSectionRow.swift in Sources */,
+				3056C83728DADCBA00AC8686 /* ReferProduct5.swift in Sources */,
 				3088074228A61A6F003D1B99 /* Users.swift in Sources */,
 				30EA87B9281351E200F0CF64 /* Orders.swift in Sources */,
 				30050A6F28C7064700BD7874 /* PollOptionSelected.swift in Sources */,
@@ -1065,6 +1096,7 @@
 				30D6D7DD28C4B06600576C2A /* ReferProductStep1.swift in Sources */,
 				30DC3E7328A1407B00613B4B /* FeaturedView1.swift in Sources */,
 				306E83B128C7CAEB00232A4A /* AddLoyaltyProgramStep2.swift in Sources */,
+				3056C83928DAE71700AC8686 /* CombinedCardForReferral.swift in Sources */,
 				30E67CAE27E4D35600D9B96F /* ReviewWidget.swift in Sources */,
 				3014FA6F27965CFC00473CE4 /* Home.swift in Sources */,
 				306E83A228C7540300232A4A /* CardForLoyaltyProgram.swift in Sources */,

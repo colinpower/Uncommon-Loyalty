@@ -161,19 +161,9 @@ struct AddLoyaltyProgramPreview: View {
             Button(action: {
                 isAddLoyaltyProgramCarouselActive = true
             }) {
-               HStack {
-                   Spacer()
-                   Text(array.contains(company.companyID) ? "Joined" : "Join \(company.companyName) Rewards")
-                       .foregroundColor(Color.white)
-                       .font(.system(size: 18))
-                       .fontWeight(.semibold)
-                       .padding(.vertical, 16)
-                   Spacer()
-               }.clipShape(Capsule())
-                    .background(Capsule().foregroundColor(array.contains(company.companyID) ? Color.green : Color("ReferPurple")))
-                .padding(.horizontal)
-                .padding(.horizontal)
-                .padding(.bottom, 60)
+                
+                array.contains(company.companyID) ? BottomCapsuleButton(buttonText: "Joined", color: Color.green) : BottomCapsuleButton(buttonText: "Join \(company.companyName) Rewards", color: Color("ReferPurple"))
+               
             }.sheet(isPresented: $isAddLoyaltyProgramCarouselActive) {
                 //on dismiss....
                 

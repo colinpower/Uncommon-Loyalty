@@ -71,7 +71,7 @@ struct MyTabView: View {
                 Spacer()
                 TabViewItem(position: 0, selectedTab: $selectedTab)
                 TabViewItem(position: 1, selectedTab: $selectedTab)
-                TabViewItem(position: 2, selectedTab: $selectedTab)
+                //TabViewItem(position: 2, selectedTab: $selectedTab)
                 //TabViewItem(position: 3, selectedTab: $selectedTab)
                 TabViewItem(position: 3, selectedTab: $selectedTab)
                 Spacer()
@@ -97,8 +97,8 @@ struct TabViewItem: View {
             return ["giftcard", "Rewards"]
         case 1:
             return ["person.3", "Influence"]
-        case 2:
-            return ["circle.dashed", "Inner Circle"]
+//        case 2:
+//            return ["circle.dashed", "Inner Circle"]
         case 3:
             return ["person", "Profile"]
         default:
@@ -142,6 +142,34 @@ extension Color {
         self.init(.sRGB, red: red, green: green, blue: blue, opacity: opacity)
     }
 }
+
+
+
+//MARK: BOTTOM CAPSULE BUTTON SHAPE
+struct BottomCapsuleButton: View {
+    
+    var buttonText: String
+    var color: Color
+    
+    var body: some View {
+        
+        HStack {
+            Spacer()
+            Text(buttonText)
+                .foregroundColor(Color.white)
+                .font(.system(size: 18))
+                .fontWeight(.semibold)
+                .padding(.vertical, 16)
+            Spacer()
+        }.clipShape(Capsule())
+             .background(Capsule().foregroundColor(color))
+         .padding(.horizontal)
+         .padding(.horizontal)
+         .padding(.bottom, 60)
+    }
+}
+
+
 
 
 //MARK: SHEET HEADER

@@ -154,38 +154,34 @@ struct IntentToRefer: View {
 //                Text("Know any friends who haven't shopped with Athleisure before?")
 //                    .padding(.bottom)
                 
-                Text("Give a friend 20% off, and earn 20K points when they make their purchase!")
+                Text("Give a friend $20 off, and earn 20K points when they make their purchase!")
                     .foregroundColor(Color("Dark1"))
                     .font(.system(size: 20, weight: .bold, design: .rounded))
             }
 
             Spacer()
         
-        
+            
+            
             Button(action: {
                 isShowingReferExperience = true
             }) {
-               HStack {
-                   Spacer()
-                   Text("Refer a friend!")
-                       .foregroundColor(Color.white)
-                       .font(.system(size: 18))
-                       .fontWeight(.semibold)
-                       .padding(.vertical, 16)
-                   Spacer()
-               }.background(RoundedRectangle(cornerRadius: 36).fill(Color("ReferPurple")))
-                .padding(.horizontal)
-                .padding(.horizontal)
-            }
-                .padding(.bottom)
-                .padding(.bottom)
-            
+                
+                BottomCapsuleButton(buttonText: "Refer a friend!", color: Color("ReferPurple"))
+               
+            }.sheet(isPresented: $isShowingReferExperience) {
+                //on dismiss....
+                
+            } content: {
+                ReferProduct1(isShowingReferExperience: $isShowingReferExperience, itemObject: itemObject)
+                
+            } //.disabled( ... )
             
             
         }.background(Color("Background"))
         .ignoresSafeArea(.container, edges: [.horizontal, .bottom])
         .navigationBarTitle("", displayMode: .inline)
-        .fullScreenCover(isPresented: $isShowingReferExperience, content: {
+        .sheet(isPresented: $isShowingReferExperience, content: {
             ReferProductCarousel(isShowingReferExperience: $isShowingReferExperience, item: itemObject)
         })
 //       .onAppear {

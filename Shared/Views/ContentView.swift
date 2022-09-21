@@ -48,9 +48,9 @@ struct ContentView: View {
                 case 1:
                     Influence(selectedTab: $selectedTab)
                     //AllOrders(selectedTab: $selectedTab)
-                case 2:
-                    Discover(selectedTab: $selectedTab)
-                    //Home(selectedTab: $selectedTab)
+//                case 2:
+//                    Discover(selectedTab: $selectedTab)
+//                    //Home(selectedTab: $selectedTab)
                 case 3:
                     Profile(selectedTab: $selectedTab)
                 default:
