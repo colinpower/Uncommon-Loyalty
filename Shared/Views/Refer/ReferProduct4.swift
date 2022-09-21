@@ -14,7 +14,7 @@ struct ReferProduct4: View {
     
     var itemObject: Items
     
-    @Binding var selectedColor: Color
+    @Binding var designSelection: [Any]
         
     @Binding var selectedContact:[String]
         
@@ -29,22 +29,24 @@ struct ReferProduct4: View {
         VStack(alignment: .center, spacing: 0) {
             
             //MARK: CONTENT AT TOP (SCREENWIDTH / 1.6 is height)
-            CardForLoyaltyProgram(cardColor: selectedColor, textColor: Color.white, companyImage: "Athleisure LA", companyName: "Athleisure LA", currentDiscountAmount: "$20", currentDiscountCode: userSuggestedCode.isEmpty ? "YOUR-CODE" : userSuggestedCode, userFirstName: selectedContact[1], userLastName: selectedContact[2], userCurrentTier: "Gold", discountCardDescription: "Personal Card")
+            
+            DiscountCardForReferral(designSelection: designSelection, companyImage: "Athleisure LA", companyName: "Athleisure LA", discountAmount: "$20", discountCode: userSuggestedCode.isEmpty ? "CUSTOM-CODE" : userSuggestedCode, recipientFirstName: selectedContact[1], recipientLastName: selectedContact[2])
                 .frame(alignment: .center)
                 .padding(.vertical)
             
+            
             //MARK: PROMPT (80)
-            Text("Make a custom discount code for \(selectedContact[1])")
-                .font(.system(size: 25, weight: .bold))
+            Text("Make a custom discount code for \(selectedContact[1])!")
+                .font(.system(size: 20, weight: .bold))
                 .foregroundColor(Color("Dark1"))
                 .padding()
                 .padding(.bottom)
                 .padding(.bottom)
             
             
-            HStack(alignment: .center, spacing: 16) {
+            HStack(alignment: .center, spacing: 0) {
                 
-                TextField("Enter a custom code here", text: $userSuggestedCode)
+                TextField("Enter a custom code here (make a fun one!)", text: $userSuggestedCode)
                     .textFieldStyle(DefaultTextFieldStyle())
                     .keyboardType(.alphabet)
                     .disableAutocorrection(true)
@@ -58,6 +60,16 @@ struct ReferProduct4: View {
 
                     }
                     .submitLabel(.done)
+                
+                if isCodeAvailable {
+                    
+                    Text("Available")
+                        .foregroundColor(Color.green)
+                        .font(.system(size: 18))
+                        .fontWeight(.semibold)
+                        .padding(.trailing)
+                }
+                
                 
                 Button {
 
@@ -82,22 +94,15 @@ struct ReferProduct4: View {
             
             
             
-            if userSuggestedCode.isEmpty {
+            if userSuggestedCode.isEmpty || isCodeAvailable {
                 
                 //nothing... empty view
-                
-            } else if isCodeAvailable {
-                
-                Text("Available")
-                    .foregroundColor(Color.green)
-                    .font(.system(size: 18))
-                    .fontWeight(.semibold)
-                    .padding(.vertical)
-                    .padding(.vertical)
                 
             } else {
                 
                 Button {
+                    
+                    hideKeyboard()
                     
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                         isCodeAvailable = true
@@ -127,15 +132,15 @@ struct ReferProduct4: View {
             
             if !isCodeAvailable {
                 
-                BottomCapsuleButton(buttonText: "Next", color: Color("Gray2"))
+                BottomCapsuleButton(buttonText: "Continue", color: Color("Gray3"))
                 
             } else {
                 
                 NavigationLink {
-                    ReferProduct5(isShowingReferExperience: $isShowingReferExperience, itemObject: itemObject, selectedColor: $selectedColor, selectedContact: $selectedContact, userSuggestedCode: $userSuggestedCode)
+                    ReferProduct5(isShowingReferExperience: $isShowingReferExperience, itemObject: itemObject, designSelection: $designSelection, selectedContact: $selectedContact, userSuggestedCode: $userSuggestedCode)
                 } label: {
                     
-                    BottomCapsuleButton(buttonText: "Next", color: Color("ReferPurple"))
+                    BottomCapsuleButton(buttonText: "Continue", color: Color("ReferPurple"))
                     
                 }
             }

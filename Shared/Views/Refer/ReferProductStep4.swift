@@ -244,7 +244,7 @@ struct ReferProductStep4: View {
                             //confirm that you've been able to convert the card into an image
                             if let unwrappedImage = customReferralCardSnapshot {
                                 
-                                MessageView(recipient: selectedContact[3], photo: unwrappedImage)
+                                MessageView(recipient: selectedContact[3], photo: unwrappedImage, messageToRecipient: "alsdkfjsald")
                                 
                                 //ReferralShareSheet(activityItems: ["Hey, I created a discount code for you!", unwrappedImage])
                                                    //activityItems: ["Hey, I created a discount code for you!", customCardViewSnapshot as Any ]

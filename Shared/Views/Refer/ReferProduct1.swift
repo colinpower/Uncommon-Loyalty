@@ -21,30 +21,33 @@ struct ReferProduct1: View {
             VStack(alignment: .center, spacing: 0) {
                 
                 //MARK: CONTENT AT TOP (SCREENWIDTH / 1.6 is height)
-                CardForLoyaltyProgram(cardColor: Color.white, textColor: Color.white, companyImage: "Athleisure LA", companyName: "Athleisure LA", currentDiscountAmount: "$20", currentDiscountCode: "YOUR-CODE", userFirstName: "First", userLastName: "Last", userCurrentTier: "Gold", discountCardDescription: "Personal Card")
+                DiscountCardForReferral(designSelection: [Color.white, Color.white, "engraved", "White"], companyImage: "Athleisure LA", companyName: "Athleisure LA", discountAmount: "$20", discountCode: "CUSTOM-CODE", recipientFirstName: "First", recipientLastName: "Last")
                     .frame(alignment: .center)
                     .padding(.vertical)
                     .padding(.top)
                 
                 //MARK: PROMPT (80)
-                Text("This is your blank referral card")
-                    .font(.system(size: 25, weight: .bold))
+                Text("Customize your friend's $20 gift!")
+                    .font(.system(size: 20, weight: .bold))
                     .foregroundColor(Color("Dark1"))
                     .padding()
                 
-                Text("You can customize this card, then send it to your friend. Let's make it special!")
-                    .font(.system(size: 20, weight: .medium))
-                    .foregroundColor(Color("Dark1"))
+                Text("The discount card is blank right now. Let's make it pretty.")
+                    .font(.system(size: 14, weight: .medium))
+                    .foregroundColor(Color("Dark2"))
                     .padding()
                     .padding(.bottom)
+                    .padding(.bottom).padding(.bottom)
+                
+                
                 
                 Label {
-                    Text("30 seconds")
+                    Text("Takes 30 seconds")
                         .font(.system(size: 14))
                         .foregroundColor(.gray)
                 } icon: {
                     Image(systemName: "clock")
-                        .font(.system(size: 14))
+                        .font(.system(size: 13))
                         .foregroundColor(.gray)
                 }
                 
@@ -53,7 +56,7 @@ struct ReferProduct1: View {
                 NavigationLink {
                     ReferProduct2(isShowingReferExperience: $isShowingReferExperience, itemObject: itemObject)
                 } label: {
-                    BottomCapsuleButton(buttonText: "Next", color: Color("ReferPurple"))
+                    BottomCapsuleButton(buttonText: "Continue", color: Color("ReferPurple"))
                 }
             }.edgesIgnoringSafeArea(.bottom)
             .navigationTitle("")

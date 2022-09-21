@@ -35,7 +35,8 @@ struct ReferProduct5: View {
     
     var itemObject: Items
     
-    @Binding var selectedColor: Color
+    @Binding var designSelection: [Any]
+    
     var selectedTextColor: Color = Color.white
         
     @Binding var selectedContact:[String]
@@ -55,29 +56,15 @@ struct ReferProduct5: View {
     
     @State var wasPreviewButtonTapped:Bool = false
     
+    @State var messageToRecipient:String = ""
     
-    var customReferralCardForPreview: some View {
-        
-        ZStack(alignment: .bottom) {
-            
-            VStack {
-                
-                RoundedRectangle(cornerRadius: 11).foregroundColor(Color.red)
-                
-            }.frame(width: UIScreen.main.bounds.width - 40, height: UIScreen.main.bounds.width, alignment: .center)
-            
-
-            //MARK: CONTENT AT TOP (SCREENWIDTH / 1.6 is height)
-            CardForLoyaltyProgram(cardColor: selectedColor, textColor: Color.white, companyImage: "Athleisure LA", companyName: "Athleisure LA", currentDiscountAmount: "$20", currentDiscountCode: userSuggestedCode.isEmpty ? "YOUR-CODE" : userSuggestedCode, userFirstName: selectedContact[1], userLastName: selectedContact[2], userCurrentTier: "Gold", discountCardDescription: "Personal Card")
-                .frame(alignment: .center)
-        }
-        
-    }
     
-    var combinedCardForReferralForPreview: some View {
+    //Use this variable to create an image
+    var discountCardForReferralForPreview: some View {
         
-        CombinedCardForReferral(recommendedItemImageString: "redshorts", recommendedItemName: "Red Shorts", cardColor: selectedColor, textColor: selectedTextColor, companyImage: "AthleisureLA-Icon-Teal", companyName: "Athleisure LA", discountAmount: "$20", discountCode: userSuggestedCode, recipientFirstName: selectedContact[1], recipientLastName: selectedContact[2])
-            .frame(width: UIScreen.main.bounds.width-20, height: UIScreen.main.bounds.width * 12 / 10)
+        DiscountCardForReferralImageCreation(designSelection: designSelection, companyImage: "AthleisureLA-Icon-Teal", companyName: "Athleisure LA", discountAmount: "$20", discountCode: userSuggestedCode, recipientFirstName: selectedContact[1], recipientLastName: selectedContact[2])
+            .clipShape(RoundedRectangle(cornerRadius: 16))
+            .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.width / 1.6)
         
     }
     
@@ -89,21 +76,32 @@ struct ReferProduct5: View {
         
         VStack(alignment: .center, spacing: 0) {
             
-            //customReferralCardForPreview
+            DiscountCardForReferral(designSelection: designSelection, companyImage: "AthleisureLA-Icon-Teal", companyName: "Athleisure LA", discountAmount: "$20", discountCode: userSuggestedCode, recipientFirstName: selectedContact[1], recipientLastName: selectedContact[2])
+                .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.width / 1.6)
+                .padding(.bottom)
+                .padding(.bottom)
             
-            ZStack(alignment: .center) {
+            VStack (alignment: .center, spacing: 0) {
+                Text("Add a personal note about this referral")
+                    .font(.system(size: 20, weight: .bold))
+                    .foregroundColor(Color("Dark1"))
+                    .padding(.bottom, 10)
                 
-                RoundedRectangle(cornerRadius: 16)
-                    .foregroundColor(.white)
-                    .frame(width: UIScreen.main.bounds.width-20, height: UIScreen.main.bounds.width * 12 / 10)
-                    .shadow(color: .black.opacity(0.3), radius: 15, x: 0, y: 5)
-                    
-                combinedCardForReferralForPreview
-                    .frame(width: UIScreen.main.bounds.width-20, height: UIScreen.main.bounds.width * 12 / 10)
+                Text("Tell \(selectedContact[1]) about the \(itemObject.title)!")
+                    .font(.system(size: 14, weight: .regular))
+                    .foregroundColor(Color("Dark2"))
+                    .multilineTextAlignment(.center)
+                    .padding(.bottom)
                 
-            }.frame(width: UIScreen.main.bounds.width-20, height: UIScreen.main.bounds.width * 12 / 10)
+                TextEditor(text: $messageToRecipient)
+                    .frame(height: 80)
+                    .shadow(radius: 2)
+                    .padding(.horizontal)
+                
+            }.padding(.horizontal)
+            .frame(maxHeight: UIScreen.main.bounds.width / 3 * 2)
             
-            Spacer()
+            
             
             //MARK: BUTTON TO SEND VIA IMESSAGE OR MORE CHANNELS
             //Check if there is a phone number available.. if so, then try to send via imessage
@@ -113,7 +111,7 @@ struct ReferProduct5: View {
                 Button(action: {
                     
                     //isShowingMessages = true
-                    customReferralCardSnapshot = combinedCardForReferralForPreview.snapshot()
+                    customReferralCardSnapshot = discountCardForReferralForPreview.snapshot()
                     self.activeSheetiMessage = .iMessageShareSheet
                     
                     DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
@@ -125,7 +123,7 @@ struct ReferProduct5: View {
                         
                         Spacer()
                         
-                        Text("Send to \(selectedContact[1]) via iMessage")
+                        Text("Open iMessage")
                             .font(.system(size: 18, weight: .semibold))
                             .foregroundColor(.white)
 
@@ -136,9 +134,10 @@ struct ReferProduct5: View {
                         Spacer()
                         
                     }
-                    .padding(.vertical, 20)
+                    .padding(.vertical)
                     .background(RoundedRectangle(cornerRadius: 11).foregroundColor(Color.green))
                     .padding(.horizontal).padding(.horizontal)
+                    .padding(.bottom)
                     
                 }.sheet(item: $activeSheetiMessage) { [customReferralCardSnapshot] sheet in
                     
@@ -148,7 +147,7 @@ struct ReferProduct5: View {
                         //confirm that you've been able to convert the card into an image
                         if let unwrappedImage = customReferralCardSnapshot {
                             
-                            MessageView(recipient: selectedContact[3], photo: unwrappedImage)
+                            MessageView(recipient: selectedContact[3], photo: unwrappedImage, messageToRecipient: messageToRecipient)
                             
                             //ReferralShareSheet(activityItems: ["Hey, I created a discount code for you!", unwrappedImage])
                                                //activityItems: ["Hey, I created a discount code for you!", customCardViewSnapshot as Any ]
@@ -161,7 +160,7 @@ struct ReferProduct5: View {
                 //MARK: SHARE BUTTON
                 Button {
                     
-                    customReferralCardSnapshot = combinedCardForReferralForPreview.snapshot()
+                    customReferralCardSnapshot = discountCardForReferralForPreview.snapshot()
                     self.activeSheetShare = .generalShareSheet
                     
                     DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
@@ -177,8 +176,8 @@ struct ReferProduct5: View {
                             .font(.system(size: 18, weight: .regular))
                             .foregroundColor(Color.blue)
 
-                    }.padding(.vertical)
-                        .padding(.top)
+                    }.padding(.bottom)
+                        .padding(.vertical)
                 }
                 .sheet(item: $activeSheetShare) { [customReferralCardSnapshot] sheet2 in
                 
@@ -187,13 +186,16 @@ struct ReferProduct5: View {
                         
                         //confirm that you've been able to convert the card into an image
                         if let unwrappedImage = customReferralCardSnapshot {
-                            ReferralShareSheet(activityItems: ["Hey, I created a discount code for you!", unwrappedImage])
+                            ReferralShareSheet(activityItems: [messageToRecipient, unwrappedImage])
                                                //activityItems: ["Hey, I created a discount code for you!", customCardViewSnapshot as Any ]
                         }
                     }
                 }
 
             }
+            .padding(.top)
+            .padding(.vertical)
+            .padding(.vertical)
             
             
             Spacer()
@@ -209,13 +211,19 @@ struct ReferProduct5: View {
                 
             } else {
                 
-                BottomCapsuleButton(buttonText: "Done", color: Color("Gray2"))
+                BottomCapsuleButton(buttonText: "Done", color: Color("Gray3"))
                 
             }
         }
+        .ignoresSafeArea(.keyboard)
         .edgesIgnoringSafeArea(.bottom)
         .navigationTitle("")
         .navigationBarTitleDisplayMode(.inline)
+        .onAppear {
+            
+            self.messageToRecipient = "Hi! Here's a $20 discount code for Athleisure LA! One of my favorites is the \(itemObject.title) (I gave it 5 stars). Check it out!"
+            
+        }
         
 
         
@@ -234,6 +242,8 @@ struct MessageView: UIViewControllerRepresentable {
     var recipient: String
     
     let photo: UIImage
+    
+    var messageToRecipient: String
     
     class Coordinator: NSObject, MFMessageComposeViewControllerDelegate {
         var completion: () -> Void
@@ -260,9 +270,8 @@ struct MessageView: UIViewControllerRepresentable {
         if MFMessageComposeViewController.canSendText() {
             
             vc.recipients = [recipient]
-            vc.body = "Enter your text here"
-        
-        
+            vc.body = messageToRecipient
+                
             //If you can send attachments, then add the attachment
             if MFMessageComposeViewController.canSendAttachments() {
                 
@@ -293,7 +302,7 @@ struct MessageView: UIViewControllerRepresentable {
 
 extension View {
     func snapshot() -> UIImage {
-        let controller = UIHostingController(rootView: self)
+        let controller = UIHostingController(rootView: self.edgesIgnoringSafeArea(.all))
         let view = controller.view
 
         let targetSize = controller.view.intrinsicContentSize
@@ -307,6 +316,7 @@ extension View {
         }
     }
 }
+
 
 
 
