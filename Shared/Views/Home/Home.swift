@@ -98,7 +98,7 @@ struct Home: View {
                     .padding(.vertical, 6)
                     .padding(.leading, 2)
                 
-                Text("My Shops")
+                Text("Your Shops")
                     .font(.system(size: 25, weight: .bold))
                     .foregroundColor(Color("Dark1"))
                     .padding(.bottom)
