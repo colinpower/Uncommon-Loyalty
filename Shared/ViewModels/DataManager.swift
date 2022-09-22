@@ -231,7 +231,7 @@ class DataManager: ObservableObject {
         listener(listenerRegistration13) //escaping listener
     }
     
-    func getOneItem(email: String, companyID: String, itemID: String, onSuccess: @escaping([Items]) -> Void, listener: @escaping(_ listenerHandle: ListenerRegistration) -> Void) {
+    func getOneItem(email: String, itemID: String, onSuccess: @escaping([Items]) -> Void, listener: @escaping(_ listenerHandle: ListenerRegistration) -> Void) {
         //print("this ONE function was called")
         let listenerRegistration12 = db.collection("item")
             .whereField("email", isEqualTo: email)

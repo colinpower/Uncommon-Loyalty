@@ -85,10 +85,10 @@ class ItemsViewModel: ObservableObject, Identifiable {
         })
     }
     
-    func listenForOneItem(email: String, companyID: String, itemID: String) {
+    func listenForOneItem(email: String, itemID: String) {
         self.oneItem = [Items]()
         
-        self.dm.getOneItem(email: email, companyID: companyID, itemID: itemID, onSuccess: { (Item) in
+        self.dm.getOneItem(email: email, itemID: itemID, onSuccess: { (Item) in
             //if (self.newTickets.isEmpty) {
                 self.oneItem = Item
             print("this is the one item")
@@ -145,5 +145,23 @@ class ItemsViewModel: ObservableObject, Identifiable {
             }
         
     }
+    
+    
+    func updateItemForReview(userID: String, itemID: String, rating: Int) {
+        db.collection("item").document(itemID).setData([
+                "reviewID": userID + "-" + itemID,
+                "reviewRating": rating,
+                "orderID": ""
+            ]) { err in
+            if let err = err {
+                print("Error updating document: \(err)")
+            } else {
+                print("hasSeenFRE set to True")
+            }
+        }
+    }
+    
+    
+    
     
 }

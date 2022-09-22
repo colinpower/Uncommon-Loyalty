@@ -56,7 +56,7 @@ struct Influence: View {
 
                             
                             NavigationLink {
-                                //destination
+                                ViewAllReferrals()
                             } label: {
                                 //label
                                 ReferralStatsWidget(title: "Your Referrals", amount: "3", subtitle: "4 In Progress")

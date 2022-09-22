@@ -12,6 +12,8 @@ struct ReviewPagePreview: View {
     //Environment
     
     //ViewModels
+    @ObservedObject var itemsViewModel = ItemsViewModel()
+    @ObservedObject var reviewsViewModel = ReviewsViewModel()
     
     //State
     @State var answerForThisQuestion:String = ""
@@ -35,6 +37,10 @@ struct ReviewPagePreview: View {
     //var index:Int
     
     @Binding var isShowingReviewExperience:Bool
+    
+    var item: Items
+    
+    var userID: String
     
     var body: some View {
         
@@ -161,7 +167,13 @@ struct ReviewPagePreview: View {
             
             //MARK: SUBMIT BUTTON
             Button {
+                
+                itemsViewModel.updateItemForReview(userID: item.userID, itemID: item.itemID, rating: overallRatingForReview)
+                
+                reviewsViewModel.addReview(companyID: item.companyID, email: item.email, itemID: item.itemID, reviewRating: overallRatingForReview, questionsArray: arrayOfReviewQuestions, responsesArray: arrayOfReviewAnswers, reviewTitle: arrayOfReviewAnswers[1], userID: item.userID)
+                
                 isShowingReviewExperience.toggle()
+                
             } label: {
                 
                 if hasConsentToPost {

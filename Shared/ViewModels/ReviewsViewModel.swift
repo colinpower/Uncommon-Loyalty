@@ -18,26 +18,26 @@ class ReviewsViewModel: ObservableObject, Identifiable {
     //var dm = DataManager()
     
     //var listener_DiscountCodes: ListenerRegistration!
-        
+    
     private var db = Firestore.firestore()
     
-//    func listenForMyDiscountCodes(email: String, companyID: String) {
-//        self.myDiscountCodes = [DiscountCodes]()
-//
-//        self.dm.getMyDiscountCodes(email: email, companyID: companyID, onSuccess: { (discountcodes) in
-//            //if (self.newTickets.isEmpty) {
-//                self.myDiscountCodes = discountcodes
-//            print("this is the discount codes")
-//            print(self.myDiscountCodes)
-//        }, listener: { (listener) in
-//            self.listener_DiscountCodes = listener
-//        })
-//    }
+    //    func listenForMyDiscountCodes(email: String, companyID: String) {
+    //        self.myDiscountCodes = [DiscountCodes]()
+    //
+    //        self.dm.getMyDiscountCodes(email: email, companyID: companyID, onSuccess: { (discountcodes) in
+    //            //if (self.newTickets.isEmpty) {
+    //                self.myDiscountCodes = discountcodes
+    //            print("this is the discount codes")
+    //            print(self.myDiscountCodes)
+    //        }, listener: { (listener) in
+    //            self.listener_DiscountCodes = listener
+    //        })
+    //    }
     
     func addReview(companyID: String, email: String, itemID: String, reviewRating: Int, questionsArray: [String], responsesArray: [String], reviewTitle: String, userID: String) {
         
-        db.collection("reviews")
-            .addDocument(data: [
+        db.collection("reviews").document(userID + "-" + itemID)
+            .setData([
                 "companyID": companyID,
                 "email": email,
                 "historyID": "",
@@ -54,11 +54,16 @@ class ReviewsViewModel: ObservableObject, Identifiable {
                 if let err = err {
                     print("Error updating document: \(err)")
                 } else {
-                    print("hasSeenFRE set to True")
+                    print("IDK WHAT THE ERROR IS??")
                 }
-
-        }
+            }
     }
+    
+}
+    
+    
+    
+    
     
     
 //    func addReview1(reviewQuestions: ReviewDetails, reviewResponses: [String]) {
@@ -77,4 +82,4 @@ class ReviewsViewModel: ObservableObject, Identifiable {
 //
 //        }
 //    }
-}
+//}
