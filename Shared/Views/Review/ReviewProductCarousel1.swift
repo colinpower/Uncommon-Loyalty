@@ -33,6 +33,9 @@ struct ReviewProductCarousel1: View {
     
     var item: Items       //Should rename this to just "item" so it's cleaner
     
+    @Binding var activeReviewOrReferSheet: ActiveReviewOrReferSheet?
+    
+    
     var pointsPerQuestion:Int {
         switch indexOfCurrentReviewPage {
         case 0:
@@ -144,6 +147,11 @@ struct ReviewProductCarousel1: View {
         .ignoresSafeArea()
         .onAppear {
             self.rewardsProgramViewModel.listenForOneRewardsProgram(email: "colinjpower1@gmail.com", companyID: "zKL7SQ0jRP8351a0NnHM")
+        }
+        .onDisappear {
+            
+            activeReviewOrReferSheet = nil
+            
         }
     }
 }

@@ -39,25 +39,23 @@ struct ReferralTracker: View {
                                 Button {
                                     
                                     filterReferralsBy = filterReferralsBy == "SENT" ? "" : "SENT"
-//                                    if filterReferralsBy == "SENT" {
-//                                        filterReferralsBy = ""
-//                                    } else {
-//                                        filterReferralsBy = "SENT"
-//                                    }
+
                                     
                                 } label: {
                                     if filterReferralsBy == "SENT" {
                                         
                                         let numberSent = referralsViewModel.snapshotOfAllReferrals.filter { $0.status == "SENT" }.count
+                                        let numberExpired = referralsViewModel.snapshotOfAllReferrals.filter { $0.status == "EXPIRED" }.count
                                         
-                                        ReferralTrackerWidget(title: "Sent", amount: String(numberSent), subtitle: "", isSelected: true)
+                                        ReferralTrackerWidget(title: "Sent", amount: String(numberSent), subtitle: String(numberExpired) + " Expired", isSelected: true)
                                             .frame(width: UIScreen.main.bounds.width * 3 / 11, height: 116)
                                             .background(RoundedRectangle(cornerRadius: 11).shadow(radius: CGFloat(11)))
                                     } else {
                                         
                                         let numberSent = referralsViewModel.snapshotOfAllReferrals.filter { $0.status == "SENT" }.count
+                                        let numberExpired = referralsViewModel.snapshotOfAllReferrals.filter { $0.status == "EXPIRED" }.count
                                         
-                                        ReferralTrackerWidget(title: "Sent", amount: String(numberSent), subtitle: "", isSelected: false)
+                                        ReferralTrackerWidget(title: "Sent", amount: String(numberSent), subtitle: String(numberExpired) + " Expired", isSelected: false)
                                             .frame(width: UIScreen.main.bounds.width * 3 / 11, height: 116)
                                             .background(RoundedRectangle(cornerRadius: 11).shadow(radius: CGFloat(11)))
                                     }
@@ -99,9 +97,8 @@ struct ReferralTracker: View {
                                     if filterReferralsBy == "COMPLETE" {
                                         
                                         let numberComplete = referralsViewModel.snapshotOfAllReferrals.filter { $0.status == "COMPLETE" }.count
-                                        let numberExpired = referralsViewModel.snapshotOfAllReferrals.filter { $0.status == "EXPIRED" }.count
                                         
-                                        ReferralTrackerWidget(title: "Complete", amount: String(numberComplete), subtitle: String(numberExpired) + " Expired", isSelected: true)
+                                        ReferralTrackerWidget(title: "Complete", amount: String(numberComplete), subtitle: "XXX" + " Pts Earned", isSelected: true)
                                             .frame(width: UIScreen.main.bounds.width * 3 / 11, height: 116)
                                             .background(RoundedRectangle(cornerRadius: 11).shadow(radius: CGFloat(11)))
                                     } else {
@@ -109,7 +106,7 @@ struct ReferralTracker: View {
                                         let numberComplete = referralsViewModel.snapshotOfAllReferrals.filter { $0.status == "COMPLETE" }.count
                                         let numberExpired = referralsViewModel.snapshotOfAllReferrals.filter { $0.status == "EXPIRED" }.count
                                         
-                                        ReferralTrackerWidget(title: "Complete", amount: String(numberComplete), subtitle: String(numberExpired) + " Expired", isSelected: false)
+                                        ReferralTrackerWidget(title: "Complete", amount: String(numberComplete), subtitle: "XXX" + " Pts Earned", isSelected: false)
                                             .frame(width: UIScreen.main.bounds.width * 3 / 11, height: 116)
                                             .background(RoundedRectangle(cornerRadius: 11).shadow(radius: CGFloat(11)))
                                     }
@@ -388,7 +385,7 @@ struct ReferralTrackingCardProgressBar: View {
                                 .foregroundColor(Color("Dark1"))
                                 .frame(width: geometry.size.width / 3, alignment: .leading)
                             
-                            Text("In Progress")
+                            Text("Discount Used")
                                 .font(.system(size: 12, weight: .semibold, design: .rounded))
                                 .foregroundColor(Color("Gray2"))
                                 .frame(width: geometry.size.width / 3, alignment: .center)

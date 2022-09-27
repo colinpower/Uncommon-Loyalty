@@ -186,13 +186,8 @@ class ItemsViewModel: ObservableObject, Identifiable {
         
         db.collection("item").document(item.ids.itemID).updateData([
             
-            "ids": [
-                "reviewID": reviewID,
-            ],
-            
-            "review": [
-                "rating": rating
-            ]
+            "ids.reviewID": reviewID,
+            "review.rating": rating
                   
             ]) { err in
             if let err = err {
@@ -207,11 +202,7 @@ class ItemsViewModel: ObservableObject, Identifiable {
     func updateItemForReferral(itemID: String) {
         db.collection("item").document(itemID).updateData([
             
-            "referrals": [
-                
-                "count": FieldValue.increment(Int64(1))
-                
-                ]
+            "referrals.count": FieldValue.increment(Int64(1))
             
             ]) { err in
             if let err = err {
@@ -256,6 +247,7 @@ class ItemsViewModel: ObservableObject, Identifiable {
                 "domain": "athleisure-la.myshopify.com",
                 "email": email,
                 "name": "Fake Order Name" + itemID.prefix(3),
+                "orderNumber": 1234,
                 "orderStatusURL": "https://athleisure-la.myshopify.com/63427707135/orders/618f44c951e2e1f3bade707e0a19bdb4",
                 "phone": "6177772994",
                 "price": "98.00",

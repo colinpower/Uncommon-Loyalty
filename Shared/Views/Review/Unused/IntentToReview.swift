@@ -189,9 +189,9 @@ struct IntentToReview: View {
         }.background(Color("Background"))
         .ignoresSafeArea(.container, edges: [.horizontal, .bottom])
         .navigationBarTitle("", displayMode: .inline)
-        .fullScreenCover(isPresented: $isShowingReviewExperience, content: {
-            ReviewProductCarousel1(isShowingReviewExperience: $isShowingReviewExperience, item: itemObject)
-        })
+//        .fullScreenCover(isPresented: $isShowingReviewExperience, content: {
+//            ReviewProductCarousel1(isShowingReviewExperience: $isShowingReviewExperience, item: itemObject)
+//        })
 //       .onAppear {
 //           self.itemsViewModel.getSnapshotOfItem(itemID: itemObject.itemID)
 //       }
