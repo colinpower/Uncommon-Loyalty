@@ -17,8 +17,7 @@ struct Home: View {
     
     @EnvironmentObject var viewModel: AppViewModel
     
-    @AppStorage("shouldShowFirstRunExperience")
-    private var shouldShowFirstRunExperience: Bool = true
+    
 
     //@State var shouldShowFirstRunExperience: Bool = true
     
@@ -73,9 +72,7 @@ struct Home: View {
                 self.rewardsProgramViewModel.getSnapshotOfMyRewardsPrograms(userID: Auth.auth().currentUser?.uid ?? "")
                 self.companiesViewModel.getSnapshotOfAllCompanies()
             }
-            .fullScreenCover(isPresented: $shouldShowFirstRunExperience, content: {
-                FirstRunExperience(shouldShowFirstRunExperience: $shouldShowFirstRunExperience)
-            })
+            
             
         }
 //        .(isPresented: $shouldShowFirstRunExperience) {

@@ -168,29 +168,29 @@ struct AllOrdersSingleItemView: View {
         VStack {
             ForEach(order.itemIDs, id: \.self) { itemID in
                 
-                NavigationLink(destination: Item(itemID: itemID)) {
-                    HStack {
-                        //image
-                        Image("redshorts")
-                            .resizable()
-                            .scaledToFit()
-                            .frame(width: 100, height: 100, alignment: .center)
-                            .clipped()
-                            .cornerRadius(8)
-                            .padding(.trailing)
-                        
-                        //main content
-                        AllOrdersMainContentOfItem(firstItemTitle: order.item_firstItemTitle)
-                        
-                        //spacer + arrow
-                        Spacer()
-                        
-                        Image(systemName: "chevron.right")
-                            .font(.system(size: 16, weight: .medium))
-                            .foregroundColor(.gray.opacity(0.6))
-                        
-                    }.padding(.all)
-                }
+//                NavigationLink(destination: Item(itemID: itemID)) {
+//                    HStack {
+//                        //image
+//                        Image("redshorts")
+//                            .resizable()
+//                            .scaledToFit()
+//                            .frame(width: 100, height: 100, alignment: .center)
+//                            .clipped()
+//                            .cornerRadius(8)
+//                            .padding(.trailing)
+//
+//                        //main content
+//                        AllOrdersMainContentOfItem(firstItemTitle: order.item_firstItemTitle)
+//
+//                        //spacer + arrow
+//                        Spacer()
+//
+//                        Image(systemName: "chevron.right")
+//                            .font(.system(size: 16, weight: .medium))
+//                            .foregroundColor(.gray.opacity(0.6))
+//
+//                    }.padding(.all)
+//                }
                 
                 //if there's only one item... or it's the last item in the order, don't add a divider
                 if (order.itemIDs.count < 2) || (itemID == order.itemIDs[order.itemIDs.count-1]) {

@@ -1,5 +1,5 @@
 //
-//  Influence.swift
+//  YourBag.swift
 //  Uncommon Loyalty (iOS)
 //
 //  Created by Colin Power on 8/24/22.
@@ -8,11 +8,12 @@
 import SwiftUI
 
 
-struct Influence: View {
+struct YourBag: View {
     
     //Required for any tab
     @ObservedObject var viewModel = AppViewModel()
     @Binding var selectedTab:Int
+    
     @State var isProfileActive:Bool = false
     
     //Data for this view
@@ -42,31 +43,6 @@ struct Influence: View {
                     VStack(alignment: .center, spacing: 0) {
                         
                         
-                        //MARK: CURRENT REVIEWS & REFERRALS
-                        HStack(alignment: .center, spacing: 20) {
-                            
-                            NavigationLink {
-                                //destination
-                            } label: {
-                                //label
-                                ReviewStatsWidget(title: "Your Reviews", amount: "10")
-                                    .frame(width: UIScreen.main.bounds.width * 3 / 7, height: 116)
-                                    .background(RoundedRectangle(cornerRadius: 11).foregroundColor(.white).shadow(radius: CGFloat(11)))
-                            }
-
-                            
-                            NavigationLink {
-                                ViewAllReferrals()
-                            } label: {
-                                //label
-                                ReferralStatsWidget(title: "Your Referrals", amount: "3", subtitle: "4 In Progress")
-                                    .frame(width: UIScreen.main.bounds.width * 3 / 7, height: 116)
-                                    .background(RoundedRectangle(cornerRadius: 11).foregroundColor(.white).shadow(radius: CGFloat(11)))
-                            }
-
-                            
-                        }.padding()
-                        .frame(width: UIScreen.main.bounds.width, height: 150, alignment: .center)
                         
                         
                         //MARK: MOST POPULAR REFERRALS
@@ -82,18 +58,49 @@ struct Influence: View {
                             //divider
                             Divider().padding(.leading)
                             
+                            
                             //content
                             ScrollView (.horizontal, showsIndicators: false) {
                                 HStack(alignment: .center, spacing: 20) {
-                                    
-                                    ForEach(itemsViewModel.snapshotOfReviewableItems.prefix(3)) { item in
+
+                                    if itemsViewModel.snapshotOfItemsWithMultipleReferrals.isEmpty {
+                                     
+                                        ZStack(alignment: .center) {
+                                            RoundedRectangle(cornerRadius: 11)
+                                                .stroke(Color("Background"), lineWidth: 1) //.blur(radius: 2)
+                                                .shadow(color: Color.white, radius: 3, x: -4, y: -4)
+                                                .frame(width: UIScreen.main.bounds.width - 40, height: UIScreen.main.bounds.width / 4)
+                                                .clipped()
+                                            
+                                            Text("You haven't referred any friends yet")
+                                                .font(.system(size: 14))
+                                                .fontWeight(.medium)
+                                                .foregroundColor(Color("Gray2"))
+                                                .multilineTextAlignment(.center)
+                                                .padding().padding(.horizontal)
+                                                .frame(width: UIScreen.main.bounds.width - 40, height: UIScreen.main.bounds.width / 4)
+                                                .overlay(
+                                                    RoundedRectangle(cornerRadius: 11)
+                                                        .stroke(Color("Background"), lineWidth: 3) //.blur(radius: 2)
+                                                        .shadow(color: Color("Gray2"), radius: 3, x: 3, y: 3)
+                                                        .frame(width: UIScreen.main.bounds.width - 40, height: UIScreen.main.bounds.width / 4)
+                                                        .clipped()
+                                                )
+                                            
+                                        }.frame(width: UIScreen.main.bounds.width - 40, height: UIScreen.main.bounds.width / 4)
+                                            .clipShape(RoundedRectangle(cornerRadius: 11))
                                         
-                                        TopReferralsWidget(item: item)
-                                            .frame(width: UIScreen.main.bounds.width / 2, height: UIScreen.main.bounds.width / 2)
-                                            .background(RoundedRectangle(cornerRadius: 11).foregroundColor(.white).shadow(radius: CGFloat(11)))
                                         
+                                    } else {
+                                        
+                                        ForEach(itemsViewModel.snapshotOfItemsWithMultipleReferrals.prefix(10)) { item in
+                                            
+                                            TopReferralsWidget(item: item)
+                                                .frame(width: UIScreen.main.bounds.width / 2, height: UIScreen.main.bounds.width / 2)
+                                                .background(RoundedRectangle(cornerRadius: 11).foregroundColor(.white).shadow(radius: CGFloat(11)))
+                                            
+                                        }
                                     }
-                                    
                                 }.offset(x: 20)
                                 .padding(.vertical)
                                 .padding(.vertical)
@@ -107,7 +114,7 @@ struct Influence: View {
                         VStack(alignment: .leading) {
                             
                             //header
-                            Text("More products you believe in")
+                            Text("Favorites you believe in")
                                 .font(.system(size: 25, weight: .semibold))
                                 .foregroundColor(.black)
                                 .padding(.leading)
@@ -120,13 +127,47 @@ struct Influence: View {
                             ScrollView (.horizontal, showsIndicators: false) {
                                 HStack(alignment: .center, spacing: 20) {
                                     
-                                    ForEach(itemsViewModel.snapshotOfReviewableItems.prefix(3)) { item in
+                                    if itemsViewModel.snapshotOfItemsWith5StarsAndNoReferrals.isEmpty {
+                                     
+                                        ZStack(alignment: .center) {
+                                            RoundedRectangle(cornerRadius: 11)
+                                                .stroke(Color("Background"), lineWidth: 1) //.blur(radius: 2)
+                                                .shadow(color: Color.white, radius: 3, x: -4, y: -4)
+                                                .frame(width: UIScreen.main.bounds.width - 40, height: UIScreen.main.bounds.width / 4)
+                                                .clipped()
+                                                
+                                            
+                                            Text("You haven't written any reviews yet")
+                                                .font(.system(size: 14))
+                                                .fontWeight(.medium)
+                                                .foregroundColor(Color("Gray2"))
+                                                .multilineTextAlignment(.center)
+                                                .padding().padding(.horizontal)
+                                                .frame(width: UIScreen.main.bounds.width - 40, height: UIScreen.main.bounds.width / 4)
+                                                .overlay(
+                                                    RoundedRectangle(cornerRadius: 11)
+                                                        .stroke(Color("Background"), lineWidth: 3) //.blur(radius: 2)
+                                                        .shadow(color: Color("Gray2"), radius: 3, x: 3, y: 3)
+                                                        .frame(width: UIScreen.main.bounds.width - 40, height: UIScreen.main.bounds.width / 4)
+                                                        .clipped()
+                                                )
+                                            
+                                        }.frame(width: UIScreen.main.bounds.width - 40, height: UIScreen.main.bounds.width / 4)
+                                            .clipShape(RoundedRectangle(cornerRadius: 11))
                                         
-                                        FiveStarReviewsWidget(item: item)
-                                            .frame(width: UIScreen.main.bounds.width / 2, height: UIScreen.main.bounds.width / 2 + 32, alignment: .top)
-                                            .background(RoundedRectangle(cornerRadius: 11).foregroundColor(.white).shadow(radius: CGFloat(11)))
                                         
+                                    } else {
+                                                                                    
+                                        ForEach(itemsViewModel.snapshotOfItemsWith5StarsAndNoReferrals.prefix(10)) { item in
+                                            
+                                            FiveStarReviewsWidget(item: item)
+                                                .frame(width: UIScreen.main.bounds.width / 2, height: UIScreen.main.bounds.width / 2 + 32, alignment: .top)
+                                                .background(RoundedRectangle(cornerRadius: 11).foregroundColor(.white).shadow(radius: CGFloat(11)))
+                                            
+                                        }
+
                                     }
+
                                     
                                 }.offset(x: 20)
                                 .padding(.vertical)
@@ -141,17 +182,35 @@ struct Influence: View {
                         VStack(alignment: .leading) {
                             
                             //header
-                            Text("Your recent purchases")
-                                .font(.system(size: 25, weight: .semibold))
-                                .foregroundColor(.black)
-                                .padding(.leading)
-                                .padding(.bottom, 5)
+                            HStack(alignment: .center, spacing: 0) {
+                                Text("All your items")
+                                    .font(.system(size: 25, weight: .semibold))
+                                    .foregroundColor(.black)
+                                    .padding(.leading)
+                                    .padding(.bottom, 5)
+                                
+                                Spacer()
+                                
+                                Button {
+                                    //create a fake order
+                                    
+                                    itemsViewModel.createFakeItemForDemo(email: viewModel.email!, userID: viewModel.userID!)
+                                    
+                                } label: {
+                                    
+                                    Text("Create a fake order")
+                                        .font(.system(size: 14, weight: .medium))
+                                        .foregroundColor(Color("ReferPurple"))
+                                        .padding(.trailing)
+                                }
+                                
+                            }
                             
                             
                             //content
                             LazyVGrid(columns: columns, spacing: 0) {
                                 
-                                ForEach(itemsViewModel.snapshotOfReviewableItems.prefix(10)) { item in
+                                ForEach(itemsViewModel.snapshotOfItems.prefix(10)) { item in
                                     
                                     LazyVGridWidget(item: item)
                                         .frame(width: UIScreen.main.bounds.width / 2, height: UIScreen.main.bounds.width / 2 + 32)
@@ -278,7 +337,7 @@ struct Influence: View {
             
             .background(Color("Background"))
             .edgesIgnoringSafeArea([.bottom, .horizontal])
-            .navigationTitle("Influence")
+            .navigationTitle("Your Purchases")
             
             //.ignoresSafeArea()
             //Note: need to ignoreSafeArea, set nav title to "", set barHidden to true in order not to break when returning from a navigationViewChild
@@ -287,8 +346,20 @@ struct Influence: View {
             //.navigationBarTitle("")
             //.navigationBarHidden(true)
             .onAppear {
-                self.itemsViewModel.getSnapshotOfReviewableItems(userID: viewModel.userID ?? "")
+                self.itemsViewModel.getSnapshotOfItems(userID: viewModel.userID ?? "")
+                self.itemsViewModel.getSnapshotOfItemsWithMultipleReferrals(userID: viewModel.userID ?? "")
+                self.itemsViewModel.getSnapshotOfItemsWith5StarsAndNoReferrals(userID: viewModel.userID ?? "")
+                
+                self.itemsViewModel.listenForMyItems(userID: viewModel.userID ?? "")
                 //print(self.itemsViewModel.snapshotOfReviewableItems)
+            }
+            .onDisappear {
+                
+                if self.itemsViewModel.listener_MyItems != nil {
+                    print("REMOVING LISTENER FOR MYITEMS")
+                    self.itemsViewModel.listener_MyItems.remove()
+                }
+                
             }
         }
     }
@@ -567,100 +638,7 @@ struct Influence: View {
     }
     
 }
-    
 
-struct ReviewStatsWidget: View {
-    
-    var title:String
-    var amount:String
-    
-    
-    var body: some View {
-        VStack(alignment: .leading, spacing: 0) {
-            
-            HStack(alignment: .center, spacing: 4) {
-
-                Text(title)
-                    .font(.system(size: 16, weight: .medium))
-                    .foregroundColor(Color("Dark1"))
-                
-                Spacer()
-                
-                Image(systemName: "star.fill")
-                    .font(.system(size: 14, weight: .regular))
-                    .foregroundColor(Color("ReviewTeal"))
-                    .padding(.bottom, 1)
-                
-            }
-            .padding(.bottom, 10)
-            .padding(.top, 16)
-            .padding(.horizontal)
-
-            
-            HStack(spacing: 0) {
-                Spacer()
-                Text(amount)
-                    .font(.system(size: 40, weight: .bold, design: .rounded))
-                    .foregroundColor(amount == "0" ? Color("Gray1") : Color("Dark1"))
-                    .padding(.bottom, 24)
-                    .padding(.bottom, 10)
-                Spacer()
-            }
-        }.frame(height: 116)
-    }
-}
-
-struct ReferralStatsWidget: View {
-    
-    var title:String
-    var amount:String
-    var subtitle:String
-    
-    
-    var body: some View {
-        VStack(alignment: .leading, spacing: 0) {
-            
-            HStack(alignment: .center, spacing: 4) {
-                
-                Text(title)
-                    .font(.system(size: 16, weight: .medium))
-                    .foregroundColor(Color("Dark1"))
-                
-                Spacer()
-                
-                Image(systemName: "paperplane.fill")
-                    .font(.system(size: 14, weight: .regular))
-                    .foregroundColor(Color("ReferPurple"))
-                    .padding(.bottom, 1)
-                
-            }
-            .padding(.bottom, 10)
-            .padding(.top, 16)
-            .padding(.horizontal)
-            
-            
-            
-            
-                
-            
-            HStack(spacing: 0) {
-                Spacer()
-                VStack(alignment: .center, spacing: 0) {
-                    Text(amount)
-                        .font(.system(size: 40, weight: .bold, design: .rounded))
-                        .foregroundColor(amount == "0" ? Color("Gray1") : Color("Dark1"))
-                        .padding(.bottom, 6)
-                    
-                    Text(subtitle)
-                        .font(.system(size: 12, weight: .regular))
-                        .foregroundColor(subtitle.prefix(1) == "0" ? Color(.white) : Color("Gray1"))
-                        .padding(.bottom, 16)
-                }
-                Spacer()
-            }
-        }.frame(height: 116)
-    }
-}
 
 struct TopReferralsWidget: View {
     
@@ -682,15 +660,15 @@ struct TopReferralsWidget: View {
                         .aspectRatio(contentMode: .fit)
                         .frame(width: UIScreen.main.bounds.width / 6, height: UIScreen.main.bounds.width / 6)
                         .padding(.vertical, 20)
-                    Text(item.title)
+                    Text(item.order.title)
                         .font(.system(size: 14, weight: .semibold))
                         .foregroundColor(Color("Dark1"))
                         .padding(.bottom, 8)
-                    Text(item.companyID)
+                    Text(item.ids.companyID)
                         .font(.system(size: 12, weight: .regular))
                         .foregroundColor(Color("Gray1"))
                         .padding(.bottom, 20)
-                    Text("3 Referrals")
+                    Text(String(item.referrals.count) + " Referrals")
                         .font(.system(size: 12, weight: .regular))
                         .foregroundColor(Color("ReferPurple"))
                         .padding(.bottom, 20)
@@ -710,7 +688,7 @@ struct FiveStarReviewsWidget: View {
         
         //Link to the Review Interceptor page
         NavigationLink {
-            Item(itemID: item.itemID)
+            Item(item: item)
             
         } label: {
             ZStack(alignment: .top) {
@@ -725,11 +703,11 @@ struct FiveStarReviewsWidget: View {
                             .frame(width: UIScreen.main.bounds.width / 6, height: UIScreen.main.bounds.width / 6)
                             .padding(.top, 20)
                             .padding(.vertical, 20)
-                        Text(item.title)
+                        Text(item.order.title)
                             .font(.system(size: 14, weight: .semibold))
                             .foregroundColor(Color("Dark1"))
                             .padding(.bottom, 8)
-                        Text(item.companyID)
+                        Text(item.ids.companyID)
                             .font(.system(size: 12, weight: .regular))
                             .foregroundColor(Color("Gray1"))
                             .padding(.bottom, 20)
@@ -745,7 +723,7 @@ struct FiveStarReviewsWidget: View {
                             .foregroundColor(Color.yellow)
                             .frame(height: 12)
                             .padding(.bottom, 20)
-                        Text("0 Referrals")
+                        Text(String(item.referrals.count) + " Referrals")
                             .font(.system(size: 12, weight: .regular))
                             .foregroundColor(Color("ReferPurple"))
                             .padding(.bottom, 20)
@@ -795,7 +773,7 @@ struct LazyVGridWidget: View {
         
         //Link to the Review Interceptor page
         NavigationLink {
-            Item(itemID: item.itemID)
+            Item(item: item)
             
         } label: {
 
@@ -807,27 +785,35 @@ struct LazyVGridWidget: View {
                         .aspectRatio(contentMode: .fit)
                         .frame(width: UIScreen.main.bounds.width / 6, height: UIScreen.main.bounds.width / 6)
                         .padding(.vertical, 20)
-                    Text(item.title)
+                    Text(item.order.title)
                         .font(.system(size: 14, weight: .semibold))
                         .foregroundColor(Color("Dark1"))
                         .padding(.bottom, 8)
-                    Text(item.companyID)
+                    Text(item.ids.companyID)
                         .font(.system(size: 12, weight: .regular))
                         .foregroundColor(Color("Gray1"))
                         .padding(.bottom, 20)
                     HStack(alignment: .center) {
                         Spacer()
-                        Image(systemName: "star")
-                        Image(systemName: "star")
-                        Image(systemName: "star")
-                        Image(systemName: "star")
-                        Image(systemName: "star")
+                        ForEach(0..<5) { i in
+                            if i < item.review.rating {
+                                Image(systemName: "star.fill")
+                                    .foregroundColor(Color.yellow)
+                            } else {
+                                Image(systemName: "star")
+                                    .foregroundColor(Color.gray)
+                            }
+                        }
+                        
+//                        Image(systemName: "star")
+//                        Image(systemName: "star")
+//                        Image(systemName: "star")
+//                        Image(systemName: "star")
                         Spacer()
                     }.font(.system(size: 12, weight: .regular))
-                        .foregroundColor(Color("ReviewTeal"))
                         .frame(height: 12)
                         .padding(.bottom, 20)
-                    Text("0 Referrals")
+                    Text(String(item.referrals.count) + " Referrals")
                         .font(.system(size: 12, weight: .regular))
                         .foregroundColor(Color("ReferPurple"))
                         .padding(.bottom, 20)

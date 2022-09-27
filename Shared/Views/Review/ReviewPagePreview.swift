@@ -168,9 +168,9 @@ struct ReviewPagePreview: View {
             //MARK: SUBMIT BUTTON
             Button {
                 
-                itemsViewModel.updateItemForReview(userID: item.userID, itemID: item.itemID, rating: overallRatingForReview)
-                
-                reviewsViewModel.addReview(companyID: item.companyID, email: item.email, itemID: item.itemID, reviewRating: overallRatingForReview, questionsArray: arrayOfReviewQuestions, responsesArray: arrayOfReviewAnswers, reviewTitle: arrayOfReviewAnswers[1], userID: item.userID)
+                itemsViewModel.updateItemForReview(item: item, userID: userID, rating: overallRatingForReview)
+                    
+                reviewsViewModel.addReview(companyID: item.ids.companyID, email: item.order.email, itemID: item.ids.itemID, orderID: item.ids.orderID, reviewRating: overallRatingForReview, questionsArray: arrayOfReviewQuestions, responsesArray: arrayOfReviewAnswers, reviewTitle: arrayOfReviewAnswers[1], userID: item.ids.userID)
                 
                 isShowingReviewExperience.toggle()
                 

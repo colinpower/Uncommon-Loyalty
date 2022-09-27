@@ -129,7 +129,7 @@ struct ReviewProductPreview: View {
                 }
         }.ignoresSafeArea()
         .onAppear {
-            self.viewModel_Items.listenForOneItem(email: email, itemID: itemID)
+            self.viewModel_Items.listenForOneItem(userID: userID, itemID: itemID)
 //            self.viewModel4.listenForOneOrder(email: "colinjpower1@gmail.com", companyID: companyID, orderID: "BP1KvlMpXqPry3SLRvAu")
 //            print("TRIGGERED THIS")
         }

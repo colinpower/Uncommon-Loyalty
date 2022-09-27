@@ -51,8 +51,8 @@ struct ItemsAndOrders: View {
                                     .resizable()
                                     .aspectRatio(contentMode: .fit)
                                 VStack {
-                                    Text(item1.title)
-                                    Text(item1.price)
+                                    Text(item1.order.title)
+                                    Text(item1.order.price)
                                 }.frame(height: CGFloat(40))
                                 Rectangle()
                                     .frame(width: UIScreen.main.bounds.width/2, height: CGFloat(40))
@@ -68,7 +68,7 @@ struct ItemsAndOrders: View {
             }
 
         }.onAppear {
-            self.itemsViewModel.listenForMyItems(email: viewModel.email ?? "colinjpower1@gmail.com")
+            self.itemsViewModel.listenForMyItems(userID: viewModel.userID ?? "")
         }
     }
 

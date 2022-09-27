@@ -83,7 +83,7 @@ struct IntentToReview: View {
                         
                         //empty review
                         VStack(alignment: .leading, spacing: 0) {
-                            Text(itemObject.title)
+                            Text(itemObject.order.title)
                                 .font(.system(size: 18, weight: .semibold))
                                 .foregroundColor(.black)
                                 .padding(.bottom, 4)
@@ -106,17 +106,17 @@ struct IntentToReview: View {
                     }
                     
                     //order details
-                    Button {
-                        isShowingItemSheet.toggle()
-                    } label: {
-                        Text("Order details")
-                            .foregroundColor(.black)
-                            .font(.system(size: 16, weight: .medium))
-                    }.sheet(isPresented: $isShowingItemSheet) {
-                        isShowingItemSheet = false
-                    } content: {
-                        Item(itemID: itemObject.itemID)
-                    }
+//                    Button {
+//                        isShowingItemSheet.toggle()
+//                    } label: {
+//                        Text("Order details")
+//                            .foregroundColor(.black)
+//                            .font(.system(size: 16, weight: .medium))
+//                    }.sheet(isPresented: $isShowingItemSheet) {
+//                        isShowingItemSheet = false
+//                    } content: {
+//                        Item(itemID: itemObject.itemID)
+//                    }
                     
                 }
                 

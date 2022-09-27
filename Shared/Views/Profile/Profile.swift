@@ -82,7 +82,30 @@ struct Profile: View {
                         
 
 
+                        //MARK: CURRENT REVIEWS & REFERRALS
+                        HStack(alignment: .center, spacing: 20) {
                             
+                            NavigationLink {
+                                //destination
+                            } label: {
+                                //label
+                                ProfileReviewStatsWidget(title: "Your Reviews", amount: "10")
+                                    .frame(width: UIScreen.main.bounds.width * 3 / 7, height: 116)
+                                    .background(RoundedRectangle(cornerRadius: 11).foregroundColor(.white).shadow(radius: CGFloat(11)))
+                            }
+
+                            
+                            NavigationLink {
+//                                ReferralTracker()
+                            } label: {
+                                //label
+                                ProfileReferralStatsWidget(title: "Your Referrals", amount: "3", subtitle: "4 In Progress")
+                                    .frame(width: UIScreen.main.bounds.width * 3 / 7, height: 116)
+                                    .background(RoundedRectangle(cornerRadius: 11).foregroundColor(.white).shadow(radius: CGFloat(11)))
+                            }
+                            
+                        }.padding()
+                        .frame(width: UIScreen.main.bounds.width, height: 150, alignment: .center)
 
 
 
@@ -337,3 +360,98 @@ struct ShareSheet: UIViewControllerRepresentable {
 //    .padding(.bottom)
 //
 //}
+
+
+
+struct ProfileReviewStatsWidget: View {
+    
+    var title:String
+    var amount:String
+    
+    
+    var body: some View {
+        VStack(alignment: .leading, spacing: 0) {
+            
+            HStack(alignment: .center, spacing: 4) {
+
+                Text(title)
+                    .font(.system(size: 16, weight: .medium))
+                    .foregroundColor(Color("Dark1"))
+                
+                Spacer()
+                
+                Image(systemName: "star.fill")
+                    .font(.system(size: 14, weight: .regular))
+                    .foregroundColor(Color("ReviewTeal"))
+                    .padding(.bottom, 1)
+                
+            }
+            .padding(.bottom, 10)
+            .padding(.top, 16)
+            .padding(.horizontal)
+
+            
+            HStack(spacing: 0) {
+                Spacer()
+                Text(amount)
+                    .font(.system(size: 40, weight: .bold, design: .rounded))
+                    .foregroundColor(amount == "0" ? Color("Gray1") : Color("Dark1"))
+                    .padding(.bottom, 24)
+                    .padding(.bottom, 10)
+                Spacer()
+            }
+        }.frame(height: 116)
+    }
+}
+
+struct ProfileReferralStatsWidget: View {
+    
+    var title:String
+    var amount:String
+    var subtitle:String
+    
+    
+    var body: some View {
+        VStack(alignment: .leading, spacing: 0) {
+            
+            HStack(alignment: .center, spacing: 4) {
+                
+                Text(title)
+                    .font(.system(size: 16, weight: .medium))
+                    .foregroundColor(Color("Dark1"))
+                
+                Spacer()
+                
+                Image(systemName: "paperplane.fill")
+                    .font(.system(size: 14, weight: .regular))
+                    .foregroundColor(Color("ReferPurple"))
+                    .padding(.bottom, 1)
+                
+            }
+            .padding(.bottom, 10)
+            .padding(.top, 16)
+            .padding(.horizontal)
+            
+            
+            
+            
+                
+            
+            HStack(spacing: 0) {
+                Spacer()
+                VStack(alignment: .center, spacing: 0) {
+                    Text(amount)
+                        .font(.system(size: 40, weight: .bold, design: .rounded))
+                        .foregroundColor(amount == "0" ? Color("Gray1") : Color("Dark1"))
+                        .padding(.bottom, 6)
+                    
+                    Text(subtitle)
+                        .font(.system(size: 12, weight: .regular))
+                        .foregroundColor(subtitle.prefix(1) == "0" ? Color(.white) : Color("Gray1"))
+                        .padding(.bottom, 16)
+                }
+                Spacer()
+            }
+        }.frame(height: 116)
+    }
+}

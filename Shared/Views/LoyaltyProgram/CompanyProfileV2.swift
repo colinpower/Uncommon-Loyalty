@@ -299,17 +299,17 @@ struct CompanyProfileV2: View {
                     
 
                     
-                    //MARK: Recommended Actions v2 (IF ANY)
-                    //Handle empty state
-                    if viewModel_Items.myReviewableItemsForCompany.isEmpty {
-                        Text("No recommended actions")
-                    }
-                    //Show the recommended actions
-                    else {
-                        RecommendedActions(reviewableItems: viewModel_Items.myReviewableItemsForCompany)
-                            .padding(.horizontal)
-                            .frame(width: UIScreen.main.bounds.width, height: 180)
-                    }
+//                    //MARK: Recommended Actions v2 (IF ANY)
+//                    //Handle empty state
+//                    if viewModel_Items.myReviewableItemsForCompany.isEmpty {
+//                        Text("No recommended actions")
+//                    }
+//                    //Show the recommended actions
+//                    else {
+//                        RecommendedActions(reviewableItems: viewModel_Items.myReviewableItemsForCompany)
+//                            .padding(.horizontal)
+//                            .frame(width: UIScreen.main.bounds.width, height: 180)
+//                    }
                     
                     //MARK: Recent Orders
                     VStack(alignment: .leading, spacing: 0) {
@@ -324,28 +324,28 @@ struct CompanyProfileV2: View {
                             .padding(.bottom, 4)
 
                         //For each recent order, show an item
-                        VStack(alignment: .center, spacing: 0) {
-                            ForEach(ordersViewModel.snapshotOfOrders.prefix(7)) { Order in
-                                
-                                NavigationLink(destination: Item(itemID: Order.itemIDs.first ?? "")) {
-                                    RecentOrdersWidget(item: Order.item_firstItemTitle, timestamp: Order.timestamp, reviewID: Order.orderID, colorToShow: colorToShow[4])
-                                    
-                                }
-                            }
-                            Button {
-                                isShowingAllOrdersForCompany = true
-                            } label: {
-                                Text("See All")
-                                    .font(.system(size: 18))
-                                    .fontWeight(.medium)
-                                    .foregroundColor(Color("ThemePrimary"))
-                                    .padding(.vertical, 11)
-                                    .frame(width: UIScreen.main.bounds.width, height: 40, alignment: .center)
-                            }.fullScreenCover(isPresented: $isShowingAllOrdersForCompany) {
-                                AllOrdersForCompany(userID: userID, companyID: companyID, isShowingAllOrdersForCompany: $isShowingAllOrdersForCompany)
-                            }
-                        }
-                        .background(RoundedRectangle(cornerRadius: 20).foregroundColor(.white))
+//                        VStack(alignment: .center, spacing: 0) {
+//                            ForEach(ordersViewModel.snapshotOfOrders.prefix(7)) { Order in
+//                                
+//                                NavigationLink(destination: Item(itemID: Order.itemIDs.first ?? "")) {
+//                                    RecentOrdersWidget(item: Order.item_firstItemTitle, timestamp: Order.timestamp, reviewID: Order.orderID, colorToShow: colorToShow[4])
+//                                    
+//                                }
+//                            }
+//                            Button {
+//                                isShowingAllOrdersForCompany = true
+//                            } label: {
+//                                Text("See All")
+//                                    .font(.system(size: 18))
+//                                    .fontWeight(.medium)
+//                                    .foregroundColor(Color("ThemePrimary"))
+//                                    .padding(.vertical, 11)
+//                                    .frame(width: UIScreen.main.bounds.width, height: 40, alignment: .center)
+//                            }.fullScreenCover(isPresented: $isShowingAllOrdersForCompany) {
+//                                AllOrdersForCompany(userID: userID, companyID: companyID, isShowingAllOrdersForCompany: $isShowingAllOrdersForCompany)
+//                            }
+//                        }
+//                        .background(RoundedRectangle(cornerRadius: 20).foregroundColor(.white))
                          
                     }.padding(.horizontal)
                         .padding(.bottom)
@@ -479,7 +479,7 @@ struct CompanyProfileV2: View {
             self.viewModel1.listenForOneRewardsProgram(email: "colinjpower1@gmail.com", companyID: companyID)
             self.discountCodesViewModel.listenForMyDiscountCodes(email: "colinjpower1@gmail.com", companyID: companyID)
             self.viewModel3.listenForMyTransactions(email: "colinjpower1@gmail.com", companyID: companyID)
-            self.viewModel_Items.listenForMyReviewableItemsForCompany(email: email, companyID: companyID)
+            //self.viewModel_Items.listenForMyReviewableItemsForCompany(email: email, companyID: companyID)
             
             //self.ordersViewModel.listenForMyOrders(email: "colinjpower1@gmail.com", companyID: companyID)
             
@@ -502,10 +502,10 @@ struct CompanyProfileV2: View {
                 print("REMOVING LISTENER_ORDERS")
                 self.ordersViewModel.listener_MyOrders.remove()
             }
-            if self.viewModel_Items.listener_MyReviewableItemsForCompany != nil {
-                print("REMOVING LISTENER_ITEMS")
-                self.viewModel_Items.listener_MyReviewableItemsForCompany.remove()
-            }
+//            if self.viewModel_Items.listener_MyReviewableItemsForCompany != nil {
+//                print("REMOVING LISTENER_ITEMS")
+//                self.viewModel_Items.listener_MyReviewableItemsForCompany.remove()
+//            }
         }
     }
 }

@@ -71,8 +71,7 @@ struct MyTabView: View {
                 Spacer()
                 TabViewItem(position: 0, selectedTab: $selectedTab)
                 TabViewItem(position: 1, selectedTab: $selectedTab)
-                //TabViewItem(position: 2, selectedTab: $selectedTab)
-                //TabViewItem(position: 3, selectedTab: $selectedTab)
+                TabViewItem(position: 2, selectedTab: $selectedTab)
                 TabViewItem(position: 3, selectedTab: $selectedTab)
                 Spacer()
             }.padding(.horizontal)
@@ -94,15 +93,15 @@ struct TabViewItem: View {
     var tabViewItemImageName: [String] {
         switch position {
         case 0:
-            return ["giftcard", "Rewards"]
+            return ["bag", "Purchases"]
         case 1:
-            return ["person.3", "Influence"]
-//        case 2:
-//            return ["circle.dashed", "Inner Circle"]
+            return ["barcode.viewfinder", "Referral Tracker"]
+        case 2:
+            return ["giftcard", "Rewards"]
         case 3:
             return ["person", "Profile"]
         default:
-            return ["creditcard", "Default"]
+            return ["person", "Profile"]
         }
     }
     
@@ -112,23 +111,15 @@ struct TabViewItem: View {
                 selectedTab = position
             } label: {
                 VStack (alignment: .center) {
-                    if position == 0 {
-                        Image(systemName: tabViewItemImageName[0])
-                            .foregroundColor(selectedTab == position ? Color("ThemePrimary") : .gray)
-                            .font(.system(size: 26, weight: .regular))
-                        Spacer()
-                        Text(tabViewItemImageName[1])
-                            .foregroundColor(selectedTab == position ? Color("ThemePrimary") : .gray)
-                            .font(.system(size: 10, weight: .medium))
-                    } else {
-                        Image(systemName: tabViewItemImageName[0])
-                            .foregroundColor(selectedTab == position ? Color("ThemePrimary") : .gray)
-                            .font(.system(size: 25, weight: .regular))
-                        Spacer()
-                        Text(tabViewItemImageName[1])
-                            .foregroundColor(selectedTab == position ? Color("ThemePrimary") : .gray)
-                            .font(.system(size: 10, weight: .medium))
-                    }
+                    
+                    Image(systemName: tabViewItemImageName[0])
+                        .foregroundColor(selectedTab == position ? Color("ThemePrimary") : .gray)
+                        .font(.system(size: 25, weight: .regular))
+                    Spacer()
+                    Text(tabViewItemImageName[1])
+                        .foregroundColor(selectedTab == position ? Color("ThemePrimary") : .gray)
+                        .font(.system(size: 10, weight: .medium))
+                    
                 }
             }.frame(maxWidth: .infinity, maxHeight: 36)
     }

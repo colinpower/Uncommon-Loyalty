@@ -137,10 +137,10 @@ class DataManager: ObservableObject {
         listener(listenerRegistration7) //escaping listener
     }
     
-    func getMyItems(email: String, onSuccess: @escaping([Items]) -> Void, listener: @escaping(_ listenerHandle: ListenerRegistration) -> Void) {
+    func getMyItems(userID: String, onSuccess: @escaping([Items]) -> Void, listener: @escaping(_ listenerHandle: ListenerRegistration) -> Void) {
         //print("this ONE function was called")
         let listenerRegistration10 = db.collection("item")
-            .whereField("email", isEqualTo: email)
+            .whereField("ids.userID", isEqualTo: userID)
             .addSnapshotListener { (querySnapshot, error) in
             guard let documents = querySnapshot?.documents else {
                 print("No documents")
@@ -159,60 +159,15 @@ class DataManager: ObservableObject {
         listener(listenerRegistration10) //escaping listener
     }
     
-    func getMyItemsForCompany(email: String, companyID: String, onSuccess: @escaping([Items]) -> Void, listener: @escaping(_ listenerHandle: ListenerRegistration) -> Void) {
-        //print("this ONE function was called")
-        let listenerRegistration11 = db.collection("item")
-            .whereField("email", isEqualTo: email)
-            .whereField("companyID", isEqualTo: companyID)
-            .addSnapshotListener { (querySnapshot, error) in
-            guard let documents = querySnapshot?.documents else {
-                print("No documents")
-                return
-            }
-            var myItemsForCompanyArray = [Items]()
 
-                myItemsForCompanyArray = documents.compactMap { (queryDocumentSnapshot) -> Items? in
-                    print("THIS IS THE ITEMS")
-                print(try? queryDocumentSnapshot.data(as: Items.self))
-                return try? queryDocumentSnapshot.data(as: Items.self)
-                //return try? queryDocumentSnapshot.data(as: Ticket.self)
-            }
-            onSuccess(myItemsForCompanyArray)
-        }
-        listener(listenerRegistration11) //escaping listener
-    }
     
-    func getMyReviewableItemsForCompany(email: String, companyID: String, onSuccess: @escaping([Items]) -> Void, listener: @escaping(_ listenerHandle: ListenerRegistration) -> Void) {
+    func getMyReferableItemsForCompany(userID: String, companyID: String, onSuccess: @escaping([Items]) -> Void, listener: @escaping(_ listenerHandle: ListenerRegistration) -> Void) {
         //print("this ONE function was called")
         let listenerRegistration13 = db.collection("item")
-            .whereField("email", isEqualTo: email)
-            .whereField("companyID", isEqualTo: companyID)
-            .whereField("reviewRating", isEqualTo: 0)
-            .addSnapshotListener { (querySnapshot, error) in
-            guard let documents = querySnapshot?.documents else {
-                print("No documents")
-                return
-            }
-            var myReviewableItemsForCompanyArray = [Items]()
-
-                myReviewableItemsForCompanyArray = documents.compactMap { (queryDocumentSnapshot) -> Items? in
-                    print("THIS IS THE REVIEWABLE ITEMS")
-                print(try? queryDocumentSnapshot.data(as: Items.self))
-                return try? queryDocumentSnapshot.data(as: Items.self)
-                //return try? queryDocumentSnapshot.data(as: Ticket.self)
-            }
-            onSuccess(myReviewableItemsForCompanyArray)
-        }
-        listener(listenerRegistration13) //escaping listener
-    }
-    
-    func getMyReferableItemsForCompany(email: String, companyID: String, onSuccess: @escaping([Items]) -> Void, listener: @escaping(_ listenerHandle: ListenerRegistration) -> Void) {
-        //print("this ONE function was called")
-        let listenerRegistration13 = db.collection("item")
-            .whereField("email", isEqualTo: email)
-            .whereField("companyID", isEqualTo: companyID)
-            .whereField("reviewRating", isEqualTo: 5)
-            .whereField("referred", isEqualTo: false)
+            .whereField("ids.userID", isEqualTo: userID)
+            .whereField("ids.companyID", isEqualTo: companyID)
+            .whereField("review.rating", isEqualTo: 5)
+            .whereField("referrals.count", isEqualTo: 0)
             .addSnapshotListener { (querySnapshot, error) in
             guard let documents = querySnapshot?.documents else {
                 print("No documents")
@@ -231,11 +186,11 @@ class DataManager: ObservableObject {
         listener(listenerRegistration13) //escaping listener
     }
     
-    func getOneItem(email: String, itemID: String, onSuccess: @escaping([Items]) -> Void, listener: @escaping(_ listenerHandle: ListenerRegistration) -> Void) {
+    func getOneItem(userID: String, itemID: String, onSuccess: @escaping([Items]) -> Void, listener: @escaping(_ listenerHandle: ListenerRegistration) -> Void) {
         //print("this ONE function was called")
         let listenerRegistration12 = db.collection("item")
-            .whereField("email", isEqualTo: email)
-            .whereField("itemID", isEqualTo: itemID)
+            .whereField("ids.userID", isEqualTo: userID)
+            .whereField("ids.itemID", isEqualTo: itemID)
             .addSnapshotListener { (querySnapshot, error) in
             guard let documents = querySnapshot?.documents else {
                 print("No documents")

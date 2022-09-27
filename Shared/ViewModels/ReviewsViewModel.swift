@@ -34,14 +34,14 @@ class ReviewsViewModel: ObservableObject, Identifiable {
     //        })
     //    }
     
-    func addReview(companyID: String, email: String, itemID: String, reviewRating: Int, questionsArray: [String], responsesArray: [String], reviewTitle: String, userID: String) {
+    func addReview(companyID: String, email: String, itemID: String, orderID: String, reviewRating: Int, questionsArray: [String], responsesArray: [String], reviewTitle: String, userID: String) {
         
         db.collection("reviews").document(userID + "-" + itemID)
             .setData([
                 "companyID": companyID,
                 "email": email,
                 "historyID": "",
-                "orderID": "",
+                "orderID": orderID,
                 "itemID": itemID,
                 "photoID": "",
                 "reviewQuestions": questionsArray,

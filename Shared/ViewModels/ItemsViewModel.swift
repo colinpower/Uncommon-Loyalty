@@ -21,22 +21,26 @@ class ItemsViewModel: ObservableObject, Identifiable {
     
     
     @Published var snapshotOfItem = [Items]()
-    @Published var snapshotOfReviewableItems = [Items]()
+    
+    
+    @Published var snapshotOfItems = [Items]()
+    @Published var snapshotOfItemsWithMultipleReferrals = [Items]()
+    @Published var snapshotOfItemsWith5StarsAndNoReferrals = [Items]()
     
     var dm = DataManager()
     
     var listener_MyItems: ListenerRegistration!
-    var listener_MyItemsForCompany: ListenerRegistration!
-    var listener_MyReviewableItemsForCompany: ListenerRegistration!
+    //var listener_MyItemsForCompany: ListenerRegistration!
+//    var listener_MyReviewableItemsForCompany: ListenerRegistration!
     var listener_MyReferableItemsForCompany: ListenerRegistration!
     var listener_OneItem: ListenerRegistration!
         
     private var db = Firestore.firestore()
     
-    func listenForMyItems(email: String) {
+    func listenForMyItems(userID: String) {
         self.myItems = [Items]()
 
-        self.dm.getMyItems(email: email, onSuccess: { (items) in
+        self.dm.getMyItems(userID: userID, onSuccess: { (items) in
             //if (self.newTickets.isEmpty) {
                 self.myItems = items
             print("this is the items")
@@ -46,36 +50,11 @@ class ItemsViewModel: ObservableObject, Identifiable {
         })
     }
     
-    func listenForMyItemsForCompany(email: String, companyID: String) {
-        self.myItemsForCompany = [Items]()
-
-        self.dm.getMyItemsForCompany(email: email, companyID: companyID, onSuccess: { (items) in
-            //if (self.newTickets.isEmpty) {
-                self.myItemsForCompany = items
-            print("this is the items")
-            print(self.myItemsForCompany)
-        }, listener: { (listener11) in
-            self.listener_MyItemsForCompany = listener11
-        })
-    }
     
-    func listenForMyReviewableItemsForCompany(email: String, companyID: String) {
-        self.myReviewableItemsForCompany = [Items]()
-
-        self.dm.getMyReviewableItemsForCompany(email: email, companyID: companyID, onSuccess: { (items) in
-            //if (self.newTickets.isEmpty) {
-                self.myReviewableItemsForCompany = items
-            print("this is the reviewable items for " + companyID)
-            print(self.myReviewableItemsForCompany)
-        }, listener: { (listener11) in
-            self.listener_MyReviewableItemsForCompany = listener11
-        })
-    }
-    
-    func listenForMyReferableItemsForCompany(email: String, companyID: String) {
+    func listenForMyReferableItemsForCompany(userID: String, companyID: String) {
         self.myReferableItemsForCompany = [Items]()
 
-        self.dm.getMyReferableItemsForCompany(email: email, companyID: companyID, onSuccess: { (items) in
+        self.dm.getMyReferableItemsForCompany(userID: userID, companyID: companyID, onSuccess: { (items) in
             //if (self.newTickets.isEmpty) {
                 self.myReferableItemsForCompany = items
             print("this is the referable items for " + companyID)
@@ -85,10 +64,10 @@ class ItemsViewModel: ObservableObject, Identifiable {
         })
     }
     
-    func listenForOneItem(email: String, itemID: String) {
+    func listenForOneItem(userID: String, itemID: String) {
         self.oneItem = [Items]()
         
-        self.dm.getOneItem(email: email, itemID: itemID, onSuccess: { (Item) in
+        self.dm.getOneItem(userID: userID, itemID: itemID, onSuccess: { (Item) in
             //if (self.newTickets.isEmpty) {
                 self.oneItem = Item
             print("this is the one item")
@@ -104,7 +83,7 @@ class ItemsViewModel: ObservableObject, Identifiable {
         
         
         db.collection("item")
-            .whereField("itemID", isEqualTo: itemID)
+            .whereField("ids.itemID", isEqualTo: itemID)
             .getDocuments { (snapshot, error) in
                 
                 guard let snapshot = snapshot, error == nil else {
@@ -123,11 +102,12 @@ class ItemsViewModel: ObservableObject, Identifiable {
         
     }
     
-    func getSnapshotOfReviewableItems(userID: String) {
+    func getSnapshotOfItems(userID: String) {
         //print("this ONE function was called")
         
         db.collection("item")
-            .whereField("userID", isEqualTo: userID)
+            .whereField("ids.userID", isEqualTo: userID)
+            .order(by: "order.timestamp", descending: true)
             .getDocuments { (snapshot, error) in
                 
                 guard let snapshot = snapshot, error == nil else {
@@ -137,7 +117,7 @@ class ItemsViewModel: ObservableObject, Identifiable {
                 }
                 print("Number of documents: \(snapshot.documents.count)")
                 
-                self.snapshotOfReviewableItems = snapshot.documents.compactMap({ queryDocumentSnapshot -> Items? in
+                self.snapshotOfItems = snapshot.documents.compactMap({ queryDocumentSnapshot -> Items? in
                     print("AT THE TRY STATEMENT FOR REVIEWABLE ITEMS")
                     print(try? queryDocumentSnapshot.data(as: Items.self))
                     return try? queryDocumentSnapshot.data(as: Items.self)
@@ -147,11 +127,73 @@ class ItemsViewModel: ObservableObject, Identifiable {
     }
     
     
-    func updateItemForReview(userID: String, itemID: String, rating: Int) {
-        db.collection("item").document(itemID).setData([
-                "reviewID": userID + "-" + itemID,
-                "reviewRating": rating,
-                "orderID": ""
+    //snapshotOfItemsWithMultipleReferrals
+    func getSnapshotOfItemsWithMultipleReferrals(userID: String) {
+        
+        db.collection("item")
+            .whereField("ids.userID", isEqualTo: userID)
+            .whereField("referrals.count", isGreaterThan: 0)
+            .getDocuments { (snapshot, error) in
+                
+                guard let snapshot = snapshot, error == nil else {
+                    //handle error
+                    print("found error in snapshotOfItemsWithMultipleReferrals")
+                    return
+                }
+                print("Number of documents: \(snapshot.documents.count)")
+                
+                self.snapshotOfItemsWithMultipleReferrals = snapshot.documents.compactMap({ queryDocumentSnapshot -> Items? in
+                    print("AT THE TRY STATEMENT FOR snapshotOfItemsWithMultipleReferrals ITEMS")
+                    print(try? queryDocumentSnapshot.data(as: Items.self))
+                    return try? queryDocumentSnapshot.data(as: Items.self)
+                })
+            }
+        
+    }
+    
+    //snapshotOfItemsWith5StarsAndNoReferrals
+    func getSnapshotOfItemsWith5StarsAndNoReferrals(userID: String) {
+        
+        db.collection("item")
+            .whereField("ids.userID", isEqualTo: userID)
+            .whereField("referrals.count", isEqualTo: 0)
+            .whereField("review.rating", isEqualTo: 5)
+            .getDocuments { (snapshot, error) in
+                
+                guard let snapshot = snapshot, error == nil else {
+                    //handle error
+                    print("found error in getSnapshotOfItemsWith5StarsAndNoReferrals")
+                    return
+                }
+                print("Number of documents: \(snapshot.documents.count)")
+                
+                self.snapshotOfItemsWith5StarsAndNoReferrals = snapshot.documents.compactMap({ queryDocumentSnapshot -> Items? in
+                    print("AT THE TRY STATEMENT FOR snapshotOfItemsWithMultipleReferrals ITEMS")
+                    print(try? queryDocumentSnapshot.data(as: Items.self))
+                    return try? queryDocumentSnapshot.data(as: Items.self)
+                })
+            }
+    }
+    
+    
+    
+    
+    
+    
+    func updateItemForReview(item: Items, userID: String, rating: Int) {
+        
+        let reviewID = userID + "-" + item.ids.itemID
+        
+        db.collection("item").document(item.ids.itemID).updateData([
+            
+            "ids": [
+                "reviewID": reviewID,
+            ],
+            
+            "review": [
+                "rating": rating
+            ]
+                  
             ]) { err in
             if let err = err {
                 print("Error updating document: \(err)")
@@ -159,6 +201,88 @@ class ItemsViewModel: ObservableObject, Identifiable {
                 print("hasSeenFRE set to True")
             }
         }
+    }
+    
+    
+    func updateItemForReferral(itemID: String) {
+        db.collection("item").document(itemID).updateData([
+            
+            "referrals": [
+                
+                "count": FieldValue.increment(Int64(1))
+                
+                ]
+            
+            ]) { err in
+            if let err = err {
+                print("Error updating document: \(err)")
+            } else {
+                print("hasSeenFRE set to True")
+            }
+        }
+    }
+    
+    
+    
+    
+    func createFakeItemForDemo(email: String, userID: String) {
+        
+        let alphanumeric = "abcdefghijklmnopqrstuvwxyz123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+        
+        let itemID = randomString(of: 20)
+        
+        db.collection("item").document(itemID).setData([
+            
+            "ids": [
+                "companyID": "zKL7SQ0jRP8351a0NnHM",
+                "itemID": itemID,
+                "orderID": "",
+                "referralIDs": [""],
+                "reviewID": "",
+                "shopifyItemID": 123123,
+                "userID": userID
+            ],
+            "referrals": [
+                "count": 0,
+                "rewardType": "POINTS",
+                "rewardAmount": 10000
+            ],
+            "review": [
+                "rating": 0,
+                "rewardType": "POINTS",
+                "rewardAmount": 250
+            ],
+            "order": [
+                "domain": "athleisure-la.myshopify.com",
+                "email": email,
+                "name": "Fake Order Name" + itemID.prefix(3),
+                "orderStatusURL": "https://athleisure-la.myshopify.com/63427707135/orders/618f44c951e2e1f3bade707e0a19bdb4",
+                "phone": "6177772994",
+                "price": "98.00",
+                "quantity": 1,
+                "returnPolicyInDays": 45,
+                "status": "PAID",
+                "timestamp": Int(round(Date().timeIntervalSince1970)),
+                "title": "Fake Order Name" + itemID.prefix(3)
+            ]
+            
+            ]) { err in
+            if let err = err {
+                print("Error updating document: \(err)")
+            } else {
+                print("hasSeenFRE set to True")
+            }
+        }
+    }
+    
+    
+    func randomString(of length: Int) -> String {
+        let letters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+        var s = ""
+        for _ in 0 ..< length {
+            s.append(letters.randomElement()!)
+        }
+        return s
     }
     
     

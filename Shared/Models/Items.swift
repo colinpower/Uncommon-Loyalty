@@ -12,41 +12,106 @@ import FirebaseFirestoreSwift
 struct Items: Identifiable, Codable {
     //means that whenever we map from a doc into a Order struct, it'll read the document and map it into this thing
     @DocumentID var id: String? = UUID().uuidString
+    var ids: ItemsIDsStruct
+    var referrals: ItemsReferralsStruct
+    var review: ItemsReviewStruct
+    var order: ItemsOrderStruct
+    
+    //use CodingKeys to convert from names in Firebase to SwiftUI names
+    enum CodingKeys: String, CodingKey {
+        
+        case ids
+        case referrals
+        case review
+        case order
+        
+    }
+}
+
+
+struct ItemsIDsStruct: Codable {
     var companyID: String
-    var domain: String
-    var email: String
     var itemID: String
-    var name: String
     var orderID: String
-    var price: String
-    var quantity: Int
-    var referred: Bool
+    var referralIDs: [String]
     var reviewID: String
-    var reviewRating: Int
     var shopifyItemID: Int
-    var status: String
-    var timestamp: Int
-    var title: String
     var userID: String
 
 
     //use CodingKeys to convert from names in Firebase to SwiftUI names
     enum CodingKeys: String, CodingKey {
         case companyID
-        case domain
-        case email
         case itemID
-        case name
         case orderID
-        case price
-        case quantity
-        case referred
+        case referralIDs
         case reviewID
-        case reviewRating
         case shopifyItemID
-        case status
-        case timestamp
-        case title
         case userID
     }
 }
+
+
+struct ItemsReferralsStruct: Codable {
+    var count: Int
+    var rewardType: String
+    var rewardAmount: Int
+    
+    //use CodingKeys to convert from names in Firebase to SwiftUI names
+    enum CodingKeys: String, CodingKey {
+        case count
+        case rewardType
+        case rewardAmount
+    }
+}
+
+struct ItemsReviewStruct: Codable {
+    var rating: Int
+    var rewardType: String
+    var rewardAmount: Int
+    
+    //use CodingKeys to convert from names in Firebase to SwiftUI names
+    enum CodingKeys: String, CodingKey {
+        case rating
+        case rewardType
+        case rewardAmount
+    }
+}
+
+
+struct ItemsOrderStruct: Codable {
+    
+    var domain: String
+    var email: String
+    var name: String
+    var orderNumber: Int
+    var orderStatusURL: String
+    var phone: String
+    var price: String
+    var quantity: Int
+    var returnPolicyInDays: Int
+    var status: String
+    var timestamp: Int
+    var title: String
+    
+    //use CodingKeys to convert from names in Firebase to SwiftUI names
+    enum CodingKeys: String, CodingKey {
+        
+        case domain
+        case email
+        case name
+        case orderNumber
+        case orderStatusURL
+        case phone
+        case price
+        case quantity
+        case returnPolicyInDays
+        case status
+        case timestamp
+        case title
+        
+    }
+}
+
+
+

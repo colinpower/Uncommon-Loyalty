@@ -41,7 +41,7 @@ struct RecommendedActions: View {
                                 .padding(.vertical, 10)
                                 .padding(.trailing)
                             
-                            Text("Write a review for the \(item.name) that you ordered on \(String(item.timestamp))")
+                            Text("Write a review for the \(item.order.name) that you ordered on \(String(item.order.timestamp))")
                                 .multilineTextAlignment(.leading)
                                 .font(.system(size: 16, weight: .medium))
                                 .foregroundColor(Color("Dark1"))

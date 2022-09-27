@@ -26,7 +26,8 @@ struct ContentView: View {
     
     @EnvironmentObject var viewModel: AppViewModel
     
-    @ObservedObject var viewModel_Users = UsersViewModel()
+    @AppStorage("shouldShowFirstRunExperience")
+    private var shouldShowFirstRunExperience: Bool = true
     
     //Add state var if it needs to be readable and passed across all screens. For example, a live workout in the Liftin' app is accessible anywhere
     @State var selectedTab:Int = 0
@@ -43,18 +44,22 @@ struct ContentView: View {
                 
                 switch selectedTab {
                 case 0:
-                    Home(selectedTab: $selectedTab)
+                    
+                    VStack(alignment: .leading, spacing: 0) {
+                        YourBag(selectedTab: $selectedTab) //, email: viewModel.email!, userID: viewModel.userID!)
+                    }
+                    .fullScreenCover(isPresented: $shouldShowFirstRunExperience, content: {
+                        FirstRunExperience(shouldShowFirstRunExperience: $shouldShowFirstRunExperience)
+                    })
                     
                 case 1:
-                    Influence(selectedTab: $selectedTab)
-                    //AllOrders(selectedTab: $selectedTab)
-//                case 2:
-//                    Discover(selectedTab: $selectedTab)
-//                    //Home(selectedTab: $selectedTab)
+                    ReferralTracker(selectedTab: $selectedTab)
+                case 2:
+                    Home(selectedTab: $selectedTab)
                 case 3:
                     Profile(selectedTab: $selectedTab)
                 default:
-                    Home(selectedTab: $selectedTab)
+                    Profile(selectedTab: $selectedTab)
                 }
 
             } else {
@@ -75,8 +80,28 @@ struct ContentView: View {
                     switch result {
                     
                     case let .success(user):
-                        viewModel.signedIn = user?.isEmailVerified ?? false //viewModel.isSignedIn
-                        isShowingCheckEmailView = false
+                        
+                        Auth.auth().addStateDidChangeListener { auth, user1 in
+                           if let user1 = user1 {
+                               print("\(user1.uid) login")
+                               viewModel.signedIn = user?.isEmailVerified ?? false
+                               isShowingCheckEmailView = false
+                               
+                           } else {
+                               print("not login")
+                           }
+                        }
+                        
+                        //viewModel.signedIn = user?.isEmailVerified ?? false //viewModel.isSignedIn
+                        
+//                        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+//
+//                            viewModel.signedIn = user?.isEmailVerified ?? false //viewModel.isSignedIn
+//
+//                            isShowingCheckEmailView = false
+//
+//                        }
+                        
                     case let .failure(error):
                         alertItem = AlertItem(title: "An auth error occurred.", message: error.localizedDescription)
                     }
@@ -93,12 +118,6 @@ struct ContentView: View {
     
     
     
-}
-
-struct ContentView_Previews: PreviewProvider {
-    static var previews: some View {
-        ContentView()
-    }
 }
 
 

@@ -31,6 +31,9 @@ enum ActiveSheetShare: String, Identifiable { // <--- note that it's now Identif
 
 struct ReferProduct5: View {
     
+    @ObservedObject var referralsViewModel = ReferralsViewModel()
+    @ObservedObject var itemsViewModel = ItemsViewModel()
+    
     @Binding var isShowingReferExperience:Bool
     
     var itemObject: Items
@@ -87,7 +90,7 @@ struct ReferProduct5: View {
                     .foregroundColor(Color("Dark1"))
                     .padding(.bottom, 10)
                 
-                Text("Tell \(selectedContact[1]) about the \(itemObject.title)!")
+                Text("Tell \(selectedContact[1]) about the \(itemObject.order.title)!")
                     .font(.system(size: 14, weight: .regular))
                     .foregroundColor(Color("Dark2"))
                     .multilineTextAlignment(.center)
@@ -204,7 +207,17 @@ struct ReferProduct5: View {
             if isEitherShareButtonTapped {
                 
                 Button {
+                    
+                    let newTotalReferrals = itemObject.referrals.count + 1
+                    
+                    let referralID = itemObject.ids.userID + "-" + itemObject.ids.itemID + String(newTotalReferrals) + "-" + itemsViewModel.randomString(of: 2)
+                    
+                    referralsViewModel.addReferral(referralID: referralID, companyID: itemObject.ids.companyID, email: itemObject.order.email, itemID: itemObject.ids.itemID, orderID: itemObject.ids.orderID, referralBonusPoints: 20000, referralCodeCreated: userSuggestedCode, referralDiscountAmount: 20, userID: itemObject.ids.userID)
+                    
+                    itemsViewModel.updateItemForReferral(itemID: itemObject.ids.itemID)
+                    
                     isShowingReferExperience.toggle()
+                    
                 } label: {
                     BottomCapsuleButton(buttonText: "Done", color: Color("ReferPurple"))
                 }
@@ -221,7 +234,8 @@ struct ReferProduct5: View {
         .navigationBarTitleDisplayMode(.inline)
         .onAppear {
             
-            self.messageToRecipient = "Hi! Here's a $20 discount code for Athleisure LA! One of my favorites is the \(itemObject.title) (I gave it 5 stars). Check it out!"
+            self.messageToRecipient = "Hi! Here's a $20 discount code for Athleisure LA! One of my favorites is the \(itemObject.order.title) (I gave it 5 stars). Check it out!"
+            
             
         }
         
