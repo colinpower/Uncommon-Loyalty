@@ -107,7 +107,7 @@ class ItemsViewModel: ObservableObject, Identifiable {
         
         db.collection("item")
             .whereField("ids.userID", isEqualTo: userID)
-            .order(by: "order.timestamp", descending: true)
+            //.order(by: "order.timestamp", descending: true)
             .getDocuments { (snapshot, error) in
                 
                 guard let snapshot = snapshot, error == nil else {
@@ -199,9 +199,11 @@ class ItemsViewModel: ObservableObject, Identifiable {
     }
     
     
-    func updateItemForReferral(itemID: String) {
+    func updateItemForReferral(itemID: String, newReferralIDsArray: [String]) {
+        
         db.collection("item").document(itemID).updateData([
             
+            "ids.referralIDs": newReferralIDsArray,
             "referrals.count": FieldValue.increment(Int64(1))
             
             ]) { err in
@@ -231,6 +233,7 @@ class ItemsViewModel: ObservableObject, Identifiable {
                 "referralIDs": [""],
                 "reviewID": "",
                 "shopifyItemID": 123123,
+                "shopifyProductID": 7585260634367,
                 "userID": userID
             ],
             "referrals": [
@@ -244,8 +247,11 @@ class ItemsViewModel: ObservableObject, Identifiable {
                 "rewardAmount": 250
             ],
             "order": [
+                "companyName": "Athleisure LA",
                 "domain": "athleisure-la.myshopify.com",
                 "email": email,
+                "handle": "",
+                "imageURL": "",
                 "name": "Fake Order Name" + itemID.prefix(3),
                 "orderNumber": 1234,
                 "orderStatusURL": "https://athleisure-la.myshopify.com/63427707135/orders/618f44c951e2e1f3bade707e0a19bdb4",

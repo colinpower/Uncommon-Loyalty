@@ -15,6 +15,9 @@ class ReviewsViewModel: ObservableObject, Identifiable {
     
     //@Published var myReviews = [Reviews]()
     
+    @Published var snapshotOfOneReview = [Reviews]()
+    
+    
     //var dm = DataManager()
     
     //var listener_DiscountCodes: ListenerRegistration!
@@ -34,22 +37,101 @@ class ReviewsViewModel: ObservableObject, Identifiable {
     //        })
     //    }
     
-    func addReview(companyID: String, email: String, itemID: String, orderID: String, reviewRating: Int, questionsArray: [String], responsesArray: [String], reviewTitle: String, userID: String) {
+    
+    func getSnapshotOfOneReview(userID: String, itemID: String) {
+        
+        print("this is the USER ID AND ITEM ID FOR getSnapshotOfReferralsForItem")
+        
+        db.collection("reviews")
+            .whereField("ids.userID", isEqualTo: userID)
+            .whereField("ids.itemID", isEqualTo: itemID)
+            .getDocuments { (snapshot, error) in
+                
+                guard let snapshot = snapshot, error == nil else {
+                    //handle error
+                    print("found error in getSnapshotOfOneReview")
+                    return
+                }
+                print("Number of documents: \(snapshot.documents.count ?? -1)")
+                
+                self.snapshotOfOneReview = snapshot.documents.compactMap({ queryDocumentSnapshot -> Reviews? in
+                    print("AT THE TRY STATEMENT FOR REVIEWS FOR ITEM")
+                    print(try? queryDocumentSnapshot.data(as: Reviews.self))
+                    return try? queryDocumentSnapshot.data(as: Reviews.self)
+                })
+            }
+    }
+    
+    
+    
+    
+    func addReview(
+        firstName: String,
+        lastName: String,
+        itemName: String,
+        companyName: String,
+        companyLogo: String,
+        profilePic: String,
+        reviewRating: Int,
+        questionsArray: [String],
+        responsesArray: [String],
+        allowedToDisplayProfilePic: Bool,
+        allowedToDisplayName: Bool,
+        companyID: String,
+        email: String,
+        itemID: String,
+        orderID: String,
+        reviewTitle: String,
+        userID: String,
+        rewardEarned: Int
+    ) {
+        
+        let reviewTimestamp = Int(round(Date().timeIntervalSince1970))
         
         db.collection("reviews").document(userID + "-" + itemID)
             .setData([
-                "companyID": companyID,
-                "email": email,
-                "historyID": "",
-                "orderID": orderID,
-                "itemID": itemID,
-                "photoID": "",
-                "reviewQuestions": questionsArray,
-                "reviewRating": reviewRating,
-                "reviewResponses": responsesArray,
-                "reviewTitle": reviewTitle,
-                "timestamp": Int(round(Date().timeIntervalSince1970)),
-                "userID": userID
+                
+                "card": [
+                    "firstName": firstName,
+                    "lastName": lastName,
+                    "timestamp": reviewTimestamp,
+                    "itemName": itemName,
+                    "companyName": companyName,
+                    "companyLogo": companyLogo,
+                    "profilePic": profilePic,
+                    "rating": reviewRating,
+                    "title": responsesArray[2],
+                    "body": responsesArray[1],
+                    "allowedToDisplayProfilePic": allowedToDisplayProfilePic,
+                    "allowedToDisplayName": allowedToDisplayName,
+                ],
+                "ids": [
+                    "companyID": companyID,
+                    "domain": "",           //need to get this later
+                    "historyID": "",
+                    "itemID": itemID,
+                    "orderID": "",
+                    "shopifyProductID": 0,
+                    "reviewID": userID + "-" + itemID,
+                    "userID": userID
+                ],
+                "metadata": [
+                    "prompts": questionsArray,
+                    "promptTypes": [""],
+                    "responses": responsesArray
+                ],
+                "reward": [
+                    "rewardAmount": 0,
+                    "rewardEarned": rewardEarned,
+                    "rewardPerPrompt": [0, 0],
+                    "rewardType": "POINTS",
+                ],
+                "sender": [
+                    "firstName": firstName,
+                    "lastName": lastName,
+                    "phone": "",
+                    "email": email
+                ]
             ]) { err in
                 if let err = err {
                     print("Error updating document: \(err)")
@@ -60,26 +142,4 @@ class ReviewsViewModel: ObservableObject, Identifiable {
     }
     
 }
-    
-    
-    
-    
-    
-    
-//    func addReview1(reviewQuestions: ReviewDetails, reviewResponses: [String]) {
-//
-//        db.collection("reviews")
-//            .addDocument(data: [
-//                "reviewQuestions": reviewQuestions,
-//                "reviewResponses": reviewResponses,
-//                "timestamp": Int(round(Date().timeIntervalSince1970))
-//            ]) { err in
-//                if let err = err {
-//                    print("Error updating document: \(err)")
-//                } else {
-//                    print("hasSeenFRE set to True")
-//                }
-//
-//        }
-//    }
-//}
+

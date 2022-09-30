@@ -36,6 +36,7 @@ struct ItemsIDsStruct: Codable {
     var referralIDs: [String]
     var reviewID: String
     var shopifyItemID: Int
+    var shopifyProductID: Int
     var userID: String
 
 
@@ -47,6 +48,7 @@ struct ItemsIDsStruct: Codable {
         case referralIDs
         case reviewID
         case shopifyItemID
+        case shopifyProductID
         case userID
     }
 }
@@ -81,8 +83,11 @@ struct ItemsReviewStruct: Codable {
 
 struct ItemsOrderStruct: Codable {
     
+    var companyName: String
     var domain: String
     var email: String
+    var handle: String
+    var imageURL: String
     var name: String
     var orderNumber: Int
     var orderStatusURL: String
@@ -97,8 +102,11 @@ struct ItemsOrderStruct: Codable {
     //use CodingKeys to convert from names in Firebase to SwiftUI names
     enum CodingKeys: String, CodingKey {
         
+        case companyName
         case domain
         case email
+        case handle
+        case imageURL
         case name
         case orderNumber
         case orderStatusURL

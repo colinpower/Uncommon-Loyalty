@@ -72,7 +72,7 @@ struct ReferProduct2: View {
             } else {
                 
                 NavigationLink {
-                    ReferProduct3(isShowingReferExperience: $isShowingReferExperience, itemObject: itemObject, designSelection: $designSelection)
+                    ReferProduct3(isShowingReferExperience: $isShowingReferExperience, itemObject: itemObject, designSelection: $designSelection, selectedOption: selectedOption)
                 } label: {
                     BottomCapsuleButton(buttonText: "Continue", color: Color("ReferPurple"))
                 }

@@ -25,7 +25,7 @@ class ReferralsViewModel: ObservableObject, Identifiable {
         
         
         db.collection("referral")
-            .whereField("userID", isEqualTo: userID)
+            .whereField("ids.userID", isEqualTo: userID)
             .getDocuments { (snapshot, error) in
                 
                 guard let snapshot = snapshot, error == nil else {
@@ -53,13 +53,13 @@ class ReferralsViewModel: ObservableObject, Identifiable {
         print(itemID)
         
         db.collection("referral")
-            .whereField("userID", isEqualTo: userID)
-            .whereField("itemID", isEqualTo: itemID)
+            .whereField("ids.userID", isEqualTo: userID)
+            .whereField("ids.itemID", isEqualTo: itemID)
             .getDocuments { (snapshot, error) in
                 
                 guard let snapshot = snapshot, error == nil else {
                     //handle error
-                    print("found error in snapshotOfAllReferrals")
+                    print("found error in snapshotOfReferralsForItem")
                     return
                 }
                 print("Number of documents: \(snapshot.documents.count ?? -1)")
@@ -76,36 +76,69 @@ class ReferralsViewModel: ObservableObject, Identifiable {
     
     
 
-    func addReferral(referralID: String, companyID: String, email: String, itemID: String, orderID: String, referralBonusPoints: Int, referralCodeCreated: String, referralDiscountAmount: Int, userID: String) {
+    func addReferral(color: Int, companyName: String, customMessage: String, discountCode: String, itemTitle: String, companyID: String, itemID: String, referralID: String, userID: String, email: String, rewardAmount: Int, rewardType: String, recipientFirstName: String, recipientLastName: String, recipientPhone: String, offerRewardAmount: Int) {
 
         let referralTimestamp = Int(round(Date().timeIntervalSince1970))
         
         db.collection("referral").document(referralID)
             .setData([
                 
-                "actualNewCustomerEmail": "",
-                "associatedOrderID": orderID,
-                "companyID": companyID,
-                "domain": "",
-                "historyID": "",
-                "itemID": itemID,
-                "prospectiveNewCustomerEmail": "",
-                "referralBonusPoints": referralBonusPoints,
-                "referralCode": referralCodeCreated,
-                "referralDiscountAmount": referralDiscountAmount,
-                "referralID": "",
-                "status": "SENT",
-                "timestamp_Created": referralTimestamp,
-                "timestamp_Used": 0,
-                "totalSpent": 0,
-                "userID": userID,
-                "userSendingReferralEmail": email
-
+                "card": [
+                    
+                    "color": color,
+                    "companyName": companyName,
+                    "customMessage": customMessage,
+                    "discountCode": discountCode,
+                    "itemImage": "",
+                    "itemTitle": itemTitle
+                    
+                ],
+                "ids": [
+                    "companyID": companyID,
+                    "domain": "",           //need to get this later
+                    "graphQLID": "",        //need to get this later
+                    "historyID": "",
+                    "itemID": itemID,
+                    "usedOnOrderID": "",
+                    "referralID": referralID,
+                    "reviewID": "",
+                    "userID": userID
+                ],
+                "offer": [
+                    "expirationTimestamp": -1,
+                    "forNewCustomersOnly": false,
+                    "minimumSpendRequired": -1,
+                    "rewardAmount": offerRewardAmount,
+                    "rewardType": "DOLLAR-DISCOUNT",
+                    "singleUse": true
+                ],
+                "recipient": [
+                    "firstName": recipientFirstName,
+                    "lastName": recipientLastName,
+                    "phone": recipientPhone,
+                    "email": ""
+                ],
+                "reward": [
+                    "rewardAmount": rewardAmount,
+                    "rewardType": "POINTS",
+                ],
+                "sender": [
+                    "firstName": "",
+                    "lastName": "",
+                    "phone": "",
+                    "email": email
+                ],
+                "status": [
+                    "status": "SENT",
+                    "timestampCreated": referralTimestamp,
+                    "timestampUsed": -1,
+                    "timeWaitingForReturnInDays": 5
+                ]
         ]) { err in
             if let err = err {
                 print("Error updating document: \(err)")
             } else {
-                print("IDK WHAT THE ERROR IS??")
+                print("IDK WHAT THE ERROR IS WITH THE REFERRAL CREATION????")
             }
         }
     }

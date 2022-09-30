@@ -45,3 +45,22 @@ struct Companies: Identifiable, Codable {
         case website
     }
 }
+
+
+
+struct CompanyProduct: Identifiable, Codable {
+    //means that whenever we map from a doc into a Order struct, it'll read the document and map it into this thing
+    @DocumentID var id: String? = UUID().uuidString
+    var URL: String
+    var handle: String
+    var imageURL: String
+    var productID: String
+
+    //use CodingKeys to convert from names in Firebase to SwiftUI names
+    enum CodingKeys: String, CodingKey {
+        case URL
+        case handle
+        case imageURL
+        case productID
+    }
+}

@@ -29,6 +29,8 @@ struct Item: View {
     //State
     @State var selectedTab:Int = 2
     
+    //@State var buttonOffset:CGFloat = 100
+    
     
     //@State var isPresentingReviewExperience:Bool = false
     
@@ -119,7 +121,7 @@ struct Item: View {
                                         .padding(.horizontal, 4)
                                     
                                     NavigationLink {
-                                        CompletedReviewPage()
+                                        CompletedReviewPage(itemID: item.ids.itemID, userID: item.ids.userID)
                                     } label: {
                                         Text("Read your review")
                                             .underline()
@@ -142,14 +144,14 @@ struct Item: View {
                                         
                                         if referralsVariable == 1 {
                                             
-                                            Text("Track your Referral")
+                                            Text("Track your referral")
                                                 .underline()
                                                 .font(.system(size: 14, weight: .medium))
                                                 .foregroundColor(Color("Dark1"))
                                             
                                         } else {
                                             
-                                            Text("Track your " + String(referralsVariable) + " Referrals")
+                                            Text("Track your " + String(referralsVariable) + " referrals")
                                                 .underline()
                                                 .font(.system(size: 14, weight: .medium))
                                                 .foregroundColor(Color("Dark1"))
@@ -185,7 +187,8 @@ struct Item: View {
                                     Group {
                                         Text("Write a review? ")
                                             .font(.system(size: 16, weight: .semibold))
-                                            .foregroundColor(Color("Dark1"))
+                                            .foregroundColor(Color("ReviewTeal"))
+                                            //.foregroundColor(Color("Dark1"))
                                         +
                                         Text("Let us know how you're liking this item. You can refer friends afterwards.")
                                             .font(.system(size: 16, weight: .regular))
@@ -215,9 +218,10 @@ struct Item: View {
                                     Group {
                                         Text("Refer a friend. ")
                                             .font(.system(size: 16, weight: .semibold))
-                                            .foregroundColor(Color("Dark1"))
+                                            .foregroundColor(Color("ReferPurple"))
+                                            //.foregroundColor(Color("Dark1"))
                                         +
-                                        Text("Thanks for your awesome review! Do you think any of your friends would like it too?")
+                                        Text("Thanks for your awesome review! If any of your friends would love this too, send them a $20 discount!")
                                             .font(.system(size: 16, weight: .regular))
                                             .foregroundColor(Color("Dark1"))
                                     }.multilineTextAlignment(.leading)
@@ -301,6 +305,7 @@ struct Item: View {
                 
                 //SHOW THE EQUIVALENT WIDGET FOR REFERRING
                 
+                let numberOfReferrals = itemsViewModel.oneItem.first?.referrals.count ?? -1
                 
                 Button {
                     
@@ -308,7 +313,7 @@ struct Item: View {
                     showReviewOrReferSheet = true
                     
                 } label: {
-                    WideReferButton()
+                    WideReferButton(buttonText: numberOfReferrals <= 0 ? "Refer a friend" : "Refer again")
                         .padding(.horizontal).padding(.horizontal)
                         .frame(width: UIScreen.main.bounds.width, height: 70)
                         .padding(.bottom, 30)
@@ -320,7 +325,7 @@ struct Item: View {
         }
         .background(Color("Background").opacity(0.5))
         .ignoresSafeArea()
-        .navigationBarTitle(itemsViewModel.snapshotOfItem.first?.order.title ?? "Item", displayMode: .inline)
+        .navigationBarTitle(item.order.title, displayMode: .inline)
         .sheet(isPresented: $showReviewOrReferSheet, onDismiss: {
             
             print("DISMISSED THE SHEET!! TRACK IT")
@@ -346,6 +351,13 @@ struct Item: View {
         .onAppear {
             
             self.itemsViewModel.listenForOneItem(userID: item.ids.userID, itemID: item.ids.itemID)
+            
+//            withAnimation(.linear(duration: 0.3)) {
+//
+//                buttonOffset = 0
+//
+//            }
+            
             
         }
         .onDisappear {
@@ -529,9 +541,10 @@ struct ReviewAndReferButtons: View {
 
 struct WideReviewButton: View {
     
-    var title:String = "Earn 250 Points"
-    var subtitle:String = "30 Seconds"
-    var buttonText:String = "Review"
+    var titleAmount:String = "+250"
+    var titleType:String = "points"
+    var subtitle:String = "30 sec."
+    var buttonText:String = "Write a review"
     
     var body: some View {
             
@@ -539,16 +552,23 @@ struct WideReviewButton: View {
                 
                 VStack(alignment: .leading, spacing: 6) {
                     
-                    Text(title)
-                        .font(.system(size: 18, weight: .semibold, design: .rounded))
-                        .foregroundColor(Color("Dark1"))
+                    HStack(alignment: .center, spacing: 5) {
+                        Text(titleAmount)
+                            .font(.system(size: 20, weight: .semibold, design: .rounded))
+                            .foregroundColor(Color("Dark1"))
+                        
+                        Text(titleType)
+                            .font(.system(size: 14, weight: .regular))
+                            .foregroundColor(Color("Dark1"))
+                            .padding(.top, 2)
+                    }
                     
                     HStack(alignment: .center, spacing: 3) {
                         Image(systemName: "clock")
-                            .font(.system(size: 12, weight: .regular))
+                            .font(.system(size: 11, weight: .regular))
                             .foregroundColor(Color("Gray1"))
                         Text(subtitle)
-                            .font(.system(size: 12, weight: .regular))
+                            .font(.system(size: 13, weight: .regular))
                             .foregroundColor(Color("Gray1"))
                     }
                         
@@ -562,7 +582,7 @@ struct WideReviewButton: View {
                     .font(.system(size: 16, weight: .medium, design: .rounded))
                     .foregroundColor(Color.white)
                     .padding(.vertical, 16)
-                    .padding(.horizontal).padding(.horizontal, 18)
+                    .padding(.horizontal).padding(.horizontal)
                     .clipShape(RoundedRectangle(cornerRadius: 6))
                     .background(RoundedRectangle(cornerRadius: 6).foregroundColor(Color("ReviewTeal")))
                     .padding(.top, 10)
@@ -574,10 +594,10 @@ struct WideReviewButton: View {
 
 struct WideReferButton: View {
     
-    var title:String = "Give $20, Get 20K"
-    var subtitle:String = "30 Seconds"
-    var buttonText:String = "Refer"
-    
+    var titleAmount:String = "+20,000"
+    var titleType:String = "points"
+    var subtitle:String = "30 sec."
+    var buttonText:String = "Refer a friend"
     
     var body: some View {
             
@@ -585,16 +605,23 @@ struct WideReferButton: View {
                 
                 VStack(alignment: .leading, spacing: 6) {
                     
-                    Text(title)
-                        .font(.system(size: 18, weight: .semibold, design: .rounded))
-                        .foregroundColor(Color("Dark1"))
-                    
+                    HStack(alignment: .center, spacing: 5) {
+                        Text(titleAmount)
+                            .font(.system(size: 20, weight: .semibold, design: .rounded))
+                            .foregroundColor(Color("Dark1"))
+                        
+                        Text(titleType)
+                            .font(.system(size: 14, weight: .regular))
+                            .foregroundColor(Color("Dark1"))
+                            .padding(.top, 2)
+                    }
+                                        
                     HStack(alignment: .center, spacing: 3) {
                         Image(systemName: "clock")
-                            .font(.system(size: 12, weight: .regular))
+                            .font(.system(size: 11, weight: .regular))
                             .foregroundColor(Color("Gray1"))
                         Text(subtitle)
-                            .font(.system(size: 12, weight: .regular))
+                            .font(.system(size: 13, weight: .regular))
                             .foregroundColor(Color("Gray1"))
                     }
                     
@@ -607,7 +634,7 @@ struct WideReferButton: View {
                     .font(.system(size: 16, weight: .medium, design: .rounded))
                     .foregroundColor(Color.white)
                     .padding(.vertical, 16)
-                    .padding(.horizontal).padding(.horizontal, 18)
+                    .padding(.horizontal).padding(.horizontal)
                     .clipShape(RoundedRectangle(cornerRadius: 6))
                     .background(RoundedRectangle(cornerRadius: 6).foregroundColor(Color("ReferPurple")))
                     .padding(.top, 10)

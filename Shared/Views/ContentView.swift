@@ -46,7 +46,7 @@ struct ContentView: View {
                 case 0:
                     
                     VStack(alignment: .leading, spacing: 0) {
-                        YourBag(selectedTab: $selectedTab) //, email: viewModel.email!, userID: viewModel.userID!)
+                        Purchases(selectedTab: $selectedTab) //, email: viewModel.email!, userID: viewModel.userID!)
                     }
                     .fullScreenCover(isPresented: $shouldShowFirstRunExperience, content: {
                         FirstRunExperience(shouldShowFirstRunExperience: $shouldShowFirstRunExperience)

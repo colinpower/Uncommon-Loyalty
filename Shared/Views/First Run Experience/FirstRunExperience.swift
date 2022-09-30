@@ -61,13 +61,13 @@ struct FirstRunExperience: View {
                         //MARK: Header
 
                         VStack(alignment: .center) {
-                            Text("Welcome!")
+                            Text("Welcome to Uncommon!")
                                 .foregroundColor(Color("Dark1"))
                                 .font(.system(size: 40))
                                 .fontWeight(.bold)
                                 .padding(.bottom, 8)
                             ZStack(alignment: .leading) {
-                                Text("Uncommon makes loyalty so easy!")
+                                Text("You are influential. Get rewarded!")
                                     .foregroundColor(Color("Dark1"))
                                     .font(.system(size: 17))
                                     .fontWeight(.medium)

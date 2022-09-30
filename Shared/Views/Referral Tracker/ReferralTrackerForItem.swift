@@ -34,10 +34,10 @@ struct ReferralTrackerForItem: View {
                         HStack(alignment: .center, spacing: 0) {
                             
                             
-                            let amtSENT = referralsViewModel.snapshotOfReferralsForItem.filter { $0.status == "SENT" }.count
-                            let amtUSED = referralsViewModel.snapshotOfReferralsForItem.filter { $0.status == "USED" }.count
-                            let amtCOMPLETE = referralsViewModel.snapshotOfReferralsForItem.filter { $0.status == "COMPLETE" }.count
-                            let amtEXPIRED = referralsViewModel.snapshotOfReferralsForItem.filter { $0.status == "EXPIRED" }.count
+                            let amtSENT = referralsViewModel.snapshotOfReferralsForItem.filter { $0.status.status == "SENT" }.count
+                            let amtUSED = referralsViewModel.snapshotOfReferralsForItem.filter { $0.status.status == "USED" }.count
+                            let amtCOMPLETE = referralsViewModel.snapshotOfReferralsForItem.filter { $0.status.status == "COMPLETE" }.count
+                            let amtEXPIRED = referralsViewModel.snapshotOfReferralsForItem.filter { $0.status.status == "EXPIRED" }.count
                             
                             Button {
                                 
@@ -45,9 +45,10 @@ struct ReferralTrackerForItem: View {
                                 
                             } label: {
                                 
-                                ReferralTrackerWidget(title: "Sent", amount: String(amtSENT), subtitle: String(amtEXPIRED) + " Expired", isSelected: false)
+                                ReferralTrackerWidget(title: "Sent", amount: String(amtSENT), subtitle: String(amtEXPIRED) + " Expired", isSelected: filterReferralsForItemBy == "SENT")
                                     .frame(width: UIScreen.main.bounds.width * 3 / 11, height: 116)
-                                    .background(RoundedRectangle(cornerRadius: 11).foregroundColor(.white).shadow(radius: CGFloat(11)))
+                                    .background(RoundedRectangle(cornerRadius: 11).shadow(radius: CGFloat(11)))
+                                
                             }
                             
                             Spacer()
@@ -58,7 +59,7 @@ struct ReferralTrackerForItem: View {
                                 
                             } label: {
                                 
-                                ReferralTrackerWidget(title: "In Progress", amount: String(amtUSED), subtitle: "", isSelected: false)
+                                ReferralTrackerWidget(title: "In Progress", amount: String(amtUSED), subtitle: "", isSelected: filterReferralsForItemBy == "USED")
                                     .frame(width: UIScreen.main.bounds.width * 3 / 11, height: 116)
                                     .background(RoundedRectangle(cornerRadius: 11).foregroundColor(.white).shadow(radius: CGFloat(11)))
                                 
@@ -71,7 +72,7 @@ struct ReferralTrackerForItem: View {
                                 
                             } label: {
                              
-                                ReferralTrackerWidget(title: "Complete", amount: String(amtCOMPLETE), subtitle: "", isSelected: false)
+                                ReferralTrackerWidget(title: "Complete", amount: String(amtCOMPLETE), subtitle: "", isSelected: filterReferralsForItemBy == "COMPLETE")
                                     .frame(width: UIScreen.main.bounds.width * 3 / 11, height: 116)
                                     .background(RoundedRectangle(cornerRadius: 11).foregroundColor(.white).shadow(radius: CGFloat(11)))
                             }
@@ -117,7 +118,7 @@ struct ReferralTrackerForItem: View {
                                 ReferralDetailView(referral: referral)
                             } label: {
                                 
-                                ReferralTrackingCard(recipient: referral.userSendingReferralEmail, discountAmount: "$" + String(referral.referralDiscountAmount), discountExpiration: "Jan 1", rewardPointsForReferrer: String(referral.referralBonusPoints), stateOfReferral: referral.status)
+                                ReferralTrackingCard(recipient: referral.recipient.firstName, discountAmount: "$" + String(referral.offer.rewardAmount), discountCode: referral.card.discountCode, discountExpiration: String(referral.offer.expirationTimestamp), rewardPointsForReferrer: String(referral.reward.rewardAmount), stateOfReferral: referral.status.status)
                                     .clipShape(RoundedRectangle(cornerRadius: 11))
                                     .background(RoundedRectangle(cornerRadius: 11).foregroundColor(.white).shadow(radius: 5, y: 4))
                             }
@@ -130,12 +131,13 @@ struct ReferralTrackerForItem: View {
                         
                     } else if filterReferralsForItemBy == "SENT" {
                         
-                        ForEach(referralsViewModel.snapshotOfReferralsForItem.filter { ($0.status == filterReferralsForItemBy) || ($0.status == "EXPIRED") }) { referral in
+                        ForEach(referralsViewModel.snapshotOfReferralsForItem.filter { ($0.status.status == filterReferralsForItemBy) || ($0.status.status == "EXPIRED") }) { referral in
                             
                             NavigationLink {
                                 ReferralDetailView(referral: referral)
                             } label: {
-                                ReferralTrackingCard(recipient: referral.userSendingReferralEmail, discountAmount: "$" + String(referral.referralDiscountAmount), discountExpiration: "Jan 1", rewardPointsForReferrer: String(referral.referralBonusPoints), stateOfReferral: referral.status)
+                                
+                                ReferralTrackingCard(recipient: referral.recipient.firstName, discountAmount: "$" + String(referral.offer.rewardAmount), discountCode: referral.card.discountCode, discountExpiration: String(referral.offer.expirationTimestamp), rewardPointsForReferrer: String(referral.reward.rewardAmount), stateOfReferral: referral.status.status)
                                     .clipShape(RoundedRectangle(cornerRadius: 11))
                                     .background(RoundedRectangle(cornerRadius: 11).foregroundColor(.white).shadow(radius: 5, y: 4))
                             }
@@ -146,11 +148,12 @@ struct ReferralTrackerForItem: View {
                         
                     } else {
                         
-                        ForEach(referralsViewModel.snapshotOfReferralsForItem.filter { $0.status == filterReferralsForItemBy }) { referral in
+                        ForEach(referralsViewModel.snapshotOfReferralsForItem.filter { $0.status.status == filterReferralsForItemBy }) { referral in
                             NavigationLink {
                                 ReferralDetailView(referral: referral)
                             } label: {
-                                ReferralTrackingCard(recipient: referral.userSendingReferralEmail, discountAmount: "$" + String(referral.referralDiscountAmount), discountExpiration: "Jan 1", rewardPointsForReferrer: String(referral.referralBonusPoints), stateOfReferral: referral.status)
+                                
+                                ReferralTrackingCard(recipient: referral.recipient.firstName, discountAmount: "$" + String(referral.offer.rewardAmount), discountCode: referral.card.discountCode, discountExpiration: String(referral.offer.expirationTimestamp), rewardPointsForReferrer: String(referral.reward.rewardAmount), stateOfReferral: referral.status.status)
                                     .clipShape(RoundedRectangle(cornerRadius: 11))
                                     .background(RoundedRectangle(cornerRadius: 11).foregroundColor(.white).shadow(radius: 5, y: 4))
                             }

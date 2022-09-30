@@ -10,7 +10,7 @@ import Foundation
 //dateformatting help!!
 //https://stackoverflow.com/questions/35700281/date-format-in-swift
 
-func convertTimestampToString(timestamp: Int) -> String {
+func convertTimestampToString(timestamp: Int, format: String? = "MMMM d") -> String {
     //let dateNow = Date()
     //let unixNow = dateNow.timeIntervalSince1970
     
@@ -28,11 +28,12 @@ func convertTimestampToString(timestamp: Int) -> String {
         //else, write "Oct 12, 3:43 PM"
         let date1 = Date(timeIntervalSince1970: Double(timestamp))
         let formatter = DateFormatter()
-        formatter.dateFormat = "MMMM d"
+        formatter.dateFormat = format
         
         return formatter.string(from: date1)
 //    }
 }
+
 
 
 

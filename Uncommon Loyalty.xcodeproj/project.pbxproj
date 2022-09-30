@@ -14,6 +14,7 @@
 		30050A6D28C7062500BD7874 /* PollAllOptionsSelected.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30050A6C28C7062500BD7874 /* PollAllOptionsSelected.swift */; };
 		30050A6F28C7064700BD7874 /* PollOptionSelected.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30050A6E28C7064700BD7874 /* PollOptionSelected.swift */; };
 		30050A7228C7286200BD7874 /* ActiveLoyaltyProgramWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30050A7128C7286200BD7874 /* ActiveLoyaltyProgramWidget.swift */; };
+		300E992E28E6472300007631 /* ReviewCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 300E992D28E6472300007631 /* ReviewCard.swift */; };
 		300FF53B289A20DC00455D44 /* SuggestAShopPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 300FF53A289A20DC00455D44 /* SuggestAShopPreview.swift */; };
 		300FF53D289A212100455D44 /* SuggestAShop.swift in Sources */ = {isa = PBXBuildFile; fileRef = 300FF53C289A212100455D44 /* SuggestAShop.swift */; };
 		300FF540289A2D2500455D44 /* SendFeedback.swift in Sources */ = {isa = PBXBuildFile; fileRef = 300FF53F289A2D2500455D44 /* SendFeedback.swift */; };
@@ -165,7 +166,7 @@
 		30EA87B9281351E200F0CF64 /* Orders.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30EA87B8281351E200F0CF64 /* Orders.swift */; };
 		30FF419628B61C0300D70BC5 /* IntentToReview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30FF419528B61C0300D70BC5 /* IntentToReview.swift */; };
 		30FF419928B6264000D70BC5 /* Wallet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30FF419828B6264000D70BC5 /* Wallet.swift */; };
-		30FF419D28B62F8000D70BC5 /* YourBag.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30FF419C28B62F8000D70BC5 /* YourBag.swift */; };
+		30FF419D28B62F8000D70BC5 /* Purchases.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30FF419C28B62F8000D70BC5 /* Purchases.swift */; };
 		30FF419F28B62FFD00D70BC5 /* Discover.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30FF419E28B62FFD00D70BC5 /* Discover.swift */; };
 		30FF41A128B635F200D70BC5 /* HomeWithPopOutCards.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30FF41A028B635F200D70BC5 /* HomeWithPopOutCards.swift */; };
 		30FF41A328B6886B00D70BC5 /* PositiveReview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30FF41A228B6886B00D70BC5 /* PositiveReview.swift */; };
@@ -191,6 +192,7 @@
 		30050A6C28C7062500BD7874 /* PollAllOptionsSelected.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PollAllOptionsSelected.swift; sourceTree = "<group>"; };
 		30050A6E28C7064700BD7874 /* PollOptionSelected.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PollOptionSelected.swift; sourceTree = "<group>"; };
 		30050A7128C7286200BD7874 /* ActiveLoyaltyProgramWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActiveLoyaltyProgramWidget.swift; sourceTree = "<group>"; };
+		300E992D28E6472300007631 /* ReviewCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewCard.swift; sourceTree = "<group>"; };
 		300FF53A289A20DC00455D44 /* SuggestAShopPreview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SuggestAShopPreview.swift; sourceTree = "<group>"; };
 		300FF53C289A212100455D44 /* SuggestAShop.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SuggestAShop.swift; sourceTree = "<group>"; };
 		300FF53F289A2D2500455D44 /* SendFeedback.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SendFeedback.swift; sourceTree = "<group>"; };
@@ -332,7 +334,7 @@
 		30EA87B8281351E200F0CF64 /* Orders.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Orders.swift; sourceTree = "<group>"; };
 		30FF419528B61C0300D70BC5 /* IntentToReview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntentToReview.swift; sourceTree = "<group>"; };
 		30FF419828B6264000D70BC5 /* Wallet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Wallet.swift; sourceTree = "<group>"; };
-		30FF419C28B62F8000D70BC5 /* YourBag.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YourBag.swift; sourceTree = "<group>"; };
+		30FF419C28B62F8000D70BC5 /* Purchases.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Purchases.swift; sourceTree = "<group>"; };
 		30FF419E28B62FFD00D70BC5 /* Discover.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Discover.swift; sourceTree = "<group>"; };
 		30FF41A028B635F200D70BC5 /* HomeWithPopOutCards.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeWithPopOutCards.swift; sourceTree = "<group>"; };
 		30FF41A228B6886B00D70BC5 /* PositiveReview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PositiveReview.swift; sourceTree = "<group>"; };
@@ -537,7 +539,7 @@
 				30FF419A28B62F5700D70BC5 /* Discover */,
 				303D3FC728A89A2100455A09 /* First Run Experience */,
 				3014FA922796FE1F00473CE4 /* Home */,
-				30FF419B28B62F7000D70BC5 /* Your Bag */,
+				30FF419B28B62F7000D70BC5 /* Purchases */,
 				30E215E128E10CCC00FCB440 /* Referral Tracker */,
 				30E215E628E141BA00FCB440 /* Item */,
 				303D3FC628A898DD00455A09 /* Login */,
@@ -787,6 +789,7 @@
 				30D6D7D828C4A86400576C2A /* ReferralCard.swift */,
 				306E83A128C7540300232A4A /* CardForLoyaltyProgram.swift */,
 				3056C83828DAE71700AC8686 /* DiscountCardForReferral.swift */,
+				300E992D28E6472300007631 /* ReviewCard.swift */,
 			);
 			path = Cards;
 			sourceTree = "<group>";
@@ -877,13 +880,13 @@
 			path = Discover;
 			sourceTree = "<group>";
 		};
-		30FF419B28B62F7000D70BC5 /* Your Bag */ = {
+		30FF419B28B62F7000D70BC5 /* Purchases */ = {
 			isa = PBXGroup;
 			children = (
-				30FF419C28B62F8000D70BC5 /* YourBag.swift */,
+				30FF419C28B62F8000D70BC5 /* Purchases.swift */,
 				3053C0A528B9003B00FF3A17 /* ItemsAndOrders.swift */,
 			);
-			path = "Your Bag";
+			path = Purchases;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -1032,7 +1035,7 @@
 				301DBFDA28C20A0C0072E497 /* IntentToRefer.swift in Sources */,
 				301DBFD028C1C1260072E497 /* ProfileTEMP.swift in Sources */,
 				301DBFE628C2B04C0072E497 /* ReviewPagePreview.swift in Sources */,
-				30FF419D28B62F8000D70BC5 /* YourBag.swift in Sources */,
+				30FF419D28B62F8000D70BC5 /* Purchases.swift in Sources */,
 				3088073E28A56488003D1B99 /* CompaniesViewModel.swift in Sources */,
 				30546E2827FBD06400173D9D /* Profile.swift in Sources */,
 				30FF41A528B68DD500D70BC5 /* ChooseYourReward.swift in Sources */,
@@ -1123,6 +1126,7 @@
 				3014FA792796FBF800473CE4 /* RewardsProgram.swift in Sources */,
 				30FF419628B61C0300D70BC5 /* IntentToReview.swift in Sources */,
 				30D6D7E528C5031400576C2A /* ReferProductStep4.swift in Sources */,
+				300E992E28E6472300007631 /* ReviewCard.swift in Sources */,
 				301DBFD728C204950072E497 /* ReviewDetailsSectionRow.swift in Sources */,
 				3056C83728DADCBA00AC8686 /* ReferProduct5.swift in Sources */,
 				3088074228A61A6F003D1B99 /* Users.swift in Sources */,
@@ -1321,7 +1325,7 @@
 				CODE_SIGN_ENTITLEMENTS = "Uncommon Loyalty (iOS).entitlements";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_TEAM = F6HF4R7G4W;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -1357,7 +1361,7 @@
 				CODE_SIGN_ENTITLEMENTS = "Uncommon Loyalty (iOS).entitlements";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_TEAM = F6HF4R7G4W;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;

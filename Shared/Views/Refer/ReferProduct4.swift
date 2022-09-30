@@ -15,6 +15,8 @@ struct ReferProduct4: View {
     var itemObject: Items
     
     @Binding var designSelection: [Any]
+    
+    var selectedOption: Int
         
     @Binding var selectedContact:[String]
         
@@ -137,7 +139,7 @@ struct ReferProduct4: View {
             } else {
                 
                 NavigationLink {
-                    ReferProduct5(isShowingReferExperience: $isShowingReferExperience, itemObject: itemObject, designSelection: $designSelection, selectedContact: $selectedContact, userSuggestedCode: $userSuggestedCode)
+                    ReferProduct5(isShowingReferExperience: $isShowingReferExperience, itemObject: itemObject, designSelection: $designSelection, selectedOption: selectedOption, selectedContact: $selectedContact, userSuggestedCode: $userSuggestedCode)
                 } label: {
                     
                     BottomCapsuleButton(buttonText: "Continue", color: Color("ReferPurple"))

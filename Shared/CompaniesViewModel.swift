@@ -20,6 +20,8 @@ class CompaniesViewModel: ObservableObject, Identifiable {
     
     @Published var snapshotOfAllCompanies = [Companies]()
     
+    @Published var snapshotOfCompanyProduct = [CompanyProduct]()
+    
     
     var dm = DataManager()
     
@@ -69,7 +71,26 @@ class CompaniesViewModel: ObservableObject, Identifiable {
     }
     
     
+    func getSnapshotOfCompanyProduct(companyID: String, productID: String) {
     
+        db.collection("companies").document(companyID).collection("products")
+            .whereField("productID", isEqualTo: productID)
+            .getDocuments { (snapshot, error) in
+    
+                guard let snapshot = snapshot, error == nil else {
+                    //handle error
+                    print("found error in getSnapshotOfCompanyProduct")
+                    return
+                }
+                print("Number of documents: \(snapshot.documents.count)")
+    
+                self.snapshotOfCompanyProduct = snapshot.documents.compactMap({ queryDocumentSnapshot -> CompanyProduct? in
+                    print("AT THE TRY STATEMENT for snapshotOfCompanyProduct")
+                    print(try? queryDocumentSnapshot.data(as: CompanyProduct.self) as Any)
+                    return try? queryDocumentSnapshot.data(as: CompanyProduct.self)
+                })
+            }
+    }
     
     
     

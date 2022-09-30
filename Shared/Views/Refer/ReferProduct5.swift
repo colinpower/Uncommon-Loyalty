@@ -34,11 +34,15 @@ struct ReferProduct5: View {
     @ObservedObject var referralsViewModel = ReferralsViewModel()
     @ObservedObject var itemsViewModel = ItemsViewModel()
     
+    @ObservedObject var companiesViewModel = CompaniesViewModel()
+    
     @Binding var isShowingReferExperience:Bool
     
     var itemObject: Items
     
     @Binding var designSelection: [Any]
+    
+    var selectedOption: Int
     
     var selectedTextColor: Color = Color.white
         
@@ -60,6 +64,8 @@ struct ReferProduct5: View {
     @State var wasPreviewButtonTapped:Bool = false
     
     @State var messageToRecipient:String = ""
+    
+    @State var finalMessage:String = ""
     
     
     //Use this variable to create an image
@@ -117,6 +123,11 @@ struct ReferProduct5: View {
                     customReferralCardSnapshot = discountCardForReferralForPreview.snapshot()
                     self.activeSheetiMessage = .iMessageShareSheet
                     
+                    let handle1 = companiesViewModel.snapshotOfCompanyProduct.first?.handle ?? ""
+                    let customURLforSite = "https://" + itemObject.order.domain + "/products/" + handle1
+                    
+                    finalMessage = customURLforSite
+                    
                     DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
                         isEitherShareButtonTapped = true
                     }
@@ -150,7 +161,7 @@ struct ReferProduct5: View {
                         //confirm that you've been able to convert the card into an image
                         if let unwrappedImage = customReferralCardSnapshot {
                             
-                            MessageView(recipient: selectedContact[3], photo: unwrappedImage, messageToRecipient: messageToRecipient)
+                            MessageView(recipient: selectedContact[3], photo: unwrappedImage, messageToRecipient: finalMessage)
                             
                             //ReferralShareSheet(activityItems: ["Hey, I created a discount code for you!", unwrappedImage])
                                                //activityItems: ["Hey, I created a discount code for you!", customCardViewSnapshot as Any ]
@@ -165,6 +176,13 @@ struct ReferProduct5: View {
                     
                     customReferralCardSnapshot = discountCardForReferralForPreview.snapshot()
                     self.activeSheetShare = .generalShareSheet
+                    
+                    
+                    let handle1 = companiesViewModel.snapshotOfCompanyProduct.first?.handle ?? ""
+                    let customURLforSite = "https://" + itemObject.order.domain + "/products/" + handle1
+                    
+                    finalMessage = customURLforSite
+                    
                     
                     DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
                         isEitherShareButtonTapped = true
@@ -189,7 +207,8 @@ struct ReferProduct5: View {
                         
                         //confirm that you've been able to convert the card into an image
                         if let unwrappedImage = customReferralCardSnapshot {
-                            ReferralShareSheet(activityItems: [messageToRecipient, unwrappedImage])
+                            ReferralShareSheet(activityItems: [finalMessage, unwrappedImage])
+                            //ReferralShareSheet(activityItems: [messageToRecipient, unwrappedImage])
                                                //activityItems: ["Hey, I created a discount code for you!", customCardViewSnapshot as Any ]
                         }
                     }
@@ -212,9 +231,30 @@ struct ReferProduct5: View {
                     
                     let referralID = itemObject.ids.userID + "-" + itemObject.ids.itemID + String(newTotalReferrals) + "-" + itemsViewModel.randomString(of: 2)
                     
-                    referralsViewModel.addReferral(referralID: referralID, companyID: itemObject.ids.companyID, email: itemObject.order.email, itemID: itemObject.ids.itemID, orderID: itemObject.ids.orderID, referralBonusPoints: 20000, referralCodeCreated: userSuggestedCode, referralDiscountAmount: 20, userID: itemObject.ids.userID)
+                    //move this step to when you click the button on Page 4 (i.e. after the discount code is created!)
+                    referralsViewModel.addReferral(color: selectedOption, companyName: itemObject.order.companyName, customMessage: messageToRecipient, discountCode: userSuggestedCode, itemTitle: itemObject.order.title, companyID: itemObject.ids.companyID, itemID: itemObject.ids.itemID, referralID: referralID, userID: itemObject.ids.userID, email: itemObject.order.email, rewardAmount: itemObject.referrals.rewardAmount, rewardType: itemObject.referrals.rewardType, recipientFirstName: selectedContact[1], recipientLastName: selectedContact[2], recipientPhone: selectedContact[3], offerRewardAmount: 20)
                     
-                    itemsViewModel.updateItemForReferral(itemID: itemObject.ids.itemID)
+                    var newReferralIDsArray:[String] = []
+                    
+                    if itemObject.ids.referralIDs.isEmpty {
+                        
+                        newReferralIDsArray.append(referralID)
+                        
+                        itemsViewModel.updateItemForReferral(itemID: itemObject.ids.itemID, newReferralIDsArray: newReferralIDsArray)
+                        
+                    } else {
+                        
+                        for referralIDItem in itemObject.ids.referralIDs {
+                            
+                            newReferralIDsArray.append(referralIDItem)
+                            
+                        }
+                        
+                        newReferralIDsArray.append(referralID)
+                        
+                        itemsViewModel.updateItemForReferral(itemID: itemObject.ids.itemID, newReferralIDsArray: newReferralIDsArray)
+                        
+                    }
                     
                     isShowingReferExperience.toggle()
                     
@@ -234,7 +274,14 @@ struct ReferProduct5: View {
         .navigationBarTitleDisplayMode(.inline)
         .onAppear {
             
+            self.companiesViewModel.getSnapshotOfCompanyProduct(companyID: itemObject.ids.companyID, productID: String(itemObject.ids.shopifyProductID))
+            
             self.messageToRecipient = "Hi! Here's a $20 discount code for Athleisure LA! One of my favorites is the \(itemObject.order.title) (I gave it 5 stars). Check it out!"
+            
+        }
+        .onDisappear {
+            
+            print("THIS VIEW IS DISAPPEARING!!!!!")
             
             
         }

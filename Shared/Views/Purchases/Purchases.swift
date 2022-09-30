@@ -8,7 +8,7 @@
 import SwiftUI
 
 
-struct YourBag: View {
+struct Purchases: View {
     
     //Required for any tab
     @ObservedObject var viewModel = AppViewModel()

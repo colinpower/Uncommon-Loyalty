@@ -125,7 +125,7 @@ struct LoginView: View {
                         .font(.system(size: 40))
                         .fontWeight(.bold)
                         .padding(.bottom, 8)
-                    Text("The easiest way to be loyal!")
+                    Text("You are influential. Get rewarded!")
                         .foregroundColor(Color("ThemeLight"))
                         .font(.system(size: 18))
                         .fontWeight(.regular)
