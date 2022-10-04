@@ -18,7 +18,7 @@ class OrdersViewModel: ObservableObject, Identifiable {
     @Published var oneOrder = [Orders]()
     
     @Published var snapshotOfAllOrders = [Orders]()
-    @Published var snapshotOfOrders = [Orders]()
+    @Published var snapshotOfOrdersForCompany = [Orders]()
     @Published var snapshotOfOrder = [Orders]()
     
     @Published var snapshotOfOrdersByEmailForNewUser = [Orders]()
@@ -78,9 +78,9 @@ class OrdersViewModel: ObservableObject, Identifiable {
         //var ordersSnapshot = [Orders]()
         
         db.collection("order")
-            .whereField("userID", isEqualTo: userID)
-            .whereField("timestamp", isNotEqualTo: 0)
-            .order(by: "timestamp", descending: true)
+            .whereField("ids.userID", isEqualTo: userID)
+            .whereField("order.timestampCreated", isNotEqualTo: 0)
+            .order(by: "order.timestampCreated", descending: true)
             .getDocuments { (snapshot, error) in
                 
                 guard let snapshot = snapshot, error == nil else {
@@ -98,27 +98,25 @@ class OrdersViewModel: ObservableObject, Identifiable {
             }
     }
     
-    func snapshotOfOrders(userID: String, companyID: String) {
+    func getSnapshotOfOrdersForCompany(userID: String, companyID: String) {
         //print("this ONE function was called")
         
         //var ordersSnapshot = [Orders]()
         
         db.collection("order")
-            .whereField("userID", isEqualTo: userID)
-            .whereField("companyID", isEqualTo: companyID)
-            .whereField("timestamp", isNotEqualTo: 0)
-            .order(by: "timestamp", descending: true)
+            .whereField("ids.userID", isEqualTo: userID)
+            .whereField("ids.companyID", isEqualTo: companyID)
             .getDocuments { (snapshot, error) in
                 
                 guard let snapshot = snapshot, error == nil else {
                     //handle error
-                    print("found error in getOneOrderSnapshot")
+                    print("found error in snapshotOfOrdersForCompany")
                     return
                 }
                 print("Number of documents: \(snapshot.documents.count ?? -1)")
                 
-                self.snapshotOfOrders = snapshot.documents.compactMap({ queryDocumentSnapshot -> Orders? in
-                    print("AT THE TRY STATEMENT")
+                self.snapshotOfOrdersForCompany = snapshot.documents.compactMap({ queryDocumentSnapshot -> Orders? in
+                    print("ORDERS!!!! _________ AT THE TRY STATEMENT")
                     print(try? queryDocumentSnapshot.data(as: Orders.self))
                     return try? queryDocumentSnapshot.data(as: Orders.self)
                 })
@@ -131,7 +129,7 @@ class OrdersViewModel: ObservableObject, Identifiable {
         //var ordersSnapshot = [Orders]()
         
         db.collection("order")
-            .whereField("orderID", isEqualTo: orderID)
+            .whereField("ids.orderID", isEqualTo: orderID)
             .getDocuments { (snapshot, error) in
                 
                 guard let snapshot = snapshot, error == nil else {

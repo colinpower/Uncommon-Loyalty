@@ -27,6 +27,8 @@ struct HistoryObject: Identifiable {
     var type: String
     var discountObject: DiscountCodes
     var referralObject: Referrals
+    var reviewObject: Reviews
+    var orderObject: Orders
 }
 
 
@@ -39,6 +41,7 @@ struct CompanyProfileV2: View {
     @ObservedObject var discountCodesViewModel = DiscountCodesViewModel()
     @ObservedObject var ordersViewModel = OrdersViewModel()
     @ObservedObject var referralsViewModel = ReferralsViewModel()
+    @ObservedObject var reviewsViewModel = ReviewsViewModel()
     @ObservedObject var rewardsProgramViewModel = RewardsProgramViewModel()
     
     //Variables received from HomeView
@@ -53,9 +56,13 @@ struct CompanyProfileV2: View {
     
     @State var showSheet:Bool = false
     
-    var emptyReferralObject = Referrals(card: ReferralsCardStruct(color: 0, companyName: "", customMessage: "", discountCode: "", discountCodeCaseInsensitive: "", itemImage: "", itemTitle: ""), ids: ReferralsIDsStruct(companyID: "", domain: "", graphQLID: "", handle: "", itemID: "", referralID: "", reviewID: "", usedOnOrderID: "", userID: ""), offer: ReferralsOfferStruct(expirationTimestamp: 0, forNewCustomersOnly: false, minimumSpendRequired: 0, rewardAmount: 0, rewardType: "", usageLimit: 0), recipient: ReferralsRecipientStruct(firstName: "", lastName: "", phone: "", email: ""), reward: ReferralsRewardStruct(rewardAmount: 0, rewardType: ""), sender: ReferralsSenderStruct(firstName: "", lastName: "", phone: "", email: ""), status: ReferralsStatusStruct(status: "", timestampCreated: 0, timestampUsed: 0, timestampComplete: 0, timeWaitingForReturnInDays: 0))
+    var emptyReferralObject = Referrals(card: ReferralsCardStruct(color: 0, companyName: "", customMessage: "", discountCode: "", discountCodeCaseInsensitive: "", itemImage: "", itemTitle: ""), ids: ReferralsIDsStruct(companyID: "", domain: "", graphQLID: "", handle: "", itemID: "", referralID: "", reviewID: "", shopifyProductID: 0, usedOnOrderID: "", userID: ""), offer: ReferralsOfferStruct(expirationTimestamp: 0, forNewCustomersOnly: false, minimumSpendRequired: 0, rewardAmount: 0, rewardType: "", usageLimit: 0), recipient: ReferralsRecipientStruct(firstName: "", lastName: "", phone: "", email: ""), reward: ReferralsRewardStruct(rewardAmount: 0, rewardType: ""), sender: ReferralsSenderStruct(firstName: "", lastName: "", phone: "", email: ""), status: ReferralsStatusStruct(status: "", timestampCreated: 0, timestampUsed: 0, timestampComplete: 0, timeWaitingForReturnInDays: 0))
     
     var emptyDiscountObject = DiscountCodes(card: DiscountsCardStruct(cardType: "", color: 0, companyName: "", customMessage: "", discountCode: "", discountCodeCaseInsensitive: ""), ids: DiscountsIDsStruct(companyID: "", discountID: "", domain: "", graphQLID: "", usedOnOrderID: "", userID: ""), owner: DiscountsOwnerStruct(firstName: "", lastName: "", phone: "", email: ""), reward: DiscountsRewardStruct(expirationTimestamp: 0, minimumSpendRequired: 0, rewardAmount: 0, rewardType: "", usageLimit: 0, pointsSpent: 0), status: DiscountsStatusStruct(status: "", failedToBeCreated: false, timestampCreated: 0, timestampUsed: 0))
+    
+    var emptyReviewObject = Reviews(card: ReviewsCardStruct(firstName: "", lastName: "", timestamp: 0, itemName: "", companyName: "", companyLogo: "", profilePic: "", rating: 0, title: "", body: "", allowedToDisplayProfilePic: false, allowedToDisplayName: false), ids: ReviewsIDsStruct(companyID: "", domain: "", historyID: "", itemID: "", orderID: "", shopifyProductID: 0, reviewID: "", userID: ""), metadata: ReviewsMetadataStruct(prompts: [], promptTypes: [], responses: []), reward: ReviewsRewardStruct(rewardAmount: 0, rewardEarned: 0, rewardPerPrompt: [], rewardType: ""), sender: ReviewsSenderStruct(firstName: "", lastName: "", phone: "", email: ""))
+    
+    var emptyOrderObject = Orders(ids: OrderIDsStruct(companyID: "", discountCodeID: "", itemIDs: [], orderID: "", quantityPerItemID: [], referralID: "", shopifyOrderID: 0, userID: ""), order: OrderOrderStruct(companyName: "", domain: "", email: "", firstItemTitle: "", orderNumber: 0, orderStatusURL: "", phone: "", price: "", status: "", timestampCreated: 0, timestampUpdated: 0), discountCode: OrderDiscountCodeStruct(type: "", amount: "", code: ""))
     
     
     @State var selectedDiscount:DiscountCodes = DiscountCodes(card: DiscountsCardStruct(cardType: "", color: 0, companyName: "", customMessage: "", discountCode: "", discountCodeCaseInsensitive: ""), ids: DiscountsIDsStruct(companyID: "", discountID: "", domain: "", graphQLID: "", usedOnOrderID: "", userID: ""), owner: DiscountsOwnerStruct(firstName: "", lastName: "", phone: "", email: ""), reward: DiscountsRewardStruct(expirationTimestamp: 0, minimumSpendRequired: 0, rewardAmount: 0, rewardType: "", usageLimit: 0, pointsSpent: 0), status: DiscountsStatusStruct(status: "", failedToBeCreated: false, timestampCreated: 0, timestampUsed: 0))
@@ -305,11 +312,17 @@ struct CompanyProfileV2: View {
                         
                         VStack {
                             
-                            let array1:[HistoryObject] = discountCodesViewModel.myActiveDiscountCodes.prefix(2).map { HistoryObject(timestamp: $0.status.timestampCreated, type: "DISCOUNT", discountObject: $0.self, referralObject: emptyReferralObject) }    //{["DISCOUNT", $0.discountID, String($0.timestamp_Created)]}
+                            //{["DISCOUNT", $0.discountID, String($0.timestamp_Created)]}
                             
-                            let array2:[HistoryObject] = referralsViewModel.snapshotOfAllReferrals.prefix(2).map { HistoryObject(timestamp: $0.status.timestampCreated, type: "REFERRAL", discountObject: emptyDiscountObject, referralObject: $0.self) }    //{["DISCOUNT", $0.discountID, String($0.timestamp_Created)]}
+                            let array1:[HistoryObject] = discountCodesViewModel.myActiveDiscountCodes.map { HistoryObject(timestamp: $0.status.timestampCreated, type: "DISCOUNT", discountObject: $0.self, referralObject: emptyReferralObject, reviewObject: emptyReviewObject, orderObject: emptyOrderObject) }
                             
-                            var testArray:[HistoryObject] = array1 + array2
+                            let array2:[HistoryObject] = referralsViewModel.snapshotOfAllReferrals.map { HistoryObject(timestamp: $0.status.timestampCreated, type: "REFERRAL", discountObject: emptyDiscountObject, referralObject: $0.self, reviewObject: emptyReviewObject, orderObject: emptyOrderObject) }
+                                
+                            let array3:[HistoryObject] = reviewsViewModel.snapshotOfReviewsForCompany.map { HistoryObject(timestamp: $0.card.timestamp, type: "REVIEW", discountObject: emptyDiscountObject, referralObject: emptyReferralObject, reviewObject: $0.self, orderObject: emptyOrderObject)}
+                            
+                            let array4:[HistoryObject] = ordersViewModel.snapshotOfOrdersForCompany.map { HistoryObject(timestamp: $0.order.timestampCreated, type: "ORDER", discountObject: emptyDiscountObject, referralObject: emptyReferralObject, reviewObject: emptyReviewObject, orderObject: $0.self)}
+                            
+                            var testArray:[HistoryObject] = array1 + array2 + array3 + array4
                             
                             ForEach(testArray) { item in
                                 
@@ -464,8 +477,9 @@ struct CompanyProfileV2: View {
             self.rewardsProgramViewModel.listenForOneRewardsProgram(userID: rewardsProgram.ids.userID, companyID: rewardsProgram.ids.companyID)
             
             //snapshots
-            self.ordersViewModel.snapshotOfOrders(userID: rewardsProgram.ids.userID, companyID: rewardsProgram.ids.companyID)
+            self.ordersViewModel.getSnapshotOfOrdersForCompany(userID: rewardsProgram.ids.userID, companyID: rewardsProgram.ids.companyID)
             self.referralsViewModel.getSnapshotOfAllReferrals(userID: rewardsProgram.ids.userID)
+            self.reviewsViewModel.getSnapshotOfReviewsForCompany(userID: rewardsProgram.ids.userID, companyID: rewardsProgram.ids.companyID)
             
             //set rewardsProgram based on the listener
             self.rewardsProgram = rewardsProgramViewModel.oneRewardsProgram.first ?? self.rewardsProgram

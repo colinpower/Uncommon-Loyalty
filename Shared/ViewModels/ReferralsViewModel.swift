@@ -110,7 +110,7 @@ class ReferralsViewModel: ObservableObject, Identifiable {
     
     
 
-    func addReferral(color: Int, companyName: String, customMessage: String, discountCode: String, domain: String, handle: String, itemTitle: String, companyID: String, itemID: String, referralID: String, userID: String, email: String, rewardAmount: Int, rewardType: String, recipientFirstName: String, recipientLastName: String, recipientPhone: String, offerRewardAmount: Int, status: String, usageLimit: Int) {
+    func addReferral(color: Int, companyName: String, customMessage: String, discountCode: String, domain: String, handle: String, itemTitle: String, companyID: String, itemID: String, referralID: String, shopifyProductID: Int, userID: String, email: String, rewardAmount: Int, rewardType: String, recipientFirstName: String, recipientLastName: String, recipientPhone: String, offerRewardAmount: Int, status: String, usageLimit: Int) {
 
         let referralTimestamp = Int(round(Date().timeIntervalSince1970))
         
@@ -138,6 +138,7 @@ class ReferralsViewModel: ObservableObject, Identifiable {
                     "itemID": itemID,
                     "usedOnOrderID": "",
                     "referralID": referralID,
+                    "shopifyProductID": shopifyProductID,
                     "reviewID": "",
                     "userID": userID
                 ],

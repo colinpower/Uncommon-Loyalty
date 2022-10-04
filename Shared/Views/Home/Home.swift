@@ -7,6 +7,7 @@
 
 import SwiftUI
 import FirebaseAuth
+import FirebaseStorage
 
 
 //how to merge and store two firestore queries
@@ -68,6 +69,7 @@ struct Home: View {
             .onAppear {
                 self.rewardsProgramViewModel.getSnapshotOfMyRewardsPrograms(userID: Auth.auth().currentUser?.uid ?? "")
                 self.companiesViewModel.getSnapshotOfAllCompanies()
+                
             }
             
             

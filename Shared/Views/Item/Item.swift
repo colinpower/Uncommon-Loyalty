@@ -6,7 +6,8 @@
 //
 
 import SwiftUI
-
+import FirebaseStorage
+import SDWebImageSwiftUI
 
 //MARK: HACK necessary to get the right sheet up
 enum ActiveReviewOrReferSheet: String, Identifiable { // <--- note that it's now Identifiable
@@ -15,7 +16,6 @@ enum ActiveReviewOrReferSheet: String, Identifiable { // <--- note that it's now
         hashValue
     }
 }
-
 
 
 struct Item: View {
@@ -41,6 +41,7 @@ struct Item: View {
     @State private var activeReviewOrReferSheet: ActiveReviewOrReferSheet? = nil
     @State var showReviewOrReferSheet:Bool = false
     
+    @State var backgroundURL = ""
     
     var body: some View {
         
@@ -58,15 +59,22 @@ struct Item: View {
                         //IMAGE
                         HStack {
                             Spacer()
-                            Image("redshorts")
-                                .resizable()
-                                .scaledToFit()
-                                .frame(width: UIScreen.main.bounds.width * 2/3, height: UIScreen.main.bounds.width * 2/3, alignment: .center)
+                            if backgroundURL != "" {
+                                WebImage(url: URL(string: backgroundURL)!)
+                                    .resizable()
+                                    .scaledToFit()
+                                    .frame(width: UIScreen.main.bounds.width * 2/3, height: UIScreen.main.bounds.width * 2/3, alignment: .center)
+                            } else {
+                                Image("redshorts")
+                                    .resizable()
+                                    .scaledToFit()
+                                    .frame(width: UIScreen.main.bounds.width * 2/3, height: UIScreen.main.bounds.width * 2/3, alignment: .center)
+                            }
                             Spacer()
                         }
                     }
                     .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.width * 2 / 3, alignment: .center)
-                    .padding(.top, 72)
+                    .padding(.top, 88)
                     .background(.white)
                         
                     //MARK: HEADER OF IMAGE
@@ -352,13 +360,20 @@ struct Item: View {
             
             self.itemsViewModel.listenForOneItem(userID: item.ids.userID, itemID: item.ids.itemID)
             
-//            withAnimation(.linear(duration: 0.3)) {
-//
-//                buttonOffset = 0
-//
-//            }
             
+            let backgroundPath = "companies/" + item.ids.companyID + "/items/" + String(item.ids.shopifyProductID) + ".png"
             
+            let storage = Storage.storage().reference()
+            
+            storage.child(backgroundPath).downloadURL { url, err in
+                if err != nil {
+                    print(err?.localizedDescription ?? "Issue showing the right image")
+                    return
+                } else {
+                    self.backgroundURL = "\(url!)"
+                }
+            }
+
         }
         .onDisappear {
             

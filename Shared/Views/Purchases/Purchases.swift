@@ -6,6 +6,8 @@
 //
 
 import SwiftUI
+import FirebaseStorage
+import SDWebImageSwiftUI
 
 
 struct Purchases: View {
@@ -226,104 +228,6 @@ struct Purchases: View {
                             }
                             
                         }.padding(.top).padding(.top)
-                        
-                        
-                        
-                        
-//
-//                        //MARK: REFERRALS SECTION - TITLE AND DESCRIPTION
-//                        VStack(alignment: .leading, spacing: 8) {
-//                            //Title
-//                            HStack(alignment: .center) {
-//                                Image(systemName: "paperplane.fill")
-//                                    .font(.system(size: 28, weight: .semibold))
-//                                    .foregroundColor(Color("ReferPurple"))
-//                                Text("Refer")
-//                                    .font(.system(size: 28))
-//                                    .fontWeight(.bold)
-//                                    .foregroundColor(Color("Dark1"))
-//                                Spacer()
-////                                Text("See All")
-////                                    .font(.system(size: 16))
-////                                    .fontWeight(.regular)
-////                                    .foregroundColor(.blue)
-//                            }.padding(.vertical)
-//                        }
-//                        .padding(.horizontal)
-//
-//                        //MARK: REFERRALS SECTION - CONTENT
-//                        VStack(alignment: .center, spacing: 24) {
-//
-//                            ForEach(itemsViewModel.snapshotOfReviewableItems.prefix(3)) { item in
-//
-//                                LargeItemReferWidget(item: item, selectedTab: $selectedTab)
-//
-//                            }
-//
-//                        }.padding(.vertical)
-//
-//                        Divider().padding(.vertical).padding(.top).padding(.leading)
-//
-//                        //MARK: REVIEWS SECTION - TITLE AND DESCRIPTION
-//                        VStack(alignment: .leading, spacing: 8) {
-//                            //Title
-//                            HStack(alignment: .center) {
-//                                Image(systemName: "star.square.fill")
-//                                    .font(.system(size: 28, weight: .semibold))
-//                                    .foregroundColor(Color("ReviewTeal"))
-//                                Text("Review")
-//                                    .font(.system(size: 28))
-//                                    .fontWeight(.bold)
-//                                    .foregroundColor(Color("Dark1"))
-//                                Spacer()
-////                                Text("See All")
-////                                    .font(.system(size: 16))
-////                                    .fontWeight(.regular)
-////                                    .foregroundColor(.blue)
-//                            }.padding(.vertical)
-//
-//                            //Description
-////                            Text("Earn points for reviews and referrals")
-////                                .font(.system(size: 16))
-////                                .fontWeight(.regular)
-////                                .foregroundColor(Color("Dark1"))
-////                                .multilineTextAlignment(.leading)
-//                        }
-//                        .padding(.horizontal)
-//
-//                        //MARK: REVIEWS SECTION - CONTENT
-//                        VStack(alignment: .center, spacing: 24) {
-//                            ForEach(itemsViewModel.snapshotOfReviewableItems.prefix(3)) { item in
-//
-//                                LargeItemReviewWidget(item: item, selectedTab: $selectedTab)
-//
-//                            }
-//                        }.padding(.vertical)
-//
-//
-//
-                        
-//                        Divider().padding(.vertical).padding(.top).padding(.leading)
-//
-//                        //MARK: ALL ITEMS SECTION - TITLE AND DESCRIPTION
-//                        VStack(alignment: .leading, spacing: 8) {
-//                            //Title
-//                            HStack(alignment: .center) {
-//                                Text("All recent purchases")
-//                                    .font(.system(size: 28))
-//                                    .fontWeight(.bold)
-//                                    .foregroundColor(Color("Dark1"))
-//                                Spacer()
-//                            }.padding(.vertical)
-//                        }
-//                        .padding(.horizontal)
-//
-//                        //MARK: ALL ITEMS SECTION - CONTENT
-//                        NavigationLink {
-//                            ItemsAndOrders()
-//                        } label: {
-//                            Text("click here")
-//                        }
                     }
 
                 }
@@ -352,6 +256,45 @@ struct Purchases: View {
                 
                 self.itemsViewModel.listenForMyItems(userID: viewModel.userID ?? "")
                 //print(self.itemsViewModel.snapshotOfReviewableItems)
+                
+//                let backgroundPath = "companies/" + companyID + "/background.png"
+//                let iconPath = "companies/" + companyID + "/icon.png"
+//
+//                let storage = Storage.storage().reference()
+//
+//                storage.child(backgroundPath).downloadURL { url, err in
+//                    if err != nil {
+//                        print(err?.localizedDescription ?? "Issue showing the right image")
+//                        return
+//                    } else {
+//                        self.backgroundURL = "\(url!)"
+//                    }
+//                }
+//
+//                storage.child(iconPath).downloadURL { url, err in
+//                    if err != nil {
+//                        print(err?.localizedDescription ?? "Issue showing the right image")
+//                        return
+//                    } else {
+//                        self.iconURL = "\(url!)"
+//                    }
+//                }
+//
+//                if iconURL != "" {
+//                    WebImage(url: URL(string: iconURL)!)
+//                        .resizable()
+//                        .frame(width: 60, height: 60)
+//                        .cornerRadius(30)
+//                } else {
+//                    Image("Diamond")
+//                        .resizable()
+//                        .frame(width: 60, height: 60)
+//                        .cornerRadius(30)
+//                }
+                
+                
+                
+                
             }
             .onDisappear {
                 
@@ -644,6 +587,8 @@ struct TopReferralsWidget: View {
     
     var item: Items
     
+    @State var backgroundURL:String = ""
+    
     var body: some View {
         
         //Link to the Review Interceptor page
@@ -655,11 +600,21 @@ struct TopReferralsWidget: View {
             HStack {
                 Spacer()
                 VStack(alignment: .center, spacing: 0) {
-                    Image("redshorts")
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .frame(width: UIScreen.main.bounds.width / 6, height: UIScreen.main.bounds.width / 6)
-                        .padding(.vertical, 20)
+                    
+                    if backgroundURL != "" {
+                        WebImage(url: URL(string: backgroundURL)!)
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: UIScreen.main.bounds.width / 6, height: UIScreen.main.bounds.width / 6)
+                            .padding(.vertical, 20)
+                    } else {
+                        Image("redshorts")
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: UIScreen.main.bounds.width / 6, height: UIScreen.main.bounds.width / 6)
+                            .padding(.vertical, 20)
+                    }
+                        
                     Text(item.order.title)
                         .font(.system(size: 14, weight: .semibold))
                         .foregroundColor(Color("Dark1"))
@@ -677,12 +632,30 @@ struct TopReferralsWidget: View {
             }
             
         }
+        .onAppear {
+            
+            let backgroundPath = "companies/" + item.ids.companyID + "/items/" + String(item.ids.shopifyProductID) + ".png"
+            
+            let storage = Storage.storage().reference()
+            
+            storage.child(backgroundPath).downloadURL { url, err in
+                if err != nil {
+                    print(err?.localizedDescription ?? "Issue showing the right image")
+                    return
+                } else {
+                    self.backgroundURL = "\(url!)"
+                }
+            }
+
+        }
     }
 }
 
 struct FiveStarReviewsWidget: View {
     
     var item: Items
+    
+    @State var backgroundURL = ""
     
     var body: some View {
         
@@ -697,12 +670,23 @@ struct FiveStarReviewsWidget: View {
                 HStack {
                     Spacer()
                     VStack(alignment: .center, spacing: 0) {
-                        Image("redshorts")
-                            .resizable()
-                            .aspectRatio(contentMode: .fit)
-                            .frame(width: UIScreen.main.bounds.width / 6, height: UIScreen.main.bounds.width / 6)
-                            .padding(.top, 20)
-                            .padding(.vertical, 20)
+                        
+                        if backgroundURL != "" {
+                            WebImage(url: URL(string: backgroundURL)!)
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .frame(width: UIScreen.main.bounds.width / 6, height: UIScreen.main.bounds.width / 6)
+                                .padding(.top, 20)
+                                .padding(.vertical, 20)
+                        } else {
+                            Image("redshorts")
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .frame(width: UIScreen.main.bounds.width / 6, height: UIScreen.main.bounds.width / 6)
+                                .padding(.top, 20)
+                                .padding(.vertical, 20)
+                        }
+                                                
                         Text(item.order.title)
                             .font(.system(size: 14, weight: .semibold))
                             .foregroundColor(Color("Dark1"))
@@ -745,6 +729,22 @@ struct FiveStarReviewsWidget: View {
             }
             .frame(height: UIScreen.main.bounds.width / 6 + 134)
         }
+        .onAppear {
+            
+            let backgroundPath = "companies/" + item.ids.companyID + "/items/" + String(item.ids.shopifyProductID) + ".png"
+            
+            let storage = Storage.storage().reference()
+            
+            storage.child(backgroundPath).downloadURL { url, err in
+                if err != nil {
+                    print(err?.localizedDescription ?? "Issue showing the right image")
+                    return
+                } else {
+                    self.backgroundURL = "\(url!)"
+                }
+            }
+
+        }
     }
     
     struct RoundedCornersShape: Shape {
@@ -765,6 +765,8 @@ struct LazyVGridWidget: View {
     
     var item: Items
     
+    @State var backgroundURL = ""
+    
     var body: some View {
         
         //Link to the Review Interceptor page
@@ -776,11 +778,24 @@ struct LazyVGridWidget: View {
             HStack(spacing: 0) {
                 Spacer()
                 VStack(alignment: .center, spacing: 0) {
-                    Image("redshorts")
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .frame(width: UIScreen.main.bounds.width / 6, height: UIScreen.main.bounds.width / 6)
-                        .padding(.vertical, 20)
+                    
+                    if backgroundURL != "" {
+                        WebImage(url: URL(string: backgroundURL)!)
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: UIScreen.main.bounds.width / 6, height: UIScreen.main.bounds.width / 6)
+                            .padding(.vertical, 20)
+                    } else {
+                        Image("redshorts")
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: UIScreen.main.bounds.width / 6, height: UIScreen.main.bounds.width / 6)
+                            .padding(.vertical, 20)
+                    }
+                    
+                    
+                    
+                    
                     Text(item.order.title)
                         .font(.system(size: 14, weight: .semibold))
                         .foregroundColor(Color("Dark1"))
@@ -817,6 +832,22 @@ struct LazyVGridWidget: View {
                 Spacer()
             }
             
+        }
+        .onAppear {
+            
+            let backgroundPath = "companies/" + item.ids.companyID + "/items/" + String(item.ids.shopifyProductID) + ".png"
+            
+            let storage = Storage.storage().reference()
+            
+            storage.child(backgroundPath).downloadURL { url, err in
+                if err != nil {
+                    print(err?.localizedDescription ?? "Issue showing the right image")
+                    return
+                } else {
+                    self.backgroundURL = "\(url!)"
+                }
+            }
+
         }
     }
 }

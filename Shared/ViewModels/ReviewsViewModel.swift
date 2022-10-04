@@ -17,6 +17,8 @@ class ReviewsViewModel: ObservableObject, Identifiable {
     
     @Published var snapshotOfOneReview = [Reviews]()
     
+    @Published var snapshotOfReviewsForCompany = [Reviews]()
+    
     
     //var dm = DataManager()
     
@@ -36,6 +38,32 @@ class ReviewsViewModel: ObservableObject, Identifiable {
     //            self.listener_DiscountCodes = listener
     //        })
     //    }
+    
+    
+    func getSnapshotOfReviewsForCompany(userID: String, companyID: String) {
+        //print("this ONE function was called")
+        
+        print("this is the USER ID AND ITEM ID FOR reviews for company")
+        
+        db.collection("reviews")
+            .whereField("ids.userID", isEqualTo: userID)
+            .whereField("ids.companyID", isEqualTo: companyID)
+            .getDocuments { (snapshot, error) in
+                
+                guard let snapshot = snapshot, error == nil else {
+                    //handle error
+                    print("found error in snapshotOfReviewsForCompany")
+                    return
+                }
+                print("Number of documents: \(snapshot.documents.count ?? -1)")
+                
+                self.snapshotOfReviewsForCompany = snapshot.documents.compactMap({ queryDocumentSnapshot -> Reviews? in
+                    print("AT THE TRY STATEMENT FOR REFERRALS FOR ITEM")
+                    print(try? queryDocumentSnapshot.data(as: Reviews.self))
+                    return try? queryDocumentSnapshot.data(as: Reviews.self)
+                })
+            }
+    }
     
     
     func getSnapshotOfOneReview(userID: String, itemID: String) {

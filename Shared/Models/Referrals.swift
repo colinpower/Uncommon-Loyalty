@@ -66,6 +66,7 @@ struct ReferralsIDsStruct: Codable {
     var itemID: String
     var referralID: String
     var reviewID: String
+    var shopifyProductID: Int
     var usedOnOrderID: String
     var userID: String
 
@@ -79,6 +80,7 @@ struct ReferralsIDsStruct: Codable {
         case itemID
         case referralID
         case reviewID
+        case shopifyProductID
         case usedOnOrderID
         case userID
         

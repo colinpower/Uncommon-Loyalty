@@ -6,6 +6,8 @@
 //
 
 import SwiftUI
+import FirebaseStorage
+import SDWebImageSwiftUI
 
 struct ReferralTracker: View {
     
@@ -154,7 +156,7 @@ struct ReferralTracker: View {
                                     ReferralDetailView(referral: referral)
                                 } label: {
                                     
-                                    ReferralTrackingCard(recipient: referral.recipient.firstName, discountAmount: "$" + String(referral.offer.rewardAmount), discountCode: referral.card.discountCode, discountExpiration: String(referral.offer.expirationTimestamp), rewardPointsForReferrer: String(referral.reward.rewardAmount), stateOfReferral: referral.status.status)
+                                    ReferralTrackingCard(referralObject: referral, recipient: referral.recipient.firstName, discountAmount: "$" + String(referral.offer.rewardAmount), discountCode: referral.card.discountCode, discountExpiration: String(referral.offer.expirationTimestamp), rewardPointsForReferrer: String(referral.reward.rewardAmount), stateOfReferral: referral.status.status)
                                         .clipShape(RoundedRectangle(cornerRadius: 11))
                                         .background(RoundedRectangle(cornerRadius: 11).foregroundColor(.white).shadow(radius: 5, y: 4))
                                         .padding(.horizontal)
@@ -173,7 +175,7 @@ struct ReferralTracker: View {
                                 NavigationLink {
                                     ReferralDetailView(referral: referral)
                                 } label: {
-                                    ReferralTrackingCard(recipient: referral.recipient.firstName, discountAmount: "$" + String(referral.offer.rewardAmount), discountCode: referral.card.discountCode, discountExpiration: String(referral.offer.expirationTimestamp), rewardPointsForReferrer: String(referral.reward.rewardAmount), stateOfReferral: referral.status.status)
+                                    ReferralTrackingCard(referralObject: referral, recipient: referral.recipient.firstName, discountAmount: "$" + String(referral.offer.rewardAmount), discountCode: referral.card.discountCode, discountExpiration: String(referral.offer.expirationTimestamp), rewardPointsForReferrer: String(referral.reward.rewardAmount), stateOfReferral: referral.status.status)
                                         .clipShape(RoundedRectangle(cornerRadius: 11))
                                         .background(RoundedRectangle(cornerRadius: 11).foregroundColor(.white).shadow(radius: 5, y: 4))
                                         .padding(.horizontal)
@@ -188,7 +190,7 @@ struct ReferralTracker: View {
                                 NavigationLink {
                                     ReferralDetailView(referral: referral)
                                 } label: {
-                                    ReferralTrackingCard(recipient: referral.recipient.firstName, discountAmount: "$" + String(referral.offer.rewardAmount), discountCode: referral.card.discountCode, discountExpiration: String(referral.offer.expirationTimestamp), rewardPointsForReferrer: String(referral.reward.rewardAmount), stateOfReferral: referral.status.status)
+                                    ReferralTrackingCard(referralObject: referral, recipient: referral.recipient.firstName, discountAmount: "$" + String(referral.offer.rewardAmount), discountCode: referral.card.discountCode, discountExpiration: String(referral.offer.expirationTimestamp), rewardPointsForReferrer: String(referral.reward.rewardAmount), stateOfReferral: referral.status.status)
                                         .clipShape(RoundedRectangle(cornerRadius: 11))
                                         .background(RoundedRectangle(cornerRadius: 11).foregroundColor(.white).shadow(radius: 5, y: 4))
                                         .padding(.horizontal)
@@ -221,6 +223,8 @@ struct ReferralTracker: View {
 
 struct ReferralTrackingCard: View {
     
+    var referralObject: Referrals
+    
     var recipient: String
     var discountAmount: String
     var discountCode: String
@@ -229,7 +233,7 @@ struct ReferralTrackingCard: View {
     var stateOfReferral: String
     
     
-    
+    @State var backgroundURL = ""
     
     
     var contentOfCard:[String] {
@@ -271,12 +275,25 @@ struct ReferralTrackingCard: View {
             
             //MARK: Top section of card (height: 80)
             HStack(alignment: .top, spacing: 0) {
-                Image("redshorts")
-                    .resizable()
-                    .scaledToFit()
-                    .frame(width: 48, height: 48)
-                    .padding(.vertical, 16)
-                    .padding(.horizontal)
+                
+                if backgroundURL != "" {
+                    WebImage(url: URL(string: backgroundURL)!)
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 48, height: 48)
+                        .padding(.vertical, 16)
+                        .padding(.horizontal)
+                } else {
+                    Image("redshorts")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 48, height: 48)
+                        .padding(.vertical, 16)
+                        .padding(.horizontal)
+                }
+                
+                
+                
                 
                 VStack(alignment: .leading, spacing: 0) {
                     
@@ -354,6 +371,24 @@ struct ReferralTrackingCard: View {
                 //.padding(.vertical, 12)
             
         }
+        .onAppear {
+            
+            let backgroundPath = "companies/" + referralObject.ids.companyID + "/items/" + String(referralObject.ids.shopifyProductID) + ".png"
+            
+            let storage = Storage.storage().reference()
+            
+            storage.child(backgroundPath).downloadURL { url, err in
+                if err != nil {
+                    print(err?.localizedDescription ?? "Issue showing the right image")
+                    return
+                } else {
+                    self.backgroundURL = "\(url!)"
+                }
+            }
+        }
+        
+        
+        
         //.frame(height: 154)
         
     }

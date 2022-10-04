@@ -117,15 +117,13 @@ struct ReferralTrackerForItem: View {
                                 ReferralDetailView(referral: referral)
                             } label: {
                                 
-                                ReferralTrackingCard(recipient: referral.recipient.firstName, discountAmount: "$" + String(referral.offer.rewardAmount), discountCode: referral.card.discountCode, discountExpiration: String(referral.offer.expirationTimestamp), rewardPointsForReferrer: String(referral.reward.rewardAmount), stateOfReferral: referral.status.status)
+                                ReferralTrackingCard(referralObject: referral, recipient: referral.recipient.firstName, discountAmount: "$" + String(referral.offer.rewardAmount), discountCode: referral.card.discountCode, discountExpiration: String(referral.offer.expirationTimestamp), rewardPointsForReferrer: String(referral.reward.rewardAmount), stateOfReferral: referral.status.status)
                                     .clipShape(RoundedRectangle(cornerRadius: 11))
                                     .background(RoundedRectangle(cornerRadius: 11).foregroundColor(.white).shadow(radius: 5, y: 4))
                             }
                             .padding(.horizontal)
                             .padding(.vertical, 8)
-                            
-                            
-                            
+                                
                         }
                         
                     } else if filterReferralsForItemBy == "SENT" {
@@ -136,7 +134,7 @@ struct ReferralTrackerForItem: View {
                                 ReferralDetailView(referral: referral)
                             } label: {
                                 
-                                ReferralTrackingCard(recipient: referral.recipient.firstName, discountAmount: "$" + String(referral.offer.rewardAmount), discountCode: referral.card.discountCode, discountExpiration: String(referral.offer.expirationTimestamp), rewardPointsForReferrer: String(referral.reward.rewardAmount), stateOfReferral: referral.status.status)
+                                ReferralTrackingCard(referralObject: referral, recipient: referral.recipient.firstName, discountAmount: "$" + String(referral.offer.rewardAmount), discountCode: referral.card.discountCode, discountExpiration: String(referral.offer.expirationTimestamp), rewardPointsForReferrer: String(referral.reward.rewardAmount), stateOfReferral: referral.status.status)
                                     .clipShape(RoundedRectangle(cornerRadius: 11))
                                     .background(RoundedRectangle(cornerRadius: 11).foregroundColor(.white).shadow(radius: 5, y: 4))
                             }
@@ -152,7 +150,7 @@ struct ReferralTrackerForItem: View {
                                 ReferralDetailView(referral: referral)
                             } label: {
                                 
-                                ReferralTrackingCard(recipient: referral.recipient.firstName, discountAmount: "$" + String(referral.offer.rewardAmount), discountCode: referral.card.discountCode, discountExpiration: String(referral.offer.expirationTimestamp), rewardPointsForReferrer: String(referral.reward.rewardAmount), stateOfReferral: referral.status.status)
+                                ReferralTrackingCard(referralObject: referral, recipient: referral.recipient.firstName, discountAmount: "$" + String(referral.offer.rewardAmount), discountCode: referral.card.discountCode, discountExpiration: String(referral.offer.expirationTimestamp), rewardPointsForReferrer: String(referral.reward.rewardAmount), stateOfReferral: referral.status.status)
                                     .clipShape(RoundedRectangle(cornerRadius: 11))
                                     .background(RoundedRectangle(cornerRadius: 11).foregroundColor(.white).shadow(radius: 5, y: 4))
                             }

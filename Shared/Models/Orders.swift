@@ -32,7 +32,7 @@ struct OrderIDsStruct: Codable {
     var discountCodeID: String
     var itemIDs: [String]
     var orderID: String
-    var quantityPerItemID: [String]
+    var quantityPerItemID: [Int]
     var referralID: String
     var shopifyOrderID: Int
     var userID: String

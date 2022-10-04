@@ -308,8 +308,8 @@ class DataManager: ObservableObject {
     func getAllOrders(userID: String, onSuccess: @escaping([Orders]) -> Void, listener: @escaping(_ listenerHandle: ListenerRegistration) -> Void) {
         //print("this ONE function was called")
         let listenerRegistration = db.collection("order")
-            .whereField("userID", isEqualTo: userID)
-            .order(by: "timestamp", descending: true)
+            .whereField("ids.userID", isEqualTo: userID)
+            .order(by: "order.timestampCreated", descending: true)
             .addSnapshotListener { (querySnapshot, error) in
             guard let documents = querySnapshot?.documents else {
                 print("didn't find any documents for getAllOrders")
@@ -332,9 +332,9 @@ class DataManager: ObservableObject {
     func getMyOrders(email: String, companyID: String, onSuccess: @escaping([Orders]) -> Void, listener: @escaping(_ listenerHandle: ListenerRegistration) -> Void) {
         //print("this ONE function was called")
         let listenerRegistration5 = db.collection("order")
-            .whereField("email", isEqualTo: email)
-            .whereField("companyID", isEqualTo: companyID)
-            .order(by: "timestamp", descending: true)
+            .whereField("order.email", isEqualTo: email)
+            .whereField("ids.companyID", isEqualTo: companyID)
+            .order(by: "order.timestampCreated", descending: true)
             .addSnapshotListener { (querySnapshot, error) in
             guard let documents = querySnapshot?.documents else {
                 print("didn't find any documents for getMyOrders")
@@ -357,8 +357,8 @@ class DataManager: ObservableObject {
     func getOneOrder(email: String, companyID: String, orderID: String, onSuccess: @escaping([Orders]) -> Void, listener: @escaping(_ listenerHandle: ListenerRegistration) -> Void) {
         //print("this ONE function was called")
         let listenerRegistration6 = db.collection("order")
-            .whereField("email", isEqualTo: email)
-            .whereField("orderID", isEqualTo: orderID)
+            .whereField("order.email", isEqualTo: email)
+            .whereField("ids.orderID", isEqualTo: orderID)
             .addSnapshotListener { (querySnapshot, error) in
             guard let documents = querySnapshot?.documents else {
                 print("No documents")

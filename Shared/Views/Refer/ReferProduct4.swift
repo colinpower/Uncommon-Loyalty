@@ -196,7 +196,7 @@ struct ReferProduct4: View {
                     
                     let discountCode = userSuggestedCode.prefix(12).replacingOccurrences(of: " ", with: "-")
                     
-                    referralsViewModel.addReferral(color: selectedOption, companyName: itemObject.order.companyName, customMessage: "", discountCode: discountCode, domain: itemObject.order.domain, handle: handle, itemTitle: itemObject.order.title, companyID: itemObject.ids.companyID, itemID: itemObject.ids.itemID, referralID: referralID, userID: itemObject.ids.userID, email: itemObject.order.email, rewardAmount: itemObject.referrals.rewardAmount, rewardType: itemObject.referrals.rewardType, recipientFirstName: selectedContact[1], recipientLastName: selectedContact[2], recipientPhone: selectedContact[3], offerRewardAmount: 20, status: "PENDING", usageLimit: 1)
+                    referralsViewModel.addReferral(color: selectedOption, companyName: itemObject.order.companyName, customMessage: "", discountCode: discountCode, domain: itemObject.order.domain, handle: handle, itemTitle: itemObject.order.title, companyID: itemObject.ids.companyID, itemID: itemObject.ids.itemID, referralID: referralID, shopifyProductID: itemObject.ids.shopifyProductID, userID: itemObject.ids.userID, email: itemObject.order.email, rewardAmount: itemObject.referrals.rewardAmount, rewardType: itemObject.referrals.rewardType, recipientFirstName: selectedContact[1], recipientLastName: selectedContact[2], recipientPhone: selectedContact[3], offerRewardAmount: 20, status: "PENDING", usageLimit: 1)
                     
                     referralsViewModel.listenForOneReferralInProgress(userID: itemObject.ids.userID, companyID: itemObject.ids.companyID, referralID: referralID)
                     
