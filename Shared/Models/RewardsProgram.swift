@@ -50,6 +50,7 @@ struct RewardsProgramIDsStruct: Codable {
     
     var companyID: String
     var domain: String
+    var graphqlID: String
     var personalCardDiscountID: String
     var rewardsProgramID: String
     var userID: String
@@ -58,6 +59,7 @@ struct RewardsProgramIDsStruct: Codable {
     enum CodingKeys: String, CodingKey {
         case companyID
         case domain
+        case graphqlID
         case personalCardDiscountID
         case rewardsProgramID
         case userID

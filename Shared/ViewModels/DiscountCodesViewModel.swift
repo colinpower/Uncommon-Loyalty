@@ -14,12 +14,15 @@ class DiscountCodesViewModel: ObservableObject, Identifiable {
     //What arrays or data do we want to be accessible from here? Should be everything we need as it relates to RewardsPrograms
     
     @Published var myActiveDiscountCodes = [DiscountCodes]()
-    @Published var oneDiscountCode = [DiscountCodes]()
+    @Published var oneDiscountCodeInProgress = [DiscountCodes]()
+    
+    @Published var inProgressPersonalDiscountCode = [DiscountCodes]()
     
     var dm = DataManager()
     
     var listener_MyActiveDiscountCodes: ListenerRegistration!
-    var listener_OneDiscountCode: ListenerRegistration!
+    var listener_OneDiscountCodeInProgress: ListenerRegistration!
+    var listener_InProgressPersonalDiscountCode: ListenerRegistration!
         
     private var db = Firestore.firestore()
     
@@ -39,24 +42,67 @@ class DiscountCodesViewModel: ObservableObject, Identifiable {
         })
     }
     
-    func listenForOneDiscountCode(userID: String, companyID: String, code: String) {
+    func listenForOneDiscountCodeInProgress(userID: String, companyID: String, discountID: String) {
         
-        let discountID = companyID + "-" + code
+        self.oneDiscountCodeInProgress = [DiscountCodes]()
         
-        self.oneDiscountCode = [DiscountCodes]()
-        
-        self.dm.getOneDiscountCode(userID: userID, companyID: companyID, discountID: discountID, onSuccess: { (discountcodes) in
+        self.dm.getOneDiscountCodeInProgress(userID: userID, companyID: companyID, discountID: discountID, onSuccess: { (discountcodes) in
             //if (self.newTickets.isEmpty) {
-                self.oneDiscountCode = discountcodes
+                self.oneDiscountCodeInProgress = discountcodes
             //print("this is the discount codes")
             //print(self.myDiscountCodes)
         }, listener: { (listener) in
-            self.listener_OneDiscountCode = listener
+            self.listener_OneDiscountCodeInProgress = listener
+        })
+    }
+    
+    func listenForInProgressPersonalDiscountCode(userID: String, companyID: String, discountID: String) {
+        
+        self.inProgressPersonalDiscountCode = [DiscountCodes]()
+        
+        self.dm.getInProgressPersonalDiscountCode(userID: userID, companyID: companyID, discountID: discountID, onSuccess: { (discountcodes) in
+            //if (self.newTickets.isEmpty) {
+                self.inProgressPersonalDiscountCode = discountcodes
+            //print("this is the discount codes")
+            //print(self.myDiscountCodes)
+        }, listener: { (listener) in
+            self.listener_InProgressPersonalDiscountCode = listener
         })
     }
     
     
+    func updateDiscountToAcceptPersonalCode(discountID: String) {
+        
+        //try <- I eliminated the try / catch thing.. this seems like it should work just fine?
+        
+        db.collection("discount").document(discountID)
+            .updateData([
+                "status.status": "ACTIVE"
+            ]);
+    }
     
+    func addToPersonalCode(discountID: String, domain: String, graphqlID: String, minimumSpendRequired: Int, pointsSpent: Int, rewardAmount: Int, status: String) {
+        
+        let timestamp = Int(round(Date().timeIntervalSince1970))
+
+        db.collection("discount").document(discountID).collection("additions").addDocument(data:
+            [
+                "domain": domain,
+                "graphqlID": graphqlID,
+                "minimumSpendRequired": minimumSpendRequired,
+                "pointsSpent": pointsSpent,
+                "rewardAmount": rewardAmount,
+                "status": status,
+                "timestamp": timestamp
+               
+            ]) { err in
+                    if let err = err {
+                        print("Error updating DISCOUNT: \(err)")
+                    } else {
+                        print("hasSeenFRE set to True")
+                    }
+            }
+    }
     
     func addCode(color: Int, companyID: String, companyName: String, discountCode: String, cardType: String, discountID: String, domain: String, firstName: String, lastName: String, phone: String, email: String, expirationTimestamp: Int, minimumSpendRequired: Int, rewardAmount: Int, rewardType: String, usageLimit: Int, pointsSpent: Int, userID: String) {
         

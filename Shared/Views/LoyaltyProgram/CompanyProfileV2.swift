@@ -12,10 +12,10 @@ import SwiftUI
 
 
 //Necessary hack to show multiple sheets on one page
-enum ActiveLoyaltySheet {
-    case redeemPoints, viewAllDiscounts
-    var id: Int {
-        hashValue
+enum ActiveLoyaltySheet: String, Identifiable {
+    case setupCard, viewCards, redeemPoints
+    var id: String {
+        return self.rawValue
     }
 }
 
@@ -28,7 +28,6 @@ struct HistoryObject: Identifiable {
     var discountObject: DiscountCodes
     var referralObject: Referrals
 }
-
 
 
 struct CompanyProfileV2: View {
@@ -47,6 +46,8 @@ struct CompanyProfileV2: View {
     
     @State var rewardsProgram: RewardsProgram
     
+    
+    
     //Variables for creating this page
     @State private var activeLoyaltySheet: ActiveLoyaltySheet? = nil
     
@@ -55,8 +56,17 @@ struct CompanyProfileV2: View {
     var emptyReferralObject = Referrals(card: ReferralsCardStruct(color: 0, companyName: "", customMessage: "", discountCode: "", discountCodeCaseInsensitive: "", itemImage: "", itemTitle: ""), ids: ReferralsIDsStruct(companyID: "", domain: "", graphQLID: "", handle: "", itemID: "", referralID: "", reviewID: "", usedOnOrderID: "", userID: ""), offer: ReferralsOfferStruct(expirationTimestamp: 0, forNewCustomersOnly: false, minimumSpendRequired: 0, rewardAmount: 0, rewardType: "", usageLimit: 0), recipient: ReferralsRecipientStruct(firstName: "", lastName: "", phone: "", email: ""), reward: ReferralsRewardStruct(rewardAmount: 0, rewardType: ""), sender: ReferralsSenderStruct(firstName: "", lastName: "", phone: "", email: ""), status: ReferralsStatusStruct(status: "", timestampCreated: 0, timestampUsed: 0, timestampComplete: 0, timeWaitingForReturnInDays: 0))
     
     var emptyDiscountObject = DiscountCodes(card: DiscountsCardStruct(cardType: "", color: 0, companyName: "", customMessage: "", discountCode: "", discountCodeCaseInsensitive: ""), ids: DiscountsIDsStruct(companyID: "", discountID: "", domain: "", graphQLID: "", usedOnOrderID: "", userID: ""), owner: DiscountsOwnerStruct(firstName: "", lastName: "", phone: "", email: ""), reward: DiscountsRewardStruct(expirationTimestamp: 0, minimumSpendRequired: 0, rewardAmount: 0, rewardType: "", usageLimit: 0, pointsSpent: 0), status: DiscountsStatusStruct(status: "", failedToBeCreated: false, timestampCreated: 0, timestampUsed: 0))
+    
+    
+    @State var selectedDiscount:DiscountCodes = DiscountCodes(card: DiscountsCardStruct(cardType: "", color: 0, companyName: "", customMessage: "", discountCode: "", discountCodeCaseInsensitive: ""), ids: DiscountsIDsStruct(companyID: "", discountID: "", domain: "", graphQLID: "", usedOnOrderID: "", userID: ""), owner: DiscountsOwnerStruct(firstName: "", lastName: "", phone: "", email: ""), reward: DiscountsRewardStruct(expirationTimestamp: 0, minimumSpendRequired: 0, rewardAmount: 0, rewardType: "", usageLimit: 0, pointsSpent: 0), status: DiscountsStatusStruct(status: "", failedToBeCreated: false, timestampCreated: 0, timestampUsed: 0))
 
 
+    //@State var selectedDiscountCode: DiscountCodes
+    
+    @State var copyCodeText:String = "Copy code"
+    
+    @State var discountIndex:Int = 0
+    
     var body: some View {
         
         VStack(alignment: .center, spacing: 0) {
@@ -65,26 +75,110 @@ struct CompanyProfileV2: View {
             ScrollView(.vertical, showsIndicators: false) {
                 
                 
-                VStack(alignment: .center) {
+                VStack(alignment: .center, spacing: 0) {
                     
-                    //MARK: LOYALTY CARD
-                    if rewardsProgram.ids.personalCardDiscountID != "" {
-                        //show a blank card
-                        CardForLoyaltyProgram(cardColor: Color.white, textColor: Color.white, companyImage: rewardsProgram.card.companyName, companyName: rewardsProgram.card.companyName, currentDiscountAmount: "$0", currentDiscountCode: "Tap to set up", userFirstName: rewardsProgram.owner.firstName, userLastName: rewardsProgram.owner.lastName, userCurrentTier: "", discountCardDescription: "SET UP PERSONAL CARD")
-                            .frame(alignment: .center)
-                            .padding(.bottom)
-                    } else {
+                    //MARK: LOYALTY CARD NOT SET UP
+                    if (rewardsProgramViewModel.oneRewardsProgram.first?.ids.personalCardDiscountID ?? rewardsProgram.ids.personalCardDiscountID) == "" {
+                        //show a blank card that needs to be set up
                         
-                        ForEach(discountCodesViewModel.myActiveDiscountCodes) { discountCode in
+                        Button {
                             
-                            Text(discountCode.ids.discountID)
+                            activeLoyaltySheet = .setupCard
                             
+                        } label: {
+                            
+                            CardForLoyaltyProgram(cardColor: Color.white, textColor: Color.white, companyImage: "AthleisureLA-Icon-White", companyName: rewardsProgram.card.companyName, currentDiscountAmount: "$0", currentDiscountCode: "Tap to set up", userFirstName: rewardsProgram.owner.firstName, userLastName: rewardsProgram.owner.lastName, userCurrentTier: "", discountCardDescription: "SET UP PERSONAL CARD")
+                                .frame(alignment: .center)
+                                .padding(.bottom)
+                                .padding(.bottom)
                         }
                     }
                     
-//                    CardForLoyaltyProgram(cardColor: Color("CardTeal"), textColor: Color.white, companyImage: "Athleisure LA", companyName: "Athleisure LA", currentDiscountAmount: "$20", currentDiscountCode: "COLIN123", userFirstName: "Colin", userLastName: "Power", userCurrentTier: "Gold", discountCardDescription: "Personal Card")
-//                        .frame(alignment: .center)
-//                        .padding(.bottom)
+                    //MARK: NO REWARDS CARDS FOUND
+                    else if discountCodesViewModel.myActiveDiscountCodes.isEmpty {
+                        //error.. this should never happen!
+                    
+                    }
+                    
+                    //MARK: 1 REWARDS CARD
+                    else if discountCodesViewModel.myActiveDiscountCodes.count == 1 {
+                        //only 1 code available.. don't show a tabview.. just show the 1 card
+                        
+                        let oneDiscount:DiscountCodes = discountCodesViewModel.myActiveDiscountCodes.first ?? emptyDiscountObject
+                        let oneCode = oneDiscount.card.discountCode
+                        let oneLink = "https://" + oneDiscount.ids.domain + "/discount/" + oneCode
+                        
+                        //Height = screenwidth / 1.6 + 18
+                        Button {
+                            
+                            self.activeLoyaltySheet = .viewCards
+                            
+                        } label: {
+                            
+                            CardForLoyaltyProgram(cardColor: cardColorOptions[oneDiscount.card.color][0] as! Color, textColor: Color.white, companyImage: oneDiscount.card.companyName, companyName: oneDiscount.card.companyName, currentDiscountAmount: "$" + String(oneDiscount.reward.rewardAmount), currentDiscountCode: oneDiscount.card.discountCode, userFirstName: oneDiscount.owner.firstName, userLastName: oneDiscount.owner.lastName, userCurrentTier: "", discountCardDescription: "Default Card")
+                                .frame(alignment: .center)
+                                .padding(.vertical, 5)
+                                .padding(.bottom)
+                            
+                        }
+                        //Height = 54 + bottom padding
+                        
+                        if oneDiscount.reward.rewardAmount == 0 {
+                            
+                            Button {
+                                
+                                self.activeLoyaltySheet = .redeemPoints
+                                
+                            } label: {
+                                HStack {
+                                    Spacer()
+                                    Text("Add value to this card by redeeming rewards")
+                                        .font(.system(size: 16, weight: .regular))
+                                        .foregroundColor(Color("Dark1"))
+                                        .padding(.vertical)
+                                    Spacer()
+                                }.background(RoundedRectangle(cornerRadius: 12).foregroundColor(Color.white))
+                                    .padding(.horizontal)
+                                    .frame(width: UIScreen.main.bounds.width)
+                                    .padding(.bottom)
+                                    .padding(.bottom)
+                            }
+                            
+                        } else {
+                            
+                            Link(destination: URL(string: oneLink)!) {
+                                
+                                HStack {
+                                    Spacer()
+                                    
+                                    HStack (alignment: .center, spacing: 6) {
+                                        Text("Shop using this code")
+                                            .font(.system(size: 18, weight: .medium))
+                                            .foregroundColor(Color("ThemeAction"))
+                                            .padding(.vertical)
+                                        Image(systemName: "arrow.up.right")
+                                            .font(.system(size: 18, weight: .medium))
+                                            .foregroundColor(Color("ThemeAction"))
+                                            .padding(.vertical)
+                                    }
+                                    Spacer()
+                                }.background(RoundedRectangle(cornerRadius: 12).foregroundColor(Color.white))
+                                    .padding(.horizontal)
+                                    .frame(width: UIScreen.main.bounds.width)
+                            }
+                            .padding(.bottom)
+                            .padding(.bottom)
+                        }
+
+                    //MARK: MULTIPLE REWARDS CARDS
+                    } else {
+                        
+                        DiscountCardsHorizontalTabView(activeDiscountCodes: discountCodesViewModel.myActiveDiscountCodes, activeLoyaltySheet: $activeLoyaltySheet)
+                            .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.width / 1.6 + 130, alignment: .top)
+                            .padding(.bottom)
+                    
+                    }
+                            
                     
                     //MARK: QUICK ACTIONS
                     HStack(alignment: .top, spacing: 8) {
@@ -114,9 +208,9 @@ struct CompanyProfileV2: View {
                 
                             //MARK: ACTIVE DISCOUNTS -> DISCOUNTS HALF SHEET
                             Button {
-                                showSheet = true
+                                //showSheet = true
                                 //isFullScreenSheet = false
-                                activeLoyaltySheet = .viewAllDiscounts
+                                //activeLoyaltySheet = .viewAllDiscounts
                             } label: {
                                 HStack(alignment: .center, spacing: 0) {
                                     VStack(alignment: .leading, spacing: 0) {
@@ -139,16 +233,18 @@ struct CompanyProfileV2: View {
                         
                         //MARK: REDEEM -> REDEEM FULL SCREEN
                         Button {
-                            showSheet = true
+                            
                             //isFullScreenSheet = true
-                            activeLoyaltySheet = .redeemPoints
+                            self.activeLoyaltySheet = .redeemPoints
+                            
+                            
                         } label: {
                             
                             VStack(alignment: .leading, spacing: 0) {
                                 HStack(alignment: .center, spacing: 0) {
                                     VStack(alignment: .leading, spacing: 0) {
                                         
-                                        let currentPointsBalanceVar = rewardsProgramViewModel.oneRewardsProgram.first?.status.currentPointsBalance ?? 0
+                                        let currentPointsBalanceVar = rewardsProgram.status.currentPointsBalance
                                         
                                         Text("Points Balance")
                                             .font(.system(size: 15))
@@ -244,7 +340,6 @@ struct CompanyProfileV2: View {
                     }.padding(.horizontal)
                         .padding(.bottom)
                 }
-                
             }
             
             //MARK: TABS
@@ -277,89 +372,91 @@ struct CompanyProfileV2: View {
                     }
                 }
             }
-        .halfSheet(showSheet: $showSheet) {
-            
-            //MARK: DISCOUNT CARDS IN HALF SHEET
-            if self.activeLoyaltySheet == .viewAllDiscounts {
-            
-                HStack {
-                    
-                    if (discountCodesViewModel.myActiveDiscountCodes.isEmpty) {
-                        // if no discount codes, show the empty state
-                        TabView {
-                            
-                            
-                            CardForLoyaltyProgram(cardColor: Color("Gold1"), textColor: Color.white, companyImage: "Athleisure LA", companyName: "Athleisure LA", currentDiscountAmount: "0", currentDiscountCode: "NONE AVAILABLE", userFirstName: "Colin", userLastName: "Power", userCurrentTier: "Gold", discountCardDescription: "Default Card")
-                                .frame(alignment: .center)
-                            
-                        }.tabViewStyle(.page(indexDisplayMode: .always))
-                            .indexViewStyle(.page(backgroundDisplayMode: .interactive))
-                        
-                    } else {
-                        TabView {
-                            ForEach(discountCodesViewModel.myActiveDiscountCodes.prefix(5)) { discountcode in
-                                VStack {
+            .sheet(item: $activeLoyaltySheet, onDismiss: { activeLoyaltySheet = nil }) { sheet in
 
-                                    //MARK: BUTTONS
-
-                                    CardForLoyaltyProgram(cardColor: Color("Gold1"), textColor: Color.white, companyImage: "Athleisure LA", companyName: "Athleisure LA", currentDiscountAmount: "$20", currentDiscountCode: "COLIN123", userFirstName: "Colin", userLastName: "Power", userCurrentTier: "Gold", discountCardDescription: "Default Card")
-                                        .frame(alignment: .center)
-                                    
-                                    
-                                    HStack(spacing: 12) {
-                                        Button {
-                                            //copy
-                                        } label: {
-                                            HStack {
-                                                Spacer()
-                                                Text("Copy code").font(.system(size: 18, weight: .semibold)).foregroundColor(.black).padding(.vertical)
-                                                Spacer()
-                                            }.background(RoundedRectangle(cornerRadius: 12).foregroundColor(Color("Background")))
-                                        }
-                                        
-                                        Button {
-                                            //copy
-                                        } label: {
-                                            HStack {
-                                                Spacer()
-                                                Text("Visit website").font(.system(size: 18, weight: .semibold)).foregroundColor(.black).padding(.vertical)
-                                                Spacer()
-                                            }.background(RoundedRectangle(cornerRadius: 12).foregroundColor(Color("Background")))
-                                        }
-                                        
-                                    }.padding(.horizontal)
-                                    .padding(.bottom)
-                                    
-                                }
-                                
-                            }
-                        }//.frame(height: UIScreen.main.bounds.height/2)
-                        .tabViewStyle(.page(indexDisplayMode: .always))
-                        .indexViewStyle(.page(backgroundDisplayMode: .always))
-                    }
-                    
+                switch sheet {
+                case .redeemPoints:
+                    CreateDiscountScreen(rewardsProgram: rewardsProgramViewModel.oneRewardsProgram.first ?? rewardsProgram, activeLoyaltySheet: $activeLoyaltySheet)
+                case .viewCards:
+                    DiscountCardsDetailView(activeDiscountCodes: discountCodesViewModel.myActiveDiscountCodes)
+                case .setupCard:
+                    DiscountCardSetup1(rewardsProgram: rewardsProgram, activeLoyaltySheet: $activeLoyaltySheet)
                 }
-                .edgesIgnoringSafeArea([.all])
-                .background(RoundedRectangle(cornerRadius: 32).fill(Color.white))
             }
-            
-            //MARK: REDEEM IN HALF SHEET
-            else if self.activeLoyaltySheet == .redeemPoints {
-                HStack(alignment: .bottom) {
-                    Spacer()
-                    CreateDiscountScreen(showSheet: $showSheet, rewardsProgram: rewardsProgramViewModel.oneRewardsProgram.first ?? rewardsProgram)
-                    Spacer()
-                }
-                .edgesIgnoringSafeArea([.all])
-                .background(RoundedRectangle(cornerRadius: 32).fill(.white))
-                .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height / 2)
-            }
-            
-        } onEnd : {
-            activeLoyaltySheet = nil
-            showSheet = false
-            print("Dismissed the half sheet")
-        }
+        
+        
+        
+        
+//        .halfSheet(showSheet: $showSheet) {
+//
+//            //MARK: DISCOUNT CARDS IN HALF SHEET
+//            if self.activeLoyaltySheet == .viewCard {
+//
+//                HStack {
+//
+//                        TabView {
+//                            ForEach(discountCodesViewModel.myActiveDiscountCodes.prefix(5)) { discountcode in
+//                                VStack {
+//
+//                                    //MARK: BUTTONS
+//
+//                                    CardForLoyaltyProgram(cardColor: Color("Gold1"), textColor: Color.white, companyImage: "Athleisure LA", companyName: "Athleisure LA", currentDiscountAmount: "$20", currentDiscountCode: "COLIN123", userFirstName: "Colin", userLastName: "Power", userCurrentTier: "Gold", discountCardDescription: "Default Card")
+//                                        .frame(alignment: .center)
+//
+//
+//                                    HStack(spacing: 12) {
+//                                        Button {
+//                                            //copy
+//                                        } label: {
+//                                            HStack {
+//                                                Spacer()
+//                                                Text("Copy code").font(.system(size: 18, weight: .semibold)).foregroundColor(.black).padding(.vertical)
+//                                                Spacer()
+//                                            }.background(RoundedRectangle(cornerRadius: 12).foregroundColor(Color("Background")))
+//                                        }
+//
+//                                        Button {
+//                                            //copy
+//                                        } label: {
+//                                            HStack {
+//                                                Spacer()
+//                                                Text("Visit website").font(.system(size: 18, weight: .semibold)).foregroundColor(.black).padding(.vertical)
+//                                                Spacer()
+//                                            }.background(RoundedRectangle(cornerRadius: 12).foregroundColor(Color("Background")))
+//                                        }
+//
+//                                    }.padding(.horizontal)
+//                                    .padding(.bottom)
+//
+//                                }
+//
+//                            }
+//                        }//.frame(height: UIScreen.main.bounds.height/2)
+//                        .tabViewStyle(.page(indexDisplayMode: .always))
+//                        .indexViewStyle(.page(backgroundDisplayMode: .always))
+//
+//                }
+//                .edgesIgnoringSafeArea([.all])
+//                .background(RoundedRectangle(cornerRadius: 32).fill(Color.white))
+//            }
+//
+//            //MARK: REDEEM IN HALF SHEET
+//            else if self.activeLoyaltySheet == .redeemPoints {
+//                HStack(alignment: .bottom) {
+//                    Spacer()
+//                    CreateDiscountScreen(showSheet: $showSheet, rewardsProgram: rewardsProgramViewModel.oneRewardsProgram.first ?? rewardsProgram)
+//                    Spacer()
+//                }
+//                .edgesIgnoringSafeArea([.all])
+//                .background(RoundedRectangle(cornerRadius: 32).fill(.white))
+//                .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height / 2)
+//            }
+//
+//        } onEnd : {
+//            activeLoyaltySheet = nil
+//            showSheet = false
+//            print("Dismissed the half sheet")
+//        }
         .onAppear {
             
             //listeners
@@ -372,6 +469,8 @@ struct CompanyProfileV2: View {
             
             //set rewardsProgram based on the listener
             self.rewardsProgram = rewardsProgramViewModel.oneRewardsProgram.first ?? self.rewardsProgram
+            
+//            self.selectedDiscountCode = emptyDiscountObject
             
         }
         .onDisappear {
@@ -390,6 +489,8 @@ struct CompanyProfileV2: View {
         }
     }
 }
+
+
 
 
 

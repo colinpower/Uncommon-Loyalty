@@ -127,4 +127,23 @@ class RewardsProgramViewModel: ObservableObject, Identifiable {
             ]);
     }
     
+    
+    func updateLoyaltyProgramPersonalCard(loyaltyProgramID: String, color: Int, discountCode: String, discountID: String, graphqlID: String) {
+        
+        //try <- I eliminated the try / catch thing.. this seems like it should work just fine?
+        let discountCodeCaseInsensitive = discountCode.uppercased()
+        
+        db.collection("loyaltyprograms").document(loyaltyProgramID)
+            .updateData([
+                "card.color": color,
+                "card.discountCode": discountCode,
+                "card.discountCodeCaseInsensitive": discountCodeCaseInsensitive,
+                "ids.personalCardDiscountID": discountID,
+                "ids.graphqlID": graphqlID
+            ]);
+    }
+    
+    
+    
+    
 }

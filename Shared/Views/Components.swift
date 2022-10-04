@@ -585,3 +585,18 @@ struct LineGraph: View {
       }
     
 }
+
+
+
+var cardColorOptions: [[Any]] = [
+    [Color("ReviewTealImage"), Color("Yoga"), "normal", "Robin"],
+    [Color("ThemeLight"), Color("ThemeAction"), "normal", "Uncommon"],
+    [Color.green, Color.white, "normal", "Green"],
+    [Color.yellow, Color.gray, "normal", "Yellow"],
+    [Color.blue, Color.white, "normal", "Blue"],
+    [Color("Gold1"), Color.white, "engraved", "Gold"],
+    [Color.white, Color.white, "engraved", "White"],
+    [Color("CardTeal"), Color.white, "engraved", "Teal"]
+]
+
+

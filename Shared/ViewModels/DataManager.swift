@@ -90,9 +90,12 @@ class DataManager: ObservableObject {
         listener(listenerRegistration3) //escaping listener
     }
     
-    func getOneDiscountCode(userID: String, companyID: String, discountID: String, onSuccess: @escaping([DiscountCodes]) -> Void, listener: @escaping(_ listenerHandle: ListenerRegistration) -> Void) {
+    func getOneDiscountCodeInProgress(userID: String, companyID: String, discountID: String, onSuccess: @escaping([DiscountCodes]) -> Void, listener: @escaping(_ listenerHandle: ListenerRegistration) -> Void) {
         
         //print("this ONE function was called")
+        
+        print("looking for discount code with ID \(discountID)")
+        
         let listenerRegistration = db.collection("discount")
             .whereField("ids.userID", isEqualTo: userID)
             .whereField("ids.companyID", isEqualTo: companyID)
@@ -103,14 +106,48 @@ class DataManager: ObservableObject {
                 print("No documents")
                 return
             }
-            var oneDiscountCodeArray = [DiscountCodes]()
+            var oneDiscountCodeInProgressArray = [DiscountCodes]()
 
-                oneDiscountCodeArray = documents.compactMap { (queryDocumentSnapshot) -> DiscountCodes? in
-//                print(try? queryDocumentSnapshot.data(as: DiscountCodes.self))
+                oneDiscountCodeInProgressArray = documents.compactMap { (queryDocumentSnapshot) -> DiscountCodes? in
+                
+                    print("this is the returned discount code")
+                    print(try? queryDocumentSnapshot.data(as: DiscountCodes.self))
+                    
                 return try? queryDocumentSnapshot.data(as: DiscountCodes.self)
                 //return try? queryDocumentSnapshot.data(as: Ticket.self)
             }
-            onSuccess(oneDiscountCodeArray)
+            onSuccess(oneDiscountCodeInProgressArray)
+        }
+        listener(listenerRegistration) //escaping listener
+    }
+    
+    func getInProgressPersonalDiscountCode(userID: String, companyID: String, discountID: String, onSuccess: @escaping([DiscountCodes]) -> Void, listener: @escaping(_ listenerHandle: ListenerRegistration) -> Void) {
+        
+        //print("this ONE function was called")
+        
+        print("looking for discount code with ID \(discountID)")
+        
+        let listenerRegistration = db.collection("discount")
+            .whereField("ids.userID", isEqualTo: userID)
+            .whereField("ids.companyID", isEqualTo: companyID)
+            .whereField("ids.discountID", isEqualTo: discountID)
+            .addSnapshotListener { (querySnapshot, error) in
+                
+            guard let documents = querySnapshot?.documents else {
+                print("No documents")
+                return
+            }
+            var inProgressPersonalDiscountCodeArray = [DiscountCodes]()
+
+                inProgressPersonalDiscountCodeArray = documents.compactMap { (queryDocumentSnapshot) -> DiscountCodes? in
+                
+                    print("this is the returned discount code")
+                    print(try? queryDocumentSnapshot.data(as: DiscountCodes.self))
+                    
+                return try? queryDocumentSnapshot.data(as: DiscountCodes.self)
+                //return try? queryDocumentSnapshot.data(as: Ticket.self)
+            }
+            onSuccess(inProgressPersonalDiscountCodeArray)
         }
         listener(listenerRegistration) //escaping listener
     }

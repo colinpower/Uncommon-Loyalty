@@ -15,6 +15,10 @@
 		30050A6F28C7064700BD7874 /* PollOptionSelected.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30050A6E28C7064700BD7874 /* PollOptionSelected.swift */; };
 		30050A7228C7286200BD7874 /* ActiveLoyaltyProgramWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30050A7128C7286200BD7874 /* ActiveLoyaltyProgramWidget.swift */; };
 		300E992E28E6472300007631 /* ReviewCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 300E992D28E6472300007631 /* ReviewCard.swift */; };
+		300E993028EBC5BE00007631 /* DiscountCardsHorizontalTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 300E992F28EBC5BE00007631 /* DiscountCardsHorizontalTabView.swift */; };
+		300E993228EBE3B900007631 /* DiscountCardsDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 300E993128EBE3B900007631 /* DiscountCardsDetailView.swift */; };
+		300E993428EBE74800007631 /* DiscountCardSetup1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 300E993328EBE74800007631 /* DiscountCardSetup1.swift */; };
+		300E993628EBF46400007631 /* DiscountCardSetup2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 300E993528EBF46400007631 /* DiscountCardSetup2.swift */; };
 		300FF53B289A20DC00455D44 /* SuggestAShopPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 300FF53A289A20DC00455D44 /* SuggestAShopPreview.swift */; };
 		300FF53D289A212100455D44 /* SuggestAShop.swift in Sources */ = {isa = PBXBuildFile; fileRef = 300FF53C289A212100455D44 /* SuggestAShop.swift */; };
 		300FF540289A2D2500455D44 /* SendFeedback.swift in Sources */ = {isa = PBXBuildFile; fileRef = 300FF53F289A2D2500455D44 /* SendFeedback.swift */; };
@@ -193,6 +197,10 @@
 		30050A6E28C7064700BD7874 /* PollOptionSelected.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PollOptionSelected.swift; sourceTree = "<group>"; };
 		30050A7128C7286200BD7874 /* ActiveLoyaltyProgramWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActiveLoyaltyProgramWidget.swift; sourceTree = "<group>"; };
 		300E992D28E6472300007631 /* ReviewCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewCard.swift; sourceTree = "<group>"; };
+		300E992F28EBC5BE00007631 /* DiscountCardsHorizontalTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscountCardsHorizontalTabView.swift; sourceTree = "<group>"; };
+		300E993128EBE3B900007631 /* DiscountCardsDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscountCardsDetailView.swift; sourceTree = "<group>"; };
+		300E993328EBE74800007631 /* DiscountCardSetup1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscountCardSetup1.swift; sourceTree = "<group>"; };
+		300E993528EBF46400007631 /* DiscountCardSetup2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscountCardSetup2.swift; sourceTree = "<group>"; };
 		300FF53A289A20DC00455D44 /* SuggestAShopPreview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SuggestAShopPreview.swift; sourceTree = "<group>"; };
 		300FF53C289A212100455D44 /* SuggestAShop.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SuggestAShop.swift; sourceTree = "<group>"; };
 		300FF53F289A2D2500455D44 /* SendFeedback.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SendFeedback.swift; sourceTree = "<group>"; };
@@ -744,6 +752,10 @@
 			isa = PBXGroup;
 			children = (
 				304DC88827F3578200E30DCA /* CompanyProfileV2.swift */,
+				300E993128EBE3B900007631 /* DiscountCardsDetailView.swift */,
+				300E993328EBE74800007631 /* DiscountCardSetup1.swift */,
+				300E993528EBF46400007631 /* DiscountCardSetup2.swift */,
+				300E992F28EBC5BE00007631 /* DiscountCardsHorizontalTabView.swift */,
 				306E83A528C778C700232A4A /* LoyaltyProgram Components */,
 				301DBFDB28C218720072E497 /* AboutCompany.swift */,
 				30DC3E6A28A11E4B00613B4B /* History.swift */,
@@ -1037,6 +1049,7 @@
 				301DBFE628C2B04C0072E497 /* ReviewPagePreview.swift in Sources */,
 				30FF419D28B62F8000D70BC5 /* Purchases.swift in Sources */,
 				3088073E28A56488003D1B99 /* CompaniesViewModel.swift in Sources */,
+				300E993228EBE3B900007631 /* DiscountCardsDetailView.swift in Sources */,
 				30546E2827FBD06400173D9D /* Profile.swift in Sources */,
 				30FF41A528B68DD500D70BC5 /* ChooseYourReward.swift in Sources */,
 				3053C0A628B9003B00FF3A17 /* ItemsAndOrders.swift in Sources */,
@@ -1061,6 +1074,7 @@
 				30E215EA28E16BCE00FCB440 /* ReferralsViewModel.swift in Sources */,
 				30D6D7D928C4A86400576C2A /* ReferralCard.swift in Sources */,
 				302AB47928B3941E0086D4CA /* AllOrdersForCompany.swift in Sources */,
+				300E993428EBE74800007631 /* DiscountCardSetup1.swift in Sources */,
 				302AB46C28B12B130086D4CA /* Items.swift in Sources */,
 				30050A6528C6F9CE00BD7874 /* PollTabView.swift in Sources */,
 				30EA87B5281342DE00F0CF64 /* HelperFunctions.swift in Sources */,
@@ -1079,12 +1093,14 @@
 				3056C83528DAD46E00AC8686 /* ReferProduct4.swift in Sources */,
 				302AB47728B359D00086D4CA /* Item.swift in Sources */,
 				3032829928A4F2C60038A053 /* CheckYourEmail.swift in Sources */,
+				300E993028EBC5BE00007631 /* DiscountCardsHorizontalTabView.swift in Sources */,
 				3086622528BF869900849AF1 /* RecommendedActions.swift in Sources */,
 				30D6D7DB28C4A9D000576C2A /* ReferProductCarousel.swift in Sources */,
 				30E0C76628C33839001754C6 /* ContactsView.swift in Sources */,
 				30477A8C2815AF540032E57A /* Feedback.swift in Sources */,
 				30DC3E7128A13D3600613B4B /* FeaturedWidget1.swift in Sources */,
 				301DBFE228C25C5D0072E497 /* ReviewPageWithRating.swift in Sources */,
+				300E993628EBF46400007631 /* DiscountCardSetup2.swift in Sources */,
 				306E83A428C778C200232A4A /* RecentOrdersWidget.swift in Sources */,
 				307BCA2527975F2E000DDD21 /* Transactions.swift in Sources */,
 				306E83A928C7BF4E00232A4A /* AddLoyaltyProgramCarousel.swift in Sources */,
