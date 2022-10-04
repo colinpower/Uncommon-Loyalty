@@ -7,10 +7,8 @@
 
 import SwiftUI
 
-
 //how to download an image from firebase
 //https://www.youtube.com/watch?v=PYpTto3iQXU&t=446s
-
 
 
 //Necessary hack to show multiple sheets on one page
@@ -21,200 +19,99 @@ enum ActiveLoyaltySheet {
     }
 }
 
+struct HistoryObject: Identifiable {
+    
+    var id = UUID().uuidString
+    
+    var timestamp: Int
+    var type: String
+    var discountObject: DiscountCodes
+    var referralObject: Referrals
+}
+
+
+
 struct CompanyProfileV2: View {
     
-    
-    @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
-    
-    //Variables received from HomeView
-    var companyID: String
-    var companyName: String
-    
-    //var currentPointsBalance: Int
-    var email: String
-    var userID: String
-    
-//    var status: String
-    var urlToShopifySite: String = "https://athleisure-la.myshopify.com"
-    
-    @State private var activeLoyaltySheet: ActiveLoyaltySheet? = nil
-    //@State var isFullScreenSheet = true
-    
-    @State var isCreateDiscountScreenActive: Bool = false
-    @State var isRedeemScreenActive: Bool = false
-    @State var isDiscount1Active: Bool = false
-    @State var isDiscount2Active: Bool = false
-    
-    
-    @State var isProfileShowing:Bool = false
-    @State var isHistoryActive:Bool = false
-    @State var isNotificationsActive:Bool = false
-    
-    @State var isReferACompanyActive:Bool = false
-    
-    @State var isShowingAllOrdersForCompany = false
-
-    
-    @State var showSheet:Bool = false
-    @State var showSheet2:Bool = false
-    @State var showSheetRedeem: Bool = false
-    
-    @State var isPrompt1Active: Bool = false
-    @State var isPrompt2Active: Bool = false
-    @State var isPrompt3Active: Bool = false
-    @State var isPrompt4Active: Bool = false
-    @State var isPrompt5Active: Bool = false
-    
-    //vars for the current state
-    @State var progressValue: Float = 0.6
-    @State var isDiscountButtonAvailable: Bool = false
-    
-    @State var isDiscountCodeCopied:Bool = false
-    
-    @Binding var selectedTab: Int
-    
-    
+    //MARK: SET UP VARIABLES
+    //@Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     
     //Listeners - must listen for RewardsProgram, Discounts,
-    @ObservedObject var viewModel1 = RewardsProgramViewModel()
     @ObservedObject var discountCodesViewModel = DiscountCodesViewModel()
-    @ObservedObject var viewModel3 = TransactionsViewModel()
-    //@ObservedObject var ordersViewModel = OrdersViewModel()
-    @ObservedObject var viewModel_Items = ItemsViewModel()
-    
     @ObservedObject var ordersViewModel = OrdersViewModel()
+    @ObservedObject var referralsViewModel = ReferralsViewModel()
+    @ObservedObject var rewardsProgramViewModel = RewardsProgramViewModel()
     
+    //Variables received from HomeView
+    @Binding var selectedTab: Int
     
-    @State private var hasDiscountsCreated = false
+    @State var rewardsProgram: RewardsProgram
     
-    var colorToShow: [Color] {
-        switch viewModel1.oneRewardsProgram.first?.status {
-            case "Gold":
-                //Primary Rewards Color, Primary Text on Primary Color, Secondary Text on Primary Color, Button Background, Primary Button Color
-                return [Color("Gold1"), Color(.white), Color("Gold2"), Color("Gold2").opacity(0.25), Color("Gold1")]
-            case "Silver":
-                return [Color(.white), Color("Dark1"), Color("Gray1"), Color("Background"), Color("ThemePrimary")]
-            default:
-                return [Color(.white), Color("Dark1"), Color("Gray1"), Color("Background"), Color("ThemePrimary")]
-        }
-    }
+    //Variables for creating this page
+    @State private var activeLoyaltySheet: ActiveLoyaltySheet? = nil
     
-    //Variables for modifying this page
-    @State var rewards: Double = 0
-        
+    @State var showSheet:Bool = false
     
+    var emptyReferralObject = Referrals(card: ReferralsCardStruct(color: 0, companyName: "", customMessage: "", discountCode: "", discountCodeCaseInsensitive: "", itemImage: "", itemTitle: ""), ids: ReferralsIDsStruct(companyID: "", domain: "", graphQLID: "", handle: "", itemID: "", referralID: "", reviewID: "", usedOnOrderID: "", userID: ""), offer: ReferralsOfferStruct(expirationTimestamp: 0, forNewCustomersOnly: false, minimumSpendRequired: 0, rewardAmount: 0, rewardType: "", usageLimit: 0), recipient: ReferralsRecipientStruct(firstName: "", lastName: "", phone: "", email: ""), reward: ReferralsRewardStruct(rewardAmount: 0, rewardType: ""), sender: ReferralsSenderStruct(firstName: "", lastName: "", phone: "", email: ""), status: ReferralsStatusStruct(status: "", timestampCreated: 0, timestampUsed: 0, timestampComplete: 0, timeWaitingForReturnInDays: 0))
+    
+    var emptyDiscountObject = DiscountCodes(card: DiscountsCardStruct(cardType: "", color: 0, companyName: "", customMessage: "", discountCode: "", discountCodeCaseInsensitive: ""), ids: DiscountsIDsStruct(companyID: "", discountID: "", domain: "", graphQLID: "", usedOnOrderID: "", userID: ""), owner: DiscountsOwnerStruct(firstName: "", lastName: "", phone: "", email: ""), reward: DiscountsRewardStruct(expirationTimestamp: 0, minimumSpendRequired: 0, rewardAmount: 0, rewardType: "", usageLimit: 0, pointsSpent: 0), status: DiscountsStatusStruct(status: "", failedToBeCreated: false, timestampCreated: 0, timestampUsed: 0))
 
-    
+
     var body: some View {
         
         VStack(alignment: .center, spacing: 0) {
-            //MARK: CONTENT
+            
+            //MARK: MAIN CONTENT (before tabs)
             ScrollView(.vertical, showsIndicators: false) {
+                
                 
                 VStack(alignment: .center) {
                     
                     //MARK: LOYALTY CARD
-                    CardForLoyaltyProgram(cardColor: Color("CardTeal"), textColor: Color.white, companyImage: "Athleisure LA", companyName: "Athleisure LA", currentDiscountAmount: "$20", currentDiscountCode: "COLIN123", userFirstName: "Colin", userLastName: "Power", userCurrentTier: "Gold", discountCardDescription: "Personal Card")
-                        .frame(alignment: .center)
-                        .padding(.bottom)
+                    if rewardsProgram.ids.personalCardDiscountID != "" {
+                        //show a blank card
+                        CardForLoyaltyProgram(cardColor: Color.white, textColor: Color.white, companyImage: rewardsProgram.card.companyName, companyName: rewardsProgram.card.companyName, currentDiscountAmount: "$0", currentDiscountCode: "Tap to set up", userFirstName: rewardsProgram.owner.firstName, userLastName: rewardsProgram.owner.lastName, userCurrentTier: "", discountCardDescription: "SET UP PERSONAL CARD")
+                            .frame(alignment: .center)
+                            .padding(.bottom)
+                    } else {
+                        
+                        ForEach(discountCodesViewModel.myActiveDiscountCodes) { discountCode in
+                            
+                            Text(discountCode.ids.discountID)
+                            
+                        }
+                    }
                     
-                    //MARK: QUICK DASHBOARD
-//
-//                    HStack {
-//
-//                        //Discounts Available
-//                        VStack(alignment: .center, spacing: 2) {
-//                            let num = discountCodesViewModel.myDiscountCodes.prefix(9).count
-//                            Image(systemName: "0" + String(num) + ".circle.fill")
-//                                .font(.system(size: 60, weight: .medium))
-//                                .foregroundColor(.black)
-//
-//                            Text("Discounts")
-//                                .font(.system(size: 12, weight: .medium))
-//                                .foregroundColor(.black)
-//                        }.frame(width:70, height: 68)
-//
-//                        Spacer()
-//
-//                        //Reviews Created
-//                        VStack(alignment: .center, spacing: 4) {
-//                            let num = discountCodesViewModel.myDiscountCodes.prefix(9).count
-//                            Image(systemName: "0" + String(num) + ".circle.fill")
-//                                .font(.system(size: 60, weight: .medium))
-//                                .foregroundColor(Color("ReviewTeal"))
-//
-//                            Text("Reviews")
-//                                .font(.system(size: 14, weight: .regular))
-//                                .foregroundColor(.black)
-//                        }.frame(width:UIScreen.main.bounds.width / 6)
-//
-//                        Spacer()
-//
-//                        //Referrals Generated
-//                        VStack(alignment: .center, spacing: 4) {
-//                            let num = discountCodesViewModel.myDiscountCodes.prefix(9).count
-//                            Image(systemName: "0" + String(num) + ".circle.fill")
-//                                .font(.system(size: 60, weight: .medium))
-//                                .foregroundColor(Color("ReferPurple"))
-//
-//                            Text("Referrals")
-//                                .font(.system(size: 14, weight: .regular))
-//                                .foregroundColor(.black)
-//                        }.frame(width:UIScreen.main.bounds.width / 6)
-//
-//                        Spacer()
-//
-//                        //Status
-//                        VStack(alignment: .center, spacing: 4) {
-//                            ZStack(alignment: .center) {
-//                                Circle()
-//                                    .stroke(lineWidth: 4)
-//                                    .opacity(0.2)
-//                                    .foregroundColor(Color.purple)
-//
-//                                Circle()
-//                                    .trim(from: 0.0 + 0.6, to: 1.0)
-//                                    .stroke(style: StrokeStyle(lineWidth: 4.0, lineCap: .round, lineJoin: .round))
-//                                    .foregroundColor(Color.purple)
-//                            }.frame(width: 60, height: 60)
-//
-//                            Text("Referrals")
-//                                .font(.system(size: 14, weight: .regular))
-//                                .foregroundColor(.black)
-//                        }.frame(width:UIScreen.main.bounds.width / 6)
-//
-//
-//                    }.padding(.horizontal)
-//
+//                    CardForLoyaltyProgram(cardColor: Color("CardTeal"), textColor: Color.white, companyImage: "Athleisure LA", companyName: "Athleisure LA", currentDiscountAmount: "$20", currentDiscountCode: "COLIN123", userFirstName: "Colin", userLastName: "Power", userCurrentTier: "Gold", discountCardDescription: "Personal Card")
+//                        .frame(alignment: .center)
+//                        .padding(.bottom)
                     
                     //MARK: QUICK ACTIONS
                     HStack(alignment: .top, spacing: 8) {
+                        
                         VStack(alignment: .leading) {
                             
                             //MARK: CURRENT BALANCE -> HISTORY
-                            NavigationLink(destination: History(userID: userID, companyID: companyID, isHistoryActive: $isHistoryActive)) {
-                                
-                                HStack(alignment: .center, spacing: 0) {
-                                    VStack(alignment: .leading, spacing: 0) {
-                                        Text("Points Balance")
-                                            .font(.system(size: 15))
-                                            .fontWeight(.regular)
-                                            .foregroundColor(Color("Dark1"))
-                                            .padding(.top, 6)
-                                        Text("3000")
-                                            .font(.system(size: 32, weight: .bold, design: .rounded))
-                                            .foregroundColor(Color("Dark1"))
-                                            .padding(.vertical, 3)
-                                        Text("820 Pending")
-                                            .font(.system(size: 15))
-                                            .fontWeight(.regular)
-                                            .foregroundColor(Color("Gray1"))
-                                            .padding(.bottom, 6)
-                                    }.padding(.leading, 16)
-                                    Spacer()
-                                }.background(RoundedRectangle(cornerRadius: 8).foregroundColor(.white))
-                            }
-                            
+                            HStack(alignment: .center, spacing: 0) {
+                                VStack(alignment: .leading, spacing: 0) {
+                                    Text("Points Balance")
+                                        .font(.system(size: 15))
+                                        .fontWeight(.regular)
+                                        .foregroundColor(Color("Dark1"))
+                                        .padding(.top, 6)
+                                    Text("3000")
+                                        .font(.system(size: 32, weight: .bold, design: .rounded))
+                                        .foregroundColor(Color("Dark1"))
+                                        .padding(.vertical, 3)
+                                    Text("820 Pending")
+                                        .font(.system(size: 15))
+                                        .fontWeight(.regular)
+                                        .foregroundColor(Color("Gray1"))
+                                        .padding(.bottom, 6)
+                                }.padding(.leading, 16)
+                                Spacer()
+                            }.background(RoundedRectangle(cornerRadius: 8).foregroundColor(.white))
+                
                             //MARK: ACTIVE DISCOUNTS -> DISCOUNTS HALF SHEET
                             Button {
                                 showSheet = true
@@ -228,7 +125,7 @@ struct CompanyProfileV2: View {
                                             .fontWeight(.regular)
                                             .foregroundColor(Color("Dark1"))
                                             .padding(.top, 6)
-                                        Text(String(discountCodesViewModel.myDiscountCodes.count) + " available")
+                                        Text(String(discountCodesViewModel.myActiveDiscountCodes.count) + " available")
                                             .font(.system(size: 22))
                                             .fontWeight(.bold)
                                             .foregroundColor(Color("Dark1"))
@@ -237,6 +134,7 @@ struct CompanyProfileV2: View {
                                     Spacer()
                                 }.background(RoundedRectangle(cornerRadius: 8).foregroundColor(.white))
                             }
+                            
                         }
                         
                         //MARK: REDEEM -> REDEEM FULL SCREEN
@@ -250,7 +148,7 @@ struct CompanyProfileV2: View {
                                 HStack(alignment: .center, spacing: 0) {
                                     VStack(alignment: .leading, spacing: 0) {
                                         
-                                        let currentPointsBalanceVar = viewModel1.oneRewardsProgram.first?.currentPointsBalance ?? 0
+                                        let currentPointsBalanceVar = rewardsProgramViewModel.oneRewardsProgram.first?.status.currentPointsBalance ?? 0
                                         
                                         Text("Points Balance")
                                             .font(.system(size: 15))
@@ -288,68 +186,65 @@ struct CompanyProfileV2: View {
                             }.background(RoundedRectangle(cornerRadius: 8).foregroundColor(.white))
 
                         }
-//
-//                        .fullScreenCover(isPresented: $isCreateDiscountScreenActive, content: {
-//                            CreateDiscountScreen(isCreateDiscountScreenActive: $isCreateDiscountScreenActive, companyID: companyID, companyName: companyName, currentPointsBalance: viewModel1.oneRewardsProgram.first?.currentPointsBalance ?? 0).navigationTitle("").navigationBarHidden(true)
-//                        })
                             
                     }.padding(.horizontal)
                     .frame(width: UIScreen.main.bounds.width, height: 170)
                     
-                    
 
-                    
-//                    //MARK: Recommended Actions v2 (IF ANY)
-//                    //Handle empty state
-//                    if viewModel_Items.myReviewableItemsForCompany.isEmpty {
-//                        Text("No recommended actions")
-//                    }
-//                    //Show the recommended actions
-//                    else {
-//                        RecommendedActions(reviewableItems: viewModel_Items.myReviewableItemsForCompany)
-//                            .padding(.horizontal)
-//                            .frame(width: UIScreen.main.bounds.width, height: 180)
-//                    }
-                    
                     //MARK: Recent Orders
                     VStack(alignment: .leading, spacing: 0) {
                         
                         HStack {
-                            Text("Recent Orders")
+                            Text("History")
                                 .font(.system(size: 24))
                                 .fontWeight(.bold)
                                 .foregroundColor(Color("Dark1"))
                             Spacer()
                         }.padding(.horizontal)
                             .padding(.bottom, 4)
+                        
+                        
+                        //MARK: HISTORY SECTION
+                        //note: need to create the right queries so that I am not grabbing all the data.. just the relevant "USED" discount codes and referrals... i guess grab all the orders and reviews though
+                        
+                        VStack {
+                            
+                            let array1:[HistoryObject] = discountCodesViewModel.myActiveDiscountCodes.prefix(2).map { HistoryObject(timestamp: $0.status.timestampCreated, type: "DISCOUNT", discountObject: $0.self, referralObject: emptyReferralObject) }    //{["DISCOUNT", $0.discountID, String($0.timestamp_Created)]}
+                            
+                            let array2:[HistoryObject] = referralsViewModel.snapshotOfAllReferrals.prefix(2).map { HistoryObject(timestamp: $0.status.timestampCreated, type: "REFERRAL", discountObject: emptyDiscountObject, referralObject: $0.self) }    //{["DISCOUNT", $0.discountID, String($0.timestamp_Created)]}
+                            
+                            var testArray:[HistoryObject] = array1 + array2
+                            
+                            ForEach(testArray) { item in
+                                
+                                HStack {
+                                    Text(item.type)
+                                    Text(String(item.timestamp))
+                                }
 
-                        //For each recent order, show an item
-//                        VStack(alignment: .center, spacing: 0) {
-//                            ForEach(ordersViewModel.snapshotOfOrders.prefix(7)) { Order in
-//                                
-//                                NavigationLink(destination: Item(itemID: Order.itemIDs.first ?? "")) {
-//                                    RecentOrdersWidget(item: Order.item_firstItemTitle, timestamp: Order.timestamp, reviewID: Order.orderID, colorToShow: colorToShow[4])
-//                                    
-//                                }
-//                            }
-//                            Button {
-//                                isShowingAllOrdersForCompany = true
-//                            } label: {
-//                                Text("See All")
-//                                    .font(.system(size: 18))
-//                                    .fontWeight(.medium)
-//                                    .foregroundColor(Color("ThemePrimary"))
-//                                    .padding(.vertical, 11)
-//                                    .frame(width: UIScreen.main.bounds.width, height: 40, alignment: .center)
-//                            }.fullScreenCover(isPresented: $isShowingAllOrdersForCompany) {
-//                                AllOrdersForCompany(userID: userID, companyID: companyID, isShowingAllOrdersForCompany: $isShowingAllOrdersForCompany)
-//                            }
-//                        }
-//                        .background(RoundedRectangle(cornerRadius: 20).foregroundColor(.white))
-                         
+                            }
+                            
+                            Divider()
+                            
+                            
+    //                        testArray = array1 + array2
+                            
+                            let sortedArray:[HistoryObject] = testArray.sorted(by: { $0.timestamp < $1.timestamp })
+                            
+                            ForEach(sortedArray) { item in
+                                
+                                HStack {
+                                    Text(item.type)
+                                    Text(String(item.timestamp))
+                                }
+
+                            }
+                     
+                        }
                     }.padding(.horizontal)
                         .padding(.bottom)
                 }
+                
             }
             
             //MARK: TABS
@@ -367,7 +262,7 @@ struct CompanyProfileV2: View {
                         NavigationLink {
                             AboutCompany()
                         } label: {
-                            Image(systemName: "chart.line.uptrend.xyaxis")
+                            Image(systemName: "chart.bar")
                                 .font(.system(size: 18, weight: .medium))
                                 .foregroundColor(Color("Dark1"))
                         }
@@ -384,12 +279,12 @@ struct CompanyProfileV2: View {
             }
         .halfSheet(showSheet: $showSheet) {
             
+            //MARK: DISCOUNT CARDS IN HALF SHEET
             if self.activeLoyaltySheet == .viewAllDiscounts {
             
-                //my half sheet view
                 HStack {
                     
-                    if (discountCodesViewModel.myDiscountCodes.isEmpty) {
+                    if (discountCodesViewModel.myActiveDiscountCodes.isEmpty) {
                         // if no discount codes, show the empty state
                         TabView {
                             
@@ -397,24 +292,12 @@ struct CompanyProfileV2: View {
                             CardForLoyaltyProgram(cardColor: Color("Gold1"), textColor: Color.white, companyImage: "Athleisure LA", companyName: "Athleisure LA", currentDiscountAmount: "0", currentDiscountCode: "NONE AVAILABLE", userFirstName: "Colin", userLastName: "Power", userCurrentTier: "Gold", discountCardDescription: "Default Card")
                                 .frame(alignment: .center)
                             
-                            
-    //                                    ZStack {
-    //
-    //                                        RoundedRectangle(cornerRadius: 16).foregroundColor(.clear)
-    //                                            .frame(width: geometry.size.width, height: CGFloat(Int(geometry.size.width) / 8 * 5))
-    //
-    //                                        Image("AthleisureLA-No-Discount")
-    //                                            .resizable()
-    //                                            .aspectRatio(contentMode: .fit)
-    //                                            .layoutPriority(-2)
-    //
-    //                                    }.padding(.bottom)
                         }.tabViewStyle(.page(indexDisplayMode: .always))
                             .indexViewStyle(.page(backgroundDisplayMode: .interactive))
                         
                     } else {
                         TabView {
-                            ForEach(discountCodesViewModel.myDiscountCodes.prefix(5)) { discountcode in
+                            ForEach(discountCodesViewModel.myActiveDiscountCodes.prefix(5)) { discountcode in
                                 VStack {
 
                                     //MARK: BUTTONS
@@ -458,10 +341,13 @@ struct CompanyProfileV2: View {
                 }
                 .edgesIgnoringSafeArea([.all])
                 .background(RoundedRectangle(cornerRadius: 32).fill(Color.white))
-            } else if self.activeLoyaltySheet == .redeemPoints {
+            }
+            
+            //MARK: REDEEM IN HALF SHEET
+            else if self.activeLoyaltySheet == .redeemPoints {
                 HStack(alignment: .bottom) {
                     Spacer()
-                    CreateDiscountScreen(showSheet: $showSheet, email: email, userID: userID, companyID: companyID, companyName: companyName, currentPointsBalance: viewModel1.oneRewardsProgram.first?.currentPointsBalance ?? 0)
+                    CreateDiscountScreen(showSheet: $showSheet, rewardsProgram: rewardsProgramViewModel.oneRewardsProgram.first ?? rewardsProgram)
                     Spacer()
                 }
                 .edgesIgnoringSafeArea([.all])
@@ -472,40 +358,35 @@ struct CompanyProfileV2: View {
         } onEnd : {
             activeLoyaltySheet = nil
             showSheet = false
-            print("Dismissed")
+            print("Dismissed the half sheet")
         }
-    
         .onAppear {
-            self.viewModel1.listenForOneRewardsProgram(email: "colinjpower1@gmail.com", companyID: companyID)
-            self.discountCodesViewModel.listenForMyDiscountCodes(email: "colinjpower1@gmail.com", companyID: companyID)
-            self.viewModel3.listenForMyTransactions(email: "colinjpower1@gmail.com", companyID: companyID)
-            //self.viewModel_Items.listenForMyReviewableItemsForCompany(email: email, companyID: companyID)
             
-            //self.ordersViewModel.listenForMyOrders(email: "colinjpower1@gmail.com", companyID: companyID)
+            //listeners
+            self.discountCodesViewModel.listenForMyActiveDiscountCodes(userID: rewardsProgram.ids.userID, companyID: rewardsProgram.ids.companyID)
+            self.rewardsProgramViewModel.listenForOneRewardsProgram(userID: rewardsProgram.ids.userID, companyID: rewardsProgram.ids.companyID)
             
-            self.ordersViewModel.snapshotOfOrders(userID: userID, companyID: companyID)
+            //snapshots
+            self.ordersViewModel.snapshotOfOrders(userID: rewardsProgram.ids.userID, companyID: rewardsProgram.ids.companyID)
+            self.referralsViewModel.getSnapshotOfAllReferrals(userID: rewardsProgram.ids.userID)
+            
+            //set rewardsProgram based on the listener
+            self.rewardsProgram = rewardsProgramViewModel.oneRewardsProgram.first ?? self.rewardsProgram
+            
         }
         .onDisappear {
-            if self.viewModel1.listener2 != nil {
-                print("REMOVING LISTENER 2")
-                self.viewModel1.listener2.remove()
+            
+            //remove listeners
+            if self.discountCodesViewModel.listener_MyActiveDiscountCodes != nil {
+                print("Removing listener_MyActiveDiscountCodes")
+                self.discountCodesViewModel.listener_MyActiveDiscountCodes.remove()
             }
-            if self.discountCodesViewModel.listener_DiscountCodes != nil {
-                print("REMOVING LISTENER_DISCOUNTCODES")
-                self.discountCodesViewModel.listener_DiscountCodes.remove()
+            
+            if self.rewardsProgramViewModel.listener_OneRewardsProgram != nil {
+                print("Removing listener_OneRewardsProgram")
+                self.rewardsProgramViewModel.listener_OneRewardsProgram.remove()
             }
-            if self.viewModel3.listener_Transactions != nil {
-                print("REMOVING LISTENER_TRANSACTIONS")
-                self.viewModel3.listener_Transactions.remove()
-            }
-            if self.ordersViewModel.listener_MyOrders != nil {
-                print("REMOVING LISTENER_ORDERS")
-                self.ordersViewModel.listener_MyOrders.remove()
-            }
-//            if self.viewModel_Items.listener_MyReviewableItemsForCompany != nil {
-//                print("REMOVING LISTENER_ITEMS")
-//                self.viewModel_Items.listener_MyReviewableItemsForCompany.remove()
-//            }
+            
         }
     }
 }
@@ -579,9 +460,6 @@ struct TemporaryCardViewFromBottom: View {
     
     
 }
-
-
-
 
 struct DiscountCodeSolo: View {
     
@@ -687,6 +565,8 @@ struct DiscountCodeSolo1: View {
 }
 
 
+
+//MARK: HALF SHEET
 //for creating the half sheet https://www.youtube.com/watch?v=rQKT7tn4uag
 extension View {
     
@@ -768,8 +648,6 @@ struct HalfSheetHelper<SheetView: View>: UIViewControllerRepresentable {
     
 }
 
-
-
 // Custom UIHostingController for halfSheet...
 class CustomHostingController<Content: View>: UIHostingController<Content> {
     
@@ -790,26 +668,4 @@ class CustomHostingController<Content: View>: UIHostingController<Content> {
         }
     }
 }
-
-
-//// Custom UIHostingController for halfSheet...
-//class CustomHostingController2<Content: View>: UIHostingController<Content> {
-//    
-//    override func viewDidLoad() {
-//        
-//        view.backgroundColor = .clear
-//        
-//        //setting presentation controller properties...
-//        if let presentationController2 = presentationController as? UISheetPresentationController{
-//            
-//            presentationController2.detents = [
-//                .large()
-//            ]
-//            
-//            //to show grabber
-//            presentationController2.prefersGrabberVisible = false
-//        }
-//    }
-//}
-
 

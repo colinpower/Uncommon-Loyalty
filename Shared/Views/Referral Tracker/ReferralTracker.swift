@@ -38,13 +38,13 @@ struct ReferralTracker: View {
                                 
                                 Button {
                                     
-                                    filterReferralsBy = filterReferralsBy == "SENT" ? "" : "SENT"
+                                    filterReferralsBy = filterReferralsBy == "CREATED" ? "" : "CREATED"
 
                                     
                                 } label: {
-                                    if filterReferralsBy == "SENT" {
+                                    if filterReferralsBy == "CREATED" {
                                         
-                                        let numberSent = referralsViewModel.snapshotOfAllReferrals.filter { $0.status.status == "SENT" }.count
+                                        let numberSent = referralsViewModel.snapshotOfAllReferrals.filter { $0.status.status == "CREATED" }.count
                                         let numberExpired = referralsViewModel.snapshotOfAllReferrals.filter { $0.status.status == "EXPIRED" }.count
                                         
                                         ReferralTrackerWidget(title: "Sent", amount: String(numberSent), subtitle: String(numberExpired) + " Expired", isSelected: true)
@@ -52,7 +52,7 @@ struct ReferralTracker: View {
                                             .background(RoundedRectangle(cornerRadius: 11).shadow(radius: CGFloat(11)))
                                     } else {
                                         
-                                        let numberSent = referralsViewModel.snapshotOfAllReferrals.filter { $0.status.status == "SENT" }.count
+                                        let numberSent = referralsViewModel.snapshotOfAllReferrals.filter { $0.status.status == "CREATED" }.count
                                         let numberExpired = referralsViewModel.snapshotOfAllReferrals.filter { $0.status.status == "EXPIRED" }.count
                                         
                                         ReferralTrackerWidget(title: "Sent", amount: String(numberSent), subtitle: String(numberExpired) + " Expired", isSelected: false)
@@ -125,7 +125,7 @@ struct ReferralTracker: View {
                                 .padding(.vertical)
                             
                             VStack(alignment: .leading, spacing:0) {
-                                if filterReferralsBy == "SENT" {
+                                if filterReferralsBy == "CREATED" {
                                     Text("You sent these referrals")
                                 } else if filterReferralsBy == "USED" {
                                     Text("These referrals have been used")
@@ -170,23 +170,30 @@ struct ReferralTracker: View {
                             
                             ForEach(referralsViewModel.snapshotOfAllReferrals.filter { ($0.status.status == filterReferralsBy) || ($0.status.status == "EXPIRED") }) { referral in
                                 
-                                ReferralTrackingCard(recipient: referral.recipient.firstName, discountAmount: "$" + String(referral.offer.rewardAmount), discountCode: referral.card.discountCode, discountExpiration: String(referral.offer.expirationTimestamp), rewardPointsForReferrer: String(referral.reward.rewardAmount), stateOfReferral: referral.status.status)
-                                    .clipShape(RoundedRectangle(cornerRadius: 11))
-                                    .background(RoundedRectangle(cornerRadius: 11).foregroundColor(.white).shadow(radius: 5, y: 4))
-                                    .padding(.horizontal)
-                                    .padding(.vertical, 8)
+                                NavigationLink {
+                                    ReferralDetailView(referral: referral)
+                                } label: {
+                                    ReferralTrackingCard(recipient: referral.recipient.firstName, discountAmount: "$" + String(referral.offer.rewardAmount), discountCode: referral.card.discountCode, discountExpiration: String(referral.offer.expirationTimestamp), rewardPointsForReferrer: String(referral.reward.rewardAmount), stateOfReferral: referral.status.status)
+                                        .clipShape(RoundedRectangle(cornerRadius: 11))
+                                        .background(RoundedRectangle(cornerRadius: 11).foregroundColor(.white).shadow(radius: 5, y: 4))
+                                        .padding(.horizontal)
+                                        .padding(.vertical, 8)
+                                }
                             }
                             
                         } else {
                             
                             ForEach(referralsViewModel.snapshotOfAllReferrals.filter { $0.status.status == filterReferralsBy }) { referral in
                                 
-                                ReferralTrackingCard(recipient: referral.recipient.firstName, discountAmount: "$" + String(referral.offer.rewardAmount), discountCode: referral.card.discountCode, discountExpiration: String(referral.offer.expirationTimestamp), rewardPointsForReferrer: String(referral.reward.rewardAmount), stateOfReferral: referral.status.status)
-                                    .clipShape(RoundedRectangle(cornerRadius: 11))
-                                    .background(RoundedRectangle(cornerRadius: 11).foregroundColor(.white).shadow(radius: 5, y: 4))
-                                    .padding(.horizontal)
-                                    .padding(.vertical, 8)
-                                
+                                NavigationLink {
+                                    ReferralDetailView(referral: referral)
+                                } label: {
+                                    ReferralTrackingCard(recipient: referral.recipient.firstName, discountAmount: "$" + String(referral.offer.rewardAmount), discountCode: referral.card.discountCode, discountExpiration: String(referral.offer.expirationTimestamp), rewardPointsForReferrer: String(referral.reward.rewardAmount), stateOfReferral: referral.status.status)
+                                        .clipShape(RoundedRectangle(cornerRadius: 11))
+                                        .background(RoundedRectangle(cornerRadius: 11).foregroundColor(.white).shadow(radius: 5, y: 4))
+                                        .padding(.horizontal)
+                                        .padding(.vertical, 8)
+                                }
                             }
                             
                         }
@@ -229,7 +236,7 @@ struct ReferralTrackingCard: View {
         
         switch stateOfReferral {
             
-        case "SENT":
+        case "CREATED":
             return [
                 discountAmount + " sent to " + recipient,
                 "Expires in " + discountExpiration + " days"
@@ -361,7 +368,7 @@ struct ReferralTrackingCardProgressBar: View {
             
             GeometryReader { geometry in
                 
-                if status == "SENT" {
+                if status == "CREATED" {
                     
                     VStack(alignment: .center, spacing: 0) {
                         //progress bar

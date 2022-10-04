@@ -146,7 +146,7 @@ struct ReviewProductCarousel1: View {
         }.background(Color("Background"))
         .ignoresSafeArea()
         .onAppear {
-            self.rewardsProgramViewModel.listenForOneRewardsProgram(email: "colinjpower1@gmail.com", companyID: "zKL7SQ0jRP8351a0NnHM")
+            self.rewardsProgramViewModel.listenForOneRewardsProgram(userID: item.ids.userID, companyID: item.ids.companyID)
         }
         .onDisappear {
             

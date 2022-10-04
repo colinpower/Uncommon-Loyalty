@@ -12,49 +12,110 @@ import FirebaseFirestoreSwift
 struct Orders: Identifiable, Codable {
     //means that whenever we map from a doc into a Order struct, it'll read the document and map it into this thing
     @DocumentID var id: String? = UUID().uuidString
-    var companyID: String
-    var discountAmount: String
-    var discountCode: String
-    var discountCodeID: String
-    var domain: String
-    var email: String
-    var historyID: String
-    var itemIDs: [String]
-    var item_firstItemTitle: String
-    var numberOfReviews: Int
-    var orderID: String
-    var orderStatusURL: String
-    var pointsEarned: Int
-    var referralCode: String
-    var referralID: String
-    var shopifyOrderID: Int
-    var status: String
-    var timestamp: Int
-    var totalPrice: Int
-    var userID: String
-    //need to add RewardsProgramReference?? so I can query this specific loyalty program?
+    
+    var ids: OrderIDsStruct
+    var order: OrderOrderStruct
+    var discountCode: OrderDiscountCodeStruct
 
     //use CodingKeys to convert from names in Firebase to SwiftUI names
     enum CodingKeys: String, CodingKey {
-        case companyID
-        case discountAmount
+        case ids
+        case order
         case discountCode
+    }
+}
+
+
+struct OrderIDsStruct: Codable {
+    
+    var companyID: String
+    var discountCodeID: String
+    var itemIDs: [String]
+    var orderID: String
+    var quantityPerItemID: [String]
+    var referralID: String
+    var shopifyOrderID: Int
+    var userID: String
+    
+    //use CodingKeys to convert from names in Firebase to SwiftUI names
+    enum CodingKeys: String, CodingKey {
+        case companyID
         case discountCodeID
-        case domain
-        case email
-        case historyID
         case itemIDs
-        case item_firstItemTitle
-        case numberOfReviews
+        case quantityPerItemID
         case orderID
-        case orderStatusURL
-        case pointsEarned
-        case referralCode
         case referralID
         case shopifyOrderID
-        case status
-        case timestamp
-        case totalPrice
         case userID
     }
 }
+
+struct OrderOrderStruct: Codable {
+    
+    var companyName: String
+    var domain: String
+    var email: String
+    var firstItemTitle: String
+    var orderNumber: Int
+    var orderStatusURL: String
+    var phone: String
+    var price: String
+    var status: String
+    var timestampCreated: Int
+    var timestampUpdated: Int
+    
+    
+    //use CodingKeys to convert from names in Firebase to SwiftUI names
+    enum CodingKeys: String, CodingKey {
+        
+        case companyName
+        case domain
+        case email
+        case firstItemTitle
+        case orderNumber
+        case orderStatusURL
+        case phone
+        case price
+        case status
+        case timestampCreated
+        case timestampUpdated
+    }
+}
+
+
+struct OrderDiscountCodeStruct: Codable {
+    
+    var type: String
+    var amount: String
+    var code: String
+    
+    enum CodingKeys: String, CodingKey {
+        
+        case type
+        case amount
+        case code
+        
+    }
+    
+}
+
+struct OrderItemIDsStruct: Codable {
+    
+    var itemID: String
+    var quantity: Int
+    
+    enum CodingKeys: String, CodingKey {
+        
+        case itemID
+        case quantity
+        
+    }
+    
+}
+
+
+
+
+
+
+

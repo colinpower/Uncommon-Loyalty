@@ -9,6 +9,7 @@ import SwiftUI
 
 struct ActiveLoyaltyProgramWidget: View {
 
+    var rewardsProgram: RewardsProgram
     var image: String
     var company: String
     var status: String

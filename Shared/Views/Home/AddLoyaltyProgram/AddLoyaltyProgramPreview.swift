@@ -27,7 +27,7 @@ struct AddLoyaltyProgramPreview: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
             
-            let array = rewardsProgramViewModel.myRewardsPrograms.map {$0.companyID}
+            let array = rewardsProgramViewModel.myRewardsPrograms.map {$0.ids.companyID}
             
             
             //MARK: HEADER OF PAGE

@@ -20,8 +20,8 @@ class DataManager: ObservableObject {
     func getMyRewardsPrograms(userID: String, onSuccess: @escaping([RewardsProgram]) -> Void, listener: @escaping(_ listenerHandle: ListenerRegistration) -> Void) {
         print("this function was called")
         let listenerRegistration1 = db.collection("loyaltyprograms")
-            .whereField("userID", isEqualTo: userID)
-            .order(by: "companyName", descending: false)
+            .whereField("ids.userID", isEqualTo: userID)
+            .order(by: "card.companyName", descending: false)
             .addSnapshotListener { (querySnapshot, error) in
             guard let documents = querySnapshot?.documents else {
                 print("No documents")
@@ -41,12 +41,15 @@ class DataManager: ObservableObject {
         listener(listenerRegistration1) //escaping listener
     }
     
-    func getOneRewardsProgram(email: String, companyID: String, onSuccess: @escaping([RewardsProgram]) -> Void, listener: @escaping(_ listenerHandle: ListenerRegistration) -> Void) {
+    func getOneRewardsProgram(userID: String, companyID: String, onSuccess: @escaping([RewardsProgram]) -> Void, listener: @escaping(_ listenerHandle: ListenerRegistration) -> Void) {
+        
         print("this ONE function was called")
-        let listenerRegistration2 = db.collection("loyaltyprograms")
-            .whereField("email", isEqualTo: email)
-            .whereField("companyID", isEqualTo: companyID)
+        
+        let listenerRegistration = db.collection("loyaltyprograms")
+            .whereField("ids.userID", isEqualTo: userID)
+            .whereField("ids.companyID", isEqualTo: companyID)
             .addSnapshotListener { (querySnapshot, error) in
+                
             guard let documents = querySnapshot?.documents else {
                 print("No documents")
                 return
@@ -60,16 +63,16 @@ class DataManager: ObservableObject {
             }
             onSuccess(oneRewardsProgramsArray)
         }
-        listener(listenerRegistration2) //escaping listener
+        listener(listenerRegistration) //escaping listener
     }
     
     
-    func getMyDiscountCodes(email: String, companyID: String, onSuccess: @escaping([DiscountCodes]) -> Void, listener: @escaping(_ listenerHandle: ListenerRegistration) -> Void) {
+    func getMyActiveDiscountCodes(userID: String, companyID: String, onSuccess: @escaping([DiscountCodes]) -> Void, listener: @escaping(_ listenerHandle: ListenerRegistration) -> Void) {
         //print("this ONE function was called")
         let listenerRegistration3 = db.collection("discount")
-            .whereField("email", isEqualTo: email)
-            .whereField("companyID", isEqualTo: companyID)
-            .whereField("status", isEqualTo: "ACTIVE")
+            .whereField("ids.userID", isEqualTo: userID)
+            .whereField("ids.companyID", isEqualTo: companyID)
+            .whereField("status.status", isEqualTo: "ACTIVE")
             .addSnapshotListener { (querySnapshot, error) in
             guard let documents = querySnapshot?.documents else {
                 print("No documents")
@@ -86,6 +89,36 @@ class DataManager: ObservableObject {
         }
         listener(listenerRegistration3) //escaping listener
     }
+    
+    func getOneDiscountCode(userID: String, companyID: String, discountID: String, onSuccess: @escaping([DiscountCodes]) -> Void, listener: @escaping(_ listenerHandle: ListenerRegistration) -> Void) {
+        
+        //print("this ONE function was called")
+        let listenerRegistration = db.collection("discount")
+            .whereField("ids.userID", isEqualTo: userID)
+            .whereField("ids.companyID", isEqualTo: companyID)
+            .whereField("ids.discountID", isEqualTo: discountID)
+            .addSnapshotListener { (querySnapshot, error) in
+                
+            guard let documents = querySnapshot?.documents else {
+                print("No documents")
+                return
+            }
+            var oneDiscountCodeArray = [DiscountCodes]()
+
+                oneDiscountCodeArray = documents.compactMap { (queryDocumentSnapshot) -> DiscountCodes? in
+//                print(try? queryDocumentSnapshot.data(as: DiscountCodes.self))
+                return try? queryDocumentSnapshot.data(as: DiscountCodes.self)
+                //return try? queryDocumentSnapshot.data(as: Ticket.self)
+            }
+            onSuccess(oneDiscountCodeArray)
+        }
+        listener(listenerRegistration) //escaping listener
+    }
+    
+    
+    
+    
+    
     
     
     func getMyTransactions(email: String, companyID: String, onSuccess: @escaping([Transactions]) -> Void, listener: @escaping(_ listenerHandle: ListenerRegistration) -> Void) {
@@ -159,7 +192,33 @@ class DataManager: ObservableObject {
         listener(listenerRegistration10) //escaping listener
     }
     
+    func getOneReferralInProgress(userID: String, companyID: String, referralID: String, onSuccess: @escaping([Referrals]) -> Void, listener: @escaping(_ listenerHandle: ListenerRegistration) -> Void) {
+        
+        print("there's a new listener created / updated for the ONE REFERRAL")
+        
+        
+        let listenerRegistration = db.collection("referral")
+            .whereField("ids.userID", isEqualTo: userID)
+            .whereField("ids.companyID", isEqualTo: companyID)
+            .whereField("ids.referralID", isEqualTo: referralID)
+            .addSnapshotListener { (querySnapshot, error) in
+                
+            guard let documents = querySnapshot?.documents else {
+                print("No documents for referral in progress")
+                return
+            }
+            var oneReferralArray = [Referrals]()
 
+                oneReferralArray = documents.compactMap { (queryDocumentSnapshot) -> Referrals? in
+//                print(try? queryDocumentSnapshot.data(as: DiscountCodes.self))
+                return try? queryDocumentSnapshot.data(as: Referrals.self)
+                //return try? queryDocumentSnapshot.data(as: Ticket.self)
+            }
+            onSuccess(oneReferralArray)
+        }
+        listener(listenerRegistration) //escaping listener
+    }
+    
     
     func getMyReferableItemsForCompany(userID: String, companyID: String, onSuccess: @escaping([Items]) -> Void, listener: @escaping(_ listenerHandle: ListenerRegistration) -> Void) {
         //print("this ONE function was called")

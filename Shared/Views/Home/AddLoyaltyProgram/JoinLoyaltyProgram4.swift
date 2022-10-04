@@ -48,7 +48,7 @@ struct JoinLoyaltyProgram4: View {
             
             Button {
                 
-                rewardsProgramViewModel.addLoyaltyProgram(companyID: company.companyID, companyName: company.companyName, currentPointsBalance: 0, email: email, lifetimePoints: 0, referralCode: "YOURCODE", status: "Member", userID: userID)
+//                rewardsProgramViewModel.addLoyaltyProgram(companyID: company.companyID, companyName: company.companyName, currentPointsBalance: 0, email: email, lifetimePoints: 0, referralCode: "YOURCODE", status: "Member", userID: userID)
                 
                 
                 isAddLoyaltyProgramCarouselActive = false

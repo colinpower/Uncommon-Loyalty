@@ -71,7 +71,7 @@ struct ReferralYouveReceived: View {
                     .padding(.bottom, 8)
                     
                 NavigationLink {
-                    Text(discountCode.graphqlID)
+                    Text(discountCode.ids.graphQLID)
                 } label: {
                     CardForLoyaltyProgram(cardColor: Color.blue, textColor: Color.white, companyImage: "Athleisure LA", companyName: "Athleisure LA", currentDiscountAmount: "$20", currentDiscountCode: "COLIN123", userFirstName: "Colin", userLastName: "Power", userCurrentTier: "Silver", discountCardDescription: "Personal Card")
                 }

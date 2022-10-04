@@ -17,10 +17,7 @@ struct Home: View {
     
     @EnvironmentObject var viewModel: AppViewModel
     
-    
-
     //@State var shouldShowFirstRunExperience: Bool = true
-    
     
     //Read data from Firebase
     @StateObject var rewardsProgramViewModel = RewardsProgramViewModel()
@@ -104,12 +101,12 @@ struct Home: View {
                 //ForEach...
                 ForEach(rewardsProgramViewModel.snapshotOfMyRewardsPrograms) { rewardsProgramVar in
                     
-                    NavigationLink(destination: CompanyProfileV2(companyID: rewardsProgramVar.companyID, companyName: rewardsProgramVar.companyName, email: rewardsProgramVar.email, userID: rewardsProgramVar.userID, selectedTab: $selectedTab)) {
+                    NavigationLink(destination: CompanyProfileV2(selectedTab: $selectedTab, rewardsProgram: rewardsProgramVar)) {
                         
-                        if rewardsProgramVar.companyID == rewardsProgramViewModel.snapshotOfMyRewardsPrograms.last?.companyID {
-                            ActiveLoyaltyProgramWidget(image: rewardsProgramVar.companyName, company: rewardsProgramVar.companyName, status: rewardsProgramVar.status, currentPointsBalance: rewardsProgramVar.currentPointsBalance, isLastItemInList: true)
+                        if rewardsProgramVar.ids.companyID == rewardsProgramViewModel.snapshotOfMyRewardsPrograms.last?.ids.companyID {
+                            ActiveLoyaltyProgramWidget(rewardsProgram: rewardsProgramVar, image: rewardsProgramVar.card.companyName, company: rewardsProgramVar.card.companyName, status: rewardsProgramVar.status.status, currentPointsBalance: rewardsProgramVar.status.currentPointsBalance, isLastItemInList: true)
                         } else {
-                            ActiveLoyaltyProgramWidget(image: rewardsProgramVar.companyName, company: rewardsProgramVar.companyName, status: rewardsProgramVar.status, currentPointsBalance: rewardsProgramVar.currentPointsBalance, isLastItemInList: false)
+                            ActiveLoyaltyProgramWidget(rewardsProgram: rewardsProgramVar, image: rewardsProgramVar.card.companyName, company: rewardsProgramVar.card.companyName, status: rewardsProgramVar.status.status, currentPointsBalance: rewardsProgramVar.status.currentPointsBalance, isLastItemInList: false)
                         }
                         
                     }
@@ -142,27 +139,27 @@ struct Home: View {
                     .padding(.bottom)
                     .padding(.bottom)
     
-                let array = rewardsProgramViewModel.snapshotOfMyRewardsPrograms.map { $0.companyID }
+                let array = rewardsProgramViewModel.snapshotOfMyRewardsPrograms.map { $0.ids.companyID }
     
-                ForEach(companiesViewModel.snapshotOfAllCompanies) { company in
-    
-                    if array.contains(company.companyID) {
-    
-                        NavigationLink(destination: CompanyProfileV2(companyID: company.companyID, companyName: company.companyName, email: Auth.auth().currentUser?.email ?? "", userID: Auth.auth().currentUser?.uid ?? "", selectedTab: $selectedTab)) {
-                        
-                            AllLoyaltyProgramsWidget(image: company.image, company: company.companyName, shortDescription: company.categoryShortDescription, joiningBonus: company.joiningBonus, joiningBonusType: company.joiningBonusType, isLastItemInList: false, isAlreadyJoined: true, numOfRecentOrders: 4)
-                        }
-                        
-                    } else {
-                        
-                        //MARK: MUST UPDATE FOR IS LAST ITEM IN LIST!!!
-                        NavigationLink {
-                            AddLoyaltyProgramPreview(company: company, userID: Auth.auth().currentUser?.uid ?? "", email: Auth.auth().currentUser?.email ?? "")
-                        } label: {
-                            AllLoyaltyProgramsWidget(image: company.image, company: company.companyName, shortDescription: company.categoryShortDescription, joiningBonus: company.joiningBonus, joiningBonusType: company.joiningBonusType, isLastItemInList: false, isAlreadyJoined: false, numOfRecentOrders: 4)
-                        }
-                    }
-                }
+//                ForEach(companiesViewModel.snapshotOfAllCompanies) { company in
+//
+//                    if array.contains(company.companyID) {
+//
+//                        NavigationLink(destination: CompanyProfileV2(companyID: company.companyID, companyName: company.companyName, email: Auth.auth().currentUser?.email ?? "", userID: Auth.auth().currentUser?.uid ?? "", selectedTab: $selectedTab)) {
+//
+//                            AllLoyaltyProgramsWidget(image: company.image, company: company.companyName, shortDescription: company.categoryShortDescription, joiningBonus: company.joiningBonus, joiningBonusType: company.joiningBonusType, isLastItemInList: false, isAlreadyJoined: true, numOfRecentOrders: 4)
+//                        }
+//
+//                    } else {
+//
+//                        //MARK: MUST UPDATE FOR IS LAST ITEM IN LIST!!!
+//                        NavigationLink {
+//                            AddLoyaltyProgramPreview(company: company, userID: Auth.auth().currentUser?.uid ?? "", email: Auth.auth().currentUser?.email ?? "")
+//                        } label: {
+//                            AllLoyaltyProgramsWidget(image: company.image, company: company.companyName, shortDescription: company.categoryShortDescription, joiningBonus: company.joiningBonus, joiningBonusType: company.joiningBonusType, isLastItemInList: false, isAlreadyJoined: false, numOfRecentOrders: 4)
+//                        }
+//                    }
+//                }
     
     
             }

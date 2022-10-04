@@ -21,7 +21,7 @@ struct ReferProduct1: View {
             VStack(alignment: .center, spacing: 0) {
                 
                 //MARK: CONTENT AT TOP (SCREENWIDTH / 1.6 is height)
-                DiscountCardForReferral(designSelection: [Color.white, Color.white, "engraved", "White"], companyImage: "Athleisure LA", companyName: "Athleisure LA", discountAmount: "$20", discountCode: "CUSTOM-CODE", recipientFirstName: "First", recipientLastName: "Last")
+                DiscountCardForReferral(designSelection: [Color.white, Color.white, "engraved", "White"], companyImage: "Athleisure LA", companyName: "Athleisure LA", discountAmount: "$20", discountCode: "CUSTOMIZE-ME", recipientFirstName: "Your Friend's", recipientLastName: "Name")
                     .frame(alignment: .center)
                     .padding(.vertical)
                     .padding(.top)

@@ -114,7 +114,7 @@ struct Purchases: View {
                         VStack(alignment: .leading) {
                             
                             //header
-                            Text("Favorites you believe in")
+                            Text("Favorites you haven't referred")
                                 .font(.system(size: 25, weight: .semibold))
                                 .foregroundColor(.black)
                                 .padding(.leading)
@@ -183,7 +183,7 @@ struct Purchases: View {
                             
                             //header
                             HStack(alignment: .center, spacing: 0) {
-                                Text("All your items")
+                                Text("All of your purchases")
                                     .font(.system(size: 25, weight: .semibold))
                                     .foregroundColor(.black)
                                     .padding(.leading)
@@ -664,11 +664,11 @@ struct TopReferralsWidget: View {
                         .font(.system(size: 14, weight: .semibold))
                         .foregroundColor(Color("Dark1"))
                         .padding(.bottom, 8)
-                    Text(item.ids.companyID)
+                    Text(item.order.companyName)
                         .font(.system(size: 12, weight: .regular))
                         .foregroundColor(Color("Gray1"))
                         .padding(.bottom, 20)
-                    Text(String(item.referrals.count) + " Referrals")
+                    Text(item.referrals.count == 1 ? String(item.referrals.count) + " Referral" : String(item.referrals.count) + " Referrals")
                         .font(.system(size: 12, weight: .regular))
                         .foregroundColor(Color("ReferPurple"))
                         .padding(.bottom, 20)
@@ -723,13 +723,9 @@ struct FiveStarReviewsWidget: View {
                             .foregroundColor(Color.yellow)
                             .frame(height: 12)
                             .padding(.bottom, 20)
-                        Text(String(item.referrals.count) + " Referrals")
-                            .font(.system(size: 12, weight: .regular))
-                            .foregroundColor(Color("ReferPurple"))
-                            .padding(.bottom, 20)
                     }
                     Spacer()
-                }.frame(height: UIScreen.main.bounds.width / 6 + 166)
+                }.frame(height: UIScreen.main.bounds.width / 6 + 134)
                 
                 //the overlaid callout showing bonus points
                 VStack(alignment: .center, spacing: 0) {
@@ -745,9 +741,9 @@ struct FiveStarReviewsWidget: View {
                         Spacer()
                     }
                     Spacer()
-                }.frame(height: UIScreen.main.bounds.width / 6 + 166)
+                }.frame(height: UIScreen.main.bounds.width / 6 + 134)
             }
-            .frame(height: UIScreen.main.bounds.width / 6 + 166)
+            .frame(height: UIScreen.main.bounds.width / 6 + 134)
         }
     }
     
@@ -813,9 +809,9 @@ struct LazyVGridWidget: View {
                     }.font(.system(size: 12, weight: .regular))
                         .frame(height: 12)
                         .padding(.bottom, 20)
-                    Text(String(item.referrals.count) + " Referrals")
+                    Text(item.referrals.count == 1 ? String(item.referrals.count) + " Referral" : String(item.referrals.count) + " Referrals")
                         .font(.system(size: 12, weight: .regular))
-                        .foregroundColor(Color("ReferPurple"))
+                        .foregroundColor(Color(item.referrals.count == 0 ? "Gray2" : "ReferPurple"))
                         .padding(.bottom, 20)
                 }
                 Spacer()

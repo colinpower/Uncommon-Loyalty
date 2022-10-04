@@ -61,7 +61,7 @@ struct Profile: View {
                                 .font(.system(size: 24))
                                 .fontWeight(.semibold)
                                 .foregroundColor(Color("Dark1"))
-                            Text(verbatim: "colinjpower1@gmail.com")
+                            Text(viewModel.email ?? "Email not loaded yet")
                                 .font(.system(size: 18))
                                 .fontWeight(.regular)
                                 .foregroundColor(Color("Gray1"))
@@ -78,35 +78,6 @@ struct Profile: View {
                                 
     //                                        ShareSheet(items: ["Hey, download the Uncommon app to manage your rewards points! Check out this link"])
                             })
-                        
-                        
-
-
-                        //MARK: CURRENT REVIEWS & REFERRALS
-                        HStack(alignment: .center, spacing: 20) {
-                            
-                            NavigationLink {
-                                //destination
-                            } label: {
-                                //label
-                                ProfileReviewStatsWidget(title: "Your Reviews", amount: "10")
-                                    .frame(width: UIScreen.main.bounds.width * 3 / 7, height: 116)
-                                    .background(RoundedRectangle(cornerRadius: 11).foregroundColor(.white).shadow(radius: CGFloat(11)))
-                            }
-
-                            
-                            NavigationLink {
-//                                ReferralTracker()
-                            } label: {
-                                //label
-                                ProfileReferralStatsWidget(title: "Your Referrals", amount: "3", subtitle: "4 In Progress")
-                                    .frame(width: UIScreen.main.bounds.width * 3 / 7, height: 116)
-                                    .background(RoundedRectangle(cornerRadius: 11).foregroundColor(.white).shadow(radius: CGFloat(11)))
-                            }
-                            
-                        }.padding()
-                        .frame(width: UIScreen.main.bounds.width, height: 150, alignment: .center)
-
 
 
                         //MARK: Settings
@@ -115,17 +86,10 @@ struct Profile: View {
 
                             //Item 1: Orders
                             NavigationLink {
-                                AllOrders(selectedTab: $selectedTab)
+                                //AllOrders(selectedTab: $selectedTab)
                             } label: {
                                 WideWidgetItem(image: "bag.fill", size: 20, color: Color("Dark1"), title: "My Orders")
                                     .padding(.bottom).padding(.bottom)
-                            }
-                            
-                            //Item 2: Discounts
-                            NavigationLink {
-                                Wallet(selectedTab: $selectedTab)
-                            } label: {
-                                WideWidgetItem(image: "giftcard.fill", size: 20, color: Color("Dark1"), title: "My discounts").padding(.bottom).padding(.bottom)
                             }
                             
                             //Item 3: Feedback
@@ -158,22 +122,13 @@ struct Profile: View {
                             }
                             Spacer()
                         }.background(.white).padding(.bottom, 48)
-
-                        
-
                     }
                 }
-                    
                 MyTabView(selectedTab: $selectedTab)
             }
             .background(Color("Background"))
             .edgesIgnoringSafeArea([.bottom, .horizontal])
             .navigationTitle("Profile").font(.title)
-            .onAppear {
-                
-                self.discountCodesViewModel.listenForMyDiscountCodes(email: "colinjpower1@gmail.com", companyID: "zKL7SQ0jRP8351a0NnHM")
-                // stuff goes here
-            }
         }
     }
     

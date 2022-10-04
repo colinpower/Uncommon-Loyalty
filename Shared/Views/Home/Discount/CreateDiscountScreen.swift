@@ -13,22 +13,15 @@ import SwiftUI
 
 struct CreateDiscountScreen: View {
     
+    @Binding var showSheet:Bool
     
-    
+    var rewardsProgram: RewardsProgram
     
     @StateObject var rewardsProgramViewModel = RewardsProgramViewModel()
     @StateObject var discountCodesViewModel = DiscountCodesViewModel()
     
     @State var rewardsUsed: Double = 0
     
-    @Binding var showSheet:Bool
-    
-    var email:String
-    var userID:String
-    
-    var companyID: String
-    var companyName: String
-    var currentPointsBalance: Int
     
     @State var didUserPressRedeemButton:Bool = false
     
@@ -56,10 +49,18 @@ struct CreateDiscountScreen: View {
                     //MARK: Options
                     Divider()
                     
+                    //Add to personal card
                     Button {
-                        discountCodesViewModel.addCode(companyID: companyID, companyName: companyName, dollars: Int(rewardsUsed)/10, domain: "athleisure-la.myshopify.com", email: email, firstNameID: "COLIN1", pointsSpent: Int(rewardsUsed), usageLimit: 1, userID: userID)
-                        rewardsProgramViewModel.updateLoyaltyPointsForReason(userID: userID, companyID: companyID, changeInPoints: Int(rewardsUsed) * -1, reason: "CreatedDiscount")
+                        
+                        let discountID = UUID().uuidString
+  
+                        //This should be UPDATING the card, not adding to it
+//                        discountCodesViewModel.addCode(color: 2, companyID: rewardsProgram.companyID, companyName: rewardsProgram.companyName, discountCode: "COLIN123", cardType: "PERSONAL-CARD-PERMANENT", discountID: discountID, domain: rewardsProgram.domain, firstName: "Colin", lastName: "Power", phone: "", email: rewardsProgram.email, expirationTimestamp: -1, minimumSpendRequired: -1, rewardAmount: Int(rewardsUsed)/10, rewardType: "DOLLARS", usageLimit: 1, pointsSpent: Int(rewardsUsed), userID: rewardsProgram.userID)
+
+                        rewardsProgramViewModel.updateLoyaltyPointsForReason(loyaltyProgramID: rewardsProgram.ids.rewardsProgramID, changeInPoints: Int(rewardsUsed) * -1, reason: "CreatedDiscount")
+                        
                         showSheet = false
+                        
                     } label: {
                         HStack {
                             Text("Add to my Personal Card")
@@ -77,10 +78,18 @@ struct CreateDiscountScreen: View {
                     
                     Divider()
                     
+                    //Create on-off card
                     Button {
-                        discountCodesViewModel.addCode(companyID: companyID, companyName: companyName, dollars: Int(rewardsUsed)/10, domain: "athleisure-la.myshopify.com", email: email, firstNameID: "COLIN1", pointsSpent: Int(rewardsUsed), usageLimit: 1, userID: userID)
-                        rewardsProgramViewModel.updateLoyaltyPointsForReason(userID: userID, companyID: companyID, changeInPoints: Int(rewardsUsed) * -1, reason: "CreatedDiscount")
+                        
+                        let discountID = UUID().uuidString
+                        let discountCode = rewardsProgram.owner.email.prefix(5) + "-" + randomString(of: 5)
+                        
+                        discountCodesViewModel.addCode(color: 2, companyID: rewardsProgram.ids.companyID, companyName: rewardsProgram.card.companyName, discountCode: discountCode, cardType: "PERSONAL-CARD-SINGLE-USE", discountID: discountID, domain: rewardsProgram.ids.domain, firstName: rewardsProgram.owner.firstName, lastName: rewardsProgram.owner.lastName, phone: rewardsProgram.owner.phone, email: rewardsProgram.owner.email, expirationTimestamp: -1, minimumSpendRequired: -1, rewardAmount: Int(rewardsUsed)/10, rewardType: "DOLLARS", usageLimit: 1, pointsSpent: Int(rewardsUsed), userID: rewardsProgram.ids.userID)
+
+                        rewardsProgramViewModel.updateLoyaltyPointsForReason(loyaltyProgramID: rewardsProgram.ids.rewardsProgramID, changeInPoints: Int(rewardsUsed) * -1, reason: "CreatedDiscount")
+                        
                         showSheet = false
+                        
                     } label: {
                         
                         HStack {
@@ -122,7 +131,9 @@ struct CreateDiscountScreen: View {
             
             
             
-        } else {
+        }
+        
+        else {
             VStack (alignment: .center) {
                 Spacer()
                 //MARK: Header //36
@@ -131,7 +142,7 @@ struct CreateDiscountScreen: View {
                         .font(.system(size: 16, weight: .medium))
                         .foregroundColor(Color("Dark1"))
                         .padding(.bottom, 8)
-                    Text(String(currentPointsBalance-Int(rewardsUsed)) + " POINTS AVAILABLE")
+                    Text(String(rewardsProgram.status.currentPointsBalance-Int(rewardsUsed)) + " POINTS AVAILABLE")
                         .font(.system(size: 12, weight: .regular))
                         .foregroundColor(Color("Gray1"))
                 }.frame(height: 36, alignment: .center)
@@ -139,15 +150,15 @@ struct CreateDiscountScreen: View {
                 //MARK: Amount //112
                 Text("$\(rewardsUsed/10, specifier: "%.0f")")
                     .font(.system(size: 80, weight: .semibold, design: .rounded))
-                    .foregroundColor(currentPointsBalance == 0 ? Color.gray : Color.green)
+                    .foregroundColor(rewardsProgram.status.currentPointsBalance == 0 ? Color.gray : Color.green)
                     .padding(.vertical, 40)
                 
                 
                 //MARK: SLIDER
-                if currentPointsBalance > 50 {
+                if rewardsProgram.status.currentPointsBalance > 50 {
                     Slider(
                     value: $rewardsUsed,
-                    in: 0...Double(currentPointsBalance),
+                    in: 0...Double(rewardsProgram.status.currentPointsBalance),
                     step: 50,
                     onEditingChanged: { (_) in
                         // nil here
@@ -190,16 +201,13 @@ struct CreateDiscountScreen: View {
                             .padding(.vertical, 12)
                         Spacer()
                     }
-                    .background(RoundedRectangle(cornerRadius: 24).fill(currentPointsBalance == 0 ? Color.gray : Color.green))
+                    .background(RoundedRectangle(cornerRadius: 24).fill(rewardsProgram.status.currentPointsBalance == 0 ? Color.gray : Color.green))
                     .padding(.horizontal, 24)
                 }.disabled(rewardsUsed==0)
                     .padding(.bottom, 60)
                 
             }.frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height / 12 * 7)
         }
-        
-        
-        
     }
 }
 

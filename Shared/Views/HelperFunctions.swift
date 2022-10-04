@@ -35,7 +35,14 @@ func convertTimestampToString(timestamp: Int, format: String? = "MMMM d") -> Str
 }
 
 
-
+func randomString(of length: Int) -> String {
+        let letters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+        var s = ""
+        for _ in 0 ..< length {
+            s.append(letters.randomElement()!)
+        }
+        return s
+    }
 
 
 

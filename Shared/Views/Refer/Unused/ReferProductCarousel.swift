@@ -114,7 +114,7 @@ struct ReferProductCarousel: View {
         .ignoresSafeArea()
         .background(Color("Background"))
         .onAppear {
-            self.rewardsProgramViewModel.listenForOneRewardsProgram(email: "colinjpower1@gmail.com", companyID: "zKL7SQ0jRP8351a0NnHM")
+//            self.rewardsProgramViewModel.listenForOneRewardsProgram(email: "colinjpower1@gmail.com", companyID: "zKL7SQ0jRP8351a0NnHM")
         }
     }
 }

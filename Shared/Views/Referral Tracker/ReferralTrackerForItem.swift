@@ -34,18 +34,18 @@ struct ReferralTrackerForItem: View {
                         HStack(alignment: .center, spacing: 0) {
                             
                             
-                            let amtSENT = referralsViewModel.snapshotOfReferralsForItem.filter { $0.status.status == "SENT" }.count
+                            let amtSENT = referralsViewModel.snapshotOfReferralsForItem.filter { $0.status.status == "CREATED" }.count
                             let amtUSED = referralsViewModel.snapshotOfReferralsForItem.filter { $0.status.status == "USED" }.count
                             let amtCOMPLETE = referralsViewModel.snapshotOfReferralsForItem.filter { $0.status.status == "COMPLETE" }.count
                             let amtEXPIRED = referralsViewModel.snapshotOfReferralsForItem.filter { $0.status.status == "EXPIRED" }.count
                             
                             Button {
                                 
-                                filterReferralsForItemBy = filterReferralsForItemBy == "SENT" ? "" : "SENT"
+                                filterReferralsForItemBy = filterReferralsForItemBy == "CREATED" ? "" : "CREATED"
                                 
                             } label: {
                                 
-                                ReferralTrackerWidget(title: "Sent", amount: String(amtSENT), subtitle: String(amtEXPIRED) + " Expired", isSelected: filterReferralsForItemBy == "SENT")
+                                ReferralTrackerWidget(title: "Sent", amount: String(amtSENT), subtitle: String(amtEXPIRED) + " Expired", isSelected: filterReferralsForItemBy == "CREATED")
                                     .frame(width: UIScreen.main.bounds.width * 3 / 11, height: 116)
                                     .background(RoundedRectangle(cornerRadius: 11).shadow(radius: CGFloat(11)))
                                 
@@ -82,7 +82,6 @@ struct ReferralTrackerForItem: View {
                     }
                         .padding(.top)
                     
-                    
                     //MARK: REFERRAL HISTORY
                     VStack(alignment: .leading, spacing: 0) {
                         
@@ -90,7 +89,7 @@ struct ReferralTrackerForItem: View {
                         Divider()
                             .padding(.vertical)
                         Group {
-                            if filterReferralsForItemBy == "SENT" {
+                            if filterReferralsForItemBy == "CREATED" {
                                 Text("You sent these referrals, but they haven't been used yet.")
                             } else if filterReferralsForItemBy == "USED" {
                                 Text("Your friends have used these discounts.")
@@ -100,7 +99,7 @@ struct ReferralTrackerForItem: View {
                                 Text("These are all the referrals you created")
                             }
                         }
-                        .font(.system(size: 28, weight: .bold))
+                        .font(.system(size: 22, weight: .bold))
                         .foregroundColor(.black)
                         .frame(width: UIScreen.main.bounds.width * 3 / 4, alignment: .bottomLeading)
                         .padding(.leading, 2)

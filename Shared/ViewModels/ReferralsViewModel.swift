@@ -15,6 +15,10 @@ class ReferralsViewModel: ObservableObject, Identifiable {
     @Published var snapshotOfAllReferrals = [Referrals]()
     @Published var snapshotOfReferralsForItem = [Referrals]()
     
+    @Published var oneReferral = [Referrals]()
+    
+    var listener_OneReferral: ListenerRegistration!
+    
     var dm = DataManager()
     
     private var db = Firestore.firestore()
@@ -74,11 +78,43 @@ class ReferralsViewModel: ObservableObject, Identifiable {
     }
     
     
+    func listenForOneReferralInProgress(userID: String, companyID: String, referralID: String) {
+        
+        self.oneReferral = [Referrals]()
+        
+        self.dm.getOneReferralInProgress(userID: userID, companyID: companyID, referralID: referralID, onSuccess: { (referrals) in
+            //if (self.newTickets.isEmpty) {
+                self.oneReferral = referrals
+            //print("this is the discount codes")
+            //print(self.myDiscountCodes)
+        }, listener: { (listener) in
+            self.listener_OneReferral = listener
+        })
+    }
+    
+    func updateReferralWithCustomMessage(referralID: String, customMessage: String, handle: String) {
+        
+        db.collection("referral").document(referralID).updateData([
+            
+            "card.customMessage": customMessage,
+            "ids.handle": handle
+                  
+            ]) { err in
+            if let err = err {
+                print("Error updating document: \(err)")
+            } else {
+                print("hasSeenFRE set to True")
+            }
+        }
+    }
+    
     
 
-    func addReferral(color: Int, companyName: String, customMessage: String, discountCode: String, itemTitle: String, companyID: String, itemID: String, referralID: String, userID: String, email: String, rewardAmount: Int, rewardType: String, recipientFirstName: String, recipientLastName: String, recipientPhone: String, offerRewardAmount: Int) {
+    func addReferral(color: Int, companyName: String, customMessage: String, discountCode: String, domain: String, handle: String, itemTitle: String, companyID: String, itemID: String, referralID: String, userID: String, email: String, rewardAmount: Int, rewardType: String, recipientFirstName: String, recipientLastName: String, recipientPhone: String, offerRewardAmount: Int, status: String, usageLimit: Int) {
 
         let referralTimestamp = Int(round(Date().timeIntervalSince1970))
+        
+        let discountCodeCaseInsensitive = discountCode.uppercased()
         
         db.collection("referral").document(referralID)
             .setData([
@@ -89,15 +125,16 @@ class ReferralsViewModel: ObservableObject, Identifiable {
                     "companyName": companyName,
                     "customMessage": customMessage,
                     "discountCode": discountCode,
+                    "discountCodeCaseInsensitive": discountCodeCaseInsensitive,
                     "itemImage": "",
                     "itemTitle": itemTitle
                     
                 ],
                 "ids": [
                     "companyID": companyID,
-                    "domain": "",           //need to get this later
+                    "domain": domain,    
                     "graphQLID": "",        //need to get this later
-                    "historyID": "",
+                    "handle": handle,
                     "itemID": itemID,
                     "usedOnOrderID": "",
                     "referralID": referralID,
@@ -110,7 +147,7 @@ class ReferralsViewModel: ObservableObject, Identifiable {
                     "minimumSpendRequired": -1,
                     "rewardAmount": offerRewardAmount,
                     "rewardType": "DOLLAR-DISCOUNT",
-                    "singleUse": true
+                    "usageLimit": usageLimit
                 ],
                 "recipient": [
                     "firstName": recipientFirstName,
@@ -129,9 +166,10 @@ class ReferralsViewModel: ObservableObject, Identifiable {
                     "email": email
                 ],
                 "status": [
-                    "status": "SENT",
+                    "status": status,
                     "timestampCreated": referralTimestamp,
                     "timestampUsed": -1,
+                    "timestampComplete": -1,
                     "timeWaitingForReturnInDays": 5
                 ]
         ]) { err in

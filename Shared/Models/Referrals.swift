@@ -39,8 +39,10 @@ struct ReferralsCardStruct: Codable {
     var companyName: String
     var customMessage: String
     var discountCode: String
+    var discountCodeCaseInsensitive: String
     var itemImage: String
     var itemTitle: String
+    
         
     //use CodingKeys to convert from names in Firebase to SwiftUI names
     enum CodingKeys: String, CodingKey {
@@ -48,6 +50,7 @@ struct ReferralsCardStruct: Codable {
         case companyName
         case customMessage
         case discountCode
+        case discountCodeCaseInsensitive
         case itemImage
         case itemTitle
     }
@@ -59,7 +62,7 @@ struct ReferralsIDsStruct: Codable {
     var companyID: String
     var domain: String
     var graphQLID: String
-    var historyID: String
+    var handle: String
     var itemID: String
     var referralID: String
     var reviewID: String
@@ -72,7 +75,7 @@ struct ReferralsIDsStruct: Codable {
         case companyID
         case domain
         case graphQLID
-        case historyID
+        case handle
         case itemID
         case referralID
         case reviewID
@@ -89,7 +92,7 @@ struct ReferralsOfferStruct: Codable {
     var minimumSpendRequired: Int
     var rewardAmount: Int
     var rewardType: String
-    var singleUse: Bool
+    var usageLimit: Int
     
     
     //use CodingKeys to convert from names in Firebase to SwiftUI names
@@ -99,7 +102,7 @@ struct ReferralsOfferStruct: Codable {
         case minimumSpendRequired
         case rewardAmount
         case rewardType
-        case singleUse
+        case usageLimit
     }
 }
 
@@ -154,6 +157,7 @@ struct ReferralsStatusStruct: Codable {
     var status: String
     var timestampCreated: Int
     var timestampUsed: Int
+    var timestampComplete: Int
     var timeWaitingForReturnInDays: Int
         
     //use CodingKeys to convert from names in Firebase to SwiftUI names
@@ -161,6 +165,7 @@ struct ReferralsStatusStruct: Codable {
         case status
         case timestampCreated
         case timestampUsed
+        case timestampComplete
         case timeWaitingForReturnInDays
     }
 }

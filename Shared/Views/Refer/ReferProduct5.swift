@@ -40,7 +40,7 @@ struct ReferProduct5: View {
     
     var itemObject: Items
     
-    @Binding var designSelection: [Any]
+    var designSelection: [Any]
     
     var selectedOption: Int
     
@@ -48,7 +48,9 @@ struct ReferProduct5: View {
         
     @Binding var selectedContact:[String]
     
-    @Binding var userSuggestedCode:String
+    var userSuggestedCode:String
+    
+    var createdReferralID:String
     
     
     
@@ -67,11 +69,15 @@ struct ReferProduct5: View {
     
     @State var finalMessage:String = ""
     
+    @State var designSelectionForPreview:[Any] = []
+    
+    @State var customURLforSite = ""
+    
     
     //Use this variable to create an image
     var discountCardForReferralForPreview: some View {
         
-        DiscountCardForReferralImageCreation(designSelection: designSelection, companyImage: "AthleisureLA-Icon-Teal", companyName: "Athleisure LA", discountAmount: "$20", discountCode: userSuggestedCode, recipientFirstName: selectedContact[1], recipientLastName: selectedContact[2])
+        DiscountCardForReferralImageCreation(designSelection1: designSelectionForPreview, companyImage: "AthleisureLA-Icon-Teal", companyName: "Athleisure LA", discountAmount: "$20", discountCode: userSuggestedCode, recipientFirstName: selectedContact[1], recipientLastName: selectedContact[2])
             .clipShape(RoundedRectangle(cornerRadius: 16))
             .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.width / 1.6)
         
@@ -90,31 +96,39 @@ struct ReferProduct5: View {
                 .padding(.bottom)
                 .padding(.bottom)
             
-            VStack (alignment: .center, spacing: 0) {
-                Text("Add a personal note about this referral")
-                    .font(.system(size: 20, weight: .bold))
-                    .foregroundColor(Color("Dark1"))
-                    .padding(.bottom, 10)
+            GeometryReader { geo in
                 
-                Text("Tell \(selectedContact[1]) about the \(itemObject.order.title)!")
-                    .font(.system(size: 14, weight: .regular))
-                    .foregroundColor(Color("Dark2"))
-                    .multilineTextAlignment(.center)
+                VStack (alignment: .leading, spacing: 0) {
+                    
+                    Text("Add a personal message")
+                        .font(.system(size: 20, weight: .bold))
+                        .foregroundColor(Color("Dark1"))
+                        .padding(.bottom, 10)
+                        .padding(.bottom)
+                    
+                    TextEditor(text: $messageToRecipient)
+                        .frame(width: geo.size.width, height: 120)
+                        .shadow(radius: 2)
+                        .padding(.bottom, 6)
+                    
+                    Group {
+                        Text("We'll include this link:\n")
+                            .font(.system(size: 14, weight: .regular))
+                            .foregroundColor(Color("Gray1")) +
+                        Text(customURLforSite)
+                            .font(.system(size: 14, weight: .medium))
+                            .foregroundColor(Color("Gray1"))
+                        
+                    }.multilineTextAlignment(.leading)
                     .padding(.bottom)
-                
-                TextEditor(text: $messageToRecipient)
-                    .frame(height: 80)
-                    .shadow(radius: 2)
-                    .padding(.horizontal)
-                
+                    
+                }
             }.padding(.horizontal)
-            .frame(maxHeight: UIScreen.main.bounds.width / 3 * 2)
-            
-            
+            .frame(maxWidth: UIScreen.main.bounds.width, maxHeight: UIScreen.main.bounds.width * 4 / 5)
             
             //MARK: BUTTON TO SEND VIA IMESSAGE OR MORE CHANNELS
             //Check if there is a phone number available.. if so, then try to send via imessage
-            VStack(alignment: .center, spacing: 0) {
+            HStack(alignment: .center, spacing: 0) {
 
                 //MARK: IMESSAGE BUTTON
                 Button(action: {
@@ -123,10 +137,7 @@ struct ReferProduct5: View {
                     customReferralCardSnapshot = discountCardForReferralForPreview.snapshot()
                     self.activeSheetiMessage = .iMessageShareSheet
                     
-                    let handle1 = companiesViewModel.snapshotOfCompanyProduct.first?.handle ?? ""
-                    let customURLforSite = "https://" + itemObject.order.domain + "/products/" + handle1
-                    
-                    finalMessage = customURLforSite
+                    finalMessage = messageToRecipient + " " + customURLforSite
                     
                     DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
                         isEitherShareButtonTapped = true
@@ -150,8 +161,7 @@ struct ReferProduct5: View {
                     }
                     .padding(.vertical)
                     .background(RoundedRectangle(cornerRadius: 11).foregroundColor(Color.green))
-                    .padding(.horizontal).padding(.horizontal)
-                    .padding(.bottom)
+                    .frame(width: UIScreen.main.bounds.width * 3 / 5 - 25)
                     
                 }.sheet(item: $activeSheetiMessage) { [customReferralCardSnapshot] sheet in
                     
@@ -169,20 +179,15 @@ struct ReferProduct5: View {
                     }
                 }
 
+                Spacer()
                 
-
                 //MARK: SHARE BUTTON
                 Button {
                     
                     customReferralCardSnapshot = discountCardForReferralForPreview.snapshot()
                     self.activeSheetShare = .generalShareSheet
                     
-                    
-                    let handle1 = companiesViewModel.snapshotOfCompanyProduct.first?.handle ?? ""
-                    let customURLforSite = "https://" + itemObject.order.domain + "/products/" + handle1
-                    
-                    finalMessage = customURLforSite
-                    
+                    finalMessage = messageToRecipient + " " + customURLforSite
                     
                     DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
                         isEitherShareButtonTapped = true
@@ -190,18 +195,18 @@ struct ReferProduct5: View {
                     
                 } label: {
                     HStack(alignment: .center, spacing: 8) {
+                        Spacer()
                         Image(systemName: "square.and.arrow.up")
                             .font(.system(size: 18, weight: .regular))
                             .foregroundColor(Color.blue)
-                        Text("More sharing options")
+                        Text("Share")
                             .font(.system(size: 18, weight: .regular))
                             .foregroundColor(Color.blue)
-
-                    }.padding(.bottom)
-                        .padding(.vertical)
+                        Spacer()
+                    }.padding(.vertical)
+                    .frame(width: UIScreen.main.bounds.width * 2 / 5 - 25)
                 }
                 .sheet(item: $activeSheetShare) { [customReferralCardSnapshot] sheet2 in
-                
                     switch sheet2 {
                     case .generalShareSheet:
                         
@@ -213,10 +218,9 @@ struct ReferProduct5: View {
                         }
                     }
                 }
-
             }
+            .padding()
             .padding(.top)
-            .padding(.vertical)
             .padding(.vertical)
             
             
@@ -229,16 +233,17 @@ struct ReferProduct5: View {
                     
                     let newTotalReferrals = itemObject.referrals.count + 1
                     
-                    let referralID = itemObject.ids.userID + "-" + itemObject.ids.itemID + String(newTotalReferrals) + "-" + itemsViewModel.randomString(of: 2)
-                    
                     //move this step to when you click the button on Page 4 (i.e. after the discount code is created!)
-                    referralsViewModel.addReferral(color: selectedOption, companyName: itemObject.order.companyName, customMessage: messageToRecipient, discountCode: userSuggestedCode, itemTitle: itemObject.order.title, companyID: itemObject.ids.companyID, itemID: itemObject.ids.itemID, referralID: referralID, userID: itemObject.ids.userID, email: itemObject.order.email, rewardAmount: itemObject.referrals.rewardAmount, rewardType: itemObject.referrals.rewardType, recipientFirstName: selectedContact[1], recipientLastName: selectedContact[2], recipientPhone: selectedContact[3], offerRewardAmount: 20)
+                    
+                    //CHANGE THIS CALL TO JUST UPDATE THE REFERRAL TO SAY ACTIVE RATHER THAN "CREATED"
+                    
+                    referralsViewModel.updateReferralWithCustomMessage(referralID: createdReferralID, customMessage: messageToRecipient, handle: itemObject.order.handle)
                     
                     var newReferralIDsArray:[String] = []
                     
                     if itemObject.ids.referralIDs.isEmpty {
                         
-                        newReferralIDsArray.append(referralID)
+                        newReferralIDsArray = [createdReferralID]
                         
                         itemsViewModel.updateItemForReferral(itemID: itemObject.ids.itemID, newReferralIDsArray: newReferralIDsArray)
                         
@@ -250,7 +255,7 @@ struct ReferProduct5: View {
                             
                         }
                         
-                        newReferralIDsArray.append(referralID)
+                        newReferralIDsArray.append(createdReferralID)
                         
                         itemsViewModel.updateItemForReferral(itemID: itemObject.ids.itemID, newReferralIDsArray: newReferralIDsArray)
                         
@@ -264,7 +269,7 @@ struct ReferProduct5: View {
                 
             } else {
                 
-                BottomCapsuleButton(buttonText: "Done", color: Color("Gray3"))
+                BottomCapsuleButton(buttonText: "Done", color: Color.white)
                 
             }
         }
@@ -274,9 +279,14 @@ struct ReferProduct5: View {
         .navigationBarTitleDisplayMode(.inline)
         .onAppear {
             
+            self.designSelectionForPreview = designSelection
+            
             self.companiesViewModel.getSnapshotOfCompanyProduct(companyID: itemObject.ids.companyID, productID: String(itemObject.ids.shopifyProductID))
             
-            self.messageToRecipient = "Hi! Here's a $20 discount code for Athleisure LA! One of my favorites is the \(itemObject.order.title) (I gave it 5 stars). Check it out!"
+            self.messageToRecipient = "Hey, here's a $20 discount for \(itemObject.order.companyName)! Just use the code that I made you, or use this link.\n\nI gave the \(itemObject.order.title) 5 stars!"
+            
+            self.customURLforSite = "https://" + itemObject.order.domain + "/discount/" + userSuggestedCode + "?redirect=/products/" + itemObject.order.handle
+            
             
         }
         .onDisappear {

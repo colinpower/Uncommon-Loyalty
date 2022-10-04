@@ -184,7 +184,7 @@ struct AddCompany: View {
                             .background(RoundedRectangle(cornerRadius: 30).foregroundColor(Color.blue)).padding(.horizontal)
                     } else {
                         Button {
-                            self.viewModel1.addLoyaltyProgram(companyID: companyID, companyName: companyName, currentPointsBalance: 0, email: viewModel.email ?? "", lifetimePoints: 0, referralCode: "", status: "", userID: viewModel.userID ?? "")
+//                            self.viewModel1.addLoyaltyProgram(companyID: companyID, companyName: companyName, currentPointsBalance: 0, email: viewModel.email ?? "", lifetimePoints: 0, referralCode: "", status: "", userID: viewModel.userID ?? "")
                             wasLoyaltyProgramJoined.toggle()
                         } label: {
                             HStack {

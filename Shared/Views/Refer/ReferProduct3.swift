@@ -19,7 +19,7 @@ struct ReferProduct3: View {
     
     @State var isShowingContactsList:Bool = false
     
-    @State var selectedContact:[String] = ["", "First", "Last", ""]
+    @State var selectedContact:[String] = ["", "Your Friend's", "Name", ""]
     
     
     
@@ -28,7 +28,7 @@ struct ReferProduct3: View {
         VStack(alignment: .center, spacing: 0) {
             
             //MARK: CONTENT AT TOP (SCREENWIDTH / 1.6 is height)
-            DiscountCardForReferral(designSelection: designSelection, companyImage: "Athleisure LA", companyName: "Athleisure LA", discountAmount: "$20", discountCode: "CUSTOM-CODE", recipientFirstName: selectedContact[1], recipientLastName: selectedContact[2])
+            DiscountCardForReferral(designSelection: designSelection, companyImage: "Athleisure LA", companyName: "Athleisure LA", discountAmount: "$20", discountCode: "CUSTOMIZE-ME", recipientFirstName: selectedContact[1], recipientLastName: selectedContact[2])
                 .frame(alignment: .center)
                 .padding(.vertical)
             
@@ -49,7 +49,7 @@ struct ReferProduct3: View {
                 
             } label: {
                 
-                if selectedContact[1] == "First" {
+                if selectedContact[1] == "Your Friend's" {
                     
                     HStack {
                         Spacer()
@@ -88,7 +88,7 @@ struct ReferProduct3: View {
             
             Spacer()
             
-            if selectedContact[1] == "First" {
+            if selectedContact[1] == "Your Friend's" {
                 
                 BottomCapsuleButton(buttonText: "Continue", color: Color("Gray3"))
                 

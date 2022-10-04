@@ -41,7 +41,7 @@ struct ReferralDetailView: View {
     
     var statusArray: [String] {
         switch referral.status.status {
-        case "SENT":
+        case "CREATED":
             //check to see if there's an expiration date
             if referral.offer.expirationTimestamp == -1 {
                 
@@ -109,16 +109,14 @@ struct ReferralDetailView: View {
     //Use this variable to create an image
     var discountCardForReferralInTrackerTab: some View {
         
-        DiscountCardForReferralImageCreation(designSelection: options[referral.card.color], companyImage: "AthleisureLA-Icon-Teal", companyName: referral.card.companyName, discountAmount: String(referral.offer.rewardAmount), discountCode: referral.card.discountCode, recipientFirstName: referral.recipient.firstName, recipientLastName: referral.recipient.lastName)
+        DiscountCardForReferralImageCreation(designSelection1: options[referral.card.color], companyImage: "AthleisureLA-Icon-Teal", companyName: referral.card.companyName, discountAmount: String(referral.offer.rewardAmount), discountCode: referral.card.discountCode, recipientFirstName: referral.recipient.firstName, recipientLastName: referral.recipient.lastName)
             .clipShape(RoundedRectangle(cornerRadius: 16))
             .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.width / 1.6)
         
     }
     
-    
-    
-    
-    
+    @State var customReferralURLForDetailView:String = ""
+        
     var body: some View {
         
         VStack(alignment: .leading, spacing: 0) {
@@ -142,27 +140,7 @@ struct ReferralDetailView: View {
                         Text(String(referral.reward.rewardAmount) + " points")
                             .font(.system(size: 18, weight: .bold, design: .rounded))
                             .foregroundColor((statusArray[0] == "COMPLETE" || statusArray[0] == "COMPLETE-PENDING") ? Color("ReferPurple") : Color("Dark1"))
-                        
-//                        currentStateOfReferral
-//                            .frame(width: UIScreen.main.bounds.width / 3 - 20, height: UIScreen.main.bounds.width / 3 - 20)
-//                            .background(RoundedRectangle(cornerRadius: 11).foregroundColor(Color.white))
-//                            .clipShape(RoundedRectangle(cornerRadius: 11))
-//                            .shadow(radius: 5)
-                        
-//                        headsUpDate
-//                            .frame(width: UIScreen.main.bounds.width / 2 - 30, height: UIScreen.main.bounds.width / 2 - 60)
-//                            .background(RoundedRectangle(cornerRadius: 11).foregroundColor(Color.white))
-//                            .clipShape(RoundedRectangle(cornerRadius: 11))
-//                            .shadow(radius: 5)
-//
-//
-//                        rewardForSender
-//                            .frame(width: UIScreen.main.bounds.width / 2 - 30, height: UIScreen.main.bounds.width / 2 - 60)
-//                            .background(RoundedRectangle(cornerRadius: 11).foregroundColor(
-//                                (statusArray[0] == "COMPLETE" || statusArray[0] == "COMPLETE-PENDING") ? Color.white : Color("Gray3"))
-//                                )
-//                            .clipShape(RoundedRectangle(cornerRadius: 11))
-//                            .shadow(radius: 5)
+
                         
                     }.padding()
                     .background(RoundedRectangle(cornerRadius: 11).foregroundColor(Color.white))
@@ -172,7 +150,7 @@ struct ReferralDetailView: View {
                     .padding(.bottom)
                     
                     Text(statusArray[1])
-                        .font(.system(size: 25, weight: .semibold))
+                        .font(.system(size: 20, weight: .semibold))
                         .foregroundColor(Color("Dark1"))
                         .multilineTextAlignment(.leading)
                         .padding()
@@ -211,6 +189,9 @@ struct ReferralDetailView: View {
         .background(Color("Background"))
         .onAppear {
             self.customReferralCardSnapshotInTrackerTab = discountCardForReferralInTrackerTab.snapshot()
+            
+            self.customReferralURLForDetailView = "https://" + referral.ids.domain + "/discount/" + referral.card.discountCode + "?redirect=/products/" + referral.ids.handle
+            
         }
         .sheet(item: $activeSheetiMessageInTrackerTab) { [customReferralCardSnapshotInTrackerTab] sheet in
 
@@ -219,8 +200,10 @@ struct ReferralDetailView: View {
 
                 //confirm that you've been able to convert the card into an image
                 if let unwrappedImage = customReferralCardSnapshotInTrackerTab {
+                    
+                    let finalMessage = referral.card.customMessage + " " + customReferralURLForDetailView
 
-                    MessageView(recipient: referral.recipient.phone, photo: unwrappedImage, messageToRecipient: referral.card.customMessage)
+                    MessageView(recipient: referral.recipient.phone, photo: unwrappedImage, messageToRecipient: finalMessage)
 
                     //ReferralShareSheet(activityItems: ["Hey, I created a discount code for you!", unwrappedImage])
                                        //activityItems: ["Hey, I created a discount code for you!", customCardViewSnapshot as Any ]
@@ -228,7 +211,10 @@ struct ReferralDetailView: View {
             default:
 
                 if let unwrappedImage = customReferralCardSnapshotInTrackerTab {
-                    ReferralShareSheet(activityItems: [referral.card.customMessage, unwrappedImage])
+                    
+                    let finalMessage = referral.card.customMessage + " " + customReferralURLForDetailView
+                    
+                    ReferralShareSheet(activityItems: [finalMessage, unwrappedImage])
                                        //activityItems: ["Hey, I created a discount code for you!", customCardViewSnapshot as Any ]
                 }
 
@@ -432,7 +418,7 @@ struct ReferralDetailView: View {
     var timelineOfReferral: some View {
         
         HStack(alignment: .top, spacing: 0) {
-                
+            
             verticalProgressTimeline(status: statusArray[0], heightParam: CGFloat(164))
                 .frame(width: 10, height: 180)
                 .padding(.leading, 20)
@@ -446,29 +432,32 @@ struct ReferralDetailView: View {
                     .foregroundColor(Color("Dark1"))
                     .padding(.top, 2)
                     .padding(.bottom, 4)
-                Text(convertTimestampToString(timestamp: referral.status.timestampCreated))
+                Text("On " + convertTimestampToString(timestamp: referral.status.timestampCreated))
                     .font(.system(size: 13, weight: .regular))
                     .foregroundColor(Color("Gray1"))
                 
                 Spacer()
                 
-                Text("Sent to " + referral.recipient.firstName)
-                    .font(.system(size: 16, weight: .medium))
-                    .foregroundColor(Color("Dark1"))
-                    .padding(.bottom, 4)
-                Text(convertTimestampToString(timestamp: referral.status.timestampCreated))
-                    .font(.system(size: 13, weight: .regular))
-                    .foregroundColor(Color("Gray1"))
+                let tempVar2 = referral.status.status == "USED" || referral.status.status == "COMPLETE"
                 
+                Text("Used by " + referral.recipient.firstName)
+                    .font(.system(size: 16, weight: .medium))
+                    .foregroundColor(tempVar2 ? Color("Dark1") : Color("Gray3"))
+                    .padding(.bottom, 4)
+                Text(tempVar2 ? "On " + convertTimestampToString(timestamp: referral.status.timestampUsed) : "Incomplete")
+                    .font(.system(size: 13, weight: .regular))
+                    .foregroundColor(tempVar2 ? Color("Gray1") : Color("Gray3"))
+            
                 Spacer()
                 
-                Text("Sent to " + referral.recipient.firstName)
+                let tempVar3 = referral.status.status == "COMPLETE"
+                Text("You earned " + String(referral.reward.rewardAmount) + " points!")
                     .font(.system(size: 16, weight: .medium))
-                    .foregroundColor(Color("Dark1"))
+                    .foregroundColor(tempVar3 ? Color("Dark1") : Color("Gray3"))
                     .padding(.bottom, 4)
-                Text(convertTimestampToString(timestamp: referral.status.timestampCreated))
+                Text(tempVar3 ? "On " + convertTimestampToString(timestamp: referral.status.timestampComplete) : "Incomplete")
                     .font(.system(size: 13, weight: .regular))
-                    .foregroundColor(Color("Gray1"))
+                    .foregroundColor(tempVar3 ? Color("Gray1") : Color("Gray3"))
                 
             }.frame(height: 190)
             .padding(.vertical, 20)
@@ -490,7 +479,7 @@ struct verticalProgressTimeline: View {
     
     var progressAmount:Int {
         switch status {
-        case "SENT":
+        case "CREATED":
             return 0
         case "USED":
             return 1
@@ -513,11 +502,11 @@ struct verticalProgressTimeline: View {
             
             if progressAmount == -1 {
                 RoundedRectangle(cornerRadius: 1).foregroundColor(Color.red)
-                    .frame(width: 2, height: heightParam)
+                    .frame(width: 1, height: heightParam)
                 
             } else if progressAmount == 0 {
-                RoundedRectangle(cornerRadius: 1).foregroundColor(Color.gray)
-                    .frame(width: 2, height: heightParam)
+                RoundedRectangle(cornerRadius: 1).foregroundColor(Color("Gray3"))
+                    .frame(width: 1, height: heightParam)
                 
                 VStack(alignment: .center, spacing: 0) {
                     Circle()
@@ -526,20 +515,20 @@ struct verticalProgressTimeline: View {
                     Spacer()
                     Circle()
                         .frame(width: 10, height: 10)
-                        .foregroundColor(Color.gray)
+                        .foregroundColor(Color("Gray3"))
                     Spacer()
                     Circle()
                         .frame(width: 10, height: 10)
-                        .foregroundColor(Color.gray)
+                        .foregroundColor(Color("Gray3"))
                 }.frame(width: 10, height: heightParam)
                    
             } else if progressAmount == 1 {
                 
-                RoundedRectangle(cornerRadius: 1).foregroundColor(Color.gray)
-                    .frame(width: 2, height: heightParam)
+                RoundedRectangle(cornerRadius: 1).foregroundColor(Color("Gray3"))
+                    .frame(width: 1, height: heightParam)
                 
                 RoundedRectangle(cornerRadius: 1).foregroundColor(Color("ReferPurple"))
-                    .frame(width: 2, height: heightParam / 2)
+                    .frame(width: 1, height: heightParam / 2)
                 
                 VStack(alignment: .center, spacing: 0) {
                     Circle()
@@ -552,13 +541,13 @@ struct verticalProgressTimeline: View {
                     Spacer()
                     Circle()
                         .frame(width: 10, height: 10)
-                        .foregroundColor(Color.gray)
+                        .foregroundColor(Color("Gray3"))
                 }.frame(width: 10, height: heightParam)
                 
             } else {
                 
                 RoundedRectangle(cornerRadius: 1).foregroundColor(Color("ReferPurple"))
-                    .frame(width: 2, height: heightParam)
+                    .frame(width: 1, height: heightParam)
                 
                 VStack(alignment: .center, spacing: 0) {
                     Circle()
@@ -573,8 +562,6 @@ struct verticalProgressTimeline: View {
                         .frame(width: 10, height: 10)
                         .foregroundColor(Color("ReferPurple"))
                 }.frame(width: 10, height: heightParam)
-                
-                
             }
            
         }.frame(width: 10, height: heightParam)

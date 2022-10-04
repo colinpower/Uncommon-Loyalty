@@ -83,8 +83,8 @@ struct ReviewProductPreview: View {
                                     
                                     ForEach(viewModel4.oneOrder.prefix(1)) { Order in
                                         VStack(alignment: .leading) {
-                                            OrderDetailsForReview(title: "Item", value: Order.item_firstItemTitle)
-                                            OrderDetailsForReview(title: "Price", value: String(Order.totalPrice))
+                                            OrderDetailsForReview(title: "Item", value: Order.order.firstItemTitle)
+                                            OrderDetailsForReview(title: "Price", value: String(Order.order.price))
                                             OrderDetailsForReview(title: "Size", value: "Medium")
                                             OrderDetailsForReview(title: "Date", value: "Jan 3")
                                         }
@@ -137,13 +137,6 @@ struct ReviewProductPreview: View {
             print("Review Product Preview disappearing!!")
         }
         
-    }
-}
-
-
-struct ReviewProductPreview_Previews: PreviewProvider {
-    static var previews: some View {
-        ReviewProductPreview(companyID: "zKL7SQ0jRP8351a0NnHM", email: "colinjpower1@gmail.com", itemID: "Z3GBvz1xRYuHl8Tj6Z9j", userID: "temp user ID", isActive: .constant(true))
     }
 }
 

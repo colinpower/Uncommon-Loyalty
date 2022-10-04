@@ -79,7 +79,7 @@ struct DiscountCardForReferral: View {
                                     .innerShadow(cardColor, radius: 1.5, opacity: 0.5, offsetx: 1, offsety: 1, inlaidColor: textColor)
                                     .fixedSize()
                                 //.foregroundColor(textColor)
-                                Text(recipientFirstName == "First" ? "YOUR FRIEND'S DISCOUNT CODE" : "\(recipientFirstName.uppercased())'S DISCOUNT CODE")
+                                Text(recipientFirstName == "Your Friend's" ? "YOUR FRIEND'S DISCOUNT CODE" : "\(recipientFirstName.uppercased())'S DISCOUNT CODE")
                                     .font(.system(size: 14, weight: .medium))
                                     .innerShadow(cardColor, radius: 1, opacity: 0.5, offsetx: 0.9, offsety: 0.9, inlaidColor: textColor)
                                     .fixedSize()
@@ -119,7 +119,7 @@ struct DiscountCardForReferralImageCreation: View {
     
     //Variables for creating the custom card
     
-    var designSelection: [Any]
+    var designSelection1: [Any]
     
     var companyImage:String
     var companyName:String
@@ -135,84 +135,88 @@ struct DiscountCardForReferralImageCreation: View {
     
     var body: some View {
         
-        let cardColor:Color = designSelection[0] as! Color
-        let textColor:Color = designSelection[1] as! Color
-        let cardType: String = designSelection[2] as! String
-        let coloredCompanyImage: String = designSelection[3] as! String
+        let cardColor:Color = designSelection1[0] as! Color
+        let textColor:Color = designSelection1[1] as! Color
+        let cardType: String = designSelection1[2] as! String
+        let coloredCompanyImage: String = designSelection1[3] as! String
         
         let coloredCompanyImageWithPrefix = "AthleisureLA-Icon-" + coloredCompanyImage
         
         //let coloredCompanyImage = 
 
-            RoundedRectangle(cornerRadius: 12)
-                .foregroundColor(cardColor)
-                .frame(width: screenWidth, height: screenWidth / 1.6)
-                .overlay(
-                    VStack(alignment: .center, spacing: 0) {
-                        HStack(alignment: .center, spacing: 0) {
-                            VStack(alignment: .center, spacing: 0) {
-                                //Image(companyImage)
-                                Image(coloredCompanyImageWithPrefix)
-                                    .resizable()
-                                    .scaledToFit()
-                                    .frame(width: 60, height: 30, alignment: .leading)
-                                    .padding(.bottom, 2)
-                                Text(companyName)
-                                    .font(.system(size: 12))
-                                    .fontWeight(.medium)
-                                    .font(.system(size: 14, weight: .medium))
-                                    .innerShadow(cardColor, radius: 1, opacity: 0.5, offsetx: 0.9, offsety: 0.9, inlaidColor: textColor)
-                                    .fixedSize()
-                            }
-                            .frame(height: 44)
-                            
-                            Spacer()
-                            
-                            Text(discountAmount)
-                                .font(.system(size: 44, weight: .bold, design: .rounded))
-                                .innerShadow(cardColor, radius: 1.5, opacity: 0.5, offsetx: 1, offsety: 1, inlaidColor: textColor)
-                                .fixedSize()
-                        }.padding([.top, .horizontal])
-                        
-                        Spacer()
-                        
+        VStack(alignment: .center, spacing: 0) {
+            
+            ZStack(alignment: .center) {
+                RoundedRectangle(cornerRadius: 12)
+                    .foregroundColor(cardColor)
+                    .frame(width: screenWidth, height: screenWidth / 1.6)
+                
+                VStack(alignment: .center, spacing: 0) {
+                    HStack(alignment: .center, spacing: 0) {
                         VStack(alignment: .center, spacing: 0) {
-                            
-                            Text(discountCode)
-                                .font(.system(size: 44, weight: .bold))
-                                .innerShadow(cardColor, radius: 1.5, opacity: 0.5, offsetx: 1, offsety: 1, inlaidColor: textColor)
-                                .fixedSize()
-                            //.foregroundColor(textColor)
-                            Text("\(recipientFirstName.uppercased())'S DISCOUNT CODE")
+                            //Image(companyImage)
+                            Image(coloredCompanyImageWithPrefix)
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width: 60, height: 30, alignment: .leading)
+                                .padding(.bottom, 2)
+                            Text(companyName)
+                                .font(.system(size: 12))
+                                .fontWeight(.medium)
                                 .font(.system(size: 14, weight: .medium))
                                 .innerShadow(cardColor, radius: 1, opacity: 0.5, offsetx: 0.9, offsety: 0.9, inlaidColor: textColor)
                                 .fixedSize()
-                            
-                            
-                        }.frame(width: screenWidth, height: 70, alignment: .center)
+                        }
+                        .frame(height: 44)
                         
                         Spacer()
                         
-                        HStack(alignment: .bottom, spacing: 0) {
-                            
-                            VStack(alignment: .leading, spacing: 0) {
-                                Text(recipientFirstName + " " + recipientLastName)
-                                    .font(.system(size: 20, weight: .medium))
-                                    .innerShadow(cardColor, radius: 1.2, opacity: 0.5, offsetx: 1, offsety: 1, inlaidColor: textColor)
-                                    .fixedSize()
-                                
-                                
-                            }.frame(height: 38)
-                            
-                            Spacer()
-                        }
-                        .frame(height: 38)
-                        .padding([.bottom, .horizontal])
+                        Text(discountAmount)
+                            .font(.system(size: 44, weight: .bold, design: .rounded))
+                            .innerShadow(cardColor, radius: 1.5, opacity: 0.5, offsetx: 1, offsety: 1, inlaidColor: textColor)
+                            .fixedSize()
+                    }.padding([.top, .horizontal])
+                    
+                    Spacer()
+                    
+                    VStack(alignment: .center, spacing: 0) {
                         
+                        Text(discountCode)
+                            .font(.system(size: 44, weight: .bold))
+                            .innerShadow(cardColor, radius: 1.5, opacity: 0.5, offsetx: 1, offsety: 1, inlaidColor: textColor)
+                            .fixedSize()
+                        //.foregroundColor(textColor)
+                        Text("\(recipientFirstName.uppercased()) DISCOUNT CODE")
+                            .font(.system(size: 14, weight: .medium))
+                            .innerShadow(cardColor, radius: 1, opacity: 0.5, offsetx: 0.9, offsety: 0.9, inlaidColor: textColor)
+                            .fixedSize()
+                        
+                        
+                    }.frame(width: screenWidth, height: 70, alignment: .center)
+                    
+                    Spacer()
+                    
+                    HStack(alignment: .bottom, spacing: 0) {
+                        
+                        VStack(alignment: .leading, spacing: 0) {
+                            Text(recipientFirstName + " " + recipientLastName)
+                                .font(.system(size: 20, weight: .medium))
+                                .innerShadow(cardColor, radius: 1.2, opacity: 0.5, offsetx: 1, offsety: 1, inlaidColor: textColor)
+                                .fixedSize()
+                            
+                            
+                        }.frame(height: 38)
+                        
+                        Spacer()
                     }
+                    .frame(height: 38)
+                    .padding([.bottom, .horizontal])
+                    
+                }
                 
-                )
-            
+            }.frame(width: screenWidth, height: screenWidth / 1.6)
+        }.frame(width: screenWidth, height: screenWidth / 1.6)
+        
             
     }
 }
