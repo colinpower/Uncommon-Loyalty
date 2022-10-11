@@ -52,7 +52,7 @@ struct Home: View {
                                 .padding(.bottom)
                                 .padding(.bottom)
                             
-                            allShops
+                            //allShops
                             
                         }
                         
@@ -123,58 +123,58 @@ struct Home: View {
         )
         .padding(.horizontal)
     }
-    
-    //MARK: ALL SHOPS CARD
-    var allShops: some View {
-        
-        VStack(alignment: .leading, spacing: 0) {
-            
-            Divider()
-    
-            //MARK: ACTIVE SECTION CONTENT
-            VStack(alignment: .leading, spacing: 0) {
-    
-                Text("All Shops")
-                    .font(.system(size: 25, weight: .bold))
-                    .foregroundColor(Color("Dark1"))
-                    .padding(.top)
-                    .padding(.bottom)
-                    .padding(.bottom)
-    
-                let array = rewardsProgramViewModel.snapshotOfMyRewardsPrograms.map { $0.ids.companyID }
-    
-//                ForEach(companiesViewModel.snapshotOfAllCompanies) { company in
 //
-//                    if array.contains(company.companyID) {
+//    //MARK: ALL SHOPS CARD
+//    var allShops: some View {
 //
-//                        NavigationLink(destination: CompanyProfileV2(companyID: company.companyID, companyName: company.companyName, email: Auth.auth().currentUser?.email ?? "", userID: Auth.auth().currentUser?.uid ?? "", selectedTab: $selectedTab)) {
+//        VStack(alignment: .leading, spacing: 0) {
 //
-//                            AllLoyaltyProgramsWidget(image: company.image, company: company.companyName, shortDescription: company.categoryShortDescription, joiningBonus: company.joiningBonus, joiningBonusType: company.joiningBonusType, isLastItemInList: false, isAlreadyJoined: true, numOfRecentOrders: 4)
-//                        }
+//            Divider()
 //
-//                    } else {
+//            //MARK: ACTIVE SECTION CONTENT
+//            VStack(alignment: .leading, spacing: 0) {
 //
-//                        //MARK: MUST UPDATE FOR IS LAST ITEM IN LIST!!!
-//                        NavigationLink {
-//                            AddLoyaltyProgramPreview(company: company, userID: Auth.auth().currentUser?.uid ?? "", email: Auth.auth().currentUser?.email ?? "")
-//                        } label: {
-//                            AllLoyaltyProgramsWidget(image: company.image, company: company.companyName, shortDescription: company.categoryShortDescription, joiningBonus: company.joiningBonus, joiningBonusType: company.joiningBonusType, isLastItemInList: false, isAlreadyJoined: false, numOfRecentOrders: 4)
-//                        }
-//                    }
-//                }
-    
-    
-            }
-            .padding(.horizontal)
-    
-        }
-        .padding(.bottom)
-        .background(.white)
-        .padding(.top)
-        .padding(.top)
-    
-    }
-    
+//                Text("All Shops")
+//                    .font(.system(size: 25, weight: .bold))
+//                    .foregroundColor(Color("Dark1"))
+//                    .padding(.top)
+//                    .padding(.bottom)
+//                    .padding(.bottom)
+//
+//                let array = rewardsProgramViewModel.snapshotOfMyRewardsPrograms.map { $0.ids.companyID }
+//
+////                ForEach(companiesViewModel.snapshotOfAllCompanies) { company in
+////
+////                    if array.contains(company.companyID) {
+////
+////                        NavigationLink(destination: CompanyProfileV2(companyID: company.companyID, companyName: company.companyName, email: Auth.auth().currentUser?.email ?? "", userID: Auth.auth().currentUser?.uid ?? "", selectedTab: $selectedTab)) {
+////
+////                            AllLoyaltyProgramsWidget(image: company.image, company: company.companyName, shortDescription: company.categoryShortDescription, joiningBonus: company.joiningBonus, joiningBonusType: company.joiningBonusType, isLastItemInList: false, isAlreadyJoined: true, numOfRecentOrders: 4)
+////                        }
+////
+////                    } else {
+////
+////                        //MARK: MUST UPDATE FOR IS LAST ITEM IN LIST!!!
+////                        NavigationLink {
+////                            AddLoyaltyProgramPreview(company: company, userID: Auth.auth().currentUser?.uid ?? "", email: Auth.auth().currentUser?.email ?? "")
+////                        } label: {
+////                            AllLoyaltyProgramsWidget(image: company.image, company: company.companyName, shortDescription: company.categoryShortDescription, joiningBonus: company.joiningBonus, joiningBonusType: company.joiningBonusType, isLastItemInList: false, isAlreadyJoined: false, numOfRecentOrders: 4)
+////                        }
+////                    }
+////                }
+//
+//
+//            }
+//            .padding(.horizontal)
+//
+//        }
+//        .padding(.bottom)
+//        .background(.white)
+//        .padding(.top)
+//        .padding(.top)
+//
+//    }
+//
     //MARK: GET STARTED CARD
     var getStarted: some View {
         VStack(alignment: .leading, spacing: 0) {

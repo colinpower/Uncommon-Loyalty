@@ -55,8 +55,8 @@ struct ReviewPagePreview: View {
                     .clipShape(RoundedRectangle(cornerRadius: 11))
                     .shadow(radius: 5)
                     .padding()
+                    .padding(.top, 30)
                 
-                Spacer()
                 
                 VStack(alignment: .leading, spacing: 0) {
                     
@@ -95,8 +95,9 @@ struct ReviewPagePreview: View {
                     .background(RoundedRectangle(cornerRadius: 11).foregroundColor(.white))
                     
                 }.padding()
+                    .padding(.bottom, 20)
                 
-            }.frame(height: 460)
+            }.frame(height: 460, alignment: .center)
 
             Spacer()
             

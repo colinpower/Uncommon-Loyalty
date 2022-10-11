@@ -31,3 +31,23 @@ struct Users: Identifiable, Codable {
         case userID
     }
 }
+
+
+
+
+struct VerificationResult: Identifiable, Codable {
+    //means that whenever we map from a doc into a User struct, it'll read the document and map it into this thing
+    @DocumentID var id: String? = UUID().uuidString
+    var isVerified: Bool
+    var phone: String
+    var timestamp: Int
+    var verificationID: String
+
+    //use CodingKeys to convert from names in Firebase to SwiftUI names
+    enum CodingKeys: String, CodingKey {
+        case isVerified
+        case phone
+        case timestamp
+        case verificationID
+    }
+}

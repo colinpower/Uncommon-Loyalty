@@ -26,8 +26,13 @@ struct ContentView: View {
     
     @EnvironmentObject var viewModel: AppViewModel
     
+    @ObservedObject var usersViewModel = UsersViewModel()
+    
     @AppStorage("shouldShowFirstRunExperience")
     private var shouldShowFirstRunExperience: Bool = true
+    
+    @AppStorage("hasEnteredNameAndPhone")
+    private var hasEnteredNameAndPhone: Bool = false
     
     //Add state var if it needs to be readable and passed across all screens. For example, a live workout in the Liftin' app is accessible anywhere
     @State var selectedTab:Int = 0
@@ -37,72 +42,91 @@ struct ContentView: View {
     @State private var alertItem: AlertItem? = nil
     @State var isShowingCheckEmailView: Bool = false
     
+    func getUser () {
+        
+        viewModel.listen()
+        
+      }
+    
     
     var body: some View {
-        VStack {
-            if viewModel.signedIn {
-                
-                switch selectedTab {
-                case 0:
+        
+        
+        Group {
+            
+            let currentSessionUID = viewModel.session?.uid ?? ""
+            let currentSessionEmail = viewModel.session?.email ?? ""
+            
+            if (currentSessionUID != "" && currentSessionEmail != "") {
+            
+                if (!hasEnteredNameAndPhone) {
                     
-                    VStack(alignment: .leading, spacing: 0) {
-                        Purchases(selectedTab: $selectedTab) //, email: viewModel.email!, userID: viewModel.userID!)
+                    FREGetName(email: currentSessionEmail, userID: currentSessionUID, hasEnteredNameAndPhone: $hasEnteredNameAndPhone)
+                    
+                } else {
+                    
+                    switch selectedTab {
+                    case 0:
+                        
+                        VStack(alignment: .leading, spacing: 0) {
+                            Purchases(selectedTab: $selectedTab) //, email: viewModel.email!, userID: viewModel.userID!)
+                        }
+                        .fullScreenCover(isPresented: $shouldShowFirstRunExperience, content: {
+                            FirstRunExperience(shouldShowFirstRunExperience: $shouldShowFirstRunExperience)
+                        })
+                        
+                    case 1:
+                        ReferralTracker(selectedTab: $selectedTab)
+                    case 2:
+                        Home(selectedTab: $selectedTab)
+                    case 3:
+                        Profile(selectedTab: $selectedTab)
+                    default:
+                        Profile(selectedTab: $selectedTab)
                     }
-                    .fullScreenCover(isPresented: $shouldShowFirstRunExperience, content: {
-                        FirstRunExperience(shouldShowFirstRunExperience: $shouldShowFirstRunExperience)
-                    })
-                    
-                case 1:
-                    ReferralTracker(selectedTab: $selectedTab)
-                case 2:
-                    Home(selectedTab: $selectedTab)
-                case 3:
-                    Profile(selectedTab: $selectedTab)
-                default:
-                    Profile(selectedTab: $selectedTab)
                 }
 
             } else {
-                //MARK: TESTING ONLY - MUST DELETE WHEN SHIPPING
+                
                 LoginView(email: $email, alertItem: $alertItem, isShowingCheckEmailView: $isShowingCheckEmailView)
-                //LoginViewTesting()
+                
             }
         }
         .onAppear {
-            //UNCOMMENT THIS LINE WHEN SUBMITTING!
-            viewModel.signedIn = viewModel.isSignedIn
+            
+            viewModel.listen()
+            
+            //usersViewModel.listenForOneUser(userID: viewModel.session?.uid ?? "")
+            
         }
         .onOpenURL { url in
             let link = url.absoluteString
             
             if Auth.auth().isSignIn(withEmailLink: link) {
-                viewModel.passwordlessSignIn(email: email, link: link) { result in
+                viewModel.passwordlessSignIn(email1: email, link1: link) { result in
                     switch result {
                     
+                        
                     case let .success(user):
+                        print("inside the switch statement ")
+                        print("successful !! but now starting the listener")
+                        viewModel.listen()
                         
-                        Auth.auth().addStateDidChangeListener { auth, user1 in
-                           if let user1 = user1 {
-                               print("\(user1.uid) login")
-                               viewModel.signedIn = user?.isEmailVerified ?? false
-                               isShowingCheckEmailView = false
-                               
-                           } else {
-                               print("not login")
-                           }
-                        }
-                        
-                        //viewModel.signedIn = user?.isEmailVerified ?? false //viewModel.isSignedIn
-                        
-//                        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+//                        Auth.auth().addStateDidChangeListener { auth, user1 in
+//                           if let user1 = user1 {
+//                               print("\(user1.uid) login")
+//                               viewModel.signedIn = user1.isEmailVerified
+//                               isShowingCheckEmailView = false
 //
-//                            viewModel.signedIn = user?.isEmailVerified ?? false //viewModel.isSignedIn
-//
-//                            isShowingCheckEmailView = false
-//
+//                           } else {
+//                               print("not login")
+//                           }
 //                        }
                         
                     case let .failure(error):
+                        print("inside the switch statement ")
+                        print("error")
+                        
                         alertItem = AlertItem(title: "An auth error occurred.", message: error.localizedDescription)
                     }
                 }

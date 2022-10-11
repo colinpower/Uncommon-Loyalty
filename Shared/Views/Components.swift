@@ -93,7 +93,7 @@ struct TabViewItem: View {
     var tabViewItemImageName: [String] {
         switch position {
         case 0:
-            return ["bag", "Purchases"]
+            return ["person.wave.2", "Influence"]
         case 1:
             return ["barcode.viewfinder", "Referral Tracker"]
         case 2:
@@ -133,6 +133,11 @@ extension Color {
         self.init(.sRGB, red: red, green: green, blue: blue, opacity: opacity)
     }
 }
+
+//MARK: EMPTY OBJECTS
+
+var emptyItemObject = Items(ids: ItemsIDsStruct(companyID: "", itemID: "", orderID: "", referralIDs: [""], reviewID: "", shopifyItemID: 0, shopifyProductID: 0, userID: ""), referrals: ItemsReferralsStruct(count: 0, rewardType: "", rewardAmount: 0, cardRGB: [0], backgroundRGB: [0]), review: ItemsReviewStruct(rating: 0, rewardType: "", rewardAmount: 0), order: ItemsOrderStruct(companyName: "", domain: "", email: "", handle: "", imageURL: "", name: "", orderNumber: 0, orderStatusURL: "", phone: "", price: "", quantity: 0, returnPolicyInDays: 0, status: "", timestamp: 0, title: ""))
+
 
 
 

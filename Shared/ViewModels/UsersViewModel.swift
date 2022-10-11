@@ -17,17 +17,20 @@ class UsersViewModel: ObservableObject, Identifiable {
     
     @Published var snapshotOfOneUser = [Users]()
     
+    @Published var oneVerificationResult = [VerificationResult]()
+    
     var dm = DataManager()
     
     var listener_oneUser: ListenerRegistration!
+    var listener_oneVerificationResult: ListenerRegistration!
         
     private var db = Firestore.firestore()
     
     
-    func listenForOneUser(email: String) {
+    func listenForOneUser(userID: String) {
         self.oneUser = [Users]()
         
-        self.dm.getOneUser(email: email, onSuccess: { (User) in
+        self.dm.getOneUser(userID: userID, onSuccess: { (User) in
             //if (self.newTickets.isEmpty) {
             self.oneUser = User
             print("this is the one user")
@@ -36,6 +39,95 @@ class UsersViewModel: ObservableObject, Identifiable {
             self.listener_oneUser = listener
         })
     }
+    
+    func updateUserID(email: String, firstName: String, lastName: String, phone: String, userID: String) {
+        
+        let timestampJoined = Int(round(Date().timeIntervalSince1970))
+        
+        db.collection("users").document(userID).setData([
+            
+            "birthday": "",
+            "email": email,
+            "firstName": firstName,
+            "lastName": lastName,
+            "newUpdate": "",
+            "timestampJoined": timestampJoined,
+            "phone": "",
+            "phoneIsVerified": false,
+            "userID": userID,
+            
+            ]) { err in
+            if let err = err {
+                print("Error updating document: \(err)")
+            } else {
+                print("hasSeenFRE set to True")
+            }
+        }
+    }
+    
+    func requestVerificationCode(phone: String, codeExpiresInSeconds: Int, userID: String, verificationID: String) {
+        
+        let timestampCreated = Int(round(Date().timeIntervalSince1970))
+        let timestampExpires = timestampCreated + codeExpiresInSeconds
+        
+        db.collection("users").document(userID).collection("requestVerificationCode").document(verificationID).setData([
+            
+            "phone": phone,
+            "timestampCreated": timestampCreated,
+            "timestampExpires": timestampExpires,
+            "timestampSubmitted": -1,
+            "uncommonGeneratedCode": "",
+            "userSubmittedCode": "",
+            
+            ]) { err in
+            if let err = err {
+                print("Error updating document: \(err)")
+            } else {
+                print("triggering a code to be sent")
+            }
+        }
+    }
+    
+    
+    func submitVerificationCode(code: String, userID: String, verificationID: String) {
+        
+        let timestampSubmitted = Int(round(Date().timeIntervalSince1970))
+        
+        db.collection("users").document(userID).collection("requestVerificationCode").document(verificationID).updateData([
+            
+            "timestampSubmitted": timestampSubmitted,
+            "userSubmittedCode": code
+            
+            ]) { err in
+            if let err = err {
+                print("Error updating document: \(err)")
+            } else {
+                print("sending a verification code back to firebase")
+            }
+        }
+    }
+    
+    
+    func listenForPhoneVerification(userID: String, verificationID: String) {
+        
+        self.oneVerificationResult = [VerificationResult]()
+        
+        self.dm.getVerificationResult(userID: userID, verificationID: verificationID, onSuccess: { (Result) in
+            //if (self.newTickets.isEmpty) {
+            self.oneVerificationResult = Result
+            print("this is the one result")
+            print(self.oneVerificationResult)
+        }, listener: { (listener) in
+            self.listener_oneVerificationResult = listener
+        })
+    }
+    
+    
+    
+    
+    
+    
+    
 }
     
 //func snapshotOfOrder(orderID: String) {

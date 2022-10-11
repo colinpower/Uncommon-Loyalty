@@ -179,7 +179,6 @@ struct ReferProduct4: View {
             .padding(.horizontal)
             
             
-            
             if userSuggestedCode.isEmpty || isCodeAvailable {
                 
                 //Empty view

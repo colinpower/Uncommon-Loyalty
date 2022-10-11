@@ -53,136 +53,155 @@ struct Item: View {
                 
                 VStack(spacing: 0) {
                     
-                    //MARK: IMAGE SECTION
-                    VStack(alignment: .center, spacing: 0) {
+                    //MARK: IMAGE SECTION WITH BOLD COLORS
+                    VStack(alignment: .leading, spacing: 0) {
                         
                         //IMAGE
-                        HStack {
-                            Spacer()
-                            if backgroundURL != "" {
-                                WebImage(url: URL(string: backgroundURL)!)
-                                    .resizable()
-                                    .scaledToFit()
-                                    .frame(width: UIScreen.main.bounds.width * 2/3, height: UIScreen.main.bounds.width * 2/3, alignment: .center)
-                            } else {
-                                Image("redshorts")
-                                    .resizable()
-                                    .scaledToFit()
-                                    .frame(width: UIScreen.main.bounds.width * 2/3, height: UIScreen.main.bounds.width * 2/3, alignment: .center)
-                            }
-                            Spacer()
-                        }
-                    }
-                    .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.width * 2 / 3, alignment: .center)
-                    .padding(.top, 88)
-                    .background(.white)
-                        
-                    //MARK: HEADER OF IMAGE
-                    HStack {
-                        
-                        VStack (alignment: .leading, spacing: 3) {
+                        ZStack(alignment: .top) {
                             
-                            //MARK: ITEM, COMPANY
-                            Text(item.order.title)
-                                .font(.system(size: 26, weight: .medium))
-                                .foregroundColor(Color("Dark1"))
-                                .padding(.bottom, 2)
-                            
-                            //MARK: COMPANY NAME
-                            NavigationLink {
-                                AboutCompany()
-                            } label: {
-                                Text("From ")
-                                    .font(.system(size: 14, weight: .regular))
-                                    .foregroundColor(Color("Dark1"))
-                                +
-                                Text(companyName)
-                                    .underline()
-                                    .font(.system(size: 14, weight: .medium))
-                                    .foregroundColor(Color("Dark1"))
-                            }
-                            
+                            HStack(alignment: .center, spacing: 0) {
                                 
-                            
-                            //MARK: RATING
-                            HStack(alignment: .center, spacing: 1) {
+                                Spacer()
                                 
-                                let ratingVariable = itemsViewModel.oneItem.first?.review.rating ?? -1
-                                let referralsVariable = itemsViewModel.oneItem.first?.referrals.count ?? -1
-                                
-                                ForEach(0..<5) { i in
-                                    if i < ratingVariable {
-                                        Image(systemName: "star.fill")
-                                            .foregroundColor(Color.yellow)
-                                            .font(.system(size: 13, weight: .regular))
-                                    } else {
-                                        Image(systemName: "star")
-                                            .foregroundColor(Color.gray)
-                                            .font(.system(size: 13, weight: .regular))
-                                    }
+                                if backgroundURL != "" {
+                                    WebImage(url: URL(string: backgroundURL)!)
+                                        .resizable()
+                                        .scaledToFit()
+                                        .frame(width: UIScreen.main.bounds.width / 2, height: UIScreen.main.bounds.width / 2, alignment: .center)
+                                        .padding(.trailing, 10)
+                                } else {
+                                    Image("redshorts")
+                                        .resizable()
+                                        .scaledToFit()
+                                        .frame(width: UIScreen.main.bounds.width / 2, height: UIScreen.main.bounds.width / 2, alignment: .center)
+                                        .padding(.trailing, 10)
                                 }
+
+                            }.frame(width: UIScreen.main.bounds.width - 40, height: UIScreen.main.bounds.width / 2, alignment: .top)
+                                .background(RoundedRectangle(cornerRadius: 11)
+                                    .foregroundColor(Color(
+                                        red: Double(item.referrals.cardRGB[0]) / Double(255),
+                                        green: Double(item.referrals.cardRGB[1]) / Double(255),
+                                        blue: Double(item.referrals.cardRGB[2]) / Double(255)
+                                    )))
+                            
+                            
+                            HStack(alignment: .center) {
                                 
-                                if ratingVariable != 0 {
-                                    Image(systemName: "circle.fill")
-                                        .font(.system(size: 3, weight: .regular))
-                                        .foregroundColor(Color("Dark2"))
-                                        .padding(.horizontal, 4)
+                                VStack(alignment: .leading, spacing: 0) {
+                                    Text(item.order.title)
+                                        .font(.system(size: 24, weight: .semibold, design: .rounded))
+                                        .foregroundColor(Color.white)
+                                        .padding(.bottom, 8)
                                     
-                                    NavigationLink {
-                                        CompletedReviewPage(itemID: item.ids.itemID, userID: item.ids.userID)
-                                    } label: {
-                                        Text("Read your review")
-                                            .underline()
-                                            .font(.system(size: 14, weight: .medium))
-                                            .foregroundColor(Color("Dark1"))
-                                    }
-                                    
-                                }
-                                
-                                if referralsVariable > 0 {
-                                    
-                                    Image(systemName: "circle.fill")
-                                        .font(.system(size: 3, weight: .regular))
-                                        .foregroundColor(Color("Dark2"))
-                                        .padding(.horizontal, 4)
-                                    
-                                    NavigationLink {
-                                        ReferralTrackerForItem(userID: item.ids.userID, itemID: item.ids.itemID, itemTitle: item.order.title)
-                                    } label: {
+                                    HStack(alignment: .center, spacing: 0) {
                                         
-                                        if referralsVariable == 1 {
-                                            
-                                            Text("Track your referral")
-                                                .underline()
-                                                .font(.system(size: 14, weight: .medium))
-                                                .foregroundColor(Color("Dark1"))
-                                            
-                                        } else {
-                                            
-                                            Text("Track your " + String(referralsVariable) + " referrals")
-                                                .underline()
-                                                .font(.system(size: 14, weight: .medium))
-                                                .foregroundColor(Color("Dark1"))
-                                            
+                                        let ratingVariable = itemsViewModel.oneItem.first?.review.rating ?? -1
+                                        
+                                        ForEach(0..<5) { i in
+                                            if i < ratingVariable {
+                                                Image(systemName: "star.fill")
+                                                    .foregroundColor(Color.white)
+                                                    .font(.system(size: 14, weight: .regular))
+                                            } else {
+                                                Image(systemName: "star")
+                                                    .foregroundColor(Color.white)
+                                                    .font(.system(size: 14, weight: .regular))
+                                            }
                                         }
                                     }
+                                    Spacer()
                                 }
-                            }.padding(.top, 6)
+                                Spacer()
+                            }.padding(.all, 16)
+                            .frame(width: UIScreen.main.bounds.width - 40, height: UIScreen.main.bounds.width / 2, alignment: .top)
+
+                        }
+                        .frame(width: UIScreen.main.bounds.width - 40, height: UIScreen.main.bounds.width / 2, alignment: .center)
+                        .clipShape(RoundedRectangle(cornerRadius: 11))
+                        .shadow(color: .black.opacity(0.4), radius: 15, x: 0, y: 10)
+                        .padding(.horizontal, 20)
+                        .padding(.top, 25)
+                        .padding(.bottom, 5)
+                    }
+                    .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.width / 2 + 30, alignment: .center)
+                    .padding(.top, 88)
+                    
+                    //MARK: SUBTITLE OF IMAGE
+                    VStack (alignment: .leading, spacing: 0) {
+                                
+                        //MARK: RATING
+                        HStack(alignment: .center, spacing: 1) {
+                            
+                            let ratingVariable = itemsViewModel.oneItem.first?.review.rating ?? -1
+                            let referralsVariable = itemsViewModel.oneItem.first?.referrals.count ?? -1
+                            
+                            if ratingVariable <= 0 {
+                                
+                                Text("No review submitted")
+                                    .font(.system(size: 16, weight: .medium))
+                                    .foregroundColor(Color("Gray2"))
+                                
+                            } else {
+                                
+                                NavigationLink {
+                                    CompletedReviewPage(itemID: item.ids.itemID, userID: item.ids.userID)
+                                } label: {
+                                    Text("Read your review")
+                                        .underline()
+                                        .font(.system(size: 16, weight: .medium))
+                                        .foregroundColor(Color("Dark1"))
+                                }
+                                
+                            }
+                            
+                            if referralsVariable > 0 {
+                                
+                                Image(systemName: "circle.fill")
+                                    .font(.system(size: 3, weight: .regular))
+                                    .foregroundColor(Color("Dark2"))
+                                    .padding(.horizontal, 4)
+                                
+                                NavigationLink {
+                                    ReferralTrackerForItem(userID: item.ids.userID, itemID: item.ids.itemID, itemTitle: item.order.title)
+                                } label: {
+                                    
+                                    if referralsVariable == 1 {
+                                        
+                                        Text("Track your referral")
+                                            .underline()
+                                            .font(.system(size: 16, weight: .medium))
+                                            .foregroundColor(Color("Dark1"))
+                                        
+                                    } else {
+                                        
+                                        Text("Track your " + String(referralsVariable) + " referrals")
+                                            .underline()
+                                            .font(.system(size: 16, weight: .medium))
+                                            .foregroundColor(Color("Dark1"))
+                                        
+                                    }
+                                    
+                                }
+                                
+                            }
+                            
+                            Spacer()
                             
                         }
-                        Spacer()
+                        .padding(.top, 6)
                     }
-                    .padding()
-                    .padding(.leading, 8)
+                    .padding(.leading, 10)
+                    .padding(.horizontal, 20)
                     .padding(.vertical, 10)
+                    .padding(.bottom, 20)
                     
+                    Divider().padding(.horizontal, 30)
                     
-                    Divider().padding(.horizontal).padding(.horizontal, 8)
-                    
-
                     VStack(alignment: .leading, spacing: 0) {
                         
                         let ratingVariable1 = itemsViewModel.oneItem.first?.review.rating ?? -1
+                        let referralsVariable = itemsViewModel.oneItem.first?.referrals.count ?? -1
                         
                         if ratingVariable1 == 0 {
                             
@@ -194,26 +213,20 @@ struct Item: View {
                                 HStack(alignment: .center, spacing: 0) {
                                     Group {
                                         Text("Write a review? ")
-                                            .font(.system(size: 16, weight: .semibold))
+                                            .font(.system(size: 16, weight: .medium))
                                             .foregroundColor(Color("ReviewTeal"))
                                             //.foregroundColor(Color("Dark1"))
                                         +
-                                        Text("Let us know how you're liking this item. You can refer friends afterwards.")
+                                        Text("Let us know how you're liking this item. If you loved it, we'll show you how to refer a friend afterwards!")
                                             .font(.system(size: 16, weight: .regular))
                                             .foregroundColor(Color("Dark1"))
                                     }.multilineTextAlignment(.leading)
                                     
-                                    
                                     Spacer()
                                     
-                                    Image(systemName: "star.fill")
-                                        .font(.system(size: 22, weight: .regular))
-                                        .foregroundColor(Color("ReviewTeal").opacity(0.5))
-                                        .padding(.bottom, 10)
-                                }
+                                }.padding(.leading, 10)
                                 
-                            }.padding()
-                            .padding(.horizontal, 8)
+                            }.padding(.all, 20)
                             
                         } else if ratingVariable1 == 5 {
                             
@@ -223,34 +236,47 @@ struct Item: View {
                             } label: {
                                 
                                 HStack(alignment: .center, spacing: 0) {
-                                    Group {
-                                        Text("Refer a friend. ")
-                                            .font(.system(size: 16, weight: .semibold))
-                                            .foregroundColor(Color("ReferPurple"))
-                                            //.foregroundColor(Color("Dark1"))
-                                        +
-                                        Text("Thanks for your awesome review! If any of your friends would love this too, send them a $20 discount!")
-                                            .font(.system(size: 16, weight: .regular))
-                                            .foregroundColor(Color("Dark1"))
-                                    }.multilineTextAlignment(.leading)
+                                    
+                                    if referralsVariable > 0 {
+                                        
+                                        Group {
+                                            Text("Thank you! ")
+                                                .font(.system(size: 16, weight: .semibold))
+                                                .foregroundColor(Color("ReferPurple"))
+                                                //.foregroundColor(Color("Dark1"))
+                                            +
+                                            Text("We really appreciate your referral! If you still have more friends you'd like to tell, you'll get the same referral bonus for each one.")
+                                                .font(.system(size: 16, weight: .regular))
+                                                .foregroundColor(Color("Dark1"))
+                                        }.multilineTextAlignment(.leading)
+                                        
+                                    } else {
+                                        
+                                        Group {
+                                            Text("Refer a friend. ")
+                                                .font(.system(size: 16, weight: .semibold))
+                                                .foregroundColor(Color("ReferPurple"))
+                                                //.foregroundColor(Color("Dark1"))
+                                            +
+                                            Text("Thanks for your awesome review! If any of your friends would love this too, send them a $20 discount!")
+                                                .font(.system(size: 16, weight: .regular))
+                                                .foregroundColor(Color("Dark1"))
+                                        }.multilineTextAlignment(.leading)
+                                        
+                                    }
+                                    
                                     
                                     Spacer()
                                     
-                                    Image(systemName: "paperplane.fill")
-                                        .font(.system(size: 22, weight: .regular))
-                                        .foregroundColor(Color("ReferPurple").opacity(0.5))
-                                        .padding(.bottom, 10)
-                                    
-                                }.padding()
-                                .padding(.horizontal, 8)
+                                }
+                                .padding(.leading, 10)
+                                .padding(.all, 20)
                             }
                         }
                     }
                     
-                    .padding(.vertical, 10)
                     
-                    
-                    Divider().padding(.horizontal).padding(.horizontal, 8)
+                    Divider().padding(.horizontal, 30)
                     
                     
                     //MARK: ORDER DETAILS
@@ -258,15 +284,15 @@ struct Item: View {
                             
                         VStack(alignment: .leading, spacing: 20) {
                             
-                            OrderDetailsIconAndTextRow(icon: "number.square", title: "Order #" + String(item.order.orderNumber), subtitle: "Use this number for tracking and exchanges.")
+                            OrderDetailsIconAndTextRow(icon: "number", title: item.order.companyName + " Order #" + String(item.order.orderNumber), subtitle: "Use this number for tracking and exchanges.")
                             
                             OrderDetailsIconAndTextRow(icon: "calendar", title: convertTimestampToString(timestamp: item.order.timestamp), subtitle: "You ordered on this date.")
                             
-                            OrderDetailsIconAndTextRow(icon: "dollarsign.square", title: "$" + item.order.price, subtitle: "The price of this item without tax or shipping.")
+                            OrderDetailsIconAndTextRow(icon: "dollarsign", title: "$" + item.order.price, subtitle: "The price of this item without tax or shipping.")
                             
                             let returnEndDate = item.order.returnPolicyInDays * 24 * 60 * 60 + item.order.timestamp
                             
-                            OrderDetailsIconAndTextRow(icon: "airplane.circle", title: "Return by " + convertTimestampToString(timestamp: returnEndDate), subtitle: companyName + "'s return policy is " + String(item.order.returnPolicyInDays) + " days from purchase.")
+                            OrderDetailsIconAndTextRow(icon: "airplane", title: "Return by " + convertTimestampToString(timestamp: returnEndDate), subtitle: companyName + "'s return policy is " + String(item.order.returnPolicyInDays) + " days from purchase.")
                             
                             OrderDetailsIconAndLinkRow(icon: "arrow.up.forward", linkTitle: "View order confirmation page", link: item.order.orderStatusURL, subtitle: "View more details in your browser.")
                             
@@ -274,15 +300,11 @@ struct Item: View {
                         
                         Spacer()
                         
-                    }.padding()
-                    .padding(.leading, 8)
+                    }.padding(.all, 20)
                     .padding(.vertical, 10)
-                    .padding(.bottom, 60)
+                    .padding(.bottom, 30)
                     
                 }
-                
-                
-                
             }
             
             //MARK: REVIEW & REFER BUTTONS
@@ -331,9 +353,9 @@ struct Item: View {
                 }
             }
         }
-        .background(Color("Background").opacity(0.5))
+        .background(.white)
         .ignoresSafeArea()
-        .navigationBarTitle(item.order.title, displayMode: .inline)
+        .navigationBarTitle("", displayMode: .inline)
         .sheet(isPresented: $showReviewOrReferSheet, onDismiss: {
             
             print("DISMISSED THE SHEET!! TRACK IT")
@@ -359,7 +381,6 @@ struct Item: View {
         .onAppear {
             
             self.itemsViewModel.listenForOneItem(userID: item.ids.userID, itemID: item.ids.itemID)
-            
             
             let backgroundPath = "companies/" + item.ids.companyID + "/items/" + String(item.ids.shopifyProductID) + ".png"
             
@@ -413,9 +434,9 @@ struct OrderDetailsIconAndTextRow: View {
         HStack(alignment: .top, spacing: 18) {
             
             Image(systemName: icon)
-                .font(.system(size: 25, weight: .light))
+                .font(.system(size: 20, weight: .light))
                 .foregroundColor(Color("Dark2"))
-                .frame(width: 25, height: 25)
+                .frame(width: 25, height: 25, alignment: .center)
             
             VStack(alignment: .leading, spacing: 6) {
                 
@@ -443,9 +464,9 @@ struct OrderDetailsIconAndLinkRow: View {
         HStack(alignment: .top, spacing: 18) {
             
             Image(systemName: icon)
-                .font(.system(size: 25, weight: .light))
+                .font(.system(size: 20, weight: .light))
                 .foregroundColor(Color.blue)
-                .frame(width: 25, height: 25)
+                .frame(width: 25, height: 25, alignment: .center)
                 .padding(.top, 2)
             
             VStack(alignment: .leading, spacing: 6) {
@@ -556,7 +577,7 @@ struct ReviewAndReferButtons: View {
 
 struct WideReviewButton: View {
     
-    var titleAmount:String = "+250"
+    var titleAmount:String = "Earn 250 points for writing a review"
     var titleType:String = "points"
     var subtitle:String = "30 sec."
     var buttonText:String = "Write a review"
@@ -566,30 +587,14 @@ struct WideReviewButton: View {
             HStack(spacing: 0) {
                 
                 VStack(alignment: .leading, spacing: 6) {
-                    
-                    HStack(alignment: .center, spacing: 5) {
-                        Text(titleAmount)
-                            .font(.system(size: 20, weight: .semibold, design: .rounded))
-                            .foregroundColor(Color("Dark1"))
-                        
-                        Text(titleType)
-                            .font(.system(size: 14, weight: .regular))
-                            .foregroundColor(Color("Dark1"))
-                            .padding(.top, 2)
-                    }
-                    
-                    HStack(alignment: .center, spacing: 3) {
-                        Image(systemName: "clock")
-                            .font(.system(size: 11, weight: .regular))
-                            .foregroundColor(Color("Gray1"))
-                        Text(subtitle)
-                            .font(.system(size: 13, weight: .regular))
-                            .foregroundColor(Color("Gray1"))
-                    }
-                        
+
+                    Text(titleAmount)
+                        .multilineTextAlignment(.leading)
+                        .font(.system(size: 16, weight: .medium, design: .rounded))
+                        .foregroundColor(Color("Dark1"))
                     
                 }.padding(.top, 10)
-                    .frame(height: 70)
+                .frame(width: UIScreen.main.bounds.width * 2 / 5, height: 70, alignment: .topLeading)
                 
                 Spacer()
                 
@@ -609,7 +614,7 @@ struct WideReviewButton: View {
 
 struct WideReferButton: View {
     
-    var titleAmount:String = "+20,000"
+    var titleAmount:String = "Give $20, get 20k"
     var titleType:String = "points"
     var subtitle:String = "30 sec."
     var buttonText:String = "Refer a friend"
@@ -620,28 +625,13 @@ struct WideReferButton: View {
                 
                 VStack(alignment: .leading, spacing: 6) {
                     
-                    HStack(alignment: .center, spacing: 5) {
-                        Text(titleAmount)
-                            .font(.system(size: 20, weight: .semibold, design: .rounded))
-                            .foregroundColor(Color("Dark1"))
-                        
-                        Text(titleType)
-                            .font(.system(size: 14, weight: .regular))
-                            .foregroundColor(Color("Dark1"))
-                            .padding(.top, 2)
-                    }
-                                        
-                    HStack(alignment: .center, spacing: 3) {
-                        Image(systemName: "clock")
-                            .font(.system(size: 11, weight: .regular))
-                            .foregroundColor(Color("Gray1"))
-                        Text(subtitle)
-                            .font(.system(size: 13, weight: .regular))
-                            .foregroundColor(Color("Gray1"))
-                    }
+                    Text(titleAmount)
+                        .multilineTextAlignment(.leading)
+                        .font(.system(size: 18, weight: .medium, design: .rounded))
+                        .foregroundColor(Color("Dark1"))
                     
                 }.padding(.top, 10)
-                .frame(height: 70)
+                .frame(width: UIScreen.main.bounds.width * 2 / 5, height: 70, alignment: .leading)
                 
                 Spacer()
                 
@@ -653,7 +643,7 @@ struct WideReferButton: View {
                     .clipShape(RoundedRectangle(cornerRadius: 6))
                     .background(RoundedRectangle(cornerRadius: 6).foregroundColor(Color("ReferPurple")))
                     .padding(.top, 10)
-                    .frame(height: 70, alignment: .center)
+                    .frame(width: UIScreen.main.bounds.width * 2 / 5, height: 70, alignment: .center)
                 
             }.frame(height: 70)
     }

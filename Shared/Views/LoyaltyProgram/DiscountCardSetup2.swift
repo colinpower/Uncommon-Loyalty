@@ -48,7 +48,7 @@ struct DiscountCardSetup2: View {
             
             //MARK: CONTENT AT TOP (SCREENWIDTH / 1.6 is height)
             
-            DiscountCardForReferral(designSelection: designSelection, companyImage: "Athleisure LA", companyName: "Athleisure LA", discountAmount: "$20", discountCode: userSuggestedCode.isEmpty ? "CUSTOMIZE-ME" : userSuggestedCode, recipientFirstName: rewardsProgram.owner.firstName, recipientLastName: rewardsProgram.owner.lastName)
+            DiscountCardForReferral(designSelection: designSelection, companyImage: "Athleisure LA", companyName: "Athleisure LA", discountAmount: "$0", discountCode: userSuggestedCode.isEmpty ? "CUSTOMIZE-ME" : userSuggestedCode, recipientFirstName: rewardsProgram.owner.firstName, recipientLastName: rewardsProgram.owner.lastName)
                 .frame(alignment: .center)
                 .padding(.vertical)
             
@@ -281,11 +281,5 @@ struct DiscountCardSetup2: View {
             discountCodesViewModel.listenForOneDiscountCodeInProgress(userID: rewardsProgram.ids.userID, companyID: rewardsProgram.ids.companyID, discountID: discountID)
             
         }
-        
-        
-        
-        
-        
     }
-    
 }

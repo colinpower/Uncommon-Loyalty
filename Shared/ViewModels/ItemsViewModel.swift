@@ -14,6 +14,8 @@ class ItemsViewModel: ObservableObject, Identifiable {
     
     
     @Published var myItems = [Items]()
+    
+    
     @Published var myItemsForCompany = [Items]()
     @Published var myReviewableItemsForCompany = [Items]()
     @Published var myReferableItemsForCompany = [Items]()
@@ -107,7 +109,7 @@ class ItemsViewModel: ObservableObject, Identifiable {
         
         db.collection("item")
             .whereField("ids.userID", isEqualTo: userID)
-            //.order(by: "order.timestamp", descending: true)
+            .order(by: "order.timestamp", descending: true)
             .getDocuments { (snapshot, error) in
                 
                 guard let snapshot = snapshot, error == nil else {
@@ -133,6 +135,7 @@ class ItemsViewModel: ObservableObject, Identifiable {
         db.collection("item")
             .whereField("ids.userID", isEqualTo: userID)
             .whereField("referrals.count", isGreaterThan: 0)
+            .order(by: "referrals.count", descending: true)
             .getDocuments { (snapshot, error) in
                 
                 guard let snapshot = snapshot, error == nil else {
@@ -158,6 +161,7 @@ class ItemsViewModel: ObservableObject, Identifiable {
             .whereField("ids.userID", isEqualTo: userID)
             .whereField("referrals.count", isEqualTo: 0)
             .whereField("review.rating", isEqualTo: 5)
+            .order(by: "order.timestamp", descending: true)
             .getDocuments { (snapshot, error) in
                 
                 guard let snapshot = snapshot, error == nil else {
@@ -244,7 +248,9 @@ class ItemsViewModel: ObservableObject, Identifiable {
             "review": [
                 "rating": 0,
                 "rewardType": "POINTS",
-                "rewardAmount": 250
+                "rewardAmount": 250,
+                "cardRBG": [192, 40, 43],
+                "backgroundRBG": [251, 213, 213]
             ],
             "order": [
                 "companyName": "Athleisure LA",

@@ -27,7 +27,7 @@ struct ReviewProductCarousel1: View {
     @Binding var isShowingReviewExperience: Bool
     
     //Variables that will later be pulled from Firebase directly
-    @State var arrayOfReviewQuestions: [String] = ["Overall, how would you rate these Joggers?", "What's your favorite thing about them?", "What's a good title for this review?", "PREVIEW"]   //eventually will just pull from the viewmodel for this
+    @State var arrayOfReviewQuestions: [String] = ["Overall, what rating would you give for this item?", "What's your favorite thing about them?", "What's a good title for this review?", "PREVIEW"]   //eventually will just pull from the viewmodel for this
     @State var arrayOfReviewQuestionTypes: [String] = ["RATING", "TEXTENTRY", "TEXTENTRY", "PREVIEW"]   //eventually will just pull from the viewmodel for this
     @State var arrayOfEarnablePointsForEachQuestion: [Double] = [Double(50), Double(75), Double(125)]  //eventually will just pull from the viewmodel for this
     

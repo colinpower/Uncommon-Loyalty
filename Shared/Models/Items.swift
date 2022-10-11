@@ -58,12 +58,16 @@ struct ItemsReferralsStruct: Codable {
     var count: Int
     var rewardType: String
     var rewardAmount: Int
+    var cardRGB: [Int]
+    var backgroundRGB: [Int]
     
     //use CodingKeys to convert from names in Firebase to SwiftUI names
     enum CodingKeys: String, CodingKey {
         case count
         case rewardType
         case rewardAmount
+        case cardRGB
+        case backgroundRGB
     }
 }
 

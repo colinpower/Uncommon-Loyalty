@@ -39,6 +39,19 @@
 
 import SwiftUI
 import FirebaseAuth
+import Combine
+
+//
+class UserObject {
+    var uid: String
+    var email: String?
+
+    init(uid: String, email: String?) {
+        self.uid = uid
+        self.email = email
+    }
+}
+
 
 class AppViewModel: ObservableObject {
     
@@ -55,41 +68,114 @@ class AppViewModel: ObservableObject {
         return auth.currentUser != nil
     }
     
+    @Published var currentUser: Users?
     
     
-    func passwordlessSignIn(email: String, link: String,
+    var didChange = PassthroughSubject<AppViewModel, Never>()
+    @Published var session: UserObject? { didSet { self.didChange.send(self) }}
+    var handle: AuthStateDidChangeListenerHandle?
+    
+    //need to remove the listener so you're not constantly listening
+    func unbind () {
+            if let handle = handle {
+                Auth.auth().removeStateDidChangeListener(handle)
+            }
+        }
+    
+    
+    
+    func listen () {
+        // monitor authentication changes using firebase
+        handle = Auth.auth().addStateDidChangeListener { (auth1, user1) in
+            if let user1 = user1 {
+                // if we have a user, create a new user model
+                
+                print("we have a session.. setting it to UserObject of the current user")
+                print("Got user: \(user1)")
+                
+                print(String(user1.uid))
+                print(user1.email ?? "")
+                
+                self.session = UserObject(
+                    uid: user1.uid,
+                    email: user1.email
+                )
+                
+                print("printing the UserObject which is self.session")
+                print(self.session)
+                
+                
+            } else {
+                print("we don't have a session.. setting it to nil")
+                // if we don't have a user, set our session to nil
+                self.session = nil
+            }
+        }
+    }
+    
+//    func listen() {
+//        Auth.auth().addStateDidChangeListener { auth, user1 in
+//            if let user1 = user1 {
+//                print("CALLED THE LISTENER!!")
+//                print("\(user1.uid) login")
+//                self.signedIn = user1.isEmailVerified
+//                //self.isShowingCheckEmailView = false
+//
+//            } else {
+//
+//                print("CALLED THE LISTENER BUT HIT AN ERROR!!")
+//
+//                print("not login")
+//            }
+//        }
+//    }
+    
+
+    func passwordlessSignIn(email1: String, link1: String,
                                       completion: @escaping (Result<User?, Error>) -> Void) {
-        Auth.auth().signIn(withEmail: email, link: link) { result, error in
-          if let error = error {
-            print("Authentication error: \(error.localizedDescription).")
-            completion(.failure(error))
+        Auth.auth().signIn(withEmail: email1, link: link1) { result1, error1 in
+          if let error1 = error1 {
+            print("Authentication error: \(error1.localizedDescription).")
+            completion(.failure(error1))
           } else {
+            print(result1?.user.uid)
             print("Authentication was successful.")
-            completion(.success(result?.user))
+            completion(.success(result1?.user))
           }
         }
       }
     
     //MARK: TESTING ONLY - MUST DELETE WHEN SHIPPING
     //COMMENT THIS FUNCTION.. ONLY FOR TESTING
-    func signIn(email: String, password: String) {
-            auth.signIn(withEmail: email, password: password) { [weak self]
-                result, error in
-                guard result != nil, error == nil else {
-                    return
-                }
-                DispatchQueue.main.async {
-                    //Success
-                    self?.signedIn = true
-                }
-                
-            }
+//    func signIn(email: String, password: String) {
+//            auth.signIn(withEmail: email, password: password) { [weak self]
+//                result, error in
+//                guard result != nil, error == nil else {
+//                    return
+//                }
+//                DispatchQueue.main.async {
+//                    //Success
+//                    self?.signedIn = true
+//                }
+//
+//            }
+//        }
+    
+    
+    func signOut() -> Bool {
+        do {
+            try Auth.auth().signOut()
+            self.signedIn = false
+            self.session = nil
+            
+            return true
+            
+        } catch {
+            
+            return false
+            
         }
-    
-    
-    func signOut() {
-        try? auth.signOut()
-        self.signedIn = false
+        
     }
     
 }
@@ -110,7 +196,11 @@ struct LoginView: View {
     
     var body: some View {
         if isShowingCheckEmailView {
-            CheckYourEmail(isShowingCheckEmailView: $isShowingCheckEmailView)
+            CheckYourEmail(isShowingCheckEmailView: $isShowingCheckEmailView, email: $email)
+                .onDisappear{
+                    isShowingCheckEmailView = false
+                    email = ""
+                }
         } else {
         
             ZStack {
@@ -168,7 +258,7 @@ struct LoginView: View {
                             .foregroundColor(.white)
                     }.disabled(email.isEmpty)
                         .fullScreenCover(isPresented: $isShowingCheckEmailView) {
-                            CheckYourEmail(isShowingCheckEmailView: $isShowingCheckEmailView)
+                            CheckYourEmail(isShowingCheckEmailView: $isShowingCheckEmailView, email: $email)
                         }
                 }
                 Spacer()

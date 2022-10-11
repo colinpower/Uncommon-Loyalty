@@ -450,11 +450,11 @@ class DataManager: ObservableObject {
     
     
     
-    func getOneUser(email: String, onSuccess: @escaping([Users]) -> Void, listener: @escaping(_ listenerHandle: ListenerRegistration) -> Void) {
+    func getOneUser(userID: String, onSuccess: @escaping([Users]) -> Void, listener: @escaping(_ listenerHandle: ListenerRegistration) -> Void) {
         
         
         let listenerRegistration = db.collection("users")
-            .whereField("email", isEqualTo: email)
+            .whereField("userID", isEqualTo: userID)
             .addSnapshotListener { (querySnapshot, error) in
             guard let documents = querySnapshot?.documents else {
                 print("No documents")
@@ -469,6 +469,29 @@ class DataManager: ObservableObject {
                 //return try? queryDocumentSnapshot.data(as: Ticket.self)
             }
             onSuccess(oneUserArray)
+        }
+        listener(listenerRegistration) //escaping listener
+    }
+    
+    
+    func getVerificationResult(userID: String, verificationID: String, onSuccess: @escaping([VerificationResult]) -> Void, listener: @escaping(_ listenerHandle: ListenerRegistration) -> Void) {
+        
+        let listenerRegistration = db.collection("users").document(userID).collection("getVerificationResult")
+            .whereField("verificationID", isEqualTo: verificationID)
+            .addSnapshotListener { (querySnapshot, error) in
+            guard let documents = querySnapshot?.documents else {
+                print("No documents")
+                return
+            }
+            var oneVerificationResultArray = [VerificationResult]()
+
+                oneVerificationResultArray = documents.compactMap { (queryDocumentSnapshot) -> VerificationResult? in
+                    print("SINGLE VERIFICATION RESULT")
+                print(try? queryDocumentSnapshot.data(as: VerificationResult.self))
+                return try? queryDocumentSnapshot.data(as: VerificationResult.self)
+                //return try? queryDocumentSnapshot.data(as: Ticket.self)
+            }
+            onSuccess(oneVerificationResultArray)
         }
         listener(listenerRegistration) //escaping listener
     }

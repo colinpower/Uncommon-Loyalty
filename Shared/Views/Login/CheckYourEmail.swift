@@ -10,6 +10,7 @@ import SwiftUI
 struct CheckYourEmail: View {
     
     @Binding var isShowingCheckEmailView: Bool
+    @Binding var email: String
     
     
     var body: some View {
@@ -55,11 +56,5 @@ struct CheckYourEmail: View {
             Spacer()
         }.padding(.horizontal).padding(.horizontal)
     }.edgesIgnoringSafeArea(.all)
-    }
-}
-
-struct CheckYourEmail_Previews: PreviewProvider {
-    static var previews: some View {
-        CheckYourEmail(isShowingCheckEmailView: .constant(true))
     }
 }

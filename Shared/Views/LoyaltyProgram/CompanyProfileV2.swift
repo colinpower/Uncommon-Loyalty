@@ -187,111 +187,71 @@ struct CompanyProfileV2: View {
                     }
                             
                     
-                    //MARK: QUICK ACTIONS
-                    HStack(alignment: .top, spacing: 8) {
                         
-                        VStack(alignment: .leading) {
+                        
+                    //MARK: REDEEM -> REDEEM FULL SCREEN
+                    Button {
+                        
+                        //isFullScreenSheet = true
+                        self.activeLoyaltySheet = .redeemPoints
+                        
+                        
+                    } label: {
+                        
+                        VStack(alignment: .leading, spacing: 0) {
                             
-                            //MARK: CURRENT BALANCE -> HISTORY
                             HStack(alignment: .center, spacing: 0) {
-                                VStack(alignment: .leading, spacing: 0) {
-                                    Text("Points Balance")
-                                        .font(.system(size: 15))
-                                        .fontWeight(.regular)
-                                        .foregroundColor(Color("Dark1"))
-                                        .padding(.top, 6)
-                                    Text("3000")
-                                        .font(.system(size: 32, weight: .bold, design: .rounded))
-                                        .foregroundColor(Color("Dark1"))
-                                        .padding(.vertical, 3)
-                                    Text("820 Pending")
-                                        .font(.system(size: 15))
-                                        .fontWeight(.regular)
-                                        .foregroundColor(Color("Gray1"))
-                                        .padding(.bottom, 6)
-                                }.padding(.leading, 16)
-                                Spacer()
-                            }.background(RoundedRectangle(cornerRadius: 8).foregroundColor(.white))
-                
-                            //MARK: ACTIVE DISCOUNTS -> DISCOUNTS HALF SHEET
-                            Button {
-                                //showSheet = true
-                                //isFullScreenSheet = false
-                                //activeLoyaltySheet = .viewAllDiscounts
-                            } label: {
-                                HStack(alignment: .center, spacing: 0) {
-                                    VStack(alignment: .leading, spacing: 0) {
-                                        Text("Available Discounts")
-                                            .font(.system(size: 15))
-                                            .fontWeight(.regular)
-                                            .foregroundColor(Color("Dark1"))
-                                            .padding(.top, 6)
-                                        Text(String(discountCodesViewModel.myActiveDiscountCodes.count) + " available")
-                                            .font(.system(size: 22))
-                                            .fontWeight(.bold)
-                                            .foregroundColor(Color("Dark1"))
-                                            .padding(.vertical, 10)
-                                    }.padding(.leading, 16)
-                                    Spacer()
-                                }.background(RoundedRectangle(cornerRadius: 8).foregroundColor(.white))
-                            }
-                            
-                        }
-                        
-                        //MARK: REDEEM -> REDEEM FULL SCREEN
-                        Button {
-                            
-                            //isFullScreenSheet = true
-                            self.activeLoyaltySheet = .redeemPoints
-                            
-                            
-                        } label: {
-                            
-                            VStack(alignment: .leading, spacing: 0) {
-                                HStack(alignment: .center, spacing: 0) {
-                                    VStack(alignment: .leading, spacing: 0) {
-                                        
-                                        let currentPointsBalanceVar = rewardsProgram.status.currentPointsBalance
-                                        
-                                        Text("Points Balance")
-                                            .font(.system(size: 15))
-                                            .fontWeight(.medium)
-                                            .foregroundColor(Color("Dark1"))
-                                            .padding(.top, 6)
-                                            .padding(.bottom, 4)
-                                        Text(String(currentPointsBalanceVar))
-                                            .font(.system(size: 36, weight: .bold, design: .rounded))
-                                            .foregroundColor(Color("Dark1"))
-                                            .padding(.vertical, 3)
-                                        
-                                    }.padding(.leading, 16)
-                                    Spacer()
-                                }
-                                Spacer()
-                                    
-                                HStack {
-                                    Spacer()
-                                    Text("Redeem")
-                                        .font(.system(size: 16))
-                                        .fontWeight(.semibold)
-                                        .foregroundColor(.white)
-                                        .padding(.vertical, 12)
-                                    Spacer()
-                                }.background(
-                                    Capsule()
-                                        .strokeBorder(Color.black,lineWidth: 0.3)
-                                        .background(Color("ThemePrimary"))
-                                        .clipped()
-                                )
-                                .clipShape(Capsule())
-                                .padding()
                                 
-                            }.background(RoundedRectangle(cornerRadius: 8).foregroundColor(.white))
-
-                        }
+                                
+                                
+                                Text("Points Balance")
+                                    .font(.system(size: 15))
+                                    .fontWeight(.medium)
+                                    .foregroundColor(Color("Dark1"))
+                                    .padding(.top, 6)
+                                    .padding(.bottom, 4)
+                                
+                                Spacer()
+                                
+                            }.padding(.leading, 16)
+                                .frame(height: 25)
                             
-                    }.padding(.horizontal)
-                    .frame(width: UIScreen.main.bounds.width, height: 170)
+                            HStack(alignment: .bottom, spacing: 0) {
+                                
+                                let currentPointsBalanceVar = rewardsProgram.status.currentPointsBalance
+                                
+                                Text(String(currentPointsBalanceVar))
+                                    .font(.system(size: 36, weight: .bold, design: .rounded))
+                                    .foregroundColor(Color("Dark1"))
+                                    .padding(.vertical, 2)
+                                
+                                Spacer()
+                                
+                                
+                                Text("Redeem")
+                                    .font(.system(size: 16, weight: .semibold))
+                                    .foregroundColor(.white)
+                                    .padding(.vertical, 11)
+                                    .padding(.horizontal, 40)
+                                    .background(Capsule().background(Color("ThemePrimary")))
+                                    .clipShape(Capsule())
+                                    .padding(.trailing, 40)
+                                    .padding(.bottom, 2)
+                                    
+                            }.padding(.leading, 16)
+                            .padding(.top, 4)
+                            .padding(.bottom, 21)
+                            .frame(height: 65)
+                        }
+                        .frame(height: 90)
+                        .background(RoundedRectangle(cornerRadius: 8).foregroundColor(.white))
+                        .padding(.horizontal)
+                        .frame(width: UIScreen.main.bounds.width)
+                        
+                    }.padding(.bottom, 30)
+                    
+                    
+                    
                     
 
                     //MARK: Recent Orders
@@ -304,13 +264,13 @@ struct CompanyProfileV2: View {
                                 .foregroundColor(Color("Dark1"))
                             Spacer()
                         }.padding(.horizontal)
-                            .padding(.bottom, 4)
+                            .padding(.bottom, 10)
                         
                         
                         //MARK: HISTORY SECTION
                         //note: need to create the right queries so that I am not grabbing all the data.. just the relevant "USED" discount codes and referrals... i guess grab all the orders and reviews though
                         
-                        VStack {
+                        VStack(alignment: .leading, spacing: 0) {
                             
                             //{["DISCOUNT", $0.discountID, String($0.timestamp_Created)]}
                             
@@ -322,30 +282,40 @@ struct CompanyProfileV2: View {
                             
                             let array4:[HistoryObject] = ordersViewModel.snapshotOfOrdersForCompany.map { HistoryObject(timestamp: $0.order.timestampCreated, type: "ORDER", discountObject: emptyDiscountObject, referralObject: emptyReferralObject, reviewObject: emptyReviewObject, orderObject: $0.self)}
                             
-                            var testArray:[HistoryObject] = array1 + array2 + array3 + array4
+                            let testArray:[HistoryObject] = array1 + array2 + array3 + array4
                             
-                            ForEach(testArray) { item in
-                                
-                                HStack {
-                                    Text(item.type)
-                                    Text(String(item.timestamp))
-                                }
-
-                            }
-                            
-                            Divider()
-                            
-                            
-    //                        testArray = array1 + array2
-                            
-                            let sortedArray:[HistoryObject] = testArray.sorted(by: { $0.timestamp < $1.timestamp })
+                            let sortedArray:[HistoryObject] = testArray.sorted(by: { $0.timestamp > $1.timestamp })
                             
                             ForEach(sortedArray) { item in
                                 
-                                HStack {
-                                    Text(item.type)
-                                    Text(String(item.timestamp))
+                                if item.type == "ORDER" {
+                                        
+                                    OrderHistoryStruct(order: item.orderObject)
+                                        .frame(width: UIScreen.main.bounds.width, height: 72, alignment: .center)
+                                        .background(.white)
+                                
+                                    
+                                } else if item.type == "REFERRAL" {
+                                    
+                                    ReferHistoryStruct(referral: item.referralObject)
+                                        .frame(width: UIScreen.main.bounds.width, height: 72, alignment: .center)
+                                        .background(.white)
+                                    
+                                } else if item.type == "REVIEW" {
+                                    
+                                    ReviewHistoryStruct(review: item.reviewObject)
+                                        .frame(width: UIScreen.main.bounds.width, height: 72, alignment: .center)
+                                        .background(.white)
+                                    
+                                } else if item.type == "DISCOUNT" {
+                                    
+                                    DiscountHistoryStruct(discount: item.discountObject)
+                                        .frame(width: UIScreen.main.bounds.width, height: 72, alignment: .center)
+                                        .background(.white)
+                                    
                                 }
+                                
+                                Divider()
 
                             }
                      
@@ -397,79 +367,6 @@ struct CompanyProfileV2: View {
                 }
             }
         
-        
-        
-        
-//        .halfSheet(showSheet: $showSheet) {
-//
-//            //MARK: DISCOUNT CARDS IN HALF SHEET
-//            if self.activeLoyaltySheet == .viewCard {
-//
-//                HStack {
-//
-//                        TabView {
-//                            ForEach(discountCodesViewModel.myActiveDiscountCodes.prefix(5)) { discountcode in
-//                                VStack {
-//
-//                                    //MARK: BUTTONS
-//
-//                                    CardForLoyaltyProgram(cardColor: Color("Gold1"), textColor: Color.white, companyImage: "Athleisure LA", companyName: "Athleisure LA", currentDiscountAmount: "$20", currentDiscountCode: "COLIN123", userFirstName: "Colin", userLastName: "Power", userCurrentTier: "Gold", discountCardDescription: "Default Card")
-//                                        .frame(alignment: .center)
-//
-//
-//                                    HStack(spacing: 12) {
-//                                        Button {
-//                                            //copy
-//                                        } label: {
-//                                            HStack {
-//                                                Spacer()
-//                                                Text("Copy code").font(.system(size: 18, weight: .semibold)).foregroundColor(.black).padding(.vertical)
-//                                                Spacer()
-//                                            }.background(RoundedRectangle(cornerRadius: 12).foregroundColor(Color("Background")))
-//                                        }
-//
-//                                        Button {
-//                                            //copy
-//                                        } label: {
-//                                            HStack {
-//                                                Spacer()
-//                                                Text("Visit website").font(.system(size: 18, weight: .semibold)).foregroundColor(.black).padding(.vertical)
-//                                                Spacer()
-//                                            }.background(RoundedRectangle(cornerRadius: 12).foregroundColor(Color("Background")))
-//                                        }
-//
-//                                    }.padding(.horizontal)
-//                                    .padding(.bottom)
-//
-//                                }
-//
-//                            }
-//                        }//.frame(height: UIScreen.main.bounds.height/2)
-//                        .tabViewStyle(.page(indexDisplayMode: .always))
-//                        .indexViewStyle(.page(backgroundDisplayMode: .always))
-//
-//                }
-//                .edgesIgnoringSafeArea([.all])
-//                .background(RoundedRectangle(cornerRadius: 32).fill(Color.white))
-//            }
-//
-//            //MARK: REDEEM IN HALF SHEET
-//            else if self.activeLoyaltySheet == .redeemPoints {
-//                HStack(alignment: .bottom) {
-//                    Spacer()
-//                    CreateDiscountScreen(showSheet: $showSheet, rewardsProgram: rewardsProgramViewModel.oneRewardsProgram.first ?? rewardsProgram)
-//                    Spacer()
-//                }
-//                .edgesIgnoringSafeArea([.all])
-//                .background(RoundedRectangle(cornerRadius: 32).fill(.white))
-//                .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height / 2)
-//            }
-//
-//        } onEnd : {
-//            activeLoyaltySheet = nil
-//            showSheet = false
-//            print("Dismissed the half sheet")
-//        }
         .onAppear {
             
             //listeners
@@ -784,3 +681,192 @@ class CustomHostingController<Content: View>: UIHostingController<Content> {
     }
 }
 
+struct OrderHistoryStruct: View {
+    
+    var order: Orders
+    
+    var body: some View {
+        
+        HStack(alignment: .center, spacing: 0) {
+            Image(systemName: "bag.fill")
+                .foregroundColor(Color("ThemePrimary"))
+                .font(.system(size: 24, weight: .regular))
+                .frame(width: 60, height: 60,  alignment: .center)
+            
+            VStack(alignment: .leading, spacing: 0) {
+                
+                if (order.ids.itemIDs.count == 2) {
+                    let andXOthers = " and 1 other"
+                    Text("Ordered " + order.order.firstItemTitle + andXOthers)
+                        .font(.system(size: 16, weight: .medium))
+                    
+                } else if (order.ids.itemIDs.count > 2) {
+                    
+                    let andXOthers = " and " + String(order.ids.itemIDs.count) + " others"
+                    
+                    Text("Ordered " + order.order.firstItemTitle + andXOthers)
+                        .font(.system(size: 16, weight: .medium))
+                    
+                } else {
+                    let andXOthers = ""
+                    Text("Ordered " + order.order.firstItemTitle + andXOthers)
+                        .font(.system(size: 16, weight: .medium))
+                        .foregroundColor(Color("Dark1"))
+                }
+                
+                Text("On " + convertTimestampToString(timestamp: order.order.timestampCreated))
+                    .font(.system(size: 14, weight: .regular))
+                    .foregroundColor(Color("Gray2"))
+                    .padding(.top, 4)
+                
+            }.padding(.vertical, 13)
+                     
+            Spacer()
+            
+            Image(systemName: "chevron.right")
+                .foregroundColor(Color("Gray1"))
+                .font(.system(size: 12, weight: .medium))
+                .frame(width: 30, height: 60,  alignment: .center)
+            
+        }.frame(width: UIScreen.main.bounds.width, height: 60)
+        
+    }
+}
+
+
+
+
+struct ReviewHistoryStruct: View {
+    
+    var review: Reviews
+    
+    var body: some View {
+        
+        HStack(alignment: .center, spacing: 0) {
+            Image(systemName: "star.fill")
+                .foregroundColor(Color("ReviewTeal"))
+                .font(.system(size: 24, weight: .regular))
+                .frame(width: 60, height: 60,  alignment: .center)
+            
+            VStack(alignment: .leading, spacing: 0) {
+                
+                Text("Reviewed " + review.card.itemName)
+                    .font(.system(size: 16, weight: .medium))
+                    .foregroundColor(Color("Dark1"))
+                
+                Text("On " + convertTimestampToString(timestamp: review.card.timestamp))
+                    .font(.system(size: 14, weight: .regular))
+                    .foregroundColor(Color("Gray2"))
+                    .padding(.top, 4)
+                
+            }.padding(.vertical, 13)
+                     
+            Spacer()
+            
+            Text("+250")
+                .font(.system(size: 14, weight: .regular, design: .rounded))
+                .foregroundColor(Color("ThemePrimary"))
+                .padding(.horizontal, 10)
+                .padding(.vertical, 5)
+                .background(RoundedRectangle(cornerRadius: 4).foregroundColor(Color("ThemeLight")))
+            
+            Image(systemName: "chevron.right")
+                .foregroundColor(Color("Gray1"))
+                .font(.system(size: 12, weight: .medium))
+                .frame(width: 30, height: 60,  alignment: .center)
+            
+        }.frame(width: UIScreen.main.bounds.width, height: 60)
+        
+    }
+}
+
+
+struct ReferHistoryStruct: View {
+    
+    var referral: Referrals
+    
+    var body: some View {
+        
+        HStack(alignment: .center, spacing: 0) {
+            Image(systemName: "person.wave.2.fill")
+                .foregroundColor(Color("ReferPurple"))
+                .font(.system(size: 24, weight: .regular))
+                .frame(width: 60, height: 60,  alignment: .center)
+            
+            VStack(alignment: .leading, spacing: 0) {
+                
+                Text("Referred " + referral.recipient.firstName + (referral.status.status == "USED" ? "" : " (Pending)"))
+                    .font(.system(size: 16, weight: .medium))
+                    .foregroundColor(Color("Dark1"))
+                
+                Text("On " + convertTimestampToString(timestamp: referral.status.timestampCreated))
+                    .font(.system(size: 14, weight: .regular))
+                    .foregroundColor(Color("Gray2"))
+                    .padding(.top, 4)
+                
+            }.padding(.vertical, 13)
+                     
+            Spacer()
+            
+            Text("+" + String(referral.reward.rewardAmount))
+                .font(.system(size: 14, weight: .regular, design: .rounded))
+                .foregroundColor((referral.status.status == "USED" ? Color("ThemePrimary") : Color("Gray1")))
+                .padding(.horizontal, 10)
+                .padding(.vertical, 5)
+                .background(RoundedRectangle(cornerRadius: 4).foregroundColor(referral.status.status == "USED" ? Color("ThemeLight") : Color("Gray3")))
+            
+            Image(systemName: "chevron.right")
+                .foregroundColor(Color("Gray1"))
+                .font(.system(size: 12, weight: .medium))
+                .frame(width: 30, height: 60,  alignment: .center)
+            
+        }.frame(width: UIScreen.main.bounds.width, height: 60)
+        
+    }
+}
+
+
+
+struct DiscountHistoryStruct: View {
+    
+    var discount: DiscountCodes
+    
+    var body: some View {
+        
+        HStack(alignment: .center, spacing: 0) {
+            Image(systemName: "dollarsign.circle.fill")
+                .foregroundColor(Color.green)
+                .font(.system(size: 24, weight: .regular))
+                .frame(width: 60, height: 60,  alignment: .center)
+            
+            VStack(alignment: .leading, spacing: 0) {
+                
+                Text("Redeemed points for $" + String(discount.reward.rewardAmount) + " discount")
+                    .font(.system(size: 16, weight: .medium))
+                    .foregroundColor(Color("Dark1"))
+                
+                Text("On " + convertTimestampToString(timestamp: discount.status.timestampCreated))
+                    .font(.system(size: 14, weight: .regular))
+                    .foregroundColor(Color("Gray2"))
+                    .padding(.top, 4)
+                
+            }.padding(.vertical, 13)
+                     
+            Spacer()
+            
+            Text("-" + String(discount.reward.pointsSpent))
+                .font(.system(size: 14, weight: .regular, design: .rounded))
+                .foregroundColor(Color("ThemePrimary"))
+                .padding(.horizontal, 10)
+                .padding(.vertical, 5)
+                .background(RoundedRectangle(cornerRadius: 4).foregroundColor(Color("ThemeLight")))
+            
+            Image(systemName: "chevron.right")
+                .foregroundColor(Color("Gray1"))
+                .font(.system(size: 12, weight: .medium))
+                .frame(width: 30, height: 60,  alignment: .center)
+            
+        }.frame(width: UIScreen.main.bounds.width, height: 60)
+        
+    }
+}

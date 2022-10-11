@@ -44,9 +44,6 @@ struct Purchases: View {
                     
                     VStack(alignment: .center, spacing: 0) {
                         
-                        
-                        
-                        
                         //MARK: MOST POPULAR REFERRALS
                         VStack(alignment: .leading) {
                             
@@ -66,6 +63,7 @@ struct Purchases: View {
                                 HStack(alignment: .center, spacing: 20) {
 
                                     if itemsViewModel.snapshotOfItemsWithMultipleReferrals.isEmpty {
+//                                    if itemsViewModel.myItems.isEmpty {
                                      
                                         ZStack(alignment: .center) {
                                             RoundedRectangle(cornerRadius: 11)
@@ -105,11 +103,11 @@ struct Purchases: View {
                                     }
                                 }.offset(x: 20)
                                 .padding(.vertical)
-                                .padding(.vertical)
+                                .padding(.bottom)
                                 .padding(.trailing, 40)
                             }
                             
-                        }.padding(.top).padding(.top)
+                        }.padding(.top)
                         
                         
                         //MARK: MORE PRODUCTS YOU BELIEVE IN (5 STAR REVIEWS -> READY FOR REFERRAL)
@@ -173,11 +171,11 @@ struct Purchases: View {
                                     
                                 }.offset(x: 20)
                                 .padding(.vertical)
-                                .padding(.vertical)
+                                .padding(.bottom)
                                 .padding(.trailing, 40)
                             }
                             
-                        }.padding(.top).padding(.top)
+                        }.padding(.top)
                         
                         
                         //MARK: YOUR RECENT PURCHASES
@@ -193,18 +191,18 @@ struct Purchases: View {
                                 
                                 Spacer()
                                 
-                                Button {
-                                    //create a fake order
-                                    
-                                    itemsViewModel.createFakeItemForDemo(email: viewModel.email!, userID: viewModel.userID!)
-                                    
-                                } label: {
-                                    
-                                    Text("Create a fake order")
-                                        .font(.system(size: 14, weight: .medium))
-                                        .foregroundColor(Color("ReferPurple"))
-                                        .padding(.trailing)
-                                }
+//                                Button {
+//                                    //create a fake order
+//
+//                                    itemsViewModel.createFakeItemForDemo(email: viewModel.email!, userID: viewModel.userID!)
+//
+//                                } label: {
+//
+//                                    Text("Create a fake order")
+//                                        .font(.system(size: 14, weight: .medium))
+//                                        .foregroundColor(Color("ReferPurple"))
+//                                        .padding(.trailing)
+//                                }
                                 
                             }
                             
@@ -241,7 +239,7 @@ struct Purchases: View {
             
             .background(Color("Background"))
             .edgesIgnoringSafeArea([.bottom, .horizontal])
-            .navigationTitle("Your Purchases")
+            .navigationTitle("Influence")
             
             //.ignoresSafeArea()
             //Note: need to ignoreSafeArea, set nav title to "", set barHidden to true in order not to break when returning from a navigationViewChild
@@ -250,11 +248,13 @@ struct Purchases: View {
             //.navigationBarTitle("")
             //.navigationBarHidden(true)
             .onAppear {
+
+                
                 self.itemsViewModel.getSnapshotOfItems(userID: viewModel.userID ?? "")
                 self.itemsViewModel.getSnapshotOfItemsWithMultipleReferrals(userID: viewModel.userID ?? "")
                 self.itemsViewModel.getSnapshotOfItemsWith5StarsAndNoReferrals(userID: viewModel.userID ?? "")
                 
-                self.itemsViewModel.listenForMyItems(userID: viewModel.userID ?? "")
+                //self.itemsViewModel.listenForMyItems(userID: viewModel.userID ?? "")
                 //print(self.itemsViewModel.snapshotOfReviewableItems)
                 
 //                let backgroundPath = "companies/" + companyID + "/background.png"

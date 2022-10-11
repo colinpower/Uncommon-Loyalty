@@ -111,7 +111,14 @@ struct Profile: View {
                         HStack {
                             Spacer()
                             Button {
-                                viewModel.signOut()
+                                let signOutResult = viewModel.signOut()
+                                
+                                if !signOutResult {
+                                    
+                                    //error signing out here.. handle it somehow?
+                                    
+                                }
+                                
                             } label: {
                                 Text("Sign out")
                                     .font(.system(size: 16))
