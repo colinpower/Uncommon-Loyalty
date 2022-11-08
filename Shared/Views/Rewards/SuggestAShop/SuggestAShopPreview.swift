@@ -73,7 +73,7 @@ struct SuggestAShopPreview: View {
 //                        //FOR EACH LOYALTY PROGRAM, SHOW IT HERE
 //                        ForEach(viewModel1.myRewardsPrograms) { RewardsProgram in
 //
-//                            NavigationLink(destination: CompanyProfileV2(companyID: RewardsProgram.companyID, companyName: RewardsProgram.companyName, email: RewardsProgram.email, userID: RewardsProgram.userID)) {
+//                            NavigationLink(destination: RewardsForShop(companyID: RewardsProgram.companyID, companyName: RewardsProgram.companyName, email: RewardsProgram.email, userID: RewardsProgram.userID)) {
 //                                RewardsProgramWidget(image: RewardsProgram.companyName, company: RewardsProgram.companyName, status: RewardsProgram.status, currentPointsBalance: RewardsProgram.currentPointsBalance).padding(.bottom, 8)
 //                            }
 //                        }

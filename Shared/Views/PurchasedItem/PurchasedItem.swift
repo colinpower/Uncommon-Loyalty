@@ -1,5 +1,5 @@
 //
-//  Item.swift
+//  PurchasedItem.swift
 //  Uncommon Loyalty (iOS)
 //
 //  Created by Colin Power on 8/22/22.
@@ -18,7 +18,7 @@ enum ActiveReviewOrReferSheet: String, Identifiable { // <--- note that it's now
 }
 
 
-struct Item: View {
+struct PurchasedItem: View {
     
     //Environment
     @EnvironmentObject var viewModel: AppViewModel

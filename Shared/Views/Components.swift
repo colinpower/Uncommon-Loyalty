@@ -93,11 +93,11 @@ struct TabViewItem: View {
     var tabViewItemImageName: [String] {
         switch position {
         case 0:
-            return ["person.wave.2", "Influence"]
+            return ["bag", "Purchases"]
         case 1:
-            return ["barcode.viewfinder", "Referral Tracker"]
+            return ["barcode.viewfinder", "Referrals"]
         case 2:
-            return ["giftcard", "Rewards"]
+            return ["dollarsign.square", "Rewards"]
         case 3:
             return ["person", "Profile"]
         default:

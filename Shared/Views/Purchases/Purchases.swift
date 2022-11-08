@@ -593,7 +593,7 @@ struct TopReferralsWidget: View {
         
         //Link to the Review Interceptor page
         NavigationLink {
-            Item(item: item)
+            PurchasedItem(item: item)
             
         } label: {
 
@@ -661,7 +661,7 @@ struct FiveStarReviewsWidget: View {
         
         //Link to the Review Interceptor page
         NavigationLink {
-            Item(item: item)
+            PurchasedItem(item: item)
             
         } label: {
             ZStack(alignment: .top) {
@@ -771,7 +771,7 @@ struct LazyVGridWidget: View {
         
         //Link to the Review Interceptor page
         NavigationLink {
-            Item(item: item)
+            PurchasedItem(item: item)
             
         } label: {
 

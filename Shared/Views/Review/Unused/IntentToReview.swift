@@ -115,7 +115,7 @@ struct IntentToReview: View {
 //                    }.sheet(isPresented: $isShowingItemSheet) {
 //                        isShowingItemSheet = false
 //                    } content: {
-//                        Item(itemID: itemObject.itemID)
+//                        PurchasedItem(itemID: itemObject.itemID)
 //                    }
                     
                 }
@@ -125,7 +125,7 @@ struct IntentToReview: View {
                 Section {
                     //company -> about us page
                     NavigationLink {
-                        ProfileTEMP()
+//                        Profile()
                     } label: {
                         HStack {
 

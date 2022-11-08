@@ -69,9 +69,9 @@ class ItemsViewModel: ObservableObject, Identifiable {
     func listenForOneItem(userID: String, itemID: String) {
         self.oneItem = [Items]()
         
-        self.dm.getOneItem(userID: userID, itemID: itemID, onSuccess: { (Item) in
+        self.dm.getOneItem(userID: userID, itemID: itemID, onSuccess: { (item) in
             //if (self.newTickets.isEmpty) {
-                self.oneItem = Item
+                self.oneItem = item
             print("this is the one item")
             print(self.oneItem)
         }, listener: { (listener12) in

@@ -1,5 +1,5 @@
 //
-//  CompanyProfileV2.swift
+//  RewardsForShop.swift
 //  Uncommon Loyalty (iOS)
 //
 //  Created by Colin Power on 3/29/22.
@@ -32,7 +32,7 @@ struct HistoryObject: Identifiable {
 }
 
 
-struct CompanyProfileV2: View {
+struct RewardsForShop: View {
     
     //MARK: SET UP VARIABLES
     //@Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>

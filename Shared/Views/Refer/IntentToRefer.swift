@@ -112,7 +112,7 @@ struct IntentToRefer: View {
 //                    }.sheet(isPresented: $isShowingItemSheet) {
 //                        isShowingItemSheet = false
 //                    } content: {
-//                        Item(itemID: itemObject.itemID)
+//                        PurchasedItem(itemID: itemObject.itemID)
 //                    }
 //                }
                                 

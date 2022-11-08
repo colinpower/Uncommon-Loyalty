@@ -1,5 +1,5 @@
 //
-//  Home.swift
+//  Rewards.swift
 //  Uncommon Loyalty (iOS)
 //
 //  Created by Colin Power on 1/17/22.
@@ -14,7 +14,7 @@ import FirebaseStorage
 //https://stackoverflow.com/questions/65688706/how-to-merge-two-queries-using-firestore-swift
 
 
-struct Home: View {
+struct Rewards: View {
     
     @EnvironmentObject var viewModel: AppViewModel
     
@@ -103,7 +103,7 @@ struct Home: View {
                 //ForEach...
                 ForEach(rewardsProgramViewModel.snapshotOfMyRewardsPrograms) { rewardsProgramVar in
                     
-                    NavigationLink(destination: CompanyProfileV2(selectedTab: $selectedTab, rewardsProgram: rewardsProgramVar)) {
+                    NavigationLink(destination: RewardsForShop(selectedTab: $selectedTab, rewardsProgram: rewardsProgramVar)) {
                         
                         if rewardsProgramVar.ids.companyID == rewardsProgramViewModel.snapshotOfMyRewardsPrograms.last?.ids.companyID {
                             ActiveLoyaltyProgramWidget(rewardsProgram: rewardsProgramVar, image: rewardsProgramVar.card.companyName, company: rewardsProgramVar.card.companyName, status: rewardsProgramVar.status.status, currentPointsBalance: rewardsProgramVar.status.currentPointsBalance, isLastItemInList: true)
@@ -147,7 +147,7 @@ struct Home: View {
 ////
 ////                    if array.contains(company.companyID) {
 ////
-////                        NavigationLink(destination: CompanyProfileV2(companyID: company.companyID, companyName: company.companyName, email: Auth.auth().currentUser?.email ?? "", userID: Auth.auth().currentUser?.uid ?? "", selectedTab: $selectedTab)) {
+////                        NavigationLink(destination: RewardsForShop(companyID: company.companyID, companyName: company.companyName, email: Auth.auth().currentUser?.email ?? "", userID: Auth.auth().currentUser?.uid ?? "", selectedTab: $selectedTab)) {
 ////
 ////                            AllLoyaltyProgramsWidget(image: company.image, company: company.companyName, shortDescription: company.categoryShortDescription, joiningBonus: company.joiningBonus, joiningBonusType: company.joiningBonusType, isLastItemInList: false, isAlreadyJoined: true, numOfRecentOrders: 4)
 ////                        }

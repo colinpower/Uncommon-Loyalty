@@ -78,7 +78,7 @@ struct ContentView: View {
                     case 1:
                         ReferralTracker(selectedTab: $selectedTab)
                     case 2:
-                        Home(selectedTab: $selectedTab)
+                        Rewards(selectedTab: $selectedTab)
                     case 3:
                         Profile(selectedTab: $selectedTab)
                     default:
