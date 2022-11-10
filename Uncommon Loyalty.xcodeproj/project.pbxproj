@@ -121,7 +121,6 @@
 		30D743102895B41900B22448 /* FirebaseStorageCombine-Community in Frameworks */ = {isa = PBXBuildFile; productRef = 30D7430F2895B41900B22448 /* FirebaseStorageCombine-Community */; };
 		30DC3E6B28A11E4B00613B4B /* History.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30DC3E6A28A11E4B00613B4B /* History.swift */; };
 		30DC3E6D28A121AF00613B4B /* Notifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30DC3E6C28A121AF00613B4B /* Notifications.swift */; };
-		30DDB96E28ED23760061EDAD /* SessionStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30DDB96D28ED23760061EDAD /* SessionStore.swift */; };
 		30DDB97028ED48EE0061EDAD /* FREGetName.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30DDB96F28ED48EE0061EDAD /* FREGetName.swift */; };
 		30DDB97228ED48FC0061EDAD /* FREValidatePhone.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30DDB97128ED48FC0061EDAD /* FREValidatePhone.swift */; };
 		30E0C75A28C3104B001754C6 /* ReferProductPage1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30E0C75928C3104B001754C6 /* ReferProductPage1.swift */; };
@@ -263,7 +262,6 @@
 		30D6D7E428C5031400576C2A /* ReferProductStep4.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReferProductStep4.swift; sourceTree = "<group>"; };
 		30DC3E6A28A11E4B00613B4B /* History.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = History.swift; sourceTree = "<group>"; };
 		30DC3E6C28A121AF00613B4B /* Notifications.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notifications.swift; sourceTree = "<group>"; };
-		30DDB96D28ED23760061EDAD /* SessionStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionStore.swift; sourceTree = "<group>"; };
 		30DDB96F28ED48EE0061EDAD /* FREGetName.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FREGetName.swift; sourceTree = "<group>"; };
 		30DDB97128ED48FC0061EDAD /* FREValidatePhone.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FREValidatePhone.swift; sourceTree = "<group>"; };
 		30E0C75928C3104B001754C6 /* ReferProductPage1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReferProductPage1.swift; sourceTree = "<group>"; };
@@ -450,7 +448,6 @@
 			isa = PBXGroup;
 			children = (
 				3014FA1227964E5D00473CE4 /* ContentView.swift */,
-				30DDB96D28ED23760061EDAD /* SessionStore.swift */,
 				309468BE289BB345008286E8 /* Components.swift */,
 				30EA87B4281342DE00F0CF64 /* HelperFunctions.swift */,
 				30D6D7D728C4A84E00576C2A /* Cards */,
@@ -932,7 +929,6 @@
 				30DC3E6B28A11E4B00613B4B /* History.swift in Sources */,
 				301DBFE028C257F90072E497 /* ReviewPageWithTextEntry.swift in Sources */,
 				306E839E28C7493F00232A4A /* NewLoyaltyProgramWidget.swift in Sources */,
-				30DDB96E28ED23760061EDAD /* SessionStore.swift in Sources */,
 				3088074428A61BEB003D1B99 /* UsersViewModel.swift in Sources */,
 				303D3FC928A89C4400455A09 /* Reviews.swift in Sources */,
 				30DDB97028ED48EE0061EDAD /* FREGetName.swift in Sources */,

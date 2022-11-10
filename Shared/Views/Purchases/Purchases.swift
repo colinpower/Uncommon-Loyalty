@@ -109,75 +109,6 @@ struct Purchases: View {
                             
                         }.padding(.top)
                         
-                        
-                        //MARK: MORE PRODUCTS YOU BELIEVE IN (5 STAR REVIEWS -> READY FOR REFERRAL)
-                        VStack(alignment: .leading) {
-                            
-                            //header
-                            Text("Favorites you haven't referred")
-                                .font(.system(size: 25, weight: .semibold))
-                                .foregroundColor(.black)
-                                .padding(.leading)
-                                .padding(.bottom, 5)
-                            
-                            //divider
-                            Divider().padding(.leading)
-                            
-                            //content
-                            ScrollView (.horizontal, showsIndicators: false) {
-                                HStack(alignment: .center, spacing: 20) {
-                                    
-                                    if itemsViewModel.snapshotOfItemsWith5StarsAndNoReferrals.isEmpty {
-                                     
-                                        ZStack(alignment: .center) {
-                                            RoundedRectangle(cornerRadius: 11)
-                                                .stroke(Color("Background"), lineWidth: 1) //.blur(radius: 2)
-                                                .shadow(color: Color.white, radius: 3, x: -4, y: -4)
-                                                .frame(width: UIScreen.main.bounds.width - 40, height: UIScreen.main.bounds.width / 4)
-                                                .clipped()
-                                                
-                                            
-                                            Text("You haven't written any reviews yet")
-                                                .font(.system(size: 14))
-                                                .fontWeight(.medium)
-                                                .foregroundColor(Color("Gray2"))
-                                                .multilineTextAlignment(.center)
-                                                .padding().padding(.horizontal)
-                                                .frame(width: UIScreen.main.bounds.width - 40, height: UIScreen.main.bounds.width / 4)
-                                                .overlay(
-                                                    RoundedRectangle(cornerRadius: 11)
-                                                        .stroke(Color("Background"), lineWidth: 3) //.blur(radius: 2)
-                                                        .shadow(color: Color("Gray2"), radius: 3, x: 3, y: 3)
-                                                        .frame(width: UIScreen.main.bounds.width - 40, height: UIScreen.main.bounds.width / 4)
-                                                        .clipped()
-                                                )
-                                            
-                                        }.frame(width: UIScreen.main.bounds.width - 40, height: UIScreen.main.bounds.width / 4)
-                                            .clipShape(RoundedRectangle(cornerRadius: 11))
-                                        
-                                        
-                                    } else {
-                                                                                    
-                                        ForEach(itemsViewModel.snapshotOfItemsWith5StarsAndNoReferrals.prefix(10)) { item in
-                                            
-                                            FiveStarReviewsWidget(item: item)
-                                                .frame(width: UIScreen.main.bounds.width / 2, height: UIScreen.main.bounds.width / 2 + 32, alignment: .top)
-                                                .background(RoundedRectangle(cornerRadius: 11).foregroundColor(.white).shadow(radius: CGFloat(11)))
-                                            
-                                        }
-
-                                    }
-
-                                    
-                                }.offset(x: 20)
-                                .padding(.vertical)
-                                .padding(.bottom)
-                                .padding(.trailing, 40)
-                            }
-                            
-                        }.padding(.top)
-                        
-                        
                         //MARK: YOUR RECENT PURCHASES
                         VStack(alignment: .leading) {
                             
@@ -608,13 +539,12 @@ struct TopReferralsWidget: View {
                             .frame(width: UIScreen.main.bounds.width / 6, height: UIScreen.main.bounds.width / 6)
                             .padding(.vertical, 20)
                     } else {
-                        Image("redshorts")
-                            .resizable()
-                            .aspectRatio(contentMode: .fit)
+                        Image(systemName: "bag.fill")
+                            .font(.system(size: 48, weight: .regular))
+                            .foregroundColor(Color(.lightGray))
                             .frame(width: UIScreen.main.bounds.width / 6, height: UIScreen.main.bounds.width / 6)
                             .padding(.vertical, 20)
                     }
-                        
                     Text(item.order.title)
                         .font(.system(size: 14, weight: .semibold))
                         .foregroundColor(Color("Dark1"))
@@ -651,116 +581,6 @@ struct TopReferralsWidget: View {
     }
 }
 
-struct FiveStarReviewsWidget: View {
-    
-    var item: Items
-    
-    @State var backgroundURL = ""
-    
-    var body: some View {
-        
-        //Link to the Review Interceptor page
-        NavigationLink {
-            PurchasedItem(item: item)
-            
-        } label: {
-            ZStack(alignment: .top) {
-                
-                //the content of the widget
-                HStack {
-                    Spacer()
-                    VStack(alignment: .center, spacing: 0) {
-                        
-                        if backgroundURL != "" {
-                            WebImage(url: URL(string: backgroundURL)!)
-                                .resizable()
-                                .aspectRatio(contentMode: .fit)
-                                .frame(width: UIScreen.main.bounds.width / 6, height: UIScreen.main.bounds.width / 6)
-                                .padding(.top, 20)
-                                .padding(.vertical, 20)
-                        } else {
-                            Image("redshorts")
-                                .resizable()
-                                .aspectRatio(contentMode: .fit)
-                                .frame(width: UIScreen.main.bounds.width / 6, height: UIScreen.main.bounds.width / 6)
-                                .padding(.top, 20)
-                                .padding(.vertical, 20)
-                        }
-                                                
-                        Text(item.order.title)
-                            .font(.system(size: 14, weight: .semibold))
-                            .foregroundColor(Color("Dark1"))
-                            .padding(.bottom, 8)
-                        Text(item.ids.companyID)
-                            .font(.system(size: 12, weight: .regular))
-                            .foregroundColor(Color("Gray1"))
-                            .padding(.bottom, 20)
-                        HStack(alignment: .center) {
-                            Spacer()
-                            Image(systemName: "star.fill")
-                            Image(systemName: "star.fill")
-                            Image(systemName: "star.fill")
-                            Image(systemName: "star.fill")
-                            Image(systemName: "star.fill")
-                            Spacer()
-                        }.font(.system(size: 12, weight: .regular))
-                            .foregroundColor(Color.yellow)
-                            .frame(height: 12)
-                            .padding(.bottom, 20)
-                    }
-                    Spacer()
-                }.frame(height: UIScreen.main.bounds.width / 6 + 134)
-                
-                //the overlaid callout showing bonus points
-                VStack(alignment: .center, spacing: 0) {
-                    HStack(alignment: .top, spacing: 0) {
-                        Text("+20,000")
-                            .font(.system(size: 12, weight: .semibold, design: .rounded))
-                            .padding(.vertical, 5)
-                            .padding(.horizontal, 14)
-                            .foregroundColor(.white)
-                            .background(RoundedCornersShape(corners: [.topLeft, .bottomRight], radius: 11)
-                                .foregroundColor(Color("ReferPurple")))
-                        
-                        Spacer()
-                    }
-                    Spacer()
-                }.frame(height: UIScreen.main.bounds.width / 6 + 134)
-            }
-            .frame(height: UIScreen.main.bounds.width / 6 + 134)
-        }
-        .onAppear {
-            
-            let backgroundPath = "companies/" + item.ids.companyID + "/items/" + String(item.ids.shopifyProductID) + ".png"
-            
-            let storage = Storage.storage().reference()
-            
-            storage.child(backgroundPath).downloadURL { url, err in
-                if err != nil {
-                    print(err?.localizedDescription ?? "Issue showing the right image")
-                    return
-                } else {
-                    self.backgroundURL = "\(url!)"
-                }
-            }
-
-        }
-    }
-    
-    struct RoundedCornersShape: Shape {
-        let corners: UIRectCorner
-        let radius: CGFloat
-        
-        func path(in rect: CGRect) -> Path {
-            let path = UIBezierPath(roundedRect: rect,
-                                    byRoundingCorners: corners,
-                                    cornerRadii: CGSize(width: radius, height: radius))
-            return Path(path.cgPath)
-        }
-    }
-    
-}
-
 struct LazyVGridWidget: View {
     
     var item: Items
@@ -786,9 +606,9 @@ struct LazyVGridWidget: View {
                             .frame(width: UIScreen.main.bounds.width / 6, height: UIScreen.main.bounds.width / 6)
                             .padding(.vertical, 20)
                     } else {
-                        Image("redshorts")
-                            .resizable()
-                            .aspectRatio(contentMode: .fit)
+                        Image(systemName: "bag.fill")
+                            .font(.system(size: 48, weight: .regular))
+                            .foregroundColor(Color(.lightGray))
                             .frame(width: UIScreen.main.bounds.width / 6, height: UIScreen.main.bounds.width / 6)
                             .padding(.vertical, 20)
                     }
@@ -800,7 +620,7 @@ struct LazyVGridWidget: View {
                         .font(.system(size: 14, weight: .semibold))
                         .foregroundColor(Color("Dark1"))
                         .padding(.bottom, 8)
-                    Text(item.ids.companyID)
+                    Text(item.order.companyName)
                         .font(.system(size: 12, weight: .regular))
                         .foregroundColor(Color("Gray1"))
                         .padding(.bottom, 20)
@@ -815,11 +635,6 @@ struct LazyVGridWidget: View {
                                     .foregroundColor(Color.gray)
                             }
                         }
-                        
-//                        Image(systemName: "star")
-//                        Image(systemName: "star")
-//                        Image(systemName: "star")
-//                        Image(systemName: "star")
                         Spacer()
                     }.font(.system(size: 12, weight: .regular))
                         .frame(height: 12)
