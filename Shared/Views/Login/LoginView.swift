@@ -228,34 +228,41 @@ struct LoginView: View {
 //                    .fontWeight(.regular)
 //                    .lineLimit(2)
 //                    .padding(.bottom, 16)
-                HStack (alignment: .center) {
-                    VStack(alignment: .leading, spacing: 0) {
-                        TextField("Enter your email", text: $email)
-                            .font(.system(size: 16, weight: .semibold))
-                            .foregroundColor(Color("ThemePrimary"))
-                            .frame(height: 60)
-                            .padding(.horizontal)
-                            .background(RoundedRectangle(cornerRadius: 16).fill(Color.white))
-                            .onSubmit {
-                                sendSignInLink()
-                                withAnimation {
-                                    isShowingCheckEmailView = true
-                                }
+                VStack (alignment: .leading, spacing: 8) {
+                    Text("ENTER YOUR EMAIL ADDRESS")
+                        .font(.system(size: 11, weight: .medium))
+                        .foregroundColor(.white)
+                        .padding(.leading, 8)
+                    TextField("", text: $email)
+                        .font(.system(size: 16, weight: .regular))
+                        .foregroundColor(Color.white)
+                        .frame(height: 48)
+                        .padding(.horizontal)
+                        .background(RoundedRectangle(cornerRadius: 8).foregroundColor(Color(red: 98/255, green: 123/255, blue: 253/255)))
+                        .onSubmit {
+                            sendSignInLink()
+                            withAnimation {
+                                isShowingCheckEmailView = true
                             }
-                            .submitLabel(.send)
-                            .keyboardType(.emailAddress)
-                            .disableAutocorrection(true)
-                    }
+                        }
+                        .submitLabel(.done)
+                        .keyboardType(.emailAddress)
+                        .disableAutocorrection(true)
+                        .padding(.bottom, 8)
                     
                     Button {
                         sendSignInLink()
                         isShowingCheckEmailView = true
                     } label: {
-                        Image(systemName: "arrow.right")
-                            .font(Font.system(size: 40, weight: .bold))
-                            .padding(.horizontal)
-                            .frame(height: 48)
-                            .foregroundColor(.white)
+                        HStack(alignment: .center) {
+                            Spacer()
+                            Text("Continue")
+                                .font(.system(size: 16, weight: .semibold))
+                                .foregroundColor(email.isEmpty ? Color(.lightGray) : Color("bg"))
+                                .frame(height: 48)
+                            Spacer()
+                        }.background(RoundedRectangle(cornerRadius: 8).foregroundColor(Color.white))
+                        
                     }.disabled(email.isEmpty)
                         .fullScreenCover(isPresented: $isShowingCheckEmailView) {
                             CheckYourEmail(isShowingCheckEmailView: $isShowingCheckEmailView, email: $email)
@@ -272,7 +279,7 @@ struct LoginView: View {
                     Spacer()
                 }
                 Spacer()
-            }.padding(.horizontal).padding(.horizontal)
+            }.padding(.horizontal)
         }.edgesIgnoringSafeArea(.all)
         }
     }
