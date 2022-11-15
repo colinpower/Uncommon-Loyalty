@@ -33,10 +33,11 @@ struct ReferProduct5: View {
     
     @ObservedObject var referralsViewModel = ReferralsViewModel()
     @ObservedObject var itemsViewModel = ItemsViewModel()
-    
     @ObservedObject var companiesViewModel = CompaniesViewModel()
     
-    @Binding var isShowingReferExperience:Bool
+    
+    
+    @Binding var activeReviewOrReferSheet: ActiveReviewOrReferSheet?
     
     var itemObject: Items
     
@@ -51,7 +52,6 @@ struct ReferProduct5: View {
     var userSuggestedCode:String
     
     var createdReferralID:String
-    
     
     
     @State private var customReferralCardSnapshot: UIImage? = nil
@@ -261,7 +261,7 @@ struct ReferProduct5: View {
                         
                     }
                     
-                    isShowingReferExperience.toggle()
+                    activeReviewOrReferSheet = nil
                     
                 } label: {
                     BottomCapsuleButton(buttonText: "Done", color: Color("ReferPurple"))

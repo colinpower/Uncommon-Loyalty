@@ -9,6 +9,7 @@ import Foundation
 import FirebaseFirestore
 import FirebaseFirestoreSwift
 
+
 struct Companies: Identifiable, Codable {
     //means that whenever we map from a doc into a Order struct, it'll read the document and map it into this thing
     @DocumentID var id: String? = UUID().uuidString
@@ -18,13 +19,15 @@ struct Companies: Identifiable, Codable {
     var image: String
     var joiningBonus: Int
     var joiningBonusType: String
-    var pointsForGold: Int
-    var pointsPerDollarOfDiscount: Int
-    var pointsPerDollarSpent: Int
-    var pointsPerReferral: Int
-    var pointsPerReview: Int
+    var referralOfferExistingCustomer: ReferralOfferExistingCustomerStruct
+    var referralOfferNewCustomer: ReferralOfferNewCustomerStruct
+    var referralReward: ReferralRewardStruct
+    var reviewReward: ReviewRewardStruct
     var timestampJoined: Int
     var website: String
+    
+    //return policy, standard reward for review, standard reward for referral, standard offer for referral
+    //use: returnPolicyInDays
     
     //need to add RewardsProgramReference?? so I can query this specific loyalty program?
 
@@ -36,13 +39,89 @@ struct Companies: Identifiable, Codable {
         case image
         case joiningBonus
         case joiningBonusType
-        case pointsForGold
-        case pointsPerDollarOfDiscount
-        case pointsPerDollarSpent
-        case pointsPerReferral
-        case pointsPerReview
+        case referralOfferExistingCustomer
+        case referralOfferNewCustomer
+        case referralReward
+        case reviewReward
         case timestampJoined
         case website
+    }
+}
+
+
+struct ReferralOfferExistingCustomerStruct: Codable {
+    
+    var amount: Int
+    var minSpend: Int
+    var timeTilExpiration: Int
+    var type: String                        //FIXED, PERCENTAGE, CASH, POINTS
+    var usageLimit: Int
+        
+    //use CodingKeys to convert from names in Firebase to SwiftUI names
+    enum CodingKeys: String, CodingKey {
+        
+        case amount
+        case minSpend
+        case timeTilExpiration
+        case type
+        case usageLimit
+    }
+}
+
+struct ReferralOfferNewCustomerStruct: Codable {
+    
+    var amount: Int
+    var minSpend: Int
+    var timeTilExpiration: Int
+    var type: String                        //FIXED, PERCENTAGE, CASH, POINTS
+    var usageLimit: Int
+        
+    //use CodingKeys to convert from names in Firebase to SwiftUI names
+    enum CodingKeys: String, CodingKey {
+        
+        case amount
+        case minSpend
+        case timeTilExpiration
+        case type
+        case usageLimit
+    }
+}
+
+struct ReferralRewardStruct: Codable {
+    
+    var amount: Int
+    var minSpend: Int
+    var timeTilExpiration: Int
+    var type: String                        //FIXED, PERCENTAGE, CASH, POINTS
+    var usageLimit: Int
+        
+    //use CodingKeys to convert from names in Firebase to SwiftUI names
+    enum CodingKeys: String, CodingKey {
+        
+        case amount
+        case minSpend
+        case timeTilExpiration
+        case type
+        case usageLimit
+    }
+}
+
+struct ReviewRewardStruct: Codable {
+    
+    var amount: Int
+    var minSpend: Int
+    var timeTilExpiration: Int
+    var type: String                        //FIXED, PERCENTAGE, CASH, POINTS, NONE
+    var usageLimit: Int
+        
+    //use CodingKeys to convert from names in Firebase to SwiftUI names
+    enum CodingKeys: String, CodingKey {
+        
+        case amount
+        case minSpend
+        case timeTilExpiration
+        case type
+        case usageLimit
     }
 }
 
@@ -55,6 +134,10 @@ struct CompanyProduct: Identifiable, Codable {
     var handle: String
     var imageURL: String
     var productID: String
+    var referralOfferExistingCustomer: ReferralOfferExistingCustomerStruct
+    var referralOfferNewCustomer: ReferralOfferNewCustomerStruct
+    var referralReward: ReferralRewardStruct
+    var reviewReward: ReviewRewardStruct
 
     //use CodingKeys to convert from names in Firebase to SwiftUI names
     enum CodingKeys: String, CodingKey {
@@ -62,5 +145,9 @@ struct CompanyProduct: Identifiable, Codable {
         case handle
         case imageURL
         case productID
+        case referralOfferExistingCustomer
+        case referralOfferNewCustomer
+        case referralReward
+        case reviewReward
     }
 }

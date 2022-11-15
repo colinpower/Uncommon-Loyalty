@@ -17,25 +17,23 @@ struct ReviewProductCarousel1: View {
     @ObservedObject var rewardsProgramViewModel = RewardsProgramViewModel()
 
     //State
-    
     @State var arrayOfReviewAnswers: [String] = [String](repeating: "", count: 8)
     @State var runningSumOfEarnedPoints: Double = 0
     @State var overallRatingForReview:Int = -1
     @State var indexOfCurrentReviewPage:Int = 0
-    
-    //Binding
-    @Binding var isShowingReviewExperience: Bool
     
     //Variables that will later be pulled from Firebase directly
     @State var arrayOfReviewQuestions: [String] = ["Overall, what rating would you give for this item?", "What's your favorite thing about them?", "What's a good title for this review?", "PREVIEW"]   //eventually will just pull from the viewmodel for this
     @State var arrayOfReviewQuestionTypes: [String] = ["RATING", "TEXTENTRY", "TEXTENTRY", "PREVIEW"]   //eventually will just pull from the viewmodel for this
     @State var arrayOfEarnablePointsForEachQuestion: [Double] = [Double(50), Double(75), Double(125)]  //eventually will just pull from the viewmodel for this
     
-    var item: Items       //Should rename this to just "item" so it's cleaner
     
+    //Binding
+    //@Binding var isShowingReviewExperience: Bool
     @Binding var activeReviewOrReferSheet: ActiveReviewOrReferSheet?
     
-    
+    //Regular variables
+    var item: Items
     var pointsPerQuestion:Int {
         switch indexOfCurrentReviewPage {
         case 0:
@@ -89,7 +87,7 @@ struct ReviewProductCarousel1: View {
                     Spacer()
                     
                     Button {
-                        isShowingReviewExperience.toggle()
+                        activeReviewOrReferSheet = nil
                     } label: {
                         Image(systemName: "xmark")
                             .font(.system(size: 24, weight: .bold))
@@ -133,7 +131,7 @@ struct ReviewProductCarousel1: View {
                         
                         } else if element.description == "PREVIEW" {
                             
-                            ReviewPagePreview(arrayOfReviewAnswers: $arrayOfReviewAnswers, runningSumOfEarnedPoints: $runningSumOfEarnedPoints, overallRatingForReview: $overallRatingForReview, indexOfCurrentReviewPage: $indexOfCurrentReviewPage, arrayOfReviewQuestions: $arrayOfReviewQuestions, arrayOfReviewQuestionTypes: $arrayOfReviewAnswers, arrayOfEarnablePointsForEachQuestion: arrayOfEarnablePointsForEachQuestion, screenWidth: screenWidth, isShowingReviewExperience: $isShowingReviewExperience, item: item, userID: "mhjEZCv9JGdk0NUZaHMcNrDsH1x2")
+                            ReviewPagePreview(arrayOfReviewAnswers: $arrayOfReviewAnswers, runningSumOfEarnedPoints: $runningSumOfEarnedPoints, overallRatingForReview: $overallRatingForReview, indexOfCurrentReviewPage: $indexOfCurrentReviewPage, arrayOfReviewQuestions: $arrayOfReviewQuestions, arrayOfReviewQuestionTypes: $arrayOfReviewAnswers, arrayOfEarnablePointsForEachQuestion: arrayOfEarnablePointsForEachQuestion, screenWidth: screenWidth, activeReviewOrReferSheet: $activeReviewOrReferSheet, item: item, userID: "mhjEZCv9JGdk0NUZaHMcNrDsH1x2")
                             
                             
                         }

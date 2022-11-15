@@ -1,18 +1,18 @@
 //
-//  ReferProduct1.swift
+//  ReferProduct0.swift
 //  Uncommon Loyalty (iOS)
 //
-//  Created by Colin Power on 9/20/22.
+//  Created by Colin Power on 11/15/22.
 //
 
 import SwiftUI
 
-struct ReferProduct1: View {
+struct ReferProduct0: View {
     
-    //@Binding var isShowingReferExperience:Bool
     @Binding var activeReviewOrReferSheet: ActiveReviewOrReferSheet?
     
     var itemObject: Items
+    var productRewards: CompanyProduct
     
     var body: some View {
         NavigationView {
@@ -29,9 +29,10 @@ struct ReferProduct1: View {
                 Text("Customize your friend's $20 gift!")
                     .font(.system(size: 20, weight: .bold))
                     .foregroundColor(Color("Dark1"))
+                    .frame(alignment: .leading)
                     .padding()
                 
-                Text("The discount card is blank right now. Let's make it pretty.")
+                Text("Offer for your friend: $20!!")
                     .font(.system(size: 14, weight: .medium))
                     .foregroundColor(Color("Dark2"))
                     .padding()
@@ -53,7 +54,7 @@ struct ReferProduct1: View {
                 Spacer()
                 
                 NavigationLink {
-                    ReferProduct2(activeReviewOrReferSheet: $activeReviewOrReferSheet, itemObject: itemObject)
+                    ReferProduct1(activeReviewOrReferSheet: $activeReviewOrReferSheet, itemObject: itemObject)
                 } label: {
                     BottomCapsuleButton(buttonText: "Continue", color: Color("ReferPurple"))
                 }
@@ -63,9 +64,3 @@ struct ReferProduct1: View {
         }
     }
 }
-
-//struct ReferProduct1_Previews: PreviewProvider {
-//    static var previews: some View {
-//        ReferProduct1()
-//    }
-//}

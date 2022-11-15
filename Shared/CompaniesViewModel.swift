@@ -20,6 +20,7 @@ class CompaniesViewModel: ObservableObject, Identifiable {
     
     @Published var snapshotOfAllCompanies = [Companies]()
     
+    @Published var snapshotOfCompany = [Companies]()
     @Published var snapshotOfCompanyProduct = [CompanyProduct]()
     
     
@@ -68,6 +69,27 @@ class CompaniesViewModel: ObservableObject, Identifiable {
                 })
             }
     
+    }
+    
+    func getSnapshotOfCompany(companyID: String) {
+    
+        db.collection("companies")
+            .whereField("companyID", isEqualTo: companyID)
+            .getDocuments { (snapshot, error) in
+    
+                guard let snapshot = snapshot, error == nil else {
+                    //handle error
+                    print("found error in getSnapshotOfCompany")
+                    return
+                }
+                print("Number of documents: \(snapshot.documents.count)")
+    
+                self.snapshotOfCompany = snapshot.documents.compactMap({ queryDocumentSnapshot -> Companies? in
+                    print("AT THE TRY STATEMENT for snapshotOfCompany")
+                    print(try? queryDocumentSnapshot.data(as: Companies.self) as Any)
+                    return try? queryDocumentSnapshot.data(as: Companies.self)
+                })
+            }
     }
     
     
@@ -124,5 +146,5 @@ class CompaniesViewModel: ObservableObject, Identifiable {
             self.listener_oneCompany = listener
         })
     }
-    
+
 }

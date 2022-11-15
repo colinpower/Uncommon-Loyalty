@@ -33,7 +33,8 @@ extension View {
 struct ReferProduct4: View {
     
     
-    @Binding var isShowingReferExperience:Bool
+    //@Binding var isShowingReferExperience:Bool
+    @Binding var activeReviewOrReferSheet: ActiveReviewOrReferSheet?
     
     var itemObject: Items
     
@@ -230,7 +231,7 @@ struct ReferProduct4: View {
                 let discountCode = userSuggestedCode.prefix(12).replacingOccurrences(of: " ", with: "-")
                 
                 NavigationLink {
-                    ReferProduct5(isShowingReferExperience: $isShowingReferExperience, itemObject: itemObject, designSelection: designSelection, selectedOption: selectedOption, selectedContact: $selectedContact, userSuggestedCode: discountCode, createdReferralID: referralID)
+                    ReferProduct5(activeReviewOrReferSheet: $activeReviewOrReferSheet, itemObject: itemObject, designSelection: designSelection, selectedOption: selectedOption, selectedContact: $selectedContact, userSuggestedCode: discountCode, createdReferralID: referralID)
                 } label: {
                     
                     BottomCapsuleButton(buttonText: "Continue", color: Color("ReferPurple"))

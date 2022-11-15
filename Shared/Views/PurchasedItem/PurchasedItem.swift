@@ -12,36 +12,29 @@ import SDWebImageSwiftUI
 //MARK: HACK necessary to get the right sheet up
 enum ActiveReviewOrReferSheet: String, Identifiable { // <--- note that it's now Identifiable
     case reviewSheet, referSheet
-    var id: Int {
-        hashValue
+    var id: String {
+        return self.rawValue
     }
 }
 
 
 struct PurchasedItem: View {
     
-    //Environment
-    @EnvironmentObject var viewModel: AppViewModel
-    
     //ViewModels
     @StateObject var itemsViewModel = ItemsViewModel()
+    @StateObject var companiesViewModel = CompaniesViewModel()
     
     //State
     @State var selectedTab:Int = 2
-    
-    //@State var buttonOffset:CGFloat = 100
-    
-    
-    //@State var isPresentingReviewExperience:Bool = false
-    
     
     var item: Items
     
     
     @State private var activeReviewOrReferSheet: ActiveReviewOrReferSheet? = nil
-    @State var showReviewOrReferSheet:Bool = false
+    //@State var showReviewOrReferSheet:Bool = false
     
     @State var backgroundURL = ""
+    
     
     var body: some View {
         
@@ -70,7 +63,7 @@ struct PurchasedItem: View {
                                         .frame(width: UIScreen.main.bounds.width / 2, height: UIScreen.main.bounds.width / 2, alignment: .center)
                                         .padding(.trailing, 10)
                                 } else {
-                                    Image("redshorts")
+                                    Image("bag.fill")
                                         .resizable()
                                         .scaledToFit()
                                         .frame(width: UIScreen.main.bounds.width / 2, height: UIScreen.main.bounds.width / 2, alignment: .center)
@@ -126,155 +119,45 @@ struct PurchasedItem: View {
                     }
                     .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.width / 2 + 30, alignment: .center)
                     .padding(.top, 88)
-                    
-                    //MARK: SUBTITLE OF IMAGE
-                    VStack (alignment: .leading, spacing: 0) {
-                                
-                        //MARK: RATING
-                        HStack(alignment: .center, spacing: 1) {
-                            
-                            let ratingVariable = itemsViewModel.oneItem.first?.review.rating ?? -1
-                            let referralsVariable = itemsViewModel.oneItem.first?.referrals.count ?? -1
-                            
-                            if ratingVariable <= 0 {
-                                
-                                Text("No review submitted")
-                                    .font(.system(size: 16, weight: .medium))
-                                    .foregroundColor(Color("Gray2"))
-                                
-                            } else {
-                                
-                                NavigationLink {
-                                    CompletedReviewPage(itemID: item.ids.itemID, userID: item.ids.userID)
-                                } label: {
-                                    Text("Read your review")
-                                        .underline()
-                                        .font(.system(size: 16, weight: .medium))
-                                        .foregroundColor(Color("Dark1"))
-                                }
-                                
-                            }
-                            
-                            if referralsVariable > 0 {
-                                
-                                Image(systemName: "circle.fill")
-                                    .font(.system(size: 3, weight: .regular))
-                                    .foregroundColor(Color("Dark2"))
-                                    .padding(.horizontal, 4)
-                                
-                                NavigationLink {
-                                    ReferralTrackerForItem(userID: item.ids.userID, itemID: item.ids.itemID, itemTitle: item.order.title)
-                                } label: {
-                                    
-                                    if referralsVariable == 1 {
-                                        
-                                        Text("Track your referral")
-                                            .underline()
-                                            .font(.system(size: 16, weight: .medium))
-                                            .foregroundColor(Color("Dark1"))
-                                        
-                                    } else {
-                                        
-                                        Text("Track your " + String(referralsVariable) + " referrals")
-                                            .underline()
-                                            .font(.system(size: 16, weight: .medium))
-                                            .foregroundColor(Color("Dark1"))
-                                        
-                                    }
-                                    
-                                }
-                                
-                            }
-                            
-                            Spacer()
-                            
-                        }
-                        .padding(.top, 6)
-                    }
-                    .padding(.leading, 10)
-                    .padding(.horizontal, 20)
-                    .padding(.vertical, 10)
                     .padding(.bottom, 20)
                     
-                    Divider().padding(.horizontal, 30)
-                    
-                    VStack(alignment: .leading, spacing: 0) {
-                        
-                        let ratingVariable1 = itemsViewModel.oneItem.first?.review.rating ?? -1
-                        let referralsVariable = itemsViewModel.oneItem.first?.referrals.count ?? -1
-                        
-                        if ratingVariable1 == 0 {
+                    HStack {
+                        VStack(alignment: .leading, spacing: 20) {
                             
-                            Button {
-                                self.activeReviewOrReferSheet = .reviewSheet
-                                showReviewOrReferSheet = true
-                            } label: {
+                            //check if it has been reviewed yet
+                            if item.review.rating <= 0 {
+                                //not yet reviewed... need to show prompt
+                                OrderDetailsNotReviewedRow(
+                                    bonusType: companiesViewModel.snapshotOfCompanyProduct.first?.reviewReward.type ?? "NONE",
+                                    bonusAmount: companiesViewModel.snapshotOfCompanyProduct.first?.reviewReward.amount ?? -1
+                                )
                                 
-                                HStack(alignment: .center, spacing: 0) {
-                                    Group {
-                                        Text("Write a review? ")
-                                            .font(.system(size: 16, weight: .medium))
-                                            .foregroundColor(Color("ReviewTeal"))
-                                            //.foregroundColor(Color("Dark1"))
-                                        +
-                                        Text("Let us know how you're liking this item. If you loved it, we'll show you how to refer a friend afterwards!")
-                                            .font(.system(size: 16, weight: .regular))
-                                            .foregroundColor(Color("Dark1"))
-                                    }.multilineTextAlignment(.leading)
-                                    
-                                    Spacer()
-                                    
-                                }.padding(.leading, 10)
+                            } else {
+                                // it has been reviewed.. need to show success + link to view review
                                 
-                            }.padding(.all, 20)
-                            
-                        } else if ratingVariable1 == 5 {
-                            
-                            Button {
-                                self.activeReviewOrReferSheet = .referSheet
-                                showReviewOrReferSheet = true
-                            } label: {
-                                
-                                HStack(alignment: .center, spacing: 0) {
-                                    
-                                    if referralsVariable > 0 {
-                                        
-                                        Group {
-                                            Text("Thank you! ")
-                                                .font(.system(size: 16, weight: .semibold))
-                                                .foregroundColor(Color("ReferPurple"))
-                                                //.foregroundColor(Color("Dark1"))
-                                            +
-                                            Text("We really appreciate your referral! If you still have more friends you'd like to tell, you'll get the same referral bonus for each one.")
-                                                .font(.system(size: 16, weight: .regular))
-                                                .foregroundColor(Color("Dark1"))
-                                        }.multilineTextAlignment(.leading)
-                                        
-                                    } else {
-                                        
-                                        Group {
-                                            Text("Refer a friend. ")
-                                                .font(.system(size: 16, weight: .semibold))
-                                                .foregroundColor(Color("ReferPurple"))
-                                                //.foregroundColor(Color("Dark1"))
-                                            +
-                                            Text("Thanks for your awesome review! If any of your friends would love this too, send them a $20 discount!")
-                                                .font(.system(size: 16, weight: .regular))
-                                                .foregroundColor(Color("Dark1"))
-                                        }.multilineTextAlignment(.leading)
-                                        
-                                    }
-                                    
-                                    
-                                    Spacer()
-                                    
-                                }
-                                .padding(.leading, 10)
-                                .padding(.all, 20)
+                                OrderDetailsReviewedRow(
+                                    bonusType: item.review.rewardType,
+                                    bonusAmount: item.review.rewardAmount,
+                                    item: item
+                                )
                             }
+                            
+                            OrderDetailsReferralRow(
+                                rewardType: companiesViewModel.snapshotOfCompanyProduct.first?.referralReward.type ?? "NONE",
+                                rewardAmount: companiesViewModel.snapshotOfCompanyProduct.first?.referralReward.amount ?? 0,
+                                offerType: companiesViewModel.snapshotOfCompanyProduct.first?.referralOfferNewCustomer.type ?? "NONE",
+                                offerAmount: companiesViewModel.snapshotOfCompanyProduct.first?.referralOfferNewCustomer.amount ?? 0,
+                                numberOfReferrals: item.referrals.count,
+                                item: item
+                            )
+
+                            
                         }
-                    }
-                    
+                        
+                        Spacer()
+                        
+                    }.padding(.all, 20)
+                    .padding(.vertical, 10)
                     
                     Divider().padding(.horizontal, 30)
                     
@@ -292,7 +175,7 @@ struct PurchasedItem: View {
                             
                             let returnEndDate = item.order.returnPolicyInDays * 24 * 60 * 60 + item.order.timestamp
                             
-                            OrderDetailsIconAndTextRow(icon: "airplane", title: "Return by " + convertTimestampToString(timestamp: returnEndDate), subtitle: companyName + "'s return policy is " + String(item.order.returnPolicyInDays) + " days from purchase.")
+                            OrderDetailsIconAndTextRow(icon: "airplane", title: "Return by " + convertTimestampToString(timestamp: returnEndDate), subtitle: "The return policy is " + String(item.order.returnPolicyInDays) + " days from purchase.")
                             
                             OrderDetailsIconAndLinkRow(icon: "arrow.up.forward", linkTitle: "View order confirmation page", link: item.order.orderStatusURL, subtitle: "View more details in your browser.")
                             
@@ -309,78 +192,67 @@ struct PurchasedItem: View {
             
             //MARK: REVIEW & REFER BUTTONS
             
-            
-            //IF THERE IS NO REVIEW WRITTEN YET
-            if itemsViewModel.oneItem.first?.review.rating ?? -1 == 0 {
+            HStack(alignment: .center, spacing: 16) {
+                Spacer()
                 
-                
-                Button {
-
-                    self.activeReviewOrReferSheet = .reviewSheet
-                    showReviewOrReferSheet = true
+                if item.review.rating <= 0 {
                     
-                } label: {
-                    WideReviewButton()
-                        .padding(.horizontal).padding(.horizontal)
-                        .frame(width: UIScreen.main.bounds.width, height: 70)
-                        .padding(.bottom, 30)
-                        .frame(width: UIScreen.main.bounds.width, height: 100)
-                        .background(Rectangle().foregroundColor(Color.white).shadow(color: Color("Gray2"), radius: 2, x: 0, y: -1))
+                    Button {
+                        self.activeReviewOrReferSheet = .reviewSheet
+                    } label: {
+                        WideReviewButton()
+                            .frame(height: 70)
+                    }
+                    
+                    Button {
+                        self.activeReviewOrReferSheet = .referSheet
+                    } label: {
+                        WideReferButton(isFullWidth: false, buttonText: item.referrals.count <= 0 ? "Refer a friend" : "Refer again")
+                            .frame(height: 70)
+                    }
+                    
+                } else {
+                    
+                    Button {
+                        self.activeReviewOrReferSheet = .referSheet
+                    } label: {
+                        WideReferButton(isFullWidth: true, buttonText: item.referrals.count <= 0 ? "Refer a friend" : "Refer again")
+                            .frame(height: 70)
+                    }
+                    
                 }
+                
+                Spacer()
+                
             }
-            
-            
-            //IF THERE IS A 5 STAR REVIEW
-            else if itemsViewModel.oneItem.first?.review.rating ?? -1 == 5 {
+            .padding(.bottom, 30)
+            .frame(width: UIScreen.main.bounds.width, height: 100)
+            .background(Rectangle().foregroundColor(Color.white).shadow(color: Color("Gray2"), radius: 2, x: 0, y: -1))
                 
-                //SHOW THE EQUIVALENT WIDGET FOR REFERRING
-                
-                let numberOfReferrals = itemsViewModel.oneItem.first?.referrals.count ?? -1
-                
-                Button {
-                    
-                    self.activeReviewOrReferSheet = .referSheet
-                    showReviewOrReferSheet = true
-                    
-                } label: {
-                    WideReferButton(buttonText: numberOfReferrals <= 0 ? "Refer a friend" : "Refer again")
-                        .padding(.horizontal).padding(.horizontal)
-                        .frame(width: UIScreen.main.bounds.width, height: 70)
-                        .padding(.bottom, 30)
-                        .frame(width: UIScreen.main.bounds.width, height: 100)
-                        .background(Rectangle().foregroundColor(Color.white).shadow(color: Color("Gray2"), radius: 2, x: 0, y: -1))
-
-                }
-            }
         }
         .background(.white)
         .ignoresSafeArea()
         .navigationBarTitle("", displayMode: .inline)
-        .sheet(isPresented: $showReviewOrReferSheet, onDismiss: {
-            
-            print("DISMISSED THE SHEET!! TRACK IT")
-            activeReviewOrReferSheet = nil
-            showReviewOrReferSheet = false
-            
-        }, content: {
-            
-            if (self.activeReviewOrReferSheet == .referSheet || item.review.rating == 5) {
-                //if you wanna show reviews
-                
-                ReferProduct1(isShowingReferExperience: $showReviewOrReferSheet, itemObject: item)
-                
-            } else {
-                //if you wanna show referrals
-                
-                ReviewProductCarousel1(isShowingReviewExperience: $showReviewOrReferSheet, item: item, activeReviewOrReferSheet: $activeReviewOrReferSheet)
-//                @State private var activeReviewOrReferSheet: ActiveReviewOrReferSheet? = nil
-//                @State var showReviewOrReferSheet:Bool = false
-                
+        
+        .sheet(item: $activeReviewOrReferSheet, onDismiss: { activeReviewOrReferSheet = nil }) { sheet in
+
+            switch sheet {
+            case .referSheet:
+                ReferProduct0(activeReviewOrReferSheet: $activeReviewOrReferSheet, itemObject: item, productRewards: companiesViewModel.snapshotOfCompanyProduct.first!)
+            case .reviewSheet:
+                ReviewProductCarousel1(activeReviewOrReferSheet: $activeReviewOrReferSheet, item: item)
             }
-        })
+        }
+        
         .onAppear {
             
             self.itemsViewModel.listenForOneItem(userID: item.ids.userID, itemID: item.ids.itemID)
+            
+            self.companiesViewModel.getSnapshotOfCompany(companyID: item.ids.companyID)
+            self.companiesViewModel.getSnapshotOfCompanyProduct(companyID: item.ids.companyID, productID: String(item.ids.shopifyProductID))
+            
+//            @Published var snapshotOfCompany = [Companies]()
+//            @Published var snapshotOfCompanyProduct = [CompanyProduct]()
             
             let backgroundPath = "companies/" + item.ids.companyID + "/items/" + String(item.ids.shopifyProductID) + ".png"
             
@@ -405,23 +277,204 @@ struct PurchasedItem: View {
             
         }
     }
+        
+}
+
+//ROWS IN MIDDLE
+struct OrderDetailsReferralRow: View {
     
+    var rewardType: String               // Percentage , Fixed , Cash , Points
+    var rewardAmount: Int                // 20% , $20 , $20 , 2000
     
+    var offerType: String
+    var offerAmount: Int
+                                        // -1 , -1 , $50 or -1 etc , -1
+    var numberOfReferrals: Int
+    var item: Items
     
-    var companyName: String {
-        switch item.ids.companyID {
-        case "zKL7SQ0jRP8351a0NnHM":
-            return "Athleisure LA"
-        case "SDLFKJSDF":
-            return "DIF CO"
+    var offerSubstring: String {       // need to grab "a $20 discount" for "You earned a $20 discount" , "2000 points" for "You earned 2000 points"
+        switch offerType {
+        case "PERCENTAGE":
+            return "Give " + String(offerAmount) + "%"
+        case "FIXED":
+            return "Give $" + String(offerAmount)
+        case "CASH":
+            return "Give $" + String(offerAmount) + " in cash"
+        case "POINTS":
+            return "Give " + String(offerAmount) + " points"
+        case "NONE":
+            return ""
         default:
-            return "Athleisure LA"
+            return ""
+        }
+    }
+    
+    var rewardSubstring: String {       // need to grab "a $20 discount" for "You earned a $20 discount" , "2000 points" for "You earned 2000 points"
+        switch rewardType {
+        case "PERCENTAGE":
+            return "get " + String(rewardAmount) + "%"
+        case "FIXED":
+            return "get $" + String(rewardAmount)
+        case "CASH":
+            return "get $" + String(rewardAmount) + " in cash"
+        case "POINTS":
+            return "get " + String(rewardAmount) + " points"
+        case "NONE":
+            return ""
+        default:
+            return ""
         }
     }
     
     
+    var body: some View {
+        
+        HStack(alignment: .top, spacing: 18) {
+            
+            Image(systemName: "dollarsign.square.fill")
+                .font(.system(size: 25, weight: .medium))
+                .foregroundColor(Color("ReferPurple"))
+                .frame(width: 25, height: 25, alignment: .center)
+            
+            VStack(alignment: .leading, spacing: 6) {
+                
+                Text(numberOfReferrals == 0 ? "Refer a friend" : "Refer again? \(numberOfReferrals) sent")
+                    .font(.system(size: 15, weight: .medium))
+                    .foregroundColor(Color("Dark1"))
+                
+                Text(offerSubstring + ", " + rewardSubstring)
+                    .font(.system(size: 12, weight: .regular))
+                    .foregroundColor(Color("Gray1"))
+            }
+            
+            Spacer()
+            
+            if numberOfReferrals > 0 {
+                NavigationLink {
+                    ReferralTrackerForItem(userID: item.ids.userID, itemID: item.ids.itemID, itemTitle: item.order.title)
+                } label: {
+                    Text("Track")
+                        .font(.system(size: 14, weight: .medium))
+                        .foregroundColor(Color("Dark1"))
+                        .padding(.vertical, 6)
+                        .padding(.horizontal)
+                        .clipShape(Capsule())
+                        .background(Capsule().foregroundColor(Color("Gray3")))
+                }
+            }
+            
+        }
+    }
+}
+struct OrderDetailsNotReviewedRow: View {
+    
+    var bonusType: String               // Percentage , Fixed , Cash , Points
+    var bonusAmount: Int                // 20% , $20 , $20 , 2000
+//    var minSpend: Int                   // -1 , -1 , $50 or -1 etc , -1
+    
+    var subtitleSubstring: String {       // need to grab "a $20 discount" for "You earned a $20 discount" , "2000 points" for "You earned 2000 points"
+        switch bonusType {
+        case "PERCENTAGE":
+            return "Earn a " + String(bonusAmount) + "% discount"
+        case "FIXED":
+            return "Earn a $" + String(bonusAmount) + " discount"
+        case "CASH":
+            return "Earn $" + String(bonusAmount) + " in cash"
+        case "POINTS":
+            return "Earn " + String(bonusAmount) + " points"
+        case "NONE":
+            return "What did you think?"
+        default:
+            return "a bonus"
+        }
+    }
+    
+    var body: some View {
+        
+        HStack(alignment: .top, spacing: 18) {
+            
+            Image(systemName: bonusType == "NONE" ? "star.fill" : "dollarsign.square.fill")
+                .font(.system(size: 25, weight: .medium))
+                .foregroundColor(Color("ReviewTeal"))
+                .frame(width: 25, height: 25, alignment: .center)
+            
+            VStack(alignment: .leading, spacing: 6) {
+                
+                Text("Write a review")
+                    .font(.system(size: 15, weight: .medium))
+                    //.underline(isReviewed)
+                    .foregroundColor(Color("Dark1"))
+                
+                Text(subtitleSubstring)
+                    .font(.system(size: 12, weight: .regular))
+                    .foregroundColor(Color("Gray1"))
+            }
+        }
+    }
 }
 
+struct OrderDetailsReviewedRow: View {
+    
+    var bonusType: String               // Percentage , Fixed , Cash , Points
+    var bonusAmount: Int                // 20% , $20 , $20 , 2000
+//    var minSpend: Int                   // -1 , -1 , $50 or -1 etc , -1
+    var item: Items
+    
+    var subtitleSubstring: String {       // need to grab "a $20 discount" for "You earned a $20 discount" , "2000 points" for "You earned 2000 points"
+        switch bonusType {
+        case "PERCENTAGE":
+            return "You earned a " + String(bonusAmount) + "% discount"
+        case "FIXED":
+            return "You earned a $" + String(bonusAmount) + " discount"
+        case "CASH":
+            return "You earned $" + String(bonusAmount) + " in cash"
+        case "POINTS":
+            return "You earned " + String(bonusAmount) + " points"
+        case "NONE":
+            return "Thanks for your review!"
+        default:
+            return "Earn a bonus"
+        }
+    }
+    
+    var body: some View {
+        
+        HStack(alignment: .top, spacing: 18) {
+            
+            Image(systemName: bonusType == "NONE" ? "star.fill" : "dollarsign.square.fill")
+                .font(.system(size: 25, weight: .medium))
+                .foregroundColor(Color("ReviewTeal"))
+                .frame(width: 25, height: 25, alignment: .center)
+            
+            VStack(alignment: .leading, spacing: 6) {
+                
+                Text("Reviewed")
+                    .font(.system(size: 15, weight: .medium))
+                    //.underline(isReviewed)
+                    .foregroundColor(Color("Dark1"))
+                
+                Text(subtitleSubstring)
+                    .font(.system(size: 12, weight: .regular))
+                    .foregroundColor(Color("Gray1"))
+            }
+            
+            Spacer()
+            
+            NavigationLink {
+                CompletedReviewPage(itemID: item.ids.itemID, userID: item.ids.userID)
+            } label: {
+                Text("View")
+                    .font(.system(size: 14, weight: .medium))
+                    .foregroundColor(Color("Dark1"))
+                    .padding(.vertical, 6)
+                    .padding(.horizontal)
+                    .clipShape(Capsule())
+                    .background(Capsule().foregroundColor(Color("Gray3")))
+            }
+            
+        }
+    }
+}
 
 struct OrderDetailsIconAndTextRow: View {
     
@@ -451,7 +504,6 @@ struct OrderDetailsIconAndTextRow: View {
         }
     }
 }
-
 struct OrderDetailsIconAndLinkRow: View {
     
     var icon: String
@@ -483,130 +535,56 @@ struct OrderDetailsIconAndLinkRow: View {
             
             
         }
-        
-        
-        
-    }
-    
-    
-}
-
-struct PointsEarnedSectionRow: View {
-    
-    var image:String
-    var imageColor:Color
-    var title:String
-    var subtitle:String
-    var points:String
-    var isEnabled:Bool
-    
-    
-    var body: some View {
-        
-        HStack {
-            Image(systemName: image)
-                .font(.system(size: 40))
-                .foregroundColor(isEnabled ? imageColor : .gray)
-            VStack(alignment: .leading, spacing: 0) {
-                Text(title)
-                    .font(.system(size: 16))
-                    .foregroundColor(isEnabled ? .black : .gray)
-                Text(subtitle)
-                    .font(.system(size: 12))
-                    .foregroundColor(isEnabled ? .black : .gray)
-            }
-            Spacer()
-            Text(points)
-                .font(.system(size: 16))
-                .foregroundColor(isEnabled ? .black : .gray)
-        }
     }
 }
 
-struct PointsEarnedForItemStatsWidget: View {
-    
-    var title:String
-    var amount:String
-    var subtitle:String
-    
-    
-    var body: some View {
-        HStack(spacing: 0) {
-            Spacer()
-            
-            VStack(alignment: .center, spacing: 0) {
-                
-                Text(title)
-                    .font(.system(size: 14, weight: .medium))
-                    .foregroundColor(Color("Dark1"))
-                    .padding(.top, 16)
-                    .padding(.bottom, 10)
-                
-                Text(amount)
-                    .font(.system(size: 32, weight: .bold, design: .rounded))
-                    .foregroundColor(amount == "0" ? Color("Gray1") : Color("Dark1"))
-                    .padding(.bottom, 6)
-                
-                Text(subtitle)
-                    .font(.system(size: 12, weight: .regular))
-                    .foregroundColor(subtitle.prefix(1) == "0" ? Color(.white) : Color("Gray1"))
-                    .padding(.bottom, 16)
-            }
-            
-            Spacer()
-            
-        }.frame(height: 106)
-    }
-}
-
-struct ReviewAndReferButtons: View {
-    
-    var buttonText:String
-    
-    var body: some View {
-            
-            HStack(spacing: 0) {
-                Spacer()
-                Text(buttonText)
-                    .font(.system(size: 20, weight: .semibold, design: .rounded))
-                    .foregroundColor(Color("Dark1"))
-                Spacer()
-            }.frame(height: 48)
-    }
-}
-
+//BUTTONS ON BOTTOM
 struct WideReviewButton: View {
     
-    var titleAmount:String = "Earn 250 points for writing a review"
-    var titleType:String = "points"
-    var subtitle:String = "30 sec."
-    var buttonText:String = "Write a review"
+    var buttonText:String = "Review"
     
     var body: some View {
             
             HStack(spacing: 0) {
-                
-                VStack(alignment: .leading, spacing: 6) {
-
-                    Text(titleAmount)
-                        .multilineTextAlignment(.leading)
-                        .font(.system(size: 16, weight: .medium, design: .rounded))
-                        .foregroundColor(Color("Dark1"))
-                    
-                }.padding(.top, 10)
-                .frame(width: UIScreen.main.bounds.width * 2 / 5, height: 70, alignment: .topLeading)
                 
                 Spacer()
                 
                 Text(buttonText)
                     .font(.system(size: 16, weight: .medium, design: .rounded))
                     .foregroundColor(Color.white)
-                    .padding(.vertical, 16)
-                    .padding(.horizontal).padding(.horizontal)
+//                    .padding(.vertical, 16)
+//                    .padding(.horizontal).padding(.horizontal)
+                    .frame(width: UIScreen.main.bounds.width * 2 / 5, height: 48, alignment: .center)
                     .clipShape(RoundedRectangle(cornerRadius: 6))
                     .background(RoundedRectangle(cornerRadius: 6).foregroundColor(Color("ReviewTeal")))
                     .padding(.top, 10)
-                    .frame(height: 70, alignment: .center)
+//                    .frame(width: UIScreen.main.bounds.width * 2 / 5, height: 70, alignment: .center)
+                
+                Spacer()
+                
+            }.frame(height: 70)
+    }
+}
+
+struct WideViewReviewButton: View {
+    
+    var buttonText:String = "View review"
+    
+    var body: some View {
+            
+            HStack(spacing: 0) {
+                
+                Spacer()
+                
+                Text(buttonText)
+                    .font(.system(size: 16, weight: .medium, design: .rounded))
+                    .foregroundColor(Color("ReviewTeal"))
+                    .frame(width: UIScreen.main.bounds.width * 2 / 5, height: 48, alignment: .center)
+                    .clipShape(RoundedRectangle(cornerRadius: 6))
+                    .background(RoundedRectangle(cornerRadius: 6).foregroundColor(Color.white))
+                    .padding(.top, 10)
+                
+                Spacer()
                 
             }.frame(height: 70)
     }
@@ -614,24 +592,13 @@ struct WideReviewButton: View {
 
 struct WideReferButton: View {
     
-    var titleAmount:String = "Give $20, get 20k"
-    var titleType:String = "points"
-    var subtitle:String = "30 sec."
-    var buttonText:String = "Refer a friend"
+    var isFullWidth: Bool
+    
+    var buttonText:String = "Refer"
     
     var body: some View {
             
             HStack(spacing: 0) {
-                
-                VStack(alignment: .leading, spacing: 6) {
-                    
-                    Text(titleAmount)
-                        .multilineTextAlignment(.leading)
-                        .font(.system(size: 18, weight: .medium, design: .rounded))
-                        .foregroundColor(Color("Dark1"))
-                    
-                }.padding(.top, 10)
-                .frame(width: UIScreen.main.bounds.width * 2 / 5, height: 70, alignment: .leading)
                 
                 Spacer()
                 
@@ -640,113 +607,14 @@ struct WideReferButton: View {
                     .foregroundColor(Color.white)
                     .padding(.vertical, 16)
                     .padding(.horizontal).padding(.horizontal)
+                    .frame(width: isFullWidth ? UIScreen.main.bounds.width * 4 / 5 : UIScreen.main.bounds.width * 2 / 5, height: 48, alignment: .center)
                     .clipShape(RoundedRectangle(cornerRadius: 6))
                     .background(RoundedRectangle(cornerRadius: 6).foregroundColor(Color("ReferPurple")))
                     .padding(.top, 10)
-                    .frame(width: UIScreen.main.bounds.width * 2 / 5, height: 70, alignment: .center)
+//                    .frame(width: UIScreen.main.bounds.width * 2 / 5, height: 70, alignment: .center)
+                
+                Spacer()
                 
             }.frame(height: 70)
     }
 }
-
-
-
-
-
-
-
-//MARK: ORDER DETAILS
-
-struct OrderDetailsForItemCard: View {
-    
-    var orderNumber: String
-    var orderDate: Int
-    var orderPrice: String
-    var linkToConfirmationPage: String
-    
-    var body: some View {
-            
-        //MARK: MY SHOPS CONTENT
-        VStack(alignment: .leading, spacing: 0) {
-            
-            Text("Order Details")
-                .font(.system(size: 25, weight: .bold))
-                .foregroundColor(Color("Dark1"))
-                .padding(.bottom)
-            
-            VStack(alignment: .leading, spacing: 0) {
-                
-                //ORDER NUMBER
-                HStack(alignment: .center) {
-                    
-                    Text("Order Number")
-                        .font(.system(size: 16, weight: .regular))
-                        .foregroundColor(Color("Dark1"))
-                        .padding(.vertical, 10)
-                    Spacer()
-                    Text(orderNumber)
-                        .font(.system(size: 16, weight: .medium))
-                        .foregroundColor(Color("Gray2"))
-                    
-                }.padding(.horizontal)
-                
-                Divider().padding(.leading)
-                
-                //ORDER DATE
-                HStack(alignment: .center) {
-                    
-                    Text("Order Date")
-                        .font(.system(size: 16, weight: .regular))
-                        .foregroundColor(Color("Dark1"))
-                        .padding(.vertical, 10)
-                    Spacer()
-                    Text(String(orderDate))
-                        .font(.system(size: 16, weight: .medium))
-                        .foregroundColor(Color("Gray2"))
-                    
-                }.padding(.horizontal)
-                
-                Divider().padding(.leading)
-                
-                //ORDER PRICE
-                HStack(alignment: .center) {
-                    
-                    Text("Price")
-                        .font(.system(size: 16, weight: .regular))
-                        .foregroundColor(Color("Dark1"))
-                        .padding(.vertical, 10)
-                    Spacer()
-                    Text(orderPrice)
-                        .font(.system(size: 16, weight: .medium))
-                        .foregroundColor(Color("Gray2"))
-                    
-                }.padding(.horizontal)
-                
-                Divider().padding(.leading)
-                
-                //LINK TO ORDER CONFIRMATION
-                HStack(alignment: .center) {
-                    
-                    Text("Link to order confirmation")
-                        .font(.system(size: 16, weight: .regular))
-                        .foregroundColor(Color.blue)
-                        .padding(.vertical, 10)
-                    Spacer()
-                    
-                    
-                }.padding(.horizontal)
-                    
-                
-                
-            }
-        }
-        .padding().padding(.bottom)
-        .background(RoundedRectangle(cornerRadius: 16)
-            .foregroundColor(.white)
-            .shadow(color: .black.opacity(0.3), radius: 15, x: 0, y: 7)
-        )
-        .padding(.horizontal)
-    }
-    
-}
-

@@ -36,7 +36,8 @@ struct ReviewPagePreview: View {
     var screenWidth:CGFloat
     //var index:Int
     
-    @Binding var isShowingReviewExperience:Bool
+    @Binding var activeReviewOrReferSheet: ActiveReviewOrReferSheet?
+    
     
     var item: Items
     
@@ -111,7 +112,7 @@ struct ReviewPagePreview: View {
                 
                 reviewsViewModel.addReview(firstName: "COLIN", lastName: "POWER", itemName: item.order.title, companyName: item.order.companyName, companyLogo: item.ids.companyID, profilePic: "NONE", reviewRating: overallRatingForReview, questionsArray: arrayOfReviewQuestions, responsesArray: arrayOfReviewAnswers, allowedToDisplayProfilePic: allowedToDisplayProfilePic, allowedToDisplayName: allowedToDisplayName, companyID: item.ids.companyID, email: item.order.email, itemID: item.ids.itemID, orderID: item.ids.orderID, reviewTitle: arrayOfReviewAnswers[1], userID: item.ids.userID, rewardEarned: 1994)
                 
-                isShowingReviewExperience.toggle()
+                activeReviewOrReferSheet = nil
                 
             } label: {
                 

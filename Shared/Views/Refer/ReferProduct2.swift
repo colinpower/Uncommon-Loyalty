@@ -9,7 +9,8 @@ import SwiftUI
 
 struct ReferProduct2: View {
     
-    @Binding var isShowingReferExperience:Bool
+    //@Binding var isShowingReferExperience:Bool
+    @Binding var activeReviewOrReferSheet: ActiveReviewOrReferSheet?
     
     var itemObject: Items
     
@@ -72,7 +73,7 @@ struct ReferProduct2: View {
             } else {
                 
                 NavigationLink {
-                    ReferProduct3(isShowingReferExperience: $isShowingReferExperience, itemObject: itemObject, designSelection: $designSelection, selectedOption: selectedOption)
+                    ReferProduct3(activeReviewOrReferSheet: $activeReviewOrReferSheet, itemObject: itemObject, designSelection: $designSelection, selectedOption: selectedOption)
                 } label: {
                     BottomCapsuleButton(buttonText: "Continue", color: Color("ReferPurple"))
                 }
