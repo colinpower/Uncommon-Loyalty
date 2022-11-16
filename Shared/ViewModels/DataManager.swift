@@ -15,29 +15,29 @@ class DataManager: ObservableObject {
     private var db = Firestore.firestore()
     
     //MARK: Queries for the HOME view
-        //how to do the listener stuff
-        //https://stackoverflow.com/questions/63088521/firebase-and-swiftui-listening-for-real-time-update-strange-behave-weird
+    //how to do the listener stuff
+    //https://stackoverflow.com/questions/63088521/firebase-and-swiftui-listening-for-real-time-update-strange-behave-weird
     func getMyRewardsPrograms(userID: String, onSuccess: @escaping([RewardsProgram]) -> Void, listener: @escaping(_ listenerHandle: ListenerRegistration) -> Void) {
         print("this function was called")
         let listenerRegistration1 = db.collection("loyaltyprograms")
             .whereField("ids.userID", isEqualTo: userID)
             .order(by: "card.companyName", descending: false)
             .addSnapshotListener { (querySnapshot, error) in
-            guard let documents = querySnapshot?.documents else {
-                print("No documents")
-                return
-            }
-            var myRewardsProgramsArray = [RewardsProgram]()
-
-            myRewardsProgramsArray = documents.compactMap { (queryDocumentSnapshot) -> RewardsProgram? in
+                guard let documents = querySnapshot?.documents else {
+                    print("No documents")
+                    return
+                }
+                var myRewardsProgramsArray = [RewardsProgram]()
                 
-                print("here's my rewards programs info...")
-                print(try? queryDocumentSnapshot.data(as: RewardsProgram.self))
-                return try? queryDocumentSnapshot.data(as: RewardsProgram.self)
-                //return try? queryDocumentSnapshot.data(as: Ticket.self)
+                myRewardsProgramsArray = documents.compactMap { (queryDocumentSnapshot) -> RewardsProgram? in
+                    
+                    print("here's my rewards programs info...")
+                    print(try? queryDocumentSnapshot.data(as: RewardsProgram.self))
+                    return try? queryDocumentSnapshot.data(as: RewardsProgram.self)
+                    //return try? queryDocumentSnapshot.data(as: Ticket.self)
+                }
+                onSuccess(myRewardsProgramsArray)
             }
-            onSuccess(myRewardsProgramsArray)
-        }
         listener(listenerRegistration1) //escaping listener
     }
     
@@ -50,19 +50,19 @@ class DataManager: ObservableObject {
             .whereField("ids.companyID", isEqualTo: companyID)
             .addSnapshotListener { (querySnapshot, error) in
                 
-            guard let documents = querySnapshot?.documents else {
-                print("No documents")
-                return
+                guard let documents = querySnapshot?.documents else {
+                    print("No documents")
+                    return
+                }
+                var oneRewardsProgramsArray = [RewardsProgram]()
+                
+                oneRewardsProgramsArray = documents.compactMap { (queryDocumentSnapshot) -> RewardsProgram? in
+                    //                print(try? queryDocumentSnapshot.data(as: RewardsProgram.self))
+                    return try? queryDocumentSnapshot.data(as: RewardsProgram.self)
+                    //return try? queryDocumentSnapshot.data(as: Ticket.self)
+                }
+                onSuccess(oneRewardsProgramsArray)
             }
-            var oneRewardsProgramsArray = [RewardsProgram]()
-
-            oneRewardsProgramsArray = documents.compactMap { (queryDocumentSnapshot) -> RewardsProgram? in
-//                print(try? queryDocumentSnapshot.data(as: RewardsProgram.self))
-                return try? queryDocumentSnapshot.data(as: RewardsProgram.self)
-                //return try? queryDocumentSnapshot.data(as: Ticket.self)
-            }
-            onSuccess(oneRewardsProgramsArray)
-        }
         listener(listenerRegistration) //escaping listener
     }
     
@@ -74,19 +74,19 @@ class DataManager: ObservableObject {
             .whereField("ids.companyID", isEqualTo: companyID)
             .whereField("status.status", isEqualTo: "ACTIVE")
             .addSnapshotListener { (querySnapshot, error) in
-            guard let documents = querySnapshot?.documents else {
-                print("No documents")
-                return
+                guard let documents = querySnapshot?.documents else {
+                    print("No documents")
+                    return
+                }
+                var myDiscountCodesArray = [DiscountCodes]()
+                
+                myDiscountCodesArray = documents.compactMap { (queryDocumentSnapshot) -> DiscountCodes? in
+                    //                print(try? queryDocumentSnapshot.data(as: DiscountCodes.self))
+                    return try? queryDocumentSnapshot.data(as: DiscountCodes.self)
+                    //return try? queryDocumentSnapshot.data(as: Ticket.self)
+                }
+                onSuccess(myDiscountCodesArray)
             }
-            var myDiscountCodesArray = [DiscountCodes]()
-
-            myDiscountCodesArray = documents.compactMap { (queryDocumentSnapshot) -> DiscountCodes? in
-//                print(try? queryDocumentSnapshot.data(as: DiscountCodes.self))
-                return try? queryDocumentSnapshot.data(as: DiscountCodes.self)
-                //return try? queryDocumentSnapshot.data(as: Ticket.self)
-            }
-            onSuccess(myDiscountCodesArray)
-        }
         listener(listenerRegistration3) //escaping listener
     }
     
@@ -102,22 +102,22 @@ class DataManager: ObservableObject {
             .whereField("ids.discountID", isEqualTo: discountID)
             .addSnapshotListener { (querySnapshot, error) in
                 
-            guard let documents = querySnapshot?.documents else {
-                print("No documents")
-                return
-            }
-            var oneDiscountCodeInProgressArray = [DiscountCodes]()
-
-                oneDiscountCodeInProgressArray = documents.compactMap { (queryDocumentSnapshot) -> DiscountCodes? in
+                guard let documents = querySnapshot?.documents else {
+                    print("No documents")
+                    return
+                }
+                var oneDiscountCodeInProgressArray = [DiscountCodes]()
                 
+                oneDiscountCodeInProgressArray = documents.compactMap { (queryDocumentSnapshot) -> DiscountCodes? in
+                    
                     print("this is the returned discount code")
                     print(try? queryDocumentSnapshot.data(as: DiscountCodes.self))
                     
-                return try? queryDocumentSnapshot.data(as: DiscountCodes.self)
-                //return try? queryDocumentSnapshot.data(as: Ticket.self)
+                    return try? queryDocumentSnapshot.data(as: DiscountCodes.self)
+                    //return try? queryDocumentSnapshot.data(as: Ticket.self)
+                }
+                onSuccess(oneDiscountCodeInProgressArray)
             }
-            onSuccess(oneDiscountCodeInProgressArray)
-        }
         listener(listenerRegistration) //escaping listener
     }
     
@@ -133,22 +133,22 @@ class DataManager: ObservableObject {
             .whereField("ids.discountID", isEqualTo: discountID)
             .addSnapshotListener { (querySnapshot, error) in
                 
-            guard let documents = querySnapshot?.documents else {
-                print("No documents")
-                return
-            }
-            var inProgressPersonalDiscountCodeArray = [DiscountCodes]()
-
-                inProgressPersonalDiscountCodeArray = documents.compactMap { (queryDocumentSnapshot) -> DiscountCodes? in
+                guard let documents = querySnapshot?.documents else {
+                    print("No documents")
+                    return
+                }
+                var inProgressPersonalDiscountCodeArray = [DiscountCodes]()
                 
+                inProgressPersonalDiscountCodeArray = documents.compactMap { (queryDocumentSnapshot) -> DiscountCodes? in
+                    
                     print("this is the returned discount code")
                     print(try? queryDocumentSnapshot.data(as: DiscountCodes.self))
                     
-                return try? queryDocumentSnapshot.data(as: DiscountCodes.self)
-                //return try? queryDocumentSnapshot.data(as: Ticket.self)
+                    return try? queryDocumentSnapshot.data(as: DiscountCodes.self)
+                    //return try? queryDocumentSnapshot.data(as: Ticket.self)
+                }
+                onSuccess(inProgressPersonalDiscountCodeArray)
             }
-            onSuccess(inProgressPersonalDiscountCodeArray)
-        }
         listener(listenerRegistration) //escaping listener
     }
     
@@ -165,20 +165,20 @@ class DataManager: ObservableObject {
             .whereField("companyID", isEqualTo: companyID)
             .order(by: "timestamp", descending: true)
             .addSnapshotListener { (querySnapshot, error) in
-            guard let documents = querySnapshot?.documents else {
-                print("No documents")
-                return
-            }
-            var myTransactionsArray = [Transactions]()
-
+                guard let documents = querySnapshot?.documents else {
+                    print("No documents")
+                    return
+                }
+                var myTransactionsArray = [Transactions]()
+                
                 myTransactionsArray = documents.compactMap { (queryDocumentSnapshot) -> Transactions? in
-//                    print("HERE!!!")
-//                print(try? queryDocumentSnapshot.data(as: Transactions.self))
-                return try? queryDocumentSnapshot.data(as: Transactions.self)
-                //return try? queryDocumentSnapshot.data(as: Ticket.self)
+                    //                    print("HERE!!!")
+                    //                print(try? queryDocumentSnapshot.data(as: Transactions.self))
+                    return try? queryDocumentSnapshot.data(as: Transactions.self)
+                    //return try? queryDocumentSnapshot.data(as: Ticket.self)
+                }
+                onSuccess(myTransactionsArray)
             }
-            onSuccess(myTransactionsArray)
-        }
         listener(listenerRegistration4) //escaping listener
     }
     
@@ -190,20 +190,20 @@ class DataManager: ObservableObject {
             .whereField("timestamp", isGreaterThan: (Int(Date().timeIntervalSince1970) - 60*86400))
             .order(by: "timestamp", descending: true)
             .addSnapshotListener { (querySnapshot, error) in
-            guard let documents = querySnapshot?.documents else {
-                print("No documents")
-                return
-            }
-            var last60DaysTransactionsArray = [Transactions]()
-
+                guard let documents = querySnapshot?.documents else {
+                    print("No documents")
+                    return
+                }
+                var last60DaysTransactionsArray = [Transactions]()
+                
                 last60DaysTransactionsArray = documents.compactMap { (queryDocumentSnapshot) -> Transactions? in
-//                    print("HERE!!!")
-//                print(try? queryDocumentSnapshot.data(as: Transactions.self))
-                return try? queryDocumentSnapshot.data(as: Transactions.self)
-                //return try? queryDocumentSnapshot.data(as: Ticket.self)
+                    //                    print("HERE!!!")
+                    //                print(try? queryDocumentSnapshot.data(as: Transactions.self))
+                    return try? queryDocumentSnapshot.data(as: Transactions.self)
+                    //return try? queryDocumentSnapshot.data(as: Ticket.self)
+                }
+                onSuccess(last60DaysTransactionsArray)
             }
-            onSuccess(last60DaysTransactionsArray)
-        }
         listener(listenerRegistration7) //escaping listener
     }
     
@@ -212,20 +212,20 @@ class DataManager: ObservableObject {
         let listenerRegistration10 = db.collection("item")
             .whereField("ids.userID", isEqualTo: userID)
             .addSnapshotListener { (querySnapshot, error) in
-            guard let documents = querySnapshot?.documents else {
-                print("No documents")
-                return
-            }
-            var myItemsArray = [Items]()
-
+                guard let documents = querySnapshot?.documents else {
+                    print("No documents")
+                    return
+                }
+                var myItemsArray = [Items]()
+                
                 myItemsArray = documents.compactMap { (queryDocumentSnapshot) -> Items? in
                     print("THIS IS THE ITEMS")
-                print(try? queryDocumentSnapshot.data(as: Items.self))
-                return try? queryDocumentSnapshot.data(as: Items.self)
-                //return try? queryDocumentSnapshot.data(as: Ticket.self)
+                    print(try? queryDocumentSnapshot.data(as: Items.self))
+                    return try? queryDocumentSnapshot.data(as: Items.self)
+                    //return try? queryDocumentSnapshot.data(as: Ticket.self)
+                }
+                onSuccess(myItemsArray)
             }
-            onSuccess(myItemsArray)
-        }
         listener(listenerRegistration10) //escaping listener
     }
     
@@ -240,19 +240,19 @@ class DataManager: ObservableObject {
             .whereField("ids.referralID", isEqualTo: referralID)
             .addSnapshotListener { (querySnapshot, error) in
                 
-            guard let documents = querySnapshot?.documents else {
-                print("No documents for referral in progress")
-                return
-            }
-            var oneReferralArray = [Referrals]()
-
+                guard let documents = querySnapshot?.documents else {
+                    print("No documents for referral in progress")
+                    return
+                }
+                var oneReferralArray = [Referrals]()
+                
                 oneReferralArray = documents.compactMap { (queryDocumentSnapshot) -> Referrals? in
-//                print(try? queryDocumentSnapshot.data(as: DiscountCodes.self))
-                return try? queryDocumentSnapshot.data(as: Referrals.self)
-                //return try? queryDocumentSnapshot.data(as: Ticket.self)
+                    //                print(try? queryDocumentSnapshot.data(as: DiscountCodes.self))
+                    return try? queryDocumentSnapshot.data(as: Referrals.self)
+                    //return try? queryDocumentSnapshot.data(as: Ticket.self)
+                }
+                onSuccess(oneReferralArray)
             }
-            onSuccess(oneReferralArray)
-        }
         listener(listenerRegistration) //escaping listener
     }
     
@@ -265,20 +265,20 @@ class DataManager: ObservableObject {
             .whereField("review.rating", isEqualTo: 5)
             .whereField("referrals.count", isEqualTo: 0)
             .addSnapshotListener { (querySnapshot, error) in
-            guard let documents = querySnapshot?.documents else {
-                print("No documents")
-                return
-            }
-            var myReferableItemsForCompanyArray = [Items]()
-
+                guard let documents = querySnapshot?.documents else {
+                    print("No documents")
+                    return
+                }
+                var myReferableItemsForCompanyArray = [Items]()
+                
                 myReferableItemsForCompanyArray = documents.compactMap { (queryDocumentSnapshot) -> Items? in
                     print("THIS IS THE REFERABLE ITEMS")
-                print(try? queryDocumentSnapshot.data(as: Items.self))
-                return try? queryDocumentSnapshot.data(as: Items.self)
-                //return try? queryDocumentSnapshot.data(as: Ticket.self)
+                    print(try? queryDocumentSnapshot.data(as: Items.self))
+                    return try? queryDocumentSnapshot.data(as: Items.self)
+                    //return try? queryDocumentSnapshot.data(as: Ticket.self)
+                }
+                onSuccess(myReferableItemsForCompanyArray)
             }
-            onSuccess(myReferableItemsForCompanyArray)
-        }
         listener(listenerRegistration13) //escaping listener
     }
     
@@ -288,20 +288,20 @@ class DataManager: ObservableObject {
             .whereField("ids.userID", isEqualTo: userID)
             .whereField("ids.itemID", isEqualTo: itemID)
             .addSnapshotListener { (querySnapshot, error) in
-            guard let documents = querySnapshot?.documents else {
-                print("No documents")
-                return
-            }
-            var oneItemArray = [Items]()
-
+                guard let documents = querySnapshot?.documents else {
+                    print("No documents")
+                    return
+                }
+                var oneItemArray = [Items]()
+                
                 oneItemArray = documents.compactMap { (queryDocumentSnapshot) -> Items? in
                     print("SINGLE ITEM")
-                print(try? queryDocumentSnapshot.data(as: Items.self))
-                return try? queryDocumentSnapshot.data(as: Items.self)
-                //return try? queryDocumentSnapshot.data(as: Ticket.self)
+                    print(try? queryDocumentSnapshot.data(as: Items.self))
+                    return try? queryDocumentSnapshot.data(as: Items.self)
+                    //return try? queryDocumentSnapshot.data(as: Ticket.self)
+                }
+                onSuccess(oneItemArray)
             }
-            onSuccess(oneItemArray)
-        }
         listener(listenerRegistration12) //escaping listener
     }
     
@@ -311,21 +311,21 @@ class DataManager: ObservableObject {
             .whereField("ids.userID", isEqualTo: userID)
             .order(by: "order.timestampCreated", descending: true)
             .addSnapshotListener { (querySnapshot, error) in
-            guard let documents = querySnapshot?.documents else {
-                print("didn't find any documents for getAllOrders")
-                print("No documents")
-                return
-            }
-            var allOrdersArray = [Orders]()
-
+                guard let documents = querySnapshot?.documents else {
+                    print("didn't find any documents for getAllOrders")
+                    print("No documents")
+                    return
+                }
+                var allOrdersArray = [Orders]()
+                
                 allOrdersArray = documents.compactMap { (queryDocumentSnapshot) -> Orders? in
                     print("THIS IS ALL THE ORDERS")
-                print(try? queryDocumentSnapshot.data(as: Orders.self))
-                return try? queryDocumentSnapshot.data(as: Orders.self)
-                //return try? queryDocumentSnapshot.data(as: Ticket.self)
+                    print(try? queryDocumentSnapshot.data(as: Orders.self))
+                    return try? queryDocumentSnapshot.data(as: Orders.self)
+                    //return try? queryDocumentSnapshot.data(as: Ticket.self)
+                }
+                onSuccess(allOrdersArray)
             }
-            onSuccess(allOrdersArray)
-        }
         listener(listenerRegistration) //escaping listener
     }
     
@@ -336,21 +336,21 @@ class DataManager: ObservableObject {
             .whereField("ids.companyID", isEqualTo: companyID)
             .order(by: "order.timestampCreated", descending: true)
             .addSnapshotListener { (querySnapshot, error) in
-            guard let documents = querySnapshot?.documents else {
-                print("didn't find any documents for getMyOrders")
-                print("No documents")
-                return
-            }
-            var myOrdersArray = [Orders]()
-
+                guard let documents = querySnapshot?.documents else {
+                    print("didn't find any documents for getMyOrders")
+                    print("No documents")
+                    return
+                }
+                var myOrdersArray = [Orders]()
+                
                 myOrdersArray = documents.compactMap { (queryDocumentSnapshot) -> Orders? in
                     print("THIS IS THE ORDERS")
-                print(try? queryDocumentSnapshot.data(as: Orders.self))
-                return try? queryDocumentSnapshot.data(as: Orders.self)
-                //return try? queryDocumentSnapshot.data(as: Ticket.self)
+                    print(try? queryDocumentSnapshot.data(as: Orders.self))
+                    return try? queryDocumentSnapshot.data(as: Orders.self)
+                    //return try? queryDocumentSnapshot.data(as: Ticket.self)
+                }
+                onSuccess(myOrdersArray)
             }
-            onSuccess(myOrdersArray)
-        }
         listener(listenerRegistration5) //escaping listener
     }
     
@@ -360,24 +360,24 @@ class DataManager: ObservableObject {
             .whereField("order.email", isEqualTo: email)
             .whereField("ids.orderID", isEqualTo: orderID)
             .addSnapshotListener { (querySnapshot, error) in
-            guard let documents = querySnapshot?.documents else {
-                print("No documents")
-                return
-            }
-            var oneOrderArray = [Orders]()
-
+                guard let documents = querySnapshot?.documents else {
+                    print("No documents")
+                    return
+                }
+                var oneOrderArray = [Orders]()
+                
                 oneOrderArray = documents.compactMap { (queryDocumentSnapshot) -> Orders? in
                     print("SINGLE ORDER")
-                print(try? queryDocumentSnapshot.data(as: Orders.self))
-                return try? queryDocumentSnapshot.data(as: Orders.self)
-                //return try? queryDocumentSnapshot.data(as: Ticket.self)
+                    print(try? queryDocumentSnapshot.data(as: Orders.self))
+                    return try? queryDocumentSnapshot.data(as: Orders.self)
+                    //return try? queryDocumentSnapshot.data(as: Ticket.self)
+                }
+                onSuccess(oneOrderArray)
             }
-            onSuccess(oneOrderArray)
-        }
         listener(listenerRegistration6) //escaping listener
     }
     
- 
+    
     
     
     
@@ -386,20 +386,20 @@ class DataManager: ObservableObject {
         //print("this ONE function was called")
         let listenerRegistration = db.collection("companies")
             .addSnapshotListener { (querySnapshot, error) in
-            guard let documents = querySnapshot?.documents else {
-                print("No documents")
-                return
-            }
-            var allCompaniesArray = [Companies]()
-
+                guard let documents = querySnapshot?.documents else {
+                    print("No documents")
+                    return
+                }
+                var allCompaniesArray = [Companies]()
+                
                 allCompaniesArray = documents.compactMap { (queryDocumentSnapshot) -> Companies? in
                     print("THIS IS THE COMPANIES")
-                print(try? queryDocumentSnapshot.data(as: Companies.self))
-                return try? queryDocumentSnapshot.data(as: Companies.self)
-                //return try? queryDocumentSnapshot.data(as: Ticket.self)
+                    print(try? queryDocumentSnapshot.data(as: Companies.self))
+                    return try? queryDocumentSnapshot.data(as: Companies.self)
+                    //return try? queryDocumentSnapshot.data(as: Ticket.self)
+                }
+                onSuccess(allCompaniesArray)
             }
-            onSuccess(allCompaniesArray)
-        }
         listener(listenerRegistration) //escaping listener
     }
     
@@ -409,20 +409,20 @@ class DataManager: ObservableObject {
         //print("this ONE function was called")
         let listenerRegistration = db.collection("companies")
             .addSnapshotListener { (querySnapshot, error) in
-            guard let documents = querySnapshot?.documents else {
-                print("No documents")
-                return
-            }
-            var myCompaniesArray = [Companies]()
-
+                guard let documents = querySnapshot?.documents else {
+                    print("No documents")
+                    return
+                }
+                var myCompaniesArray = [Companies]()
+                
                 myCompaniesArray = documents.compactMap { (queryDocumentSnapshot) -> Companies? in
                     print("THIS IS THE COMPANIES")
-                print(try? queryDocumentSnapshot.data(as: Companies.self))
-                return try? queryDocumentSnapshot.data(as: Companies.self)
-                //return try? queryDocumentSnapshot.data(as: Ticket.self)
+                    print(try? queryDocumentSnapshot.data(as: Companies.self))
+                    return try? queryDocumentSnapshot.data(as: Companies.self)
+                    //return try? queryDocumentSnapshot.data(as: Ticket.self)
+                }
+                onSuccess(myCompaniesArray)
             }
-            onSuccess(myCompaniesArray)
-        }
         listener(listenerRegistration) //escaping listener
     }
     
@@ -431,20 +431,20 @@ class DataManager: ObservableObject {
         let listenerRegistration = db.collection("companies")
             .whereField("companyID", isEqualTo: companyID)
             .addSnapshotListener { (querySnapshot, error) in
-            guard let documents = querySnapshot?.documents else {
-                print("No documents")
-                return
-            }
-            var oneCompanyArray = [Companies]()
-
+                guard let documents = querySnapshot?.documents else {
+                    print("No documents")
+                    return
+                }
+                var oneCompanyArray = [Companies]()
+                
                 oneCompanyArray = documents.compactMap { (queryDocumentSnapshot) -> Companies? in
                     print("SINGLE COMPANY")
-                print(try? queryDocumentSnapshot.data(as: Companies.self))
-                return try? queryDocumentSnapshot.data(as: Companies.self)
-                //return try? queryDocumentSnapshot.data(as: Ticket.self)
+                    print(try? queryDocumentSnapshot.data(as: Companies.self))
+                    return try? queryDocumentSnapshot.data(as: Companies.self)
+                    //return try? queryDocumentSnapshot.data(as: Ticket.self)
+                }
+                onSuccess(oneCompanyArray)
             }
-            onSuccess(oneCompanyArray)
-        }
         listener(listenerRegistration) //escaping listener
     }
     
@@ -456,22 +456,114 @@ class DataManager: ObservableObject {
         let listenerRegistration = db.collection("users")
             .whereField("userID", isEqualTo: userID)
             .addSnapshotListener { (querySnapshot, error) in
-            guard let documents = querySnapshot?.documents else {
-                print("No documents")
-                return
-            }
-            var oneUserArray = [Users]()
-
+                guard let documents = querySnapshot?.documents else {
+                    print("No documents")
+                    return
+                }
+                var oneUserArray = [Users]()
+                
                 oneUserArray = documents.compactMap { (queryDocumentSnapshot) -> Users? in
                     print("SINGLE USER")
-                print(try? queryDocumentSnapshot.data(as: Users.self))
-                return try? queryDocumentSnapshot.data(as: Users.self)
-                //return try? queryDocumentSnapshot.data(as: Ticket.self)
+                    print(try? queryDocumentSnapshot.data(as: Users.self))
+                    return try? queryDocumentSnapshot.data(as: Users.self)
+                    //return try? queryDocumentSnapshot.data(as: Ticket.self)
+                }
+                onSuccess(oneUserArray)
             }
-            onSuccess(oneUserArray)
-        }
         listener(listenerRegistration) //escaping listener
     }
+    
+    
+    func getCurrentUser(userID: String, onSuccess: @escaping(Users) -> Void, listener: @escaping(_ listenerHandle: ListenerRegistration) -> Void) {
+                
+        let listenerRegistration = db.collection("users").document(userID)
+            .addSnapshotListener { (documentSnapshot, error) in
+                
+                if let error = error as NSError? {
+                    print(error.localizedDescription)
+                }
+                else {
+                    
+                    var currentUserVar = Users(birthday: "", email: "", firstName: "", lastName: "", newUpdate: "", timestampJoined: -1, userID: "")
+                    
+                    if let document = documentSnapshot {
+                        
+                        do {
+                            
+                            currentUserVar = try document.data(as: Users.self)
+                            
+                        }
+                        catch {
+                            
+                            print(error)
+                        }
+                    }
+                    
+                    onSuccess(currentUserVar)
+                }
+            }
+        listener(listenerRegistration) //escaping listener
+    }
+                
+                
+            //        docRef.getDocument(as: City.self) { result in
+            //            // The Result type encapsulates deserialization errors or
+            //            // successful deserialization, and can be handled as follows:
+            //            //
+            //            //      Result
+            //            //        /\
+            //            //   Error  City
+            //            switch result {
+            //            case .success(let city):
+            //                // A `City` value was successfully initialized from the DocumentSnapshot.
+            //                print("City: \(city)")
+            //            case .failure(let error):
+            //                // A `City` value could not be initialized from the DocumentSnapshot.
+            //                print("Error decoding city: \(error)")
+            //            }
+            //        }
+                    
+            //                let result = Result {
+            //                  try document?.data(as: City.self)
+            //                }
+            //                switch result {
+            //                case .success(let city):
+            //                    if let city = city {
+            //                        print("City: \(city)")
+            //                    } else {
+            //                        print("Document does not exist")
+            //                    }
+            //                case .failure(let error):
+            //                    // A `City` value could not be initialized from the DocumentSnapshot.
+            //                    print("Error decoding city: \(error)")
+            //                }
+                            
+            //                currentUserVar = document.map{(doc) -> Users? in
+            //                    return try? doc(as: Users.self)
+            //                }
+                            
+                            //return try? currentUserVar = documentSnapshot.data(as: Users.self)
+                            
+            //                onSuccess(currentUserVar)
+            //            }
+            
+            
+//
+//
+//    db.collection("cities").document("SF")
+//        .addSnapshotListener { documentSnapshot, error in
+//          guard let document = documentSnapshot else {
+//            print("Error fetching document: \(error!)")
+//            return
+//          }
+//          guard let data = document.data() else {
+//            print("Document data was empty.")
+//            return
+//          }
+//          print("Current data: \(data)")
+//        }
+//
+    
     
     
     func getVerificationResult(userID: String, verificationID: String, onSuccess: @escaping([VerificationResult]) -> Void, listener: @escaping(_ listenerHandle: ListenerRegistration) -> Void) {

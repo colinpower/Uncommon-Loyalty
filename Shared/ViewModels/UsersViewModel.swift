@@ -13,6 +13,9 @@ import Combine
 class UsersViewModel: ObservableObject, Identifiable {
     //What arrays or data do we want to be accessible from here? Should be everything we need as it relates to RewardsPrograms
     
+    @Published var currentUser: Users?
+    
+    
     @Published var oneUser = [Users]()
     
     @Published var snapshotOfOneUser = [Users]()
@@ -22,9 +25,26 @@ class UsersViewModel: ObservableObject, Identifiable {
     var dm = DataManager()
     
     var listener_oneUser: ListenerRegistration!
+    var listener_currentUser: ListenerRegistration!
     var listener_oneVerificationResult: ListenerRegistration!
         
     private var db = Firestore.firestore()
+    
+    
+    func listenForCurrentUser(userID: String) {
+        self.currentUser = Users(birthday: "", email: "", firstName: "", lastName: "", newUpdate: "", timestampJoined: -1, userID: "")
+        
+        self.dm.getCurrentUser(userID: userID, onSuccess: { (User) in
+            
+            //if (self.newTickets.isEmpty) {
+            self.currentUser = User
+            print("this is the one user")
+            print(self.currentUser)
+            
+        }, listener: { (listener) in
+            self.listener_currentUser = listener
+        })
+    }
     
     
     func listenForOneUser(userID: String) {

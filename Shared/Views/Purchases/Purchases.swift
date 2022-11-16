@@ -20,6 +20,7 @@ struct Purchases: View {
     
     //Data for this view
     @ObservedObject var itemsViewModel = ItemsViewModel()
+    @ObservedObject var usersViewModel = UsersViewModel()
     
     //Variables for this view
     @State var isShowingTempTabView = false
@@ -177,7 +178,7 @@ struct Purchases: View {
             //.navigationBarTitle("")
             //.navigationBarHidden(true)
             .onAppear {
-
+                self.usersViewModel.listenForCurrentUser(userID: viewModel.userID ?? "")
                 
                 self.itemsViewModel.getSnapshotOfItems(userID: viewModel.userID ?? "")
                 self.itemsViewModel.getSnapshotOfItemsWithMultipleReferrals(userID: viewModel.userID ?? "")

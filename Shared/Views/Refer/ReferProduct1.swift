@@ -15,7 +15,6 @@ struct ReferProduct1: View {
     var itemObject: Items
     
     var body: some View {
-        NavigationView {
             
             VStack(alignment: .center, spacing: 0) {
                 
@@ -58,14 +57,7 @@ struct ReferProduct1: View {
                     BottomCapsuleButton(buttonText: "Continue", color: Color("ReferPurple"))
                 }
             }.edgesIgnoringSafeArea(.bottom)
-            .navigationTitle("")
+            .navigationTitle("Custom Referral")
             .navigationBarTitleDisplayMode(.inline)
-        }
     }
 }
-
-//struct ReferProduct1_Previews: PreviewProvider {
-//    static var previews: some View {
-//        ReferProduct1()
-//    }
-//}
