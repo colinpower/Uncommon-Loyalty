@@ -32,6 +32,7 @@ struct Purchases: View {
         GridItem(.fixed(UIScreen.main.bounds.width / 2), spacing: 0, alignment: nil)
     ]
     
+    //need to add the right schema for the reward + the offers / rewards for new and existing customers... also need to allow offers to be used multiple times?
     
     var body: some View {
         NavigationView {
